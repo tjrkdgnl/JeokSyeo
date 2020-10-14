@@ -43,6 +43,7 @@ class NaverLogin(private val mContext: Context) {
                                     "https://openapi.naver.com/v1/nid/me"
                                 )!! //->  !!은 none null을 의미
 
+                            Log.e("refreshToken",refreshToken)
                             parsingUserInfo(userJson)
                         }
                     } catch (e: Exception) {

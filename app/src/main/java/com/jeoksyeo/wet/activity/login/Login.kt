@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthProvider
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
@@ -57,8 +58,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun googleExecute() {
-        val activity: Activity = this
-        googleLogin = GoogleLogin(this, activity)
+        googleLogin = GoogleLogin(this, this)
         startActivityForResult(googleLogin.instance.signInIntent, GOOGLE_SIGN)
     }
 
@@ -107,7 +107,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun updateUI(account: GoogleSignInAccount?) {
         if (account != null) {
-            Log.e("googleToken", account.idToken.toString() + "\n" + account.email)
+            Log.e("googleAccessToken", account.idToken.toString())
             startActivity(Intent(this, SignUp::class.java))
         }
     }

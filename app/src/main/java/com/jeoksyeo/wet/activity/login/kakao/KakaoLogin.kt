@@ -20,6 +20,10 @@ class KakaoLogin(private val context: Context) {
         } else if (token != null) {
             Log.i(ErrorManager.Kakao_TAG, "로그인 성공 ${token.accessToken}")
             getUserInfo(context)
+
+            Log.e("refreshToken",token.refreshToken)
+            Log.e("accessToken",token.accessToken)
+
         }
     }
 
@@ -28,6 +32,7 @@ class KakaoLogin(private val context: Context) {
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
             } else if (user != null) {
+                
                 context.startActivity(Intent(context, SignUp::class.java))
                 Log.i(
                     TAG, "사용자 정보 요청 성공" +

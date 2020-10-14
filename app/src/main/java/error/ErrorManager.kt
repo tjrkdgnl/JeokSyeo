@@ -6,5 +6,4 @@ object ErrorManager {
     val Google_TAG = "google Login"
     val Apple_TAG = "apple_Login"
 
-
 }

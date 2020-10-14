@@ -21,10 +21,6 @@
             "package_name": "com.dev.applelogin",
             "certificate_hash": "1c7fd26e8b8113f063d0fb03cb9dd040dfce0ecb"
           }
-        },
-        {
-          "client_id": "849955731245-6vnn484k1pldidlbigctsi1h309dach9.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -35,10 +31,6 @@
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
-            {
-              "client_id": "849955731245-6vnn484k1pldidlbigctsi1h309dach9.apps.googleusercontent.com",
-              "client_type": 3
-            },
             {
               "client_id": "849955731245-dqbjv8bj7pmp986tap7v1qmeh67fuvrn.apps.googleusercontent.com",
               "client_type": 2,
@@ -52,23 +44,19 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:849955731245:android:2f84759bf828f2432885a4",
+        "mobilesdk_app_id": "1:849955731245:android:3835bb3ad6b456d12885a4",
         "android_client_info": {
           "package_name": "com.vuforia.engine.wet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "849955731245-0adjtct8grs2svcp0cmm0kf56bcerebr.apps.googleusercontent.com",
+          "client_id": "849955731245-seo0lupf316vb9jv48sq42qe7dad9b7t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.vuforia.engine.wet",
             "certificate_hash": "bb7bdec1ee32914aeee789fb6cb3b9855c08d3c0"
           }
-        },
-        {
-          "client_id": "849955731245-6vnn484k1pldidlbigctsi1h309dach9.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -79,10 +67,6 @@
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
-            {
-              "client_id": "849955731245-6vnn484k1pldidlbigctsi1h309dach9.apps.googleusercontent.com",
-              "client_type": 3
-            },
             {
               "client_id": "849955731245-dqbjv8bj7pmp986tap7v1qmeh67fuvrn.apps.googleusercontent.com",
               "client_type": 2,
