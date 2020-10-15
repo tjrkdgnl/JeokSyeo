@@ -32,6 +32,10 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
+              "client_id": "849955731245-0mcje5aeg5ksbij2j6d4p541u13n1l1d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "849955731245-dqbjv8bj7pmp986tap7v1qmeh67fuvrn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
@@ -67,6 +71,10 @@
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
+            {
+              "client_id": "849955731245-0mcje5aeg5ksbij2j6d4p541u13n1l1d.apps.googleusercontent.com",
+              "client_type": 3
+            },
             {
               "client_id": "849955731245-dqbjv8bj7pmp986tap7v1qmeh67fuvrn.apps.googleusercontent.com",
               "client_type": 2,

@@ -4,13 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.jeoksyeo.wet.activity.login.SignUp
+import com.jeoksyeo.wet.activity.login.Login
+import com.jeoksyeo.wet.activity.signup.SignUp
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import error.ErrorManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import model.UserInfo
 import org.json.JSONObject
 import java.lang.Exception
 
@@ -42,13 +44,14 @@ class NaverLogin(private val mContext: Context) {
                                     accessToken,
                                     "https://openapi.naver.com/v1/nid/me"
                                 )!! //->  !!은 none null을 의미
-
-                            Log.e("refreshToken",refreshToken)
+//
+//                            Log.e("refreshToken",refreshToken)
+                            Log.e("accessToken", accessToken)
                             parsingUserInfo(userJson)
                         }
                     } catch (e: Exception) {
                         val message = e.message ?: e.stackTrace
-                        Log.e(ErrorManager.Naver_TAG, message.toString() )
+                        Log.e(ErrorManager.Naver_TAG, message.toString())
                     }
 
                 } else {
@@ -66,25 +69,26 @@ class NaverLogin(private val mContext: Context) {
         val jsonObject = JSONObject(userJson)
         val response = jsonObject.getJSONObject("response")
 
-        val email = response.getString("email")
-        val gender = response.getString("gender")
-        val age = response.getString("age")
+        Log.e("response", response.toString())
 
-        Log.e(ErrorManager.Naver_TAG, email)
-        mContext.startActivity(Intent(mContext,SignUp::class.java))
+        Login.loginObj.setUserInfo(
+            "NAVER", response.getString("id"), "네이버로그인"
+            , response.getString("email"), "1994-08-18", response.getString("gender"), "123"
+        )
+
+        mContext.startActivity(Intent(mContext, SignUp::class.java))
     }
 
-    fun naverLogOut(){
+    fun naverLogOut() {
         instance.logout(mContext)
     }
 
-    fun naverDelete(){
+    fun naverDelete() {
         val success = instance.logoutAndDeleteToken(mContext)
 
-        if(success){
+        if (success) {
 
-        }
-        else{
+        } else {
 
         }
     }

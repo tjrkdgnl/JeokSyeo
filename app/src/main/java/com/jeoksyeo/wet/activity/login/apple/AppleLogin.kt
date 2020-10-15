@@ -5,8 +5,10 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthProvider
+import com.jeoksyeo.wet.activity.login.Login
 import error.ErrorManager
 import java.lang.Exception
+import java.lang.StringBuilder
 
 class AppleLogin(private val activity: Activity) {
     private val provider = OAuthProvider.newBuilder("apple.com")
@@ -43,11 +45,16 @@ class AppleLogin(private val activity: Activity) {
                     .addOnSuccessListener { authResult ->
                         try {
                             user = authResult.user!!
+
                             //access token
                             user!!.getIdToken(true) //   FirebaseAuth.getInstance().getAccessToken()와 동일
                                 .addOnCompleteListener(activity) { task ->
                                     if (task.isSuccessful) {
                                         Log.e(ErrorManager.Apple_TAG, "accessToken: "+  task.result?.token.toString())
+
+                                        Login.loginObj.setUserInfo("APPLE",task.result?.token,"apple회원가입",
+                                        user?.email,"1994-08-18","M","123")
+
                                     }
                                 }
                         } catch (e: Exception) {
@@ -62,6 +69,24 @@ class AppleLogin(private val activity: Activity) {
         else{
             user!!.startActivityForReauthenticateWithProvider(activity,provider.build())
                 .addOnSuccessListener { authResult ->
+                    var sb :StringBuilder = StringBuilder()
+
+                    val iter = user?.providerData?.iterator()!!
+
+                    while (iter.hasNext()){
+                        val obj = iter.next()
+                        sb.append(obj.uid).append("\n")
+                            .append(obj.phoneNumber).append("\n")
+                            .append(obj.displayName).append("\n")
+                            .append(obj.photoUrl).append("\n")
+                            .append(obj.providerId).append("\n")
+                            .append(obj.email).append("\n")
+                            .append("\n\n")
+                    }
+                    Login.loginObj.setUserInfo("APPLE",authResult.user?.uid,"apple회원가입",
+                        authResult.user?.email,"1994-08-18","M","123")
+
+                    Log.e(ErrorManager.Apple_TAG, "id: "+ sb.toString())
                     Log.e(ErrorManager.Apple_TAG,"재인증:"+authResult?.user?.email.toString())
                 }.addOnFailureListener(activity) { exception ->
                     Log.e(ErrorManager.Apple_TAG,"재인증 실패: "+exception.message.toString())

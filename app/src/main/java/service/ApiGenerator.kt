@@ -9,12 +9,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiGenerator {
-    private const val BASE_URL = "http://52.79.87.100:8000/"
+    private const val BASE_URL = "http://dev.jeoksyeo.com/"
 
     val retrofit :Retrofit = Retrofit.Builder()
         .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level = when {
-                BuildConfig.DEBUG ->HttpLoggingInterceptor.Level.BASIC
+                BuildConfig.DEBUG ->HttpLoggingInterceptor.Level.BODY
                 else -> HttpLoggingInterceptor.Level.NONE
             }
         } as Interceptor).build())

@@ -3,7 +3,8 @@ package com.jeoksyeo.wet.activity.login.kakao
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.jeoksyeo.wet.activity.login.SignUp
+import com.jeoksyeo.wet.activity.login.Login
+import com.jeoksyeo.wet.activity.signup.SignUp
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
@@ -32,15 +33,11 @@ class KakaoLogin(private val context: Context) {
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
             } else if (user != null) {
-                
-                context.startActivity(Intent(context, SignUp::class.java))
-                Log.i(
-                    TAG, "사용자 정보 요청 성공" +
-                            "\n회원번호: ${user.id}" +
-                            "\n이메일: ${user.kakaoAccount?.email}" +
-                            "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                            "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
-                )
+
+                val gender = user.kakaoAccount?.gender?.name.toString()[0].toString()
+
+                Login.loginObj.setUserInfo("KAKAO",user.id.toString(),"카톡로그인"
+                    ,user.kakaoAccount?.email,"1994-08-18",gender,"123")
             }
         }
     }
@@ -64,4 +61,5 @@ class KakaoLogin(private val context: Context) {
             }
         }
     }
+
 }
