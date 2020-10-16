@@ -51,6 +51,15 @@
             app:layout_constraintTop_toBottomOf="@id/googleLogin"
             />
 
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="refresh"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appleLogin"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

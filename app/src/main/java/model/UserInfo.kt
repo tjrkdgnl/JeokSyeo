@@ -17,6 +17,7 @@ class UserInfo {
     var refreshToken: String? = null
     var profileURL: String? = null
     var infoMap = HashMap<String, Any>()
+    val userInfoList = mutableListOf<Int>()
 
     val createUUID: String
         get() = UUID.randomUUID().toString()
@@ -103,6 +104,16 @@ class UserInfo {
             Log.e("gender", userInfo.gender.toString())
             Log.e("profile_image_url", userInfo.profileURL.toString())
 
+            if(userInfo.nickName ==null)
+                userInfo.userInfoList.add(0)
+
+            if(userInfo.birthDay ==null){
+                userInfo.userInfoList.add(1)
+            }
+
+            if(userInfo.birthDay ==null){
+                userInfo.userInfoList.add(2)
+            }
 
             userInfo.provider?.let { userInfo.infoMap.put("oauth_provider", it) }
             userInfo.oauthId?.let { userInfo.infoMap.put("oauth_id", it) }

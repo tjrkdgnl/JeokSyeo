@@ -19,18 +19,6 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding : MainBinding  = DataBindingUtil.setContentView(this, R.layout.main)
-//
-//
-//        val map : HashMap<String,Any> = HashMap()
-//        map.put("a",1)
-//
-//      disposable= ApiGenerator.retrofit.create(ApiService::class.java).getAlcholListByMostLike(map)
-//          .subscribeOn(Schedulers.io())
-//          .observeOn(AndroidSchedulers.mainThread())
-//          .subscribe({item : MyStatus?-> binding.text.setText(item?.msg)  },{t: Throwable? -> t?.stackTrace })
-
-
-
 
     }
 
@@ -38,6 +26,5 @@ class MainActivity : AppCompatActivity(){
     override fun onDestroy() {
         super.onDestroy()
 
-        disposable.let { disposable.dispose() }
     }
 }

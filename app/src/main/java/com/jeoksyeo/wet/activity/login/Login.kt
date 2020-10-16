@@ -24,11 +24,13 @@ import error.ErrorManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import model.Token
+import model.Data
+import model.TokenData
 import model.UserInfo
 import service.ApiGenerator
 import service.ApiService
 import java.lang.Exception
+import java.util.function.LongToDoubleFunction
 
 class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: LoginBinding
@@ -37,9 +39,14 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var kakaoLogin: KakaoLogin
     private lateinit var naverLogin: NaverLogin
     private lateinit var disposable: Disposable
+    private lateinit var refreshDisposable: Disposable
 
     init {
         loginObj = this
+    }
+
+    companion object {
+        lateinit var loginObj: Login
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +57,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         binding.naverLogin.setOnClickListener(this)
         binding.googleLogin.setOnClickListener(this)
         binding.appleLogin.setOnClickListener(this)
+        binding.refreshButton.setOnClickListener(this)
 
     }
 
@@ -74,7 +82,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private fun appleExecute() {
         val appleLogin = AppleLogin(this)
         appleLogin.loginExecute()
-
     }
 
 
@@ -87,6 +94,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
             R.id.googleLogin -> googleExecute()
 
             R.id.appleLogin -> appleExecute()
+
+            R.id.refreshButton-> refresh()
 
             else -> {
             }
@@ -125,11 +134,24 @@ class Login : AppCompatActivity(), View.OnClickListener {
         if (account != null) {
             setUserInfo("GOOGLE",account.id.toString(),"goole회원가입",account.email,"1994-08-18","M","123")
 
-
             Log.e("googleAccessToken", account.idToken.toString())
             Log.e("google accout Id", account.id.toString())
             startActivity(Intent(this, SignUp::class.java))
         }
+    }
+
+    fun refresh(){
+        val map =HashMap<String,Any>()
+        GlobalApplication.userInfo.refreshToken?.let { map.put("refresh_token", it) }
+
+        refreshDisposable = ApiGenerator.retrofit.create(ApiService::class.java).refreshToken(GlobalApplication.userInfo.createUUID, map)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe( {result :TokenData ->
+                Log.e("갱신성공",result.data?.token?.accessToken.toString())
+
+            }
+                ,{t:Throwable->t.stackTrace} )
     }
 
 
@@ -138,8 +160,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
             .signUp(GlobalApplication.userInfo.createUUID, GlobalApplication.userInfo.infoMap)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ result: Token? ->
-                result?.accessToken?.let { Log.e("성공", result.accessToken.toString()) }
+            .subscribe({ result: TokenData ->
+                Log.e("result",result.data?.token?.accessToken.toString())
+                GlobalApplication.userInfo.accessToken =result.data?.token?.accessToken
+                GlobalApplication.userInfo.refreshToken=result.data?.token?.refreshToken
 
             }, { t: Throwable? -> t?.stackTrace })
 
@@ -160,10 +184,5 @@ class Login : AppCompatActivity(), View.OnClickListener {
             .build()
 
         handlingActivity()
-    }
-
-
-    companion object {
-        lateinit var loginObj: Login
     }
 }

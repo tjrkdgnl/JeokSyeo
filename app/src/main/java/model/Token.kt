@@ -3,7 +3,6 @@ package model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-
 class Token {
     @SerializedName("accessToken")
     @Expose
@@ -12,7 +11,5 @@ class Token {
     @SerializedName("refreshToken")
     @Expose
     var refreshToken: String? = null
-
-
 
 }
