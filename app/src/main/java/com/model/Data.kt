@@ -1,4 +1,4 @@
-package model
+package com.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -9,4 +9,7 @@ class Data {
     @Expose
     var token: Token? = null
 
+    @SerializedName("user")
+    @Expose
+    var user: User? = null
 }

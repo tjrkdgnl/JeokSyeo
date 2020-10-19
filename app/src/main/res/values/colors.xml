@@ -27,7 +27,8 @@
     <color name="ligthGrey">#efefef</color>
     <color name="ligthGrey2">#fbfbfb</color>
     <color name="viewColor">#E5E5E5</color>
-    <color name="light_red">#e85d69</color>
+    <color name="red">#EF1D2F</color>
+    <color name="green">#41E635</color>
 
     //UCrop 배경색 override
     <color name="ucrop_color_widget_active" tools:override="true">#ffb95b</color>

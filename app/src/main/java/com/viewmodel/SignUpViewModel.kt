@@ -1,4 +1,4 @@
-package com.jeoksyeo.wet.activity.viewmodel
+package com.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

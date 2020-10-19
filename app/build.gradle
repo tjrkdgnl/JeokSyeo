@@ -115,6 +115,10 @@ dependencies {
     //viewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+
+    //expandablelayout
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

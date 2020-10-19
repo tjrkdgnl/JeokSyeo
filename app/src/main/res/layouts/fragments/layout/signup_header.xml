@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/signup_header_backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/signup_backbutton"
+            app:layout_constraintTop_toTopOf="@id/signup_header_title"
+            app:layout_constraintBottom_toBottomOf="@id/signup_header_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="9dp"/>
+
+        <TextView
+            android:id="@+id/signup_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="회원정보 등록"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/signUP_headLine"
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/orange"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/signup_header_title"/>
+
+        <ProgressBar
+            android:id="@+id/signUp_header_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/custom_progress"
+            android:max="4"
+            app:layout_constraintTop_toBottomOf="@id/signUP_headLine"
+            android:layout_marginTop="3dp"
+            android:progress="1"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

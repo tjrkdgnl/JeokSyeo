@@ -8,7 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.vuforia.engine.wet.R
-import error.ErrorManager
+import com.error.ErrorManager
 
 class GoogleLogin(private val mContext: Context,private val activity:Activity) {
     val gso:GoogleSignInOptions

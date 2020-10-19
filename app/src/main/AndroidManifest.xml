@@ -9,14 +9,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <queries>
         <package android:name="com.kakao.talk" />
     </queries>
 
     <application
-        android:name="com.jeoksyeo.wet.activity.application.GlobalApplication"
+        android:name="com.application.GlobalApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
@@ -25,30 +25,31 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/main_logo"
         android:supportsRtl="true"
+        android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        >
+        tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.jeoksyeo.wet.activity.main.MainActivity"
-            android:screenOrientation="portrait">
 
-        </activity>
-
-        <activity android:name="com.jeoksyeo.wet.activity.login.Login"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity android:name="com.jeoksyeo.wet.activity.signup.SignUp"
+        <activity
+            android:name="com.jeoksyeo.wet.activity.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jeoksyeo.wet.activity.login.Login"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        <activity
+            android:name="com.jeoksyeo.wet.activity.signup.SignUp"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -62,4 +63,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

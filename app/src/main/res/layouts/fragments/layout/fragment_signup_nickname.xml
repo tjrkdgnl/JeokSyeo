@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+        <TextView
+            android:id="@+id/plz_nickNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:lineSpacingExtra="11sp"
+            android:text="안녕하세요! \n닉네임을 입력해 주세요."
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="51dp"
+            android:layout_marginStart="10dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/insertNameLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:background="@drawable/bottom_line"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plz_nickNameText"
+            android:layout_marginTop="78dp">
+
+            <EditText
+                android:id="@+id/insertInfo_editText"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:hint="정보를 입력하세요"
+                android:textSize="16sp"
+                android:backgroundTint="@color/transparent"
+                android:maxLines="1"
+              android:layout_weight="1.8" />
+            <TextView
+                android:id="@+id/checkNickNameText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="사용 불가능한 닉네임입니다."
+                android:visibility="invisible"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:layout_weight="1.2"
+                android:gravity="right"
+                />
+        </LinearLayout>
+
+        <include
+            layout="@layout/plz_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="78dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

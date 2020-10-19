@@ -1,4 +1,4 @@
-package service
+package com.service
 
 import com.vuforia.engine.wet.BuildConfig
 import okhttp3.Interceptor

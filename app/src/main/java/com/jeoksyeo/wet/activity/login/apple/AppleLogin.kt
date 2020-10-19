@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthProvider
 import com.jeoksyeo.wet.activity.login.Login
-import error.ErrorManager
+import com.error.ErrorManager
 import java.lang.Exception
 import java.lang.StringBuilder
 
@@ -52,8 +52,7 @@ class AppleLogin(private val activity: Activity) {
                                     if (task.isSuccessful) {
                                         Log.e(ErrorManager.Apple_TAG, "accessToken: "+  task.result?.token.toString())
 
-                                        Login.loginObj.setUserInfo("APPLE",task.result?.token,"apple회원가입",
-                                        user?.email,"1994-08-18","M","123")
+                                        Login.loginObj.setUserInfo("APPLE",task.result?.token)
 
                                     }
                                 }
@@ -83,8 +82,8 @@ class AppleLogin(private val activity: Activity) {
                             .append(obj.email).append("\n")
                             .append("\n\n")
                     }
-                    Login.loginObj.setUserInfo("APPLE",authResult.user?.uid,"apple회원가입",
-                        authResult.user?.email,"1994-08-18","M","123")
+//                    Login.loginObj.setUserInfo("APPLE",authResult.user?.uid)
+
 
                     Log.e(ErrorManager.Apple_TAG, "id: "+ sb.toString())
                     Log.e(ErrorManager.Apple_TAG,"재인증:"+authResult?.user?.email.toString())

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+        <TextView
+            android:id="@+id/plz_genderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:lineSpacingExtra="11sp"
+            android:text="성별을 체크해주세요."
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="91dp"
+            android:layout_marginStart="20dp"
+            />
+
+        <ImageView
+            android:id="@+id/female_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="48dp"
+            android:src="@mipmap/gender_checkbox_empty"
+            android:onClick="onClick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plz_genderText"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="#000000"
+            android:lineSpacingExtra="9sp"
+            android:text="여성"
+            app:layout_constraintTop_toTopOf="@id/female_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/female_checkbox"
+            app:layout_constraintStart_toEndOf="@id/female_checkbox"
+            android:layout_marginStart="20dp" />
+
+        <ImageView
+            android:id="@+id/male_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="28dp"
+            android:onClick="onClick"
+            android:src="@mipmap/gender_checkbox_empty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/female_checkbox"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="#000000"
+            android:lineSpacingExtra="9sp"
+            android:text="남성"
+            app:layout_constraintTop_toTopOf="@id/male_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/male_checkbox"
+            app:layout_constraintStart_toEndOf="@id/male_checkbox"
+            android:layout_marginStart="20dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,42 +1,53 @@
 package com.jeoksyeo.wet.activity.signup
 
 import adapter.SignUpViewPagerAdapter
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.jeoksyeo.wet.activity.application.GlobalApplication
-import com.jeoksyeo.wet.activity.main.MainActivity
-import com.jeoksyeo.wet.activity.viewmodel.SignUpViewModel
+import com.application.GlobalApplication
+import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
-import com.vuforia.engine.wet.databinding.AcSignupBinding
-import fragment.Fg_SignUp
+import com.vuforia.engine.wet.databinding.ActivitySignupBinding
 
-class SignUp : AppCompatActivity(), View.OnClickListener{
-    private lateinit var binding: AcSignupBinding
+class SignUp : AppCompatActivity(), View.OnClickListener  {
+    private lateinit var binding:ActivitySignupBinding
     private lateinit var mutableList: MutableList<String>
     private var idx = 0
     private lateinit var signUpViewPagerAdapter: SignUpViewPagerAdapter
     private lateinit var viewModel:SignUpViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.ac_signup)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
         binding.lifecycleOwner=this
 
         mutableList = mutableListOf()
-        mutableList.add("nickName")
-        mutableList.add("birthDay")
-        mutableList.add("gender")
+        intent?.let {
+            if(!it.getBooleanExtra(GlobalApplication.NICKNAME,false)) mutableList.add(GlobalApplication.NICKNAME)
 
+            if(!it.getBooleanExtra(GlobalApplication.BIRTHDAY,false)) mutableList.add(GlobalApplication.BIRTHDAY)
+
+            if(!it.getBooleanExtra(GlobalApplication.GENDER,false)) mutableList.add(GlobalApplication.GENDER)
+        }
+//        mutableList.add("location")
+        mutableList.add("congratulation")
+
+        binding.signupHeader.signUpHeaderProgressbar.max = mutableList.size
         signUpViewPagerAdapter = SignUpViewPagerAdapter(this, mutableList)
         binding.viewPager2.adapter = signUpViewPagerAdapter
-        binding.viewPager2.isUserInputEnabled =false
+        binding.viewPager2.isUserInputEnabled =false //viewpager2 스와이프off
         binding.viewPager2.offscreenPageLimit =1
-        binding.infoConfirmButton.setOnClickListener(this)
 
+        binding.infoConfirmButton.setOnClickListener(this)
+        binding.signupHeader.signupHeaderBackButton.setOnClickListener(this)
+
+        //확인 enable setting
         viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
         viewModel.getButtonState().observe(this, Observer {
             binding.infoConfirmButton.isEnabled =it
@@ -45,30 +56,37 @@ class SignUp : AppCompatActivity(), View.OnClickListener{
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.infoConfirmButton -> updateView()
+            R.id.infoConfirmButton -> nextView()
+
+            R.id.signup_header_backButton -> beforeView()
+
             else -> {
             }
         }
     }
 
-     fun updateView() {
+     fun nextView() {
         if (idx < mutableList.size) {
             binding.viewPager2.currentItem = ++idx
-            val fg = signUpViewPagerAdapter.getFragment(binding.viewPager2.currentItem)
-            if (fg is Fg_SignUp){
-                when(fg.info){
-                    "email" -> GlobalApplication.userInfo.email =fg.item
-                    "birthDay" -> GlobalApplication.userInfo.email =fg.item
-                    "gender" -> GlobalApplication.userInfo.email =fg.item
-                    else->{}
-                }
-                if(idx== mutableList.size){
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
-                viewModel.setButtonState(false)
-            }
-
+            binding.signupHeader.signUpHeaderProgressbar.progress = idx +1
+            viewModel.setButtonState(false)
+            hideKeypad(binding.infoConfirmButton)
         }
+
+    }
+
+    fun beforeView(){
+        if(idx >0){
+            binding.viewPager2.currentItem = --idx
+            binding.signupHeader.signUpHeaderProgressbar.progress =idx +1
+            viewModel.setButtonState(true)
+        }
+    }
+
+    //확인버튼 누르면 키보드 창 내리기
+    fun hideKeypad(buttonName: Button) {
+        val inputMethodManager =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(buttonName.windowToken, 0)
     }
 }

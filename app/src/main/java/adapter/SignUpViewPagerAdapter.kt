@@ -3,15 +3,36 @@ package adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import fragment.Fg_SignUp
+import com.application.GlobalApplication
+import com.fragment.*
 
-class SignUpViewPagerAdapter(val fragmentActivity: FragmentActivity,val fgList:MutableList<String>) : FragmentStateAdapter(fragmentActivity) {
+class SignUpViewPagerAdapter(
+    val fragmentActivity: FragmentActivity,
+    val fgList: MutableList<String>
+) : FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int =fgList.size
+    override fun getItemCount(): Int = fgList.size
 
     override fun createFragment(position: Int): Fragment {
-        return Fg_SignUp.newInstance(fgList.get(position))
+        when (fgList.get(position)) {
+            GlobalApplication.NICKNAME -> {
+                return Fragment_nickName.newInstance()
+            }
+            GlobalApplication.BIRTHDAY -> {
+                return Fragment_birthDay.newInstance()
+            }
+            GlobalApplication.GENDER -> {
+                return Fragment_gender.newInstance()
+            }
+            GlobalApplication.LOCATION -> {
+                return Fragment_location.newInstance()
+            }
+            else -> {
+                return Fragment_Congratulation.newInstance()
+            }
+        }
     }
 
-    fun getFragment(position: Int)= fragmentActivity.supportFragmentManager.findFragmentByTag("f$position")
+    fun getFragment(position: Int) =
+        fragmentActivity.supportFragmentManager.findFragmentByTag("f$position")
 }

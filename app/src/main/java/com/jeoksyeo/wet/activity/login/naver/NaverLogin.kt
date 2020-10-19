@@ -8,11 +8,10 @@ import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.signup.SignUp
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
-import error.ErrorManager
+import com.error.ErrorManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.UserInfo
 import org.json.JSONObject
 import java.lang.Exception
 
@@ -45,9 +44,9 @@ class NaverLogin(private val mContext: Context) {
                                     "https://openapi.naver.com/v1/nid/me"
                                 )!! //->  !!은 none null을 의미
 //
-//                            Log.e("refreshToken",refreshToken)
-                            Log.e("accessToken", accessToken)
-                            parsingUserInfo(userJson)
+                            Login.loginObj.setUserInfo("NAVER", accessToken)
+
+//                            parsingUserInfo(userJson)
                         }
                     } catch (e: Exception) {
                         val message = e.message ?: e.stackTrace
@@ -70,11 +69,6 @@ class NaverLogin(private val mContext: Context) {
         val response = jsonObject.getJSONObject("response")
 
         Log.e("response", response.toString())
-
-        Login.loginObj.setUserInfo(
-            "NAVER", response.getString("id"), "네이버로그인"
-            , response.getString("email"), "1994-08-18", response.getString("gender"), "123"
-        )
 
         mContext.startActivity(Intent(mContext, SignUp::class.java))
     }

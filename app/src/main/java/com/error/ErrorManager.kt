@@ -1,4 +1,4 @@
-package error
+package com.error
 
 object ErrorManager {
     val Kakao_TAG = "kakao Login"

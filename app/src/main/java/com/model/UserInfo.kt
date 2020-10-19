@@ -1,13 +1,14 @@
-package model
+package com.model
 
 import android.util.Log
-import android.view.textclassifier.ConversationActions
+import com.application.GlobalApplication
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
 class UserInfo {
-    var oauthId: String? = null
+    var user_id:String? =null
+    var oauth_token: String? = null
     var provider: String? = null
     var email: String? = null
     var nickName: String? = null
@@ -17,13 +18,24 @@ class UserInfo {
     var refreshToken: String? = null
     var profileURL: String? = null
     var infoMap = HashMap<String, Any>()
-    val userInfoList = mutableListOf<Int>()
 
     val createUUID: String
         get() = UUID.randomUUID().toString()
 
+    fun settingMap(){
+        this.user_id?.let { infoMap.put("user_id",it) }
+        this.provider?.let {infoMap.put("oauth_provider", it) }
+        this.oauth_token?.let { infoMap.put("oauth_token", it) }
+        this.nickName?.let {infoMap.put(GlobalApplication.NICKNAME, it) }
+        this.birthDay?.let { infoMap.put(GlobalApplication.BIRTHDAY, it) }
+        this.gender?.let { infoMap.put(GlobalApplication.GENDER, it) }
+        Log.e("생일",this.birthDay.toString())
+    }
+
+
     class Builder(private var id: String) {
-        private var oauthId: String? = null
+        private var user_id:String? =null
+        private var oauth_token: String? = null
         private var provider: String? = null
         private var email: String? = null
         private var nickName: String? = null
@@ -34,8 +46,13 @@ class UserInfo {
         private var profileImgFile: File? = null
         private var profileImgURL: String? = null
 
-        fun setOAuthId(id: String?): Builder {
-            this.oauthId = id
+        fun setOAuthId(user_id:String?):Builder{
+            this.user_id = user_id
+            return this
+        }
+
+        fun setOAuthToken(oauth_token: String?): Builder {
+            this.oauth_token = oauth_token
             return this
         }
 
@@ -86,7 +103,8 @@ class UserInfo {
 
         fun build(): UserInfo {
             var userInfo = UserInfo()
-            userInfo.oauthId = this.oauthId
+            userInfo.user_id = this.user_id
+            userInfo.oauth_token = this.oauth_token
             userInfo.provider = this.provider
             userInfo.email = this.email
             userInfo.nickName = this.nickName
@@ -96,32 +114,25 @@ class UserInfo {
             userInfo.refreshToken = this.refreshToken
             userInfo.profileURL = this.profileImgURL
 
+            this.user_id?.let { userInfo.infoMap.put("user_id",it) }
+            this.provider?.let { userInfo.infoMap.put("oauth_provider", it) }
+            this.oauth_token?.let { userInfo.infoMap.put("oauth_token", it) }
+            this.email?.let { userInfo.infoMap.put("email", it) }
+            this.nickName?.let { userInfo.infoMap.put(GlobalApplication.NICKNAME, it) }
+            this.birthDay?.let { userInfo.infoMap.put(GlobalApplication.BIRTHDAY, it) }
+            this.gender?.let { userInfo.infoMap.put(GlobalApplication.GENDER, it) }
+            this.profileImgURL?.let { userInfo.infoMap.put("profile_image_url", it) }
+
+            Log.e("user_id", userInfo.user_id.toString())
             Log.e("oauth_provider", userInfo.provider.toString())
-            Log.e("oauth_id", userInfo.oauthId.toString())
+            Log.e("oauth_token", userInfo.oauth_token.toString())
             Log.e("email", userInfo.email.toString())
             Log.e("nickname", userInfo.nickName.toString())
             Log.e("birth", userInfo.birthDay.toString())
             Log.e("gender", userInfo.gender.toString())
             Log.e("profile_image_url", userInfo.profileURL.toString())
+            Log.e("map개수",userInfo.infoMap.size.toString())
 
-            if(userInfo.nickName ==null)
-                userInfo.userInfoList.add(0)
-
-            if(userInfo.birthDay ==null){
-                userInfo.userInfoList.add(1)
-            }
-
-            if(userInfo.birthDay ==null){
-                userInfo.userInfoList.add(2)
-            }
-
-            userInfo.provider?.let { userInfo.infoMap.put("oauth_provider", it) }
-            userInfo.oauthId?.let { userInfo.infoMap.put("oauth_id", it) }
-            userInfo.email?.let { userInfo.infoMap.put("email", it) }
-            userInfo.nickName?.let { userInfo.infoMap.put("nickname", it) }
-            userInfo.birthDay?.let { userInfo.infoMap.put("birth", it) }
-            userInfo.gender?.let { userInfo.infoMap.put("gender", it) }
-            userInfo.profileURL?.let { userInfo.infoMap.put("profile_image_url", it) }
             return userInfo
         }
     }
