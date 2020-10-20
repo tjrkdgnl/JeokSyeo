@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingConstraints"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="name"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/location_name"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:textStyle="bold"
+            android:onClick="onClick"
+            android:background="@drawable/outline_round"
+            android:textColor="@color/black"
+            android:text="@{name.toString()}"
+            android:hint="서울"
+            android:layout_marginBottom="20dp"
+            />
+
+    </LinearLayout>
+</layout>

@@ -2,23 +2,20 @@ package com.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.viewmodel.SignUpViewModel
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentSignupCongratulationBinding
-import com.vuforia.engine.wet.databinding.FragmentSignupNicknameBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -62,14 +59,21 @@ class Fragment_Congratulation : Fragment(),View.OnClickListener {
 
             R.id.button ->{
                 //최종적으로 얻어온 모든 정보를 가지고서, map 재 셋팅
-                GlobalApplication.userInfo.settingMap()
+                GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
 
-                disposable =ApiGenerator.retrofit.create(ApiService::class.java).signUp(GlobalApplication.userInfo.createUUID,GlobalApplication.userInfo.infoMap)
+                disposable =ApiGenerator.retrofit.create(ApiService::class.java).signUp(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getMap())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    GlobalApplication.userInfo.accessToken = it.data?.token?.accessToken
-                    GlobalApplication.userInfo.refreshToken = it.data?.token?.refreshToken
+                    //내장 디비에 토큰 값들 저장
+                    GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken.toString())
+                    GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
+                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
+                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
+
+                    Log.e("DB_엑세스 토큰",GlobalApplication.userDataBase.getAccessToken().toString())
+                    Log.e("DB_리프레쉬 토큰",GlobalApplication.userDataBase.getRefreshToken().toString())
+
                     startActivity(Intent(requireContext(),MainActivity::class.java))
                     Toast.makeText(requireContext(),"회원가입을 축하드립니다!",Toast.LENGTH_SHORT).show()
                     requireActivity().finish()

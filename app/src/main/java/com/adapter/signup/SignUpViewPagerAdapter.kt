@@ -1,4 +1,4 @@
-package adapter
+package com.adapter.signup
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

@@ -25,10 +25,10 @@ import com.jeoksyeo.wet.activity.main.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import com.model.GetUserData
-import com.model.UserInfo
+import com.model.token.GetUserData
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import java.lang.Exception
 
 class Login : AppCompatActivity(), View.OnClickListener {
@@ -97,7 +97,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
 //            R.id.refreshButton-> refresh()
 
-            R.id.logout-> {
+            R.id.logout -> {
                 appleLogin = AppleLogin(this)
                 appleLogin.appleSignOut()
             }
@@ -123,25 +123,24 @@ class Login : AppCompatActivity(), View.OnClickListener {
             val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
             FirebaseAuth.getInstance().signInWithCredential(credential)
 
-            FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this){
-               setUserInfo("GOOGLE",it.result?.token.toString())
+            FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
+                setUserInfo("GOOGLE", it.result?.token.toString())
             }?.addOnFailureListener(this) {
-                Log.e(ErrorManager.Google_TAG,it.message.toString())
+                Log.e(ErrorManager.Google_TAG, it.message.toString())
             }
 
         } catch (e: Exception) {
             val message = e.message ?: e.stackTrace
             Log.e(ErrorManager.Google_TAG, message.toString())
-
         }
     }
 
     fun getRefreshToken() {
         val map = HashMap<String, Any>()
-        GlobalApplication.userInfo.refreshToken?.let { map.put("refresh_token", it) }
+        GlobalApplication.userDataBase.getRefreshToken()?.let { map.put("refresh_token",it) }
 
         refreshDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
-            .refreshToken(GlobalApplication.userInfo.createUUID, map)
+            .refreshToken(GlobalApplication.userBuilder.createUUID, map)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result: GetUserData ->
@@ -149,51 +148,56 @@ class Login : AppCompatActivity(), View.OnClickListener {
             }, { t: Throwable -> t.stackTrace })
     }
 
+    fun setUserInfo(provider: String?, oauth_token: String?) {
+
+        GlobalApplication.userBuilder
+            .setProvider(provider)
+            .setOAuthToken(oauth_token)
+
+        handlingActivity()
+    }
+
     fun handlingActivity() {
-        var intent = Intent(this, SignUp::class.java)
+        val map = HashMap<String,Any>()
+        GlobalApplication.userBuilder.getProvider()?.let { map.put("oauth_provider",it) }
+        GlobalApplication.userBuilder.getOAuthToken()?.let { map.put("oauth_token",it) }
+
         disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-            .signUp(GlobalApplication.userInfo.createUUID, GlobalApplication.userInfo.infoMap)
+            .signUp(GlobalApplication.userBuilder.createUUID,map)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result: GetUserData ->
 
                 //토큰이 있다는 것은 로그인 정보가 있다는 것. 여기서 액티비티 핸들링하기.
-                if(result.data?.token !=null){
-                    startActivity(Intent(this,MainActivity::class.java))
+                if (result.data?.token != null) {
+                    GlobalApplication.userDataBase.setAccessToken(result.data?.token?.accessToken)
+                    GlobalApplication.userDataBase.setRefreshToken(result.data?.token?.refreshToken)
+                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
+                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
+
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
                 //회원가입
-                else{
-                    result.data?.user?.userId?.let {
-                        GlobalApplication.userInfo.user_id = it
-                    }
-                    result.data?.user?.hasNickname?.let {
-                        intent.putExtra(GlobalApplication.NICKNAME, it)
-                        GlobalApplication.userInfo.nickName =result.data?.user?.nickname
-                        Log.e("닉네임체크", it.toString())
-                    }
+                else {
+                    GlobalApplication.userBuilder.setOAuthId(result.data?.user?.userId)
+                    val intent = Intent(this,SignUp::class.java)
+                    val bundle = Bundle()
+
                     result.data?.user?.hasBirth?.let {
-                        intent.putExtra(GlobalApplication.BIRTHDAY, it)
-                        GlobalApplication.userInfo.birthDay = result.data?.user?.birth
+                        bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
                         Log.e("생일체크", it.toString())
+                        GlobalApplication.userBuilder.setBirthDay(result.data?.user?.birth)
                     }
                     result.data?.user?.hasGender?.let {
-                        intent.putExtra(GlobalApplication.GENDER, it)
-                        GlobalApplication.userInfo.gender = result.data?.user?.gender
+                        bundle.putBoolean(GlobalApplication.GENDER, it)
                         Log.e("성별체크", it.toString())
+                        GlobalApplication.userBuilder.setGender(result.data?.user?.gender)
                     }
+
+                    intent.putExtra("userBundle",bundle)
                     startActivity(intent)
                 }
             }, { t: Throwable? -> t?.stackTrace })
-
-    }
-
-    fun setUserInfo(provider: String?, oauth_id: String?) {
-        GlobalApplication.userInfo = UserInfo.Builder("")
-            .setProvider(provider)
-            .setOAuthToken(oauth_id)
-            .build()
-
-        handlingActivity()
     }
 }

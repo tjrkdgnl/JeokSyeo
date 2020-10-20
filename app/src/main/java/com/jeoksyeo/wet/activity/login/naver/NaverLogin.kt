@@ -43,7 +43,7 @@ class NaverLogin(private val mContext: Context) {
                                     accessToken,
                                     "https://openapi.naver.com/v1/nid/me"
                                 )!! //->  !!은 none null을 의미
-//
+
                             Login.loginObj.setUserInfo("NAVER", accessToken)
 
 //                            parsingUserInfo(userJson)
@@ -64,11 +64,12 @@ class NaverLogin(private val mContext: Context) {
         }
     }
 
-    private fun parsingUserInfo(userJson: String) {
-        val jsonObject = JSONObject(userJson)
-        val response = jsonObject.getJSONObject("response")
+        private fun parsingUserInfo(userJson: String) {
+            val jsonObject = JSONObject(userJson)
+            val response = jsonObject.getJSONObject("response")
 
         Log.e("response", response.toString())
+
 
         mContext.startActivity(Intent(mContext, SignUp::class.java))
     }

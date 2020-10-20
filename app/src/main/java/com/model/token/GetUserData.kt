@@ -1,4 +1,4 @@
-package com.model
+package com.model.token
 
 import com.google.gson.annotations.Expose
 

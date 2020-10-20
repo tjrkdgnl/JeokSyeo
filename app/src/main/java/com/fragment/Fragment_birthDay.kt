@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -53,7 +52,7 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
 
     @SuppressLint("SetTextI18n")
     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        var str:String = year.toString()
+        var birthDay:String = year.toString()
         binding.birthdayYear.text =year.toString()
 
         if (monthOfYear + 1 < 10) binding.birthdayMonth.setText("0" + (monthOfYear + 1).toString())
@@ -62,9 +61,9 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         if (dayOfMonth < 10) binding.birthdayDay.setText("0$dayOfMonth")
         else binding.birthdayDay.setText(dayOfMonth.toString())
 
-        str += "-"+ binding.birthdayMonth.text + "-" + binding.birthdayDay.text
+        birthDay += "-"+ binding.birthdayMonth.text + "-" + binding.birthdayDay.text
 
-        GlobalApplication.userInfo.birthDay =str
+        GlobalApplication.userBuilder.setBirthDay(birthDay)
 
         viewmodel.setButtonState(true)
     }

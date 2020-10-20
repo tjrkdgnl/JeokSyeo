@@ -65,7 +65,7 @@ class Fragment_gender : Fragment(),View.OnClickListener{
             binding.femaleCheckbox.setImageResource(R.mipmap.gender_checkbox_empty)
             femaleCheck=false
 
-            GlobalApplication.userInfo.gender ="M"
+            GlobalApplication.userBuilder.setGender("M")
         }
 
         viewmodel.setButtonState(true)
@@ -79,7 +79,7 @@ class Fragment_gender : Fragment(),View.OnClickListener{
             binding.maleCheckbox.setImageResource(R.mipmap.gender_checkbox_empty)
             maleCheck=false
 
-            GlobalApplication.userInfo.gender ="F"
+            GlobalApplication.userBuilder.setGender("F")
         }
 
         viewmodel.setButtonState(true)

@@ -19,7 +19,6 @@ class KakaoLogin(private val context: Context) {
         } else if (token != null) {
             Log.i(ErrorManager.Kakao_TAG, "로그인 성공 ${token.accessToken}")
 
-
             Log.e("refreshToken",token.refreshToken)
             Log.e("accessToken",token.accessToken)
             Login.loginObj.setUserInfo("KAKAO",token.accessToken)

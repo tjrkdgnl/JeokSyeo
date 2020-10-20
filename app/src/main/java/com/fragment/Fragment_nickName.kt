@@ -71,7 +71,7 @@ class Fragment_nickName : Fragment(), TextWatcher ,View.OnKeyListener {
                 check =true
             }
         }
-        GlobalApplication.userInfo.nickName = s.toString()
+        GlobalApplication.userBuilder.setNickName(s.toString())
     }
 
     fun hideKeypad(edit_nickname: EditText) {
