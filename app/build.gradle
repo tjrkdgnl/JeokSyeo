@@ -19,6 +19,7 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layouts/custom',
                     'src/main/res/layouts/adapter_items',
                     'src/main/res/layouts/activities',
                     'src/main/res/layouts/fragments',

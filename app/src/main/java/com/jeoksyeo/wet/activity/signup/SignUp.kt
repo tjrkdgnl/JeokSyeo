@@ -43,7 +43,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
 
         //확인 enable setting
         viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
-        viewModel.getButtonState().observe(this, Observer {
+        viewModel.buttonState.observe(this, Observer {
             binding.infoConfirmButton.isEnabled =it
         })
     }
@@ -90,7 +90,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         if (idx < mutableList.size) {
             binding.viewPager2.currentItem = ++idx
             binding.signupHeader.signUpHeaderProgressbar.progress = idx +1
-            viewModel.setButtonState(false)
+            viewModel.buttonState.value=false
             presenter.hideKeypad(this,binding.infoConfirmButton)
 
 //            viewModel.getCheckSignUp().observe(this, Observer {
@@ -119,7 +119,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         if(idx >0){
             binding.viewPager2.currentItem = --idx
             binding.signupHeader.signUpHeaderProgressbar.progress =idx +1
-            viewModel.setButtonState(true)
+            viewModel.buttonState.value=true
         }
     }
 }

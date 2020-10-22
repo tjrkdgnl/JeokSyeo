@@ -5,23 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SignUpViewModel : ViewModel() {
-    private var buttonState: MutableLiveData<Boolean> = MutableLiveData(false)
-    private var checkSignUp:MutableLiveData<Boolean> = MutableLiveData(false)
+    var buttonState: MutableLiveData<Boolean> = MutableLiveData(false)
+        set(value) {
+            field = value
+        }
 
-    fun setButtonState(bool: Boolean) {
-        buttonState.value = bool
-    }
+    private var checkSignUp: MutableLiveData<Boolean> = MutableLiveData(false)
+        set(value) {
+            field = value
+        }
 
-    fun getButtonState(): LiveData<Boolean> {
-
-        return buttonState
-    }
-
-    fun setCheckSignUp(bool: Boolean){
-        checkSignUp.value =bool
-    }
-
-    fun getCheckSignUp():LiveData<Boolean>{
-        return checkSignUp
-    }
 }

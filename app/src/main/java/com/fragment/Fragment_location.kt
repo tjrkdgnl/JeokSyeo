@@ -72,21 +72,18 @@ class Fragment_location : Fragment() {
         binding.stateText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (count != 0) {
+                if (s.toString().isEmpty()) {
+//                    viewmodel.buttonState=false
+//                    viewmodel.setCheckSignUp(false)
+                } else {
                     checkState = true
                     if (checkState && checkCountry) {
-                        viewmodel.setButtonState(true)
-                        viewmodel.setCheckSignUp(true)
+//                        viewmodel.setButtonState(true)
+//                        viewmodel.setCheckSignUp(true)
                     }
-
-                } else {
-                    viewmodel.setButtonState(false)
-                    viewmodel.setCheckSignUp(false)
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {
             }
         })
@@ -96,19 +93,17 @@ class Fragment_location : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (count != 0) {
+                if (s.toString().isEmpty()) {
+//                    viewmodel.setButtonState(false)
+//                    viewmodel.setCheckSignUp(false)
+                } else {
                     checkCountry = true
                     if (checkState && checkCountry) {
-                        viewmodel.setButtonState(true)
-                        viewmodel.setCheckSignUp(true)
+//                        viewmodel.setButtonState(true)
+//                        viewmodel.setCheckSignUp(true)
                     }
-
-                } else {
-                    viewmodel.setButtonState(false)
-                    viewmodel.setCheckSignUp(false)
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {
             }
         })

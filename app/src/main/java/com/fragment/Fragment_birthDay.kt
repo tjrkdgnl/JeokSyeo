@@ -65,7 +65,7 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
 
         GlobalApplication.userBuilder.setBirthDay(birthDay)
 
-        viewmodel.setButtonState(true)
+        viewmodel.buttonState.value=true
     }
 
     override fun onClick(v: View?) {
@@ -73,7 +73,7 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
             R.id.dateConfirm ->{
                 if(binding.signUpExpandableLayout.isExpanded){
                     binding.signUpExpandableLayout.collapse()
-                    viewmodel.setButtonState(true)
+                    viewmodel.buttonState.value=true
                 }
             }
 

@@ -42,8 +42,10 @@
                 android:id="@+id/insertInfo_editText"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:hint="정보를 입력하세요"
+                android:hint="닉네임을 입력하세요"
                 android:textSize="16sp"
+                android:maxLength="8"
+                android:textStyle="bold"
                 android:backgroundTint="@color/transparent"
                 android:maxLines="1"
               android:layout_weight="1.8" />
@@ -61,6 +63,7 @@
         </LinearLayout>
 
         <include
+            android:id="@+id/plz_agreement"
             layout="@layout/plz_agreement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

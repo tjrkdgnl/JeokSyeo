@@ -68,7 +68,7 @@ class Fragment_gender : Fragment(),View.OnClickListener{
             GlobalApplication.userBuilder.setGender("M")
         }
 
-        viewmodel.setButtonState(true)
+        viewmodel.buttonState.value=true
     }
 
     private fun checkFemale(){
@@ -82,6 +82,6 @@ class Fragment_gender : Fragment(),View.OnClickListener{
             GlobalApplication.userBuilder.setGender("F")
         }
 
-        viewmodel.setButtonState(true)
+        viewmodel.buttonState.value=true
     }
 }

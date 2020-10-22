@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints"
+    android:layout_width="match_parent"
+    android:background="@drawable/dialog_layout_outline"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialog_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:lineSpacingExtra="10sp"
+        android:gravity="center"
+        android:text="로그인 후에 이용할 수 있습니다.\n로그인 하시겠습니까?"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        />
+
+    <Button
+        android:id="@+id/dialog_okButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/dialog_button_round"
+        android:onClick="onClick"
+        android:text="로그인/확인"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/dialog_cancelButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:onClick="onClick"
+        android:text="취소"
+        android:background="@drawable/dialog_cancel_button_outline"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>
+
+
+
