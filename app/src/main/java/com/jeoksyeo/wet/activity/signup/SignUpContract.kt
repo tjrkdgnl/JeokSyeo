@@ -10,6 +10,7 @@ interface SignUpContract {
     interface BaseView{
         fun nextView()
         fun beforeView()
+
     }
 
     interface BasePresenter{

@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.application.GlobalApplication
 import com.fragment.*
+import com.fragment.location.Fragment_location
 
 class SignUpViewPagerAdapter(
     val fragmentActivity: FragmentActivity,
