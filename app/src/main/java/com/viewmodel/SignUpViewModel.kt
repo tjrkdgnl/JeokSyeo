@@ -16,22 +16,15 @@ class SignUpViewModel : ViewModel() {
             field = value
         }
 
-    var stateSelectButton =MutableLiveData<Boolean>(false)
-        set(value) {
-            field =value
-            if(countrySelectButton.value!!){
-                buttonState.value =true
-            }
-        }
-    var stateName:String? =null
-    var countrySelectButton =MutableLiveData<Boolean>(false)
-        set(value) {
-            field =value
-            if(stateSelectButton.value!!){
-                buttonState.value =true
-            }
-        }
-    var countryName:String? =null
+    var stateArea= MutableLiveData<AreaList>(null)
 
-    var code:String? =null
+    var countryArea =MutableLiveData<AreaList>(null)
+
+    var townArea = MutableLiveData<AreaList>(null)
+
+    var lock =false
+        set(value){
+            buttonState.value=value
+            field =value
+        }
 }

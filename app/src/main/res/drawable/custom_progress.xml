@@ -8,7 +8,9 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/orange" />
+                <gradient android:startColor="#FACC94"
+                    android:angle="360"
+                    android:endColor="#FBA93B"/>
             </shape>
         </clip>
     </item>

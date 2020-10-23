@@ -97,8 +97,10 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
             viewModel.buttonState.value = false
             presenter.hideKeypad(this, binding.infoConfirmButton)
 
-
-            if (viewModel.stateSelectButton.value!! && viewModel.countrySelectButton.value!!) {
+            if(viewModel.lock){
+                GlobalApplication.userBuilder.setAddress(
+                    viewModel.stateArea.value?.name +" "+ viewModel.countryArea.value?.name+" "+
+                            viewModel.townArea.value?.name)
                 GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java).signUp(
                     GlobalApplication.userBuilder.createUUID,
@@ -113,14 +115,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
                         JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
                         JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
 
-                        Log.e(
-                            "DB_엑세스 토큰",
-                        GlobalApplication.userDataBase.getAccessToken().toString()
-                        )
-                        Log.e(
-                            "DB_리프레쉬 토큰",
-                            GlobalApplication.userDataBase.getRefreshToken().toString()
-                        )
 
                         startActivity(Intent(this, MainActivity::class.java))
                         Toast.makeText(this, "회원가입을 축하드립니다!", Toast.LENGTH_SHORT).show()
