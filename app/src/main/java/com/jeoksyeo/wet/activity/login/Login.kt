@@ -21,6 +21,7 @@ import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LoginBinding
 import com.error.ErrorManager
+import com.google.android.gms.tasks.OnCompleteListener
 import com.jeoksyeo.wet.activity.main.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -58,7 +59,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
         binding.naverLoginButton.setOnClickListener(this)
         binding.googleLoginButton.setOnClickListener(this)
         binding.appleLoginButton.setOnClickListener(this)
+        binding.delete.setOnClickListener(this)
+        binding.kakaologout.setOnClickListener(this)
+        binding.kakaodelete.setOnClickListener(this)
+        binding.naverDelete.setOnClickListener(this)
+        binding.naverlogout.setOnClickListener(this)
 
+        Log.e("현재 로그인 유저",FirebaseAuth.getInstance().currentUser?.email.toString())
     }
 
     private fun kakaoExcute() {
@@ -98,9 +105,30 @@ class Login : AppCompatActivity(), View.OnClickListener {
 //            R.id.refreshButton-> refresh()
 
             R.id.logout -> {
-                appleLogin = AppleLogin(this)
-                appleLogin.appleSignOut()
+                FirebaseAuth.getInstance().signOut()
             }
+
+            R.id.delete->{
+                FirebaseAuth.getInstance().currentUser?.delete()?.addOnCompleteListener(this,
+                    OnCompleteListener {
+                        if (it.isSuccessful) {
+                            //삭제후 핸들링
+                            Log.e("삭제",FirebaseAuth.getInstance().currentUser?.email.toString())
+                        }
+
+                    })?.addOnFailureListener {
+                    it.stackTrace
+                }
+            }
+
+            R.id.kakaodelete ->{kakaoLogin.kakaoDelete()}
+
+            R.id.kakaologout ->{kakaoLogin.kakaoLogOut()}
+
+            R.id.naverDelete ->{naverLogin.naverDelete()}
+
+            R.id.naverlogout->{naverLogin.naverLogOut()}
+
             else -> {
             }
         }

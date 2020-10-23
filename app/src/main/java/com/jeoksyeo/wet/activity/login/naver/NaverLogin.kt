@@ -9,9 +9,7 @@ import com.jeoksyeo.wet.activity.signup.SignUp
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.error.ErrorManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.lang.Exception
 
@@ -79,12 +77,16 @@ class NaverLogin(private val mContext: Context) {
     }
 
     fun naverDelete() {
-        val success = instance.logoutAndDeleteToken(mContext)
+        CoroutineScope(Dispatchers.IO).launch {
+            val success = instance.logoutAndDeleteToken(mContext)
 
-        if (success) {
-
-        } else {
-
+            withContext(Dispatchers.Main){
+                if (success) {
+                    Log.e("네이버삭제","성공")
+                } else {
+                    Log.e("네이버삭제","실패")
+                }
+            }
         }
     }
 }

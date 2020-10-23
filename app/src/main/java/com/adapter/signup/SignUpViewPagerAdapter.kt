@@ -29,9 +29,10 @@ class SignUpViewPagerAdapter(
                 return Fragment_location.newInstance()
             }
             else -> {
-                return Fragment_Congratulation.newInstance()
+                return RequestFragment.newInstance()
             }
         }
+
     }
 
     fun getFragment(position: Int) =

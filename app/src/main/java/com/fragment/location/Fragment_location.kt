@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adapter.location.LocationAdapter
 import com.application.GlobalApplication
+import com.model.area.AreaList
 import com.model.area.GetAreaData
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -29,6 +30,10 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
     var item: String = ""
     private lateinit var disposable: Disposable
     private var locationAdapter: LocationAdapter? = null
+    var emptyAreaList = AreaList().apply {
+        name = ""
+        code = ""
+    }
 
     companion object {
         fun newInstance(): Fragment_location {
@@ -72,12 +77,14 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
         })
 
         viewmodel.countryArea.observe(viewLifecycleOwner, Observer { it ->
-            it?.let { area -> binding.countryText.text = it.name }
+            it?.let { area -> binding.countryText.text = area.name }
         })
 
         viewmodel.townArea.observe(viewLifecycleOwner, Observer {
-            it?.let { area ->
-                binding.countryText.text = viewmodel.countryArea.value?.name + " " + area.name
+            it?.let { town ->
+                if(town.name !=""){
+                    binding.countryText.text = viewmodel.countryArea.value?.name + town.name
+                }
             }
         })
 
@@ -92,9 +99,9 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
                 binding.countryText.text = ""
                 locationAdapter?.depth = 0
                 viewmodel.lock = false
-                viewmodel.countryArea.value =null
-                viewmodel.stateArea.value =null
-                viewmodel.townArea.value = null
+                viewmodel.countryArea.value = emptyAreaList
+                viewmodel.stateArea.value = emptyAreaList
+                viewmodel.townArea.value = emptyAreaList
             }
 
             R.id.country_text -> {
@@ -102,7 +109,8 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
                 binding.countryText.text = ""
                 locationAdapter?.depth = 1
                 viewmodel.lock = false
-                viewmodel.townArea.value = null
+                viewmodel.countryArea.value =emptyAreaList
+                viewmodel.townArea.value = emptyAreaList
             }
 
             else -> {

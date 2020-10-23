@@ -16,15 +16,23 @@ class SignUpViewModel : ViewModel() {
             field = value
         }
 
-    var stateArea= MutableLiveData<AreaList>(null)
+    private val emptyAreaList = AreaList().apply {
+        name=""
+        code=""
+    }
 
-    var countryArea =MutableLiveData<AreaList>(null)
+    var stateArea= MutableLiveData<AreaList>(emptyAreaList)
 
-    var townArea = MutableLiveData<AreaList>(null)
+    var countryArea =MutableLiveData<AreaList>(emptyAreaList)
+
+    var townArea = MutableLiveData<AreaList>(emptyAreaList)
 
     var lock =false
         set(value){
             buttonState.value=value
             field =value
         }
+
+    var checkRequest=false
+
 }

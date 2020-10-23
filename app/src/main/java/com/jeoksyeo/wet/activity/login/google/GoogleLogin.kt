@@ -9,10 +9,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.vuforia.engine.wet.R
 import com.error.ErrorManager
+import com.google.firebase.auth.FirebaseAuth
 
-class GoogleLogin(private val mContext: Context,private val activity:Activity) {
-    val gso:GoogleSignInOptions
-    val instance:GoogleSignInClient
+class GoogleLogin(private val mContext: Context, private val activity: Activity) {
+    val gso: GoogleSignInOptions
+    val instance: GoogleSignInClient
 
     init {
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -20,22 +21,25 @@ class GoogleLogin(private val mContext: Context,private val activity:Activity) {
             .requestEmail()
             .build()
 
-         instance = GoogleSignIn.getClient(mContext,gso)
+        instance = GoogleSignIn.getClient(mContext, gso)
     }
 
+    fun googleLogOut() {
 
-    fun googleLogOut(){
-        instance.signOut()
-            .addOnCompleteListener(activity, OnCompleteListener { task ->
-                Log.e(ErrorManager.Google_TAG,"로그아웃")
-            })
+        Log.e("구글로그아웃",FirebaseAuth.getInstance().currentUser?.email.toString())
+        FirebaseAuth.getInstance().signOut()
     }
 
-    fun googleDelete(){
-        instance.revokeAccess()
-            .addOnCompleteListener(activity, OnCompleteListener { task ->
-                Log.e(ErrorManager.Google_TAG,"삭제")
-            })
-    }
+    fun googleDelete() {
 
+        FirebaseAuth.getInstance().currentUser?.delete()
+            ?.addOnCompleteListener(activity, OnCompleteListener {
+                if (it.isSuccessful) {
+                    //삭제 후 핸들링
+                    Log.e("구글삭제",FirebaseAuth.getInstance().currentUser?.email.toString())
+                }
+            })?.addOnFailureListener {
+                it.stackTrace
+            }
+    }
 }

@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -26,6 +27,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
     private lateinit var binding: ActivitySignupBinding
     private lateinit var mutableList: MutableList<String>
     private var idx = 0
+    private var backIdx = 0
     private lateinit var signUpViewPagerAdapter: SignUpViewPagerAdapter
     private lateinit var viewModel: SignUpViewModel
     private lateinit var presenter: SignUpPresenter
@@ -81,9 +83,9 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.infoConfirmButton -> nextView()
+            R.id.infoConfirmButton ->nextView()
 
-            R.id.signup_header_backButton -> beforeView()
+            R.id.signup_header_backButton -> finish()
 
             else -> {
             }
@@ -91,44 +93,37 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
     }
 
     override fun nextView() {
-        if (idx < mutableList.size) {
-            binding.viewPager2.currentItem = ++idx
-            binding.signupHeader.signUpHeaderProgressbar.progress = idx + 1
-            viewModel.buttonState.value = false
-            presenter.hideKeypad(this, binding.infoConfirmButton)
+        viewModel.buttonState.value = false
+        binding.viewPager2.currentItem = ++idx
+        binding.signupHeader.signUpHeaderProgressbar.progress = idx + 1
+        presenter.hideKeypad(this, binding.infoConfirmButton)
 
-            if(viewModel.lock){
-                GlobalApplication.userBuilder.setAddress(
-                    viewModel.stateArea.value?.name +" "+ viewModel.countryArea.value?.name+" "+
-                            viewModel.townArea.value?.name)
-                GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
-                disposable = ApiGenerator.retrofit.create(ApiService::class.java).signUp(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getMap()
-                )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        //내장 디비에 토큰 값들 저장
-                        GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken.toString())
-                        GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
-                        JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
-                        JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
-
-
-                        startActivity(Intent(this, MainActivity::class.java))
-                        Toast.makeText(this, "회원가입을 축하드립니다!", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }, { t: Throwable -> t.stackTrace })
-            }
+        if (viewModel.checkRequest) {
+            startActivity(Intent(this, Login::class.java))
+            finish()
         }
-    }
+        else if (viewModel.lock) {
+            GlobalApplication.userBuilder.setAddress(
 
-    override fun beforeView() {
-        if (idx > 0) {
-            binding.viewPager2.currentItem = --idx
-            binding.signupHeader.signUpHeaderProgressbar.progress = idx + 1
-            viewModel.buttonState.value = true
+                viewModel.stateArea.value?.name + " " + viewModel.countryArea.value?.name + " " +
+                        viewModel.townArea.value?.name
+            )
+            GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
+            disposable = ApiGenerator.retrofit.create(ApiService::class.java).signUp(
+                GlobalApplication.userBuilder.createUUID,
+                GlobalApplication.userInfo.getMap())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    //내장 디비에 토큰 값들 저장
+                    GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken.toString())
+                    GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
+                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
+                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Toast.makeText(this, "회원가입을 축하드립니다!", Toast.LENGTH_SHORT).show()
+                    finish()
+                }, { t: Throwable -> t.stackTrace })
         }
     }
 }

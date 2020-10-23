@@ -50,7 +50,7 @@
             android:max="4"
             app:layout_constraintTop_toBottomOf="@id/signUP_headLine"
             android:layout_marginTop="3dp"
-            android:progress="4"/>
+            android:progress="1"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
