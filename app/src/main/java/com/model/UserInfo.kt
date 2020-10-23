@@ -22,6 +22,9 @@ class UserInfo {
 
     fun getMap() = infoMap
 
+    fun getAccessToken() = accessToken
+    fun getRefreshToken() = refreshToken
+
     class Builder(private var id: String) {
         private var user_id: String? = null
         private var oauth_token: String? = null

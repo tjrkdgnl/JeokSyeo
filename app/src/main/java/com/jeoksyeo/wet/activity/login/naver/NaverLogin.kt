@@ -30,8 +30,6 @@ class NaverLogin(private val mContext: Context) {
             override fun run(sccess: Boolean) {
                 if (sccess) {
                     val accessToken = OAuthLogin.getInstance().getAccessToken(mContext)
-                    val refreshToken = OAuthLogin.getInstance().getRefreshToken(mContext)
-                    val expireAt = OAuthLogin.getInstance().getExpiresAt(mContext)
                     try {
                         //포그라운드로 동기화 처리. -> 값을 받을 때까지 기다림
                         CoroutineScope(Dispatchers.IO).launch {

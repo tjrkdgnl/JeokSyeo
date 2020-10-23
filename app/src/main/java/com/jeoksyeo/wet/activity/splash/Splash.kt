@@ -9,7 +9,6 @@ import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
-import com.room.Entity
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SplashBinding

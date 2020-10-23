@@ -13,7 +13,7 @@ class GlobalApplication : Application() {
 
         userBuilder = UserInfo.Builder("")
         KakaoSdk.init(this, getString(R.string.kakaoNativeKey))
-
+        userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)
     }
 

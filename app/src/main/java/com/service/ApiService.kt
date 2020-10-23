@@ -2,6 +2,7 @@ package com.service
 
 import com.model.area.GetAreaData
 import com.model.nickname_check.GetResult
+import com.model.recommend_alchol.GetRecomendItem
 import io.reactivex.Single
 import com.model.token.GetUserData
 import io.reactivex.Flowable
@@ -20,4 +21,7 @@ interface ApiService {
 
     @GET("v1/auth/check-nickname")
     fun checkNickName(@Header("X-Request-ID")UUID: String,@Query("n")name:String ) : Single<GetResult>
+
+    @GET("/v1/main/recommend")
+    fun getRecommendAlchol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<GetRecomendItem>
 }

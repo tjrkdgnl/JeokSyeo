@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activityMain_useTerms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f8f8"
+        >
+
+        <TextView
+            android:id="@+id/activityMain_enrolledBuisnessNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="2sp"
+            android:text="사업자정보확인"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/autoViewPager_textSize"
+            app:layout_constraintEnd_toEndOf="@id/activityMain_barrier1"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/activityMain_barrier1"
+            android:layout_width="0.5dp"
+            android:layout_height="9dp"
+            android:background="#7d7d7d"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/activityMain_enrolledBuisnessNumber"
+            app:layout_constraintEnd_toStartOf="@id/activityMain_termsOfService"
+            app:layout_constraintStart_toEndOf="@+id/activityMain_enrolledBuisnessNumber"
+            app:layout_constraintTop_toTopOf="@+id/activityMain_enrolledBuisnessNumber" />
+
+        <TextView
+            android:id="@+id/activityMain_termsOfService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2sp"
+            android:text="이용약관"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/autoViewPager_textSize"
+            app:layout_constraintBottom_toBottomOf="@id/activityMain_barrier1"
+            app:layout_constraintEnd_toEndOf="@id/activityMain_barrier2"
+            app:layout_constraintStart_toEndOf="@id/activityMain_barrier1"
+            app:layout_constraintTop_toTopOf="@id/activityMain_barrier1" />
+
+        <View
+            android:id="@+id/activityMain_barrier2"
+            android:layout_width="0.5dp"
+            android:layout_height="9dp"
+            android:background="#7d7d7d"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/activityMain_termsOfService"
+            app:layout_constraintEnd_toStartOf="@id/activityMain_electronicFinancialTransactionText"
+            app:layout_constraintStart_toEndOf="@+id/activityMain_termsOfService"
+            app:layout_constraintTop_toTopOf="@+id/activityMain_termsOfService" />
+
+        <TextView
+            android:id="@+id/activityMain_electronicFinancialTransactionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2sp"
+            android:text="전자금융거래이용약관"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/autoViewPager_textSize"
+            app:layout_constraintBottom_toBottomOf="@id/activityMain_barrier2"
+            app:layout_constraintEnd_toEndOf="@id/activityMain_barrier3"
+            app:layout_constraintStart_toEndOf="@id/activityMain_barrier2"
+            app:layout_constraintTop_toTopOf="@id/activityMain_barrier2" />
+
+        <View
+            android:id="@+id/activityMain_barrier3"
+            android:layout_width="0.5dp"
+            android:layout_height="9dp"
+            android:background="#7d7d7d"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/activityMain_electronicFinancialTransactionText"
+            app:layout_constraintEnd_toStartOf="@id/activityMain_PrivacyPolicyText"
+            app:layout_constraintStart_toEndOf="@+id/activityMain_electronicFinancialTransactionText"
+            app:layout_constraintTop_toTopOf="@+id/activityMain_electronicFinancialTransactionText" />
+
+
+        <TextView
+            android:id="@+id/activityMain_PrivacyPolicyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2sp"
+            android:text="개인정보 처리방침"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/autoViewPager_textSize"
+            app:layout_constraintBottom_toBottomOf="@id/activityMain_barrier3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/activityMain_barrier3"
+            app:layout_constraintTop_toTopOf="@id/activityMain_barrier3" />
+
+        <TextView
+            android:id="@+id/activityMain_question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:lineSpacingExtra="2sp"
+            android:text="적셔 제휴 문의 혹은 서비스 이용관련 문의가 있으신가요? "
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_enrolledBuisnessNumber"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_enrolledBuisnessNumber" />
+
+        <TextView
+            android:id="@+id/activityMain_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2sp"
+            android:text="아래의 방법으로 언제든지 문의해주세요."
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_question1"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_question1" />
+
+        <TextView
+            android:id="@+id/activityMain_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:lineSpacingExtra="2sp"
+            android:text="이메일"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_question2"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_question2" />
+
+        <TextView
+            android:id="@+id/activityMain_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="2sp"
+            android:text="대표전화"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_email"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_email" />
+
+        <TextView
+            android:id="@+id/activityMain_representative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:lineSpacingExtra="1sp"
+            android:text="(주) 적셔 대표 김혁준"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_phone"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_phone" />
+
+        <TextView
+            android:id="@+id/activityMain_buisnessNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="1sp"
+            android:text="사업자등록번호:"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_representative"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_representative" />
+
+        <TextView
+            android:id="@+id/activityMain_salesReportNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="1sp"
+            android:text="통신판매업신고번호:"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintStart_toStartOf="@id/activityMain_buisnessNumber"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_buisnessNumber" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:lineSpacingExtra="1sp"
+            android:text="주소:"
+            android:textColor="#7d7d7d"
+            android:textSize="@dimen/whatIsQuestion_textSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/activityMain_salesReportNumber"
+            app:layout_constraintTop_toBottomOf="@+id/activityMain_salesReportNumber" />
+
+
+        <View
+            android:background="#9f9f9f"
+            android:id="@+id/view2"
+            android:layout_height="0.45dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/activityMain_useTerms" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

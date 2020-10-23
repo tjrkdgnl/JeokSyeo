@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:gravity="center">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:background="@drawable/recommenditem_shadow">
+
+            <ImageView
+                android:id="@+id/activityMain_recommend_img"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/nuggi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/activityMain_recommend_alcholName"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="2sp"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="@dimen/recommand_alcholName"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activityMain_recommend_img"
+                tools:text="백세주" />
+
+            <TextView
+                android:id="@+id/activityMain_alcholDegree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:lineSpacingExtra="3sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/recommand_alcholName"
+                app:layout_constraintBottom_toBottomOf="@id/activityMain_degree_img"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintTop_toTopOf="@id/activityMain_degree_img"
+
+                tools:text="19%" />
+
+            <ImageView
+                android:id="@+id/activityMain_degree_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@mipmap/alchol"
+                app:layout_constraintBottom_toBottomOf="@id/activityMain_recommend_alcholName"
+                app:layout_constraintEnd_toStartOf="@+id/activityMain_alcholDegree"
+                app:layout_constraintTop_toTopOf="@id/activityMain_recommend_alcholName" />
+
+            <RatingBar
+                android:id="@+id/activityMain_recommend_ratingBar"
+                android:layout_width="wrap_content"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:numStars="5"
+                android:transformPivotY="20dp"
+                app:layout_constraintStart_toStartOf="@id/activityMain_recommend_alcholName"
+                app:layout_constraintTop_toBottomOf="@id/activityMain_recommend_alcholName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/recommendAlchol_ratingBarScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="@dimen/recommand_alcholName"
+                app:layout_constraintBottom_toBottomOf="@id/activityMain_recommend_ratingBar"
+                app:layout_constraintEnd_toEndOf="@id/activityMain_recommend_ratingBar"
+                app:layout_constraintTop_toTopOf="@id/activityMain_recommend_ratingBar"
+                tools:text="3.7" />
+
+            <TextView
+                android:id="@+id/activityMain_likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:lineSpacingExtra="3sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/recommand_alcholName"
+                app:layout_constraintBottom_toBottomOf="@id/activtyMain_like_img"
+                app:layout_constraintEnd_toEndOf="@id/activityMain_alcholDegree"
+                app:layout_constraintStart_toStartOf="@id/activityMain_alcholDegree"
+                app:layout_constraintTop_toTopOf="@id/activtyMain_like_img"
+                tools:text="53" />
+
+            <ImageView
+                android:id="@+id/activtyMain_like_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:src="@mipmap/empty_heart"
+                app:layout_constraintBottom_toBottomOf="@id/recommendAlchol_ratingBarScore"
+                app:layout_constraintEnd_toEndOf="@id/activityMain_degree_img"
+                app:layout_constraintStart_toStartOf="@id/activityMain_degree_img"
+                app:layout_constraintTop_toTopOf="@id/recommendAlchol_ratingBarScore" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</layout>

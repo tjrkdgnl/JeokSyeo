@@ -92,6 +92,9 @@ object JWTUtil {
         if (accessTokenExpire > currentUTC) {
             Log.e("엑세스토큰", "유효함")
             GlobalApplication.userDataBase.getAccessToken()?.let {
+                //유효하면 userinfo를 위해 setting해줌
+                GlobalApplication.userBuilder.setAccessToken(it)
+                GlobalApplication.userBuilder.setRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
                 decodeAccessToken(it)
             }
         } else {

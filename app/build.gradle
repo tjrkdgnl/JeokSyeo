@@ -128,6 +128,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
