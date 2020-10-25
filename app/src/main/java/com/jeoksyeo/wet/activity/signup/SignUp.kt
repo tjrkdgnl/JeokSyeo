@@ -3,7 +3,6 @@ package com.jeoksyeo.wet.activity.signup
 import android.content.Intent
 import com.adapter.signup.SignUpViewPagerAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity

@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingConstraints">
 
+    <data>
+        <variable
+            name="recommendItem"
+            type="com.model.recommend_alchol.AlcholList" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,7 +41,7 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="2sp"
-                android:text=""
+                android:text="@{recommendItem.name.kr.toString()}"
                 android:textColor="#333333"
                 android:textSize="@dimen/recommand_alcholName"
                 android:textStyle="bold"
@@ -51,11 +57,10 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/recommand_alcholName"
+                android:text="@{recommendItem.abv.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/activityMain_degree_img"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintTop_toTopOf="@id/activityMain_degree_img"
-
                 tools:text="19%" />
 
             <ImageView
@@ -101,6 +106,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/recommand_alcholName"
+                android:text="@{recommendItem.review.score.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/activtyMain_like_img"
                 app:layout_constraintEnd_toEndOf="@id/activityMain_alcholDegree"
                 app:layout_constraintStart_toStartOf="@id/activityMain_alcholDegree"

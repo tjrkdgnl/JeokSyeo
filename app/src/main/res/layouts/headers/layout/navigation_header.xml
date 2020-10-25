@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"  tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f5f5f5"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <ImageView
+            android:id="@+id/navigation_header_drawerProfile"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:src="@mipmap/review_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/navigation_header_drawerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:lineSpacingExtra="3sp"
+            android:textStyle="bold"
+            android:text="안녕하세요,\n로그인하시겠어요?"
+            app:layout_constraintTop_toTopOf="@id/navigation_header_drawerProfile"
+            app:layout_constraintStart_toEndOf="@id/navigation_header_drawerProfile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

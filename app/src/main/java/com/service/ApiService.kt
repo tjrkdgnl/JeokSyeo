@@ -1,5 +1,6 @@
 package com.service
 
+import com.model.alchol_ranking.GetAlcholRanking
 import com.model.area.GetAreaData
 import com.model.nickname_check.GetResult
 import com.model.recommend_alchol.GetRecomendItem
@@ -24,4 +25,9 @@ interface ApiService {
 
     @GET("/v1/main/recommend")
     fun getRecommendAlchol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<GetRecomendItem>
+
+    @GET("v1/main/rank")
+    fun getAlcholRanking(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) : Flowable<GetAlcholRanking>
+
+
 }

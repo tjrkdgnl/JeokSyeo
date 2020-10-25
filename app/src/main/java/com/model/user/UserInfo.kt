@@ -1,4 +1,4 @@
-package com.model
+package com.model.user
 
 import android.util.Log
 import com.application.GlobalApplication

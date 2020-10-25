@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="name"
-            type="String" />
+        name="area"
+        type="com.model.area.AreaList" />
     </data>
 
     <LinearLayout
@@ -21,9 +21,9 @@
             android:gravity="center_horizontal|center_vertical"
             android:textStyle="bold"
             android:onClick="onClick"
-            android:background="@drawable/outline_round"
-            android:textColor="@color/black"
-            android:text="@{name.toString()}"
+            android:background="@drawable/select_location_color"
+            android:textColor="@drawable/select_text_color"
+            android:text="@{area.name.toString()}"
             android:hint="서울"
             android:layout_marginBottom="20dp"
             />

@@ -3,322 +3,335 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingConstraints">
-    <ScrollView
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/main_drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:openDrawer="end">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
-
-            <include
-                android:id="@+id/basic_header"
-                layout="@layout/basic_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="0.45dp"
-                android:layout_marginTop="5dp"
-                android:background="#9f9f9f"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/basic_header" />
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/banner_constrainLayout"
                 android:layout_width="match_parent"
-                android:layout_height="224dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/main_banner"
+                <include
+                    android:id="@+id/basic_header"
+                    layout="@layout/basic_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#9f9f9f"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/basic_header" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/banner_constrainLayout"
                     android:layout_width="match_parent"
                     android:layout_height="224dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/view">
 
-                <TextView
-                    android:id="@+id/banner_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/auto_viewpager_pagenum"
-                    android:gravity="center"
-                    android:lineSpacingExtra="2sp"
-                    android:onClick="onClick"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="자세히 보기"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/autoViewPager_textSize"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/main_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="224dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activityMain_alcholCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#f8f8f8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/banner_constrainLayout">
+                    <TextView
+                        android:id="@+id/banner_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/auto_viewpager_pagenum"
+                        android:gravity="center"
+                        android:lineSpacingExtra="2sp"
+                        android:onClick="onClick"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="자세히 보기"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/autoViewPager_textSize"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/activityMain_selectAlcholListText"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activityMain_alcholCategory"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="25dp"
+                    android:background="#f8f8f8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/banner_constrainLayout">
+
+                    <TextView
+                        android:id="@+id/activityMain_selectAlcholListText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="25dp"
+                        android:lineSpacingExtra="1sp"
+                        android:text="주종을 선택해주세요"
+                        android:textColor="#333333"
+                        android:textSize="@dimen/main_text_defaultSize"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/activityMain_selectAlcholListText"
+                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcholListText">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="17dp">
+
+                            <ImageView
+                                android:id="@+id/activityMain_koreanAlchol"
+                                android:layout_width="@dimen/categoryButtonSize"
+                                android:layout_height="@dimen/categoryButtonSize"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/alchol_button_shadow"
+                                android:onClick="onClick"
+                                android:src="@mipmap/btn_takju"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:layout_marginBottom="16dp"
+                                android:lineSpacingExtra="2sp"
+                                android:text="전통주"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlchol" />
+
+                            <ImageView
+                                android:id="@+id/activityMain_beer"
+                                android:layout_width="@dimen/categoryButtonSize"
+                                android:layout_height="@dimen/categoryButtonSize"
+                                android:layout_marginStart="12dp"
+                                android:background="@drawable/alchol_button_shadow"
+                                android:onClick="onClick"
+                                android:src="@mipmap/btn_beer"
+                                app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintStart_toEndOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintVertical_bias="1.0" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:lineSpacingExtra="2sp"
+                                android:text="맥주"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="@id/activityMain_beer"
+                                app:layout_constraintStart_toStartOf="@id/activityMain_beer"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_beer" />
+
+
+                            <ImageView
+                                android:id="@+id/activityMain_wine"
+                                android:layout_width="@dimen/categoryButtonSize"
+                                android:layout_height="@dimen/categoryButtonSize"
+                                android:layout_marginStart="15dp"
+                                android:background="@drawable/alchol_button_shadow"
+                                android:onClick="onClick"
+                                android:src="@mipmap/wine"
+                                app:layout_constraintBottom_toBottomOf="@id/activityMain_beer"
+                                app:layout_constraintStart_toEndOf="@id/activityMain_beer"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_beer"
+                                app:layout_constraintTop_toTopOf="@id/activityMain_beer" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:lineSpacingExtra="2sp"
+                                android:text="와인"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="@id/activityMain_wine"
+                                app:layout_constraintStart_toStartOf="@id/activityMain_wine"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_wine" />
+
+                            <ImageView
+                                android:id="@+id/activityMain_whisky"
+                                android:layout_width="@dimen/categoryButtonSize"
+                                android:layout_height="@dimen/categoryButtonSize"
+                                android:layout_marginStart="15dp"
+                                android:background="@drawable/alchol_button_shadow"
+                                android:onClick="onClick"
+                                android:src="@mipmap/whisky"
+                                app:layout_constraintBottom_toBottomOf="@id/activityMain_wine"
+                                app:layout_constraintStart_toEndOf="@id/activityMain_wine"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_wine"
+                                app:layout_constraintTop_toTopOf="@id/activityMain_wine" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:lineSpacingExtra="2sp"
+                                android:text="위스키"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="@id/activityMain_whisky"
+                                app:layout_constraintStart_toStartOf="@id/activityMain_whisky"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_whisky" />
+
+                            <ImageView
+                                android:id="@+id/activityMain_sake"
+                                android:layout_width="@dimen/categoryButtonSize"
+                                android:layout_height="@dimen/categoryButtonSize"
+                                android:layout_marginStart="15dp"
+                                android:background="@drawable/alchol_button_shadow"
+                                android:onClick="onClick"
+                                android:src="@mipmap/sake"
+                                app:layout_constraintBottom_toBottomOf="@id/activityMain_whisky"
+                                app:layout_constraintStart_toEndOf="@id/activityMain_whisky"
+                                app:layout_constraintTop_toTopOf="@id/activityMain_whisky" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:lineSpacingExtra="2sp"
+                                android:text="사케"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="@id/activityMain_sake"
+                                app:layout_constraintStart_toStartOf="@id/activityMain_sake"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_sake" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </HorizontalScrollView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:background="#9f9f9f"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/activityMain_alcholCategory"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/activityMain_howAboutAlcholsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="#f8f8f8"
                     android:lineSpacingExtra="1sp"
-                    android:text="주종을 선택해주세요"
-                    android:textColor="#333333"
+                    android:paddingStart="12dp"
+                    android:paddingTop="15dp"
+                    android:text="이런 술은 어떤가요?"
+                    android:textColor="#000000"
                     android:textSize="@dimen/main_text_defaultSize"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/activityMain_alcholCategory" />
 
-                <HorizontalScrollView
+                <LinearLayout
+                    android:id="@+id/recommend_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbars="none"
+                    android:background="@drawable/recommend_background"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/activityMain_selectAlcholListText"
-                    app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcholListText">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcholsText">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp">
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/activityMain_RecommendViewPager2"
+                        android:layout_width="match_parent"
+                        android:layout_height="480dp" />
+                </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/activityMain_koreanAlchol"
-                            android:layout_width="@dimen/categoryButtonSize"
-                            android:layout_height="@dimen/categoryButtonSize"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/alchol_button_shadow"
-                            android:onClick="onClick"
-                            android:src="@mipmap/btn_takju"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:layout_marginBottom="16dp"
-                            android:lineSpacingExtra="2sp"
-                            android:text="전통주"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alchol_button_textSize"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlchol"
-                            app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlchol"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlchol" />
-
-                        <ImageView
-                            android:id="@+id/activityMain_beer"
-                            android:layout_width="@dimen/categoryButtonSize"
-                            android:layout_height="@dimen/categoryButtonSize"
-                            android:layout_marginStart="12dp"
-                            android:background="@drawable/alchol_button_shadow"
-                            android:onClick="onClick"
-                            android:src="@mipmap/btn_beer"
-                            app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlchol"
-                            app:layout_constraintStart_toEndOf="@id/activityMain_koreanAlchol"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlchol"
-                            app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlchol"
-                            app:layout_constraintVertical_bias="1.0" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:lineSpacingExtra="2sp"
-                            android:text="맥주"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alchol_button_textSize"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="@id/activityMain_beer"
-                            app:layout_constraintStart_toStartOf="@id/activityMain_beer"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_beer" />
-
-
-                        <ImageView
-                            android:id="@+id/activityMain_wine"
-                            android:layout_width="@dimen/categoryButtonSize"
-                            android:layout_height="@dimen/categoryButtonSize"
-                            android:layout_marginStart="15dp"
-                            android:background="@drawable/alchol_button_shadow"
-                            android:onClick="onClick"
-                            android:src="@mipmap/wine"
-                            app:layout_constraintBottom_toBottomOf="@id/activityMain_beer"
-                            app:layout_constraintStart_toEndOf="@id/activityMain_beer"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_beer"
-                            app:layout_constraintTop_toTopOf="@id/activityMain_beer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:lineSpacingExtra="2sp"
-                            android:text="와인"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alchol_button_textSize"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="@id/activityMain_wine"
-                            app:layout_constraintStart_toStartOf="@id/activityMain_wine"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_wine" />
-
-                        <ImageView
-                            android:id="@+id/activityMain_whisky"
-                            android:layout_width="@dimen/categoryButtonSize"
-                            android:layout_height="@dimen/categoryButtonSize"
-                            android:layout_marginStart="15dp"
-                            android:background="@drawable/alchol_button_shadow"
-                            android:onClick="onClick"
-                            android:src="@mipmap/whisky"
-                            app:layout_constraintBottom_toBottomOf="@id/activityMain_wine"
-                            app:layout_constraintStart_toEndOf="@id/activityMain_wine"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_wine"
-                            app:layout_constraintTop_toTopOf="@id/activityMain_wine" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:lineSpacingExtra="2sp"
-                            android:text="위스키"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alchol_button_textSize"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="@id/activityMain_whisky"
-                            app:layout_constraintStart_toStartOf="@id/activityMain_whisky"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_whisky" />
-
-                        <ImageView
-                            android:id="@+id/activityMain_sake"
-                            android:layout_width="@dimen/categoryButtonSize"
-                            android:layout_height="@dimen/categoryButtonSize"
-                            android:layout_marginStart="15dp"
-                            android:background="@drawable/alchol_button_shadow"
-                            android:onClick="onClick"
-                            android:src="@mipmap/sake"
-                            app:layout_constraintBottom_toBottomOf="@id/activityMain_whisky"
-                            app:layout_constraintStart_toEndOf="@id/activityMain_whisky"
-                            app:layout_constraintTop_toTopOf="@id/activityMain_whisky" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:lineSpacingExtra="2sp"
-                            android:text="사케"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alchol_button_textSize"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="@id/activityMain_sake"
-                            app:layout_constraintStart_toStartOf="@id/activityMain_sake"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_sake" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </HorizontalScrollView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:background="#9f9f9f"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/activityMain_alcholCategory"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/activityMain_howAboutAlcholsText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:background="#f8f8f8"
-                android:lineSpacingExtra="1sp"
-                android:paddingStart="12dp"
-                android:paddingTop="15dp"
-                android:text="이런 술은 어떤가요?"
-                android:textColor="#000000"
-                android:textSize="@dimen/main_text_defaultSize"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityMain_alcholCategory" />
-
-            <LinearLayout
-                android:id="@+id/recommend_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/recommend_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcholsText">
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/activityMain_RecommendViewPager2"
+                <TextView
+                    android:id="@+id/appMain_monthlyTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:background="@color/orange"
+                    android:lineSpacingExtra="9sp"
+                    android:paddingStart="12dp"
+                    android:paddingBottom="15dp"
+                    android:text="이번달 주장"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/main_text_defaultSize"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recommend_layout" />
 
-            <TextView
-                android:id="@+id/appMain_monthlyTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/orange"
-                android:lineSpacingExtra="9sp"
-                android:paddingStart="12dp"
-                android:paddingBottom="15dp"
-                android:text="이번달 주장"
-                android:textColor="@color/white"
-                android:textSize="@dimen/main_text_defaultSize"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recommend_layout" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/monthly_recylcerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/monthly_recylcerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle" />
+                <include
+                    android:id="@+id/business_info"
+                    layout="@layout/business_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/monthly_recylcerView"
+                    app:layout_constraintVertical_bias="0" />
 
-            <include
-                android:id="@+id/business_info"
-                layout="@layout/business_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/monthly_recylcerView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0"
-                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        <include
+            android:id="@+id/main_navigation"
+            layout="@layout/drawer_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
-

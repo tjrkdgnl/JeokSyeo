@@ -1,10 +1,15 @@
 package com.application
 
 import android.app.Application
+import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
-import com.model.UserInfo
+import com.model.user.UserInfo
 import com.sharedpreference.UserDB
 import com.vuforia.engine.wet.R
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
+import java.io.IOException
+import java.util.*
 
 class GlobalApplication : Application() {
 
@@ -15,6 +20,7 @@ class GlobalApplication : Application() {
         KakaoSdk.init(this, getString(R.string.kakaoNativeKey))
         userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)
+        RxjavaErrorHandling()
     }
 
     companion object {
@@ -22,7 +28,7 @@ class GlobalApplication : Application() {
             private set
 
         lateinit var userInfo: UserInfo
-        lateinit var userBuilder:UserInfo.Builder
+        lateinit var userBuilder: UserInfo.Builder
 
         lateinit var userDataBase: UserDB
 
@@ -36,6 +42,38 @@ class GlobalApplication : Application() {
         const val OAUTH_TOKEN ="oauth_token"
         const val REFRESH_TOKEN="refresh_token"
         const val ADDRESS ="address"
+    }
+
+    private fun RxjavaErrorHandling() {
+        RxJavaPlugins.setErrorHandler { e: Throwable? ->
+            if (e is UndeliverableException) {
+                e.cause
+            }
+            if (e is IOException) {
+                return@setErrorHandler
+            }
+            if (e is InterruptedException) {
+                return@setErrorHandler
+            }
+            if (e is NullPointerException || e is IllegalArgumentException) {
+                Objects.requireNonNull(
+                    Thread.currentThread().uncaughtExceptionHandler
+                ).uncaughtException(Thread.currentThread(), e)
+                return@setErrorHandler
+            }
+            if (e is IllegalStateException) {
+                Objects.requireNonNull(
+                    Thread.currentThread().uncaughtExceptionHandler
+                ).uncaughtException(Thread.currentThread(), e)
+                return@setErrorHandler
+            }
+            if (e != null) {
+                Log.e(
+                    "RxJava_HOOK",
+                    "Undeliverable exception received, not sure what to do" + e.message
+                )
+            }
+        }
     }
 
 }
