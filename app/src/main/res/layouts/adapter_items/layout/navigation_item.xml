@@ -11,6 +11,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/navigation_linearLayout"
         android:orientation="vertical"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:src="@mipmap/btn_top_setting"
                 android:layout_marginLeft="15dp"
                 android:scaleType="centerCrop"
-                setting_icon="@{navigationItem.icon}"
+                setting_icon_Res="@{navigationItem.icon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

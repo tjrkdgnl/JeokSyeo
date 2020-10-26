@@ -14,6 +14,7 @@
     <dimen name="thumb_size">6dp</dimen>
     <dimen name="thumb_text_size">16sp</dimen>
     <dimen name="tabLayout_height">44dp</dimen>
+    <dimen name="ok_button_size">60dp</dimen>
 
 
     //comment window
@@ -129,7 +130,7 @@
     <dimen name="userInfo_imageView_myProfile_marginTop">57dp</dimen>
     <dimen name="userInfo_ImageButton_album_size">30dp</dimen>
     <dimen name="userInfo_textView_writeNickname_textsize">13sp</dimen>
-    <dimen name="userInfo_textView_writeNickname_marginLeft">29dp</dimen>
+    <dimen name="userInfo_textView_writeNickname_marginLeft">16dp</dimen>
     <dimen name="userInfo_textView_writeNickname_marginTop">35dp</dimen>
     <dimen name="userInfo_edit_nickname_height">48dp</dimen>
     <dimen name="userInfo_edit_nickname_marginTop">68dp</dimen>

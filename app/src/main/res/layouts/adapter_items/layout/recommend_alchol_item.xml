@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="360dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/nuggi"
+                setting_icon_str="@{recommendItem.media.get(0).mediaResource.medium.src}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

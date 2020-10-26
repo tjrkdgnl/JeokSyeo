@@ -1,9 +1,11 @@
 package com.adapter.location
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.LocationViewHolder
 import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.fragment.location.LocationInterface
 import com.model.area.AreaList
 import com.service.ApiGenerator
@@ -57,7 +59,7 @@ class LocationAdapter(
                             else {
                                 viewmodel.lock=true
                             }
-                        }, { t -> t.stackTrace })
+                        }, { t -> Log.e(ErrorManager.LOCATION,t.message.toString())})
                 }
             }
         }

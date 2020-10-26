@@ -12,6 +12,7 @@ import com.adapter.main.RecommendAlcholAdapter
 import com.adapter.navigation.NavigationAdpater
 import com.application.GlobalApplication
 import com.custom.ViewPagerTransformer
+import com.error.ErrorManager
 import com.model.navigation.NavigationItem
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -62,7 +63,7 @@ class Presenter : MainContract.BasePresenter {
                     it.data?.alcholList?.toMutableList()!!
 
                 )
-            }, { t -> t.stackTrace }))
+            }, { t -> Log.e(ErrorManager.ALCHOL_RECOMMEND,t.message.toString()) }))
 
         view.getView().activityMainRecommendViewPager2.setPageTransformer(
             ViewPagerTransformer(
@@ -100,9 +101,7 @@ class Presenter : MainContract.BasePresenter {
             .subscribe({
               view.getView().monthlyRecylcerView.adapter = AlcholRankAdapter(context,it.data?.alcholList?.toMutableList()!!)
 
-            },{t -> t.stackTrace}))
-
-
+            },{t ->Log.e(ErrorManager.ALCHOL_RANKING,t.message.toString())}))
 
     }
 

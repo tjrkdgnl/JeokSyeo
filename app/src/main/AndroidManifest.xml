@@ -30,6 +30,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
+
+        </activity>
+
+        <activity android:name="com.jeoksyeo.wet.activity.editprofile.EditProfile">
+
+        </activity>
+
         <activity
             android:name="com.jeoksyeo.wet.activity.main.MainActivity"
             android:screenOrientation="portrait">

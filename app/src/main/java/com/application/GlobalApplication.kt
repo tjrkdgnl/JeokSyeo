@@ -1,6 +1,7 @@
 package com.application
 
 import android.app.Application
+import android.util.DisplayMetrics
 import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 import com.model.user.UserInfo
@@ -21,6 +22,9 @@ class GlobalApplication : Application() {
         userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)
         RxjavaErrorHandling()
+
+
+
     }
 
     companion object {
@@ -31,6 +35,9 @@ class GlobalApplication : Application() {
         lateinit var userBuilder: UserInfo.Builder
 
         lateinit var userDataBase: UserDB
+
+        var device_width=0
+        var device_height=0
 
         const val NICKNAME = "nickname"
         const val BIRTHDAY = "birth"
@@ -45,9 +52,12 @@ class GlobalApplication : Application() {
     }
 
     private fun RxjavaErrorHandling() {
+
         RxJavaPlugins.setErrorHandler { e: Throwable? ->
+            var error =e
+
             if (e is UndeliverableException) {
-                e.cause
+                error= e.cause
             }
             if (e is IOException) {
                 return@setErrorHandler

@@ -30,6 +30,7 @@
                 android:layout_marginStart="16dp"
                 />
             <TextView
+                android:id="@+id/ranking_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="1"
@@ -54,12 +55,16 @@
                 android:background="@drawable/recommenditem_shadow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                >
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/nuggi"
+                    setting_icon_str="@{alcholRank.media.get(0).mediaResource.medium.src}"
+                    android:scaleType="fitCenter"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +73,7 @@
 
             <TextView
                 android:id="@+id/monthly_breweryName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:textColor="#333333"
@@ -78,6 +83,10 @@
                 android:text="@{alcholRank.brewery.get(0).name.toString()}"
                 android:paddingEnd="3dp"
                 android:textStyle="normal"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintEnd_toStartOf="@id/monthly_imageView"
                 app:layout_constraintTop_toTopOf="@id/monthly_imageView"
                 android:layout_marginTop="50dp"
@@ -85,22 +94,26 @@
 
             <TextView
                 android:id="@+id/monthly_alcholNameK"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="#333333"
                 android:gravity="end"
                 android:hint="천비향"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@{alcholRank.name.kr.toString()}"
                 android:textStyle="normal"
                 android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintTop_toBottomOf="@id/monthly_breweryName"
                 app:layout_constraintEnd_toEndOf="@id/monthly_breweryName"
                 />
 
             <TextView
                 android:id="@+id/monthly_alcholNameE"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:textColor="#c7c7c7"
@@ -110,13 +123,17 @@
                 android:hint="Cheon Bi Hyang Tak Ju"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintTop_toBottomOf="@id/monthly_alcholNameK"
                 app:layout_constraintEnd_toEndOf="@id/monthly_alcholNameK" />
 
             <TextView
                 android:id="@+id/monthly_breweryLocation"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textColor="#b1b1b1"
@@ -125,26 +142,31 @@
                 android:text="@{alcholRank.brewery.get(0).location.toString()}"
                 android:hint="경기도 평택시"
                 android:textStyle="normal"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintTop_toBottomOf="@id/monthly_alcholNameE"
                 app:layout_constraintEnd_toEndOf="@id/monthly_alcholNameE" />
 
             <TextView
                 android:id="@+id/monthly_bestComment"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textColor="#ffb95b"
                 android:layout_marginTop="5dp"
                 android:lineSpacingExtra="5sp"
-                android:layout_marginStart="6dp"
                 android:textStyle="normal"
                 android:text="저온숙성을 거친 프리미엄 막걸리"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:gravity="end"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintTop_toBottomOf="@id/monthly_breweryLocation"
-                app:layout_constraintEnd_toStartOf="@id/monthly_imageView"
+                app:layout_constraintEnd_toEndOf="@id/monthly_breweryLocation"
                 />
 
             <TextView
@@ -156,8 +178,7 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/monthly_bestComment"
                 app:layout_constraintBottom_toBottomOf="@id/monthly_imageView"
-                app:layout_constraintEnd_toStartOf="@id/monthly_imageView"
-                />
+                app:layout_constraintEnd_toStartOf="@id/monthly_imageView" />
 
             <View
                 android:id="@+id/monthly_boundary"

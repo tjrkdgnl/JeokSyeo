@@ -8,12 +8,5 @@ data class NavigationItem(
      var title:String) {
 
 
-    companion object{
-        ////이처럼 특수하게 static으로 인식해야 하는 상황에 사용해야한다.
-        @JvmStatic
-        @BindingAdapter("setting_icon")
-        fun setting_icon(imageView:ImageView,ResId:Int){
-            imageView.setImageResource(ResId)
-        }
-    }
+
 }

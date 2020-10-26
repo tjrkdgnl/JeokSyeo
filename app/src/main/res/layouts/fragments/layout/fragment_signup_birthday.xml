@@ -9,7 +9,6 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-
         <TextView
             android:id="@+id/plz_birthdayText"
             android:layout_width="wrap_content"
@@ -110,54 +109,14 @@
 
         </LinearLayout>
 
-
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/signUp_expandableLayout"
+        <include
+            android:id="@+id/basic_datePicker"
+            layout="@layout/basic_datepicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:el_expanded="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/birthdayLinearLayout">
+            app:layout_constraintTop_toBottomOf="@id/birthdayLinearLayout"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:background="@drawable/expandable_outline"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_height="wrap_content">
-
-                <DatePicker
-                    android:id="@+id/datePicker"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:calendarViewShown="false"
-                    android:datePickerMode="spinner"
-                    android:spinnersShown="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/dateConfirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:text="확인"
-                    android:onClick="onClick"
-                    android:textColor="@color/light_grey"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/datePicker" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </net.cachapa.expandablelayout.ExpandableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.SignUpViewModel
@@ -83,7 +84,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                             binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
                             binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
                         }
-                    }, {t -> t.stackTrace})
+                    }, {t ->Log.e(ErrorManager.NICKNAME_DUPLICATE,t.message.toString())})
             } else {
                 binding.checkNickNameText.visibility = View.VISIBLE
                 binding.checkNickNameText.text = getString(R.string.dontUseNickName)

@@ -14,6 +14,7 @@ import com.application.GlobalApplication
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentSignupBirthdayBinding
+import java.util.*
 
 class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnClickListener {
     private lateinit var viewmodel: SignUpViewModel
@@ -40,11 +41,13 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         binding.lifecycleOwner =this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
+        binding.basicDatePicker.datePicker.maxDate = Calendar.getInstance().time.time
+
         binding.birthdayLinearLayout.setOnClickListener(this)
-        binding.dateConfirm.setOnClickListener(this)
+        binding.basicDatePicker.buttonDatePickerOk.setOnClickListener(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            binding.datePicker.setOnDateChangedListener(this)
+            binding.basicDatePicker.datePicker.setOnDateChangedListener(this)
         }
 
         return binding.root
@@ -70,18 +73,15 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.dateConfirm ->{
-                if(binding.signUpExpandableLayout.isExpanded){
-                    binding.signUpExpandableLayout.collapse()
-                    viewmodel.buttonState.value=true
-                }
+            R.id.birthdayLinearLayout -> {
+                binding.basicDatePicker.ExpandableDatePicker.toggle()
             }
 
-            R.id.birthdayLinearLayout ->{
-                if(binding.signUpExpandableLayout.isExpanded)
-                    binding.signUpExpandableLayout.collapse()
-                else
-                    binding.signUpExpandableLayout.expand()
+            R.id.button_datePicker_ok ->{
+                if(binding.basicDatePicker.ExpandableDatePicker.isExpanded){
+                    binding.basicDatePicker.ExpandableDatePicker.collapse()
+                    viewmodel.buttonState.value=true
+                }
             }
         }
     }

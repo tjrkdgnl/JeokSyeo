@@ -2,6 +2,7 @@ package com.model.alchol_ranking
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.model.recommend_alchol.Class
 import com.model.recommend_alchol.Medium
 import com.model.recommend_alchol.Name
 

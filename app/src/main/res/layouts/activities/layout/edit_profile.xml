@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageButton
+                android:id="@+id/editProfile_G_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="42dp"
+                android:background="@color/transparent"
+                android:onClick="onClick"
+                android:src="@mipmap/btn_top_back"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toStartOf="@id/editProfile_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/editProfile_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="3sp"
+                android:text="회원정보 수정"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/editProfile_G_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/editProfile_G_back" />
+
+            <ImageView
+                android:id="@+id/editProfile_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/userInfo_imageView_myProfile_marginTop"
+                android:background="@mipmap/user_profile"
+                android:onClick="onClick"
+                android:src="@mipmap/review_profile"
+                app:layout_constraintBottom_toTopOf="@id/textView_writeNickname"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editProfile_title" />
+
+            <ImageButton
+                android:id="@+id/editProfile_G_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:onClick="onClick"
+                android:src="@mipmap/btn_edit_profile"
+                app:layout_constraintBottom_toBottomOf="@id/editProfile_img"
+                app:layout_constraintEnd_toEndOf="@id/editProfile_img" />
+
+            <TextView
+                android:id="@+id/textView_writeNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/userInfo_textView_writeNickname_marginLeft"
+                android:layout_marginTop="@dimen/userInfo_textView_writeNickname_marginTop"
+                android:lineSpacingExtra="4sp"
+                android:text="닉네임"
+                android:textColor="@color/black"
+                android:textSize="@dimen/edit_Profile_nickNameSize"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editProfile_img" />
+
+            <LinearLayout
+                android:id="@+id/insertNameLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:background="@drawable/bottom_line"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_writeNickname"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/insertInfo_editText"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:hint="닉네임을 입력하세요"
+                    android:textSize="16sp"
+                    android:maxLength="8"
+                    android:textStyle="bold"
+                    android:theme="@style/cursorColor"
+                    android:textCursorDrawable="@color/orange"
+                    android:backgroundTint="@color/transparent"
+                    android:maxLines="1"
+                    android:layout_weight="1.8" />
+                <TextView
+                    android:id="@+id/checkNickNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="사용 불가능한 닉네임입니다."
+                    android:visibility="invisible"
+                    android:maxLines="1"
+                    android:textSize="12sp"
+                    android:layout_weight="1.2"
+                    android:gravity="right"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/edit_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:lineSpacingExtra="4sp"
+                android:text="나이"
+                android:textColor="#000000"
+                android:textSize="@dimen/edit_Profile_nickNameSize"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/textView_writeNickname"
+                app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
+
+            <LinearLayout
+                android:id="@+id/birthdayLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="9"
+                android:onClick="onClick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_age"
+                app:layout_constraintVertical_bias="0"
+                >
+
+                <TextView
+                    android:id="@+id/birthday_year"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:background="@drawable/bottom_line"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:hint="1994"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="년"
+                    android:textColor="@color/black"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:id="@+id/birthday_month"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:hint="08"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:background="@drawable/bottom_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="월"
+                    android:textColor="@color/black"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:id="@+id/birthday_day"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:hint="18"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:background="@drawable/bottom_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="일"
+                    android:textColor="@color/black"
+                    android:textSize="23sp" />
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/editProfile_basicDatePicker"
+                layout="@layout/basic_datepicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/birthdayLinearLayout" />
+
+
+            <TextView
+                android:id="@+id/textView_writeGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:lineSpacingExtra="4sp"
+                android:text="성별"
+                android:textColor="@color/black"
+                android:textSize="@dimen/edit_Profile_nickNameSize"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/textView_writeNickname"
+                app:layout_constraintTop_toBottomOf="@id/editProfile_basicDatePicker" />
+
+
+            <ImageView
+                android:id="@+id/editProfile_G_imageButton_gender_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:onClick="onClick"
+                android:src="@mipmap/gender_checkbox_empty"
+                app:layout_constraintStart_toStartOf="@id/textView_writeGender"
+                app:layout_constraintTop_toBottomOf="@id/textView_writeGender" />
+
+            <TextView
+                android:id="@+id/textView_gender_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lineSpacingExtra="5sp"
+                android:text="남"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/editProfile_G_imageButton_gender_man"
+                app:layout_constraintStart_toEndOf="@id/editProfile_G_imageButton_gender_man"
+                app:layout_constraintTop_toTopOf="@id/editProfile_G_imageButton_gender_man" />
+
+            <ImageView
+                android:id="@+id/editProfile_G_imageButton_gender_woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:onClick="onClick"
+                android:src="@mipmap/gender_checkbox_empty"
+                app:layout_constraintStart_toEndOf="@+id/textView_gender_man"
+                app:layout_constraintTop_toBottomOf="@id/textView_writeGender" />
+
+            <TextView
+                android:id="@+id/textView_gender_woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="5sp"
+                android:text="여"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/editProfile_G_imageButton_gender_woman"
+                app:layout_constraintStart_toEndOf="@id/editProfile_G_imageButton_gender_woman"
+                app:layout_constraintTop_toTopOf="@id/editProfile_G_imageButton_gender_woman" />
+
+
+            <Button
+                android:id="@+id/editProfile_G_okButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ok_button_size"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/evalution_button_shape"
+                android:onClick="onClick"
+                android:text="확인"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_gender_man" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
+

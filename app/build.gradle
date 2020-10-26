@@ -19,6 +19,7 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layouts/test',
                     'src/main/res/layouts/headers',
                     'src/main/res/layouts/custom',
                     'src/main/res/layouts/adapter_items',
@@ -129,6 +130,10 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
+    //카메라
+
+    implementation "gun0912.ted:tedpermission:2.1.0"
+    implementation 'com.github.yalantis:ucrop:2.2.6'
 
 }
 

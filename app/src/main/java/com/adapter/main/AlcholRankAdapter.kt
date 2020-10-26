@@ -1,6 +1,8 @@
 package com.adapter.main
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcholRankViewHolder
@@ -15,8 +17,10 @@ class AlcholRankAdapter(
         return AlcholRankViewHolder(parent)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: AlcholRankViewHolder, position: Int) {
         holder.bind(lst[position])
+        holder.getViewBinding().rankingText.text = (position+1).toString()
     }
 
     override fun getItemCount(): Int {

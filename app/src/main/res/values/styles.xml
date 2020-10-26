@@ -19,4 +19,10 @@
         <item name="android:windowMinWidthMinor">75%</item>
     </style>
 
+
+    //커서 색깔
+    <style name="cursorColor">
+        <item name="colorControlActivated">@color/light_yellow</item>
+    </style>
+
 </resources>

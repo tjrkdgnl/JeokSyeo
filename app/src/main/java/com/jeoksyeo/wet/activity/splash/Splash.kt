@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.splash
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
@@ -31,6 +32,11 @@ class Splash : AppCompatActivity() {
 
 
         JWTUtil.settingUserInfo()
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        GlobalApplication.device_width = displayMetrics.widthPixels
+        GlobalApplication.device_height = displayMetrics.heightPixels
 
 
         handler.postDelayed(Runnable {
