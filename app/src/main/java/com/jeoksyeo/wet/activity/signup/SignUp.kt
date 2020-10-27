@@ -121,6 +121,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
                     JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
                     startActivity(Intent(this, MainActivity::class.java))
                     Toast.makeText(this, "회원가입을 축하드립니다!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this,MainActivity::class.java))
                     finish()
                 }, { t: Throwable -> t.stackTrace })
         }

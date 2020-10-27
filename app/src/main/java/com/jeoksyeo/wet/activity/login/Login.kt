@@ -48,7 +48,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var disposable: Disposable
     private lateinit var refreshDisposable: Disposable
-    private lateinit var progressDialog: Dialog
+
     init {
         loginObj = this
     }
@@ -66,7 +66,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
         binding.googleLoginButton.setOnClickListener(this)
         binding.appleLoginButton.setOnClickListener(this)
 
-        Log.e("현재 로그인 유저",FirebaseAuth.getInstance().currentUser?.email.toString())
     }
 
     private fun kakaoExcute() {
@@ -135,7 +134,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try {
-            progressDialog.show()
+            executeProgressBar(this,true)
             val account = task.getResult(ApiException::class.java)
 
             //구글 소셜 로그인을 파이어베이스에 넘겨줌.
@@ -186,6 +185,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result: GetUserData ->
+                //프로그래스바 종료
                 executeProgressBar(this,false)
 
                 //토큰이 있다는 것은 로그인 정보가 있다는 것. 여기서 액티비티 핸들링하기.
@@ -195,7 +195,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
                     JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
                     Toast.makeText(this,"로그인",Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
+
+                    //인텐트가 시작되는 시점에서 flag를 달아야지만 제대로 flag 기능이 작동한다.
+                    //이전의 활동에서는 새로운 인텐트가 시작되는지 모르기때문에 flag 기능이 제대로 작동하지 않는다.
+                    startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     finish()
                 }
                 //회원가입

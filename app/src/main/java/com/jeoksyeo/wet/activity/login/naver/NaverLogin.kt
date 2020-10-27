@@ -103,11 +103,8 @@ class NaverLogin(private val mContext: Context) {
             GlobalApplication.userDataBase.setAccessTokenExpire(null)
             GlobalApplication.userDataBase.setRefreshToken(null)
 
-            if (mContext is MainActivity)
-                mContext.refresh()
-            else {
-                //카테고리 화면에서 초기화 진행
-            }
+            mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            (mContext as Activity).finish()
             Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
@@ -139,7 +136,7 @@ class NaverLogin(private val mContext: Context) {
                     GlobalApplication.userDataBase.setRefreshToken(null)
 
                     Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
-                    mContext.startActivity(Intent(mContext, MainActivity::class.java))
+                    mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     (mContext as Activity).finish()
                     dialog.dismiss()
                 }

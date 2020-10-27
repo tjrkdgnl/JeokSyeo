@@ -71,18 +71,17 @@ class KakaoLogin(private val context: Context) {
                 } else {
                     Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                 }
-                if (context is MainActivity)
-                    context.refresh()
-                else {
-                    //카테고리 화면에서 초기화 진행
-                }
             }
+
             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             GlobalApplication.userInfo.init()
             GlobalApplication.userDataBase.setAccessToken(null)
             GlobalApplication.userDataBase.setRefreshToken(null)
             GlobalApplication.userDataBase.setAccessTokenExpire(null)
             GlobalApplication.userDataBase.setRefreshToken(null)
+
+            context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            (context as Activity).finish()
             dialog.dismiss()
         }
 
@@ -116,7 +115,7 @@ class KakaoLogin(private val context: Context) {
                     GlobalApplication.userDataBase.setAccessTokenExpire(null)
                     GlobalApplication.userDataBase.setRefreshToken(null)
 
-                    context.startActivity(Intent(context,MainActivity::class.java))
+                    context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     (context as Activity).finish()
                     Toast.makeText(context, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
                 }
