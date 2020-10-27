@@ -103,8 +103,12 @@ class NaverLogin(private val mContext: Context) {
             GlobalApplication.userDataBase.setAccessTokenExpire(null)
             GlobalApplication.userDataBase.setRefreshToken(null)
 
-            mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-            (mContext as Activity).finish()
+
+            mContext.startActivity(Intent(mContext,MainActivity::class.java))
+            if(mContext is MainActivity){
+                mContext.finish()
+                mContext.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+            }
             Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
@@ -137,7 +141,10 @@ class NaverLogin(private val mContext: Context) {
 
                     Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
                     mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    (mContext as Activity).finish()
+                    if(mContext is Activity){
+                        mContext.finish()
+                        mContext.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                    }
                     dialog.dismiss()
                 }
             }

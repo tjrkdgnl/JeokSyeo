@@ -80,8 +80,12 @@ class KakaoLogin(private val context: Context) {
             GlobalApplication.userDataBase.setAccessTokenExpire(null)
             GlobalApplication.userDataBase.setRefreshToken(null)
 
-            context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-            (context as Activity).finish()
+
+            context.startActivity(Intent(context,MainActivity::class.java))
+            if(context is MainActivity){
+                context.finish()
+                context.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+            }
             dialog.dismiss()
         }
 
@@ -116,7 +120,10 @@ class KakaoLogin(private val context: Context) {
                     GlobalApplication.userDataBase.setRefreshToken(null)
 
                     context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    (context as Activity).finish()
+                    if(context is Activity){
+                        context.finish()
+                        context.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                    }
                     Toast.makeText(context, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
