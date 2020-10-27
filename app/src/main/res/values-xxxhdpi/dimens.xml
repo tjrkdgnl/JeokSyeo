@@ -66,7 +66,7 @@
 
     //basic
     <dimen name="basic_backbutton_marginBottom">15dp</dimen>
-    <dimen name="basic_title_textSize">17sp</dimen>
+    <dimen name="basic_title_textSize">18sp</dimen>
 
     //basicProfile
     <dimen name="basic_profileSize">51dp</dimen>

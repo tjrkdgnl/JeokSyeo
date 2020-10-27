@@ -12,4 +12,5 @@
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
     <string name="delete_app">탈퇴하시겠습니까?</string>
     <string name="logout_msg">로그아웃하시겠습니까?</string>
+    <string name="app_version">1.0.0</string>
 </resources>

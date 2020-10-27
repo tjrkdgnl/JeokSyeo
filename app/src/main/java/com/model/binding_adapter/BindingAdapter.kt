@@ -1,4 +1,4 @@
-package com.model
+package com.model.binding_adapter
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -6,7 +6,6 @@ import com.bumptech.glide.Glide
 import com.custom.BitMapTransformation
 
 class BindingAdapter {
-    
     companion object{
         @JvmStatic
         @BindingAdapter("setting_icon_Res")
@@ -23,5 +22,4 @@ class BindingAdapter {
                 .into(imageView)
         }
     }
-    
 }

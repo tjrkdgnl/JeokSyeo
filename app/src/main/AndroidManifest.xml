@@ -33,6 +33,8 @@
         <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
         </activity>
 
+        <activity android:name="com.jeoksyeo.wet.activity.setting.SettingActivity"/>
+
         <activity android:name="com.jeoksyeo.wet.activity.editprofile.EditProfile">
         </activity>
 

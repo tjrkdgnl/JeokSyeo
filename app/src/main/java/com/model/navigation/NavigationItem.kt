@@ -7,6 +7,4 @@ data class NavigationItem(
      var icon:Int,
      var title:String) {
 
-
-
 }

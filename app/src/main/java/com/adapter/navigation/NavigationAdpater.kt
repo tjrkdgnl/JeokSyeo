@@ -15,6 +15,7 @@ import com.jeoksyeo.wet.activity.login.google.GoogleLogin
 import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.jeoksyeo.wet.activity.setting.SettingActivity
 import com.model.navigation.NavigationItem
 
 class NavigationAdpater(
@@ -33,7 +34,7 @@ class NavigationAdpater(
         holder.getViewBinding().navigationLinearLayout.setOnClickListener {
 
             when (position) {
-                0 -> { }
+                0 -> {context.startActivity(Intent(context,SettingActivity::class.java)) }
                 1 -> {plzLogin(1)}
                 2 -> {plzLogin(2) }
                 3 -> {plzLogin(3) }
@@ -52,7 +53,7 @@ class NavigationAdpater(
         check?.let {
             if (it.equals("로그아웃")) {
                 when (provider) {
-                    "NAVER" -> { NaverLogin(context).naverLogOut(context) }
+                    "NAVER" -> { NaverLogin(context).naverLogOut() }
                     "KAKAO" -> { KakaoLogin(context).kakaoLogOut() }
                     "GOOGLE" -> { GoogleLogin(context,activity).googleLogOut() }
                     "APPLE" -> { AppleLogin(context,activity).appleSignOut() }
@@ -76,5 +77,4 @@ class NavigationAdpater(
 
         } ?: CustomDialog.loginDialog(context,0)
     }
-
 }

@@ -1,9 +1,14 @@
 package com.jeoksyeo.wet.activity.login
 
+import android.app.Activity
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -13,6 +18,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.jeoksyeo.wet.activity.signup.SignUp
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
@@ -42,7 +48,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var disposable: Disposable
     private lateinit var refreshDisposable: Disposable
-
+    private lateinit var progressDialog: Dialog
     init {
         loginObj = this
     }
@@ -59,17 +65,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
         binding.naverLoginButton.setOnClickListener(this)
         binding.googleLoginButton.setOnClickListener(this)
         binding.appleLoginButton.setOnClickListener(this)
-        binding.delete.setOnClickListener(this)
-        binding.kakaologout.setOnClickListener(this)
-        binding.kakaodelete.setOnClickListener(this)
-        binding.naverDelete.setOnClickListener(this)
-        binding.naverlogout.setOnClickListener(this)
 
         Log.e("현재 로그인 유저",FirebaseAuth.getInstance().currentUser?.email.toString())
     }
 
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)
+        executeProgressBar(this,true)
         if (kakaoLogin.instance.isKakaoTalkLoginAvailable(this))
             kakaoLogin.instance.loginWithKakaoTalk(this, callback = kakaoLogin.callback)
         else
@@ -78,6 +80,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun naverExecute() {
         naverLogin = NaverLogin(this)
+        executeProgressBar(this,true)
         naverLogin.instance.startOauthLoginActivity(this, naverLogin.naverLoginHandler)
     }
 
@@ -89,8 +92,19 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private fun appleExecute() {
         appleLogin = AppleLogin(this,this)
         appleLogin.loginExecute()
+        executeProgressBar(this,true)
     }
 
+    private fun executeProgressBar(activity: Activity,setting:Boolean){
+        if(setting){
+            binding.loginProgressBar.root.visibility = View.VISIBLE
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        else{
+            binding.loginProgressBar.root.visibility = View.INVISIBLE
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
 
 
     override fun onClick(v: View?) {
@@ -104,23 +118,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
             R.id.appleLogin_button -> appleExecute()
 
 //            R.id.refreshButton-> refresh()
-
-            R.id.logout -> {
-                FirebaseAuth.getInstance().signOut()
-            }
-
-            R.id.delete->{
-                FirebaseAuth.getInstance().currentUser?.delete()?.addOnCompleteListener(this,
-                    OnCompleteListener {
-                        if (it.isSuccessful) {
-                            //삭제후 핸들링
-                            Log.e("삭제",FirebaseAuth.getInstance().currentUser?.email.toString())
-                        }
-
-                    })?.addOnFailureListener {
-                    it.stackTrace
-                }
-            }
 
             else -> {
             }
@@ -138,6 +135,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try {
+            progressDialog.show()
             val account = task.getResult(ApiException::class.java)
 
             //구글 소셜 로그인을 파이어베이스에 넘겨줌.
@@ -188,6 +186,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result: GetUserData ->
+                executeProgressBar(this,false)
 
                 //토큰이 있다는 것은 로그인 정보가 있다는 것. 여기서 액티비티 핸들링하기.
                 if (result.data?.token != null) {
@@ -195,7 +194,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     GlobalApplication.userDataBase.setRefreshToken(result.data?.token?.refreshToken)
                     JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
                     JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
-
+                    Toast.makeText(this,"로그인",Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
@@ -219,6 +218,9 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     intent.putExtra("userBundle",bundle)
                     startActivity(intent)
                 }
-            }, { t: Throwable? -> t?.stackTrace })
+            }, { t: Throwable? ->
+                t?.stackTrace
+                executeProgressBar(this,false)
+            })
     }
 }

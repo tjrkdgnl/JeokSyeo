@@ -66,60 +66,14 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"/>
 
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toTopOf="@id/naverLogin_Button"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="로그아웃"/>
-
-        <Button
-            android:id="@+id/kakaologout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toTopOf="@id/logout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="카카오 로그아웃"/>
-
-        <Button
-            android:id="@+id/naverlogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toTopOf="@id/kakaologout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="네이버 로그아웃"/>
-
-
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toTopOf="@id/naverLogin_Button"
+        <include
+            android:id="@+id/login_progressBar"
+            layout="@layout/progressbar"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="삭제"/>
-
-        <Button
-            android:id="@+id/kakaodelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/delete"
-            android:text="카카오 삭제"/>
-
-        <Button
-            android:id="@+id/naverDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/kakaodelete"
-            android:text="네이버삭제 삭제"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

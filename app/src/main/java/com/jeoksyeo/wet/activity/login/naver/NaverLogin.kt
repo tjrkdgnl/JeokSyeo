@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.login.naver
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -72,9 +73,9 @@ class NaverLogin(private val mContext: Context) {
         }
     }
 
-        private fun parsingUserInfo(userJson: String) {
-            val jsonObject = JSONObject(userJson)
-            val response = jsonObject.getJSONObject("response")
+    private fun parsingUserInfo(userJson: String) {
+        val jsonObject = JSONObject(userJson)
+        val response = jsonObject.getJSONObject("response")
 
         Log.e("response", response.toString())
 
@@ -82,8 +83,8 @@ class NaverLogin(private val mContext: Context) {
         mContext.startActivity(Intent(mContext, SignUp::class.java))
     }
 
-    fun naverLogOut(context:Context) {
-        val dialog = Dialog(context, R.style.Theme_Dialog)
+    fun naverLogOut() {
+        val dialog = Dialog(mContext, R.style.Theme_Dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)
@@ -97,29 +98,53 @@ class NaverLogin(private val mContext: Context) {
         okButton.setOnClickListener { v: View? ->
             instance.logout(mContext)
             GlobalApplication.userInfo.init()
-            if(context is MainActivity)
-                context.refresh()
-            else{
+            GlobalApplication.userDataBase.setAccessToken(null)
+            GlobalApplication.userDataBase.setRefreshToken(null)
+            GlobalApplication.userDataBase.setAccessTokenExpire(null)
+            GlobalApplication.userDataBase.setRefreshToken(null)
+
+            if (mContext is MainActivity)
+                mContext.refresh()
+            else {
                 //카테고리 화면에서 초기화 진행
             }
-            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
-
     }
 
     fun naverDelete() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val success = instance.logoutAndDeleteToken(mContext)
+        val dialog = Dialog(mContext, R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.custom_dialog)
+        dialog.show()
+        val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+        val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
+        val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+        okButton.text = "회원탈퇴"
+        contents.setText(R.string.delete_app)
 
-            withContext(Dispatchers.Main){
-                if (success) {
-                    Log.e("네이버삭제","성공")
-                } else {
-                    Log.e("네이버삭제","실패")
+        okButton.setOnClickListener { v: View? ->
+            CoroutineScope(Dispatchers.IO).launch {
+              instance.logoutAndDeleteToken(mContext)
+
+                withContext(Dispatchers.Main) {
+                    //서버 자체에서 탈퇴를 진행하는 api도 실행하기
+                    GlobalApplication.userInfo.init()
+                    GlobalApplication.userDataBase.setAccessToken(null)
+                    GlobalApplication.userDataBase.setRefreshToken(null)
+                    GlobalApplication.userDataBase.setAccessTokenExpire(null)
+                    GlobalApplication.userDataBase.setRefreshToken(null)
+
+                    Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
+                    mContext.startActivity(Intent(mContext, MainActivity::class.java))
+                    (mContext as Activity).finish()
+                    dialog.dismiss()
                 }
             }
         }
+        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
     }
 }
