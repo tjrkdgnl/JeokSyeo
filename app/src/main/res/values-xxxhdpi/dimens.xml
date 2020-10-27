@@ -25,12 +25,14 @@
 
     //recommand item
     <dimen name="recommand_alcholName">20sp</dimen>
+    <dimen name="recommand_alcholNumber">16sp</dimen>
 
 
     //ActivityMainWindow
     <dimen name="categoryButtonSize">70dp</dimen>
     <dimen name="autoViewPager_height">245dp</dimen>
-    <dimen name="main_text_defaultSize">21sp</dimen>
+    <dimen name="main_text_defaultSize">23sp</dimen>
+    <dimen name="main_text_miniSize">21sp</dimen>
     <dimen name="alchol_button_textSize">13sp</dimen>
     <dimen name="autoViewPager_textSize">12sp</dimen>
     <dimen name="whatIsQuestion_textSize">10sp</dimen>

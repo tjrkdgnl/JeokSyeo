@@ -22,9 +22,6 @@ class GlobalApplication : Application() {
         userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)
         RxjavaErrorHandling()
-
-
-
     }
 
     companion object {

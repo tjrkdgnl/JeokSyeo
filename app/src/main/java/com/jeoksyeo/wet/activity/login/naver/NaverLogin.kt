@@ -1,14 +1,26 @@
 package com.jeoksyeo.wet.activity.login.naver
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
+import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.signup.SignUp
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.error.ErrorManager
+import com.jeoksyeo.wet.activity.main.MainActivity
+import com.model.user.UserInfo
+import com.vuforia.engine.wet.R
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.lang.Exception
@@ -70,8 +82,31 @@ class NaverLogin(private val mContext: Context) {
         mContext.startActivity(Intent(mContext, SignUp::class.java))
     }
 
-    fun naverLogOut() {
-        instance.logout(mContext)
+    fun naverLogOut(context:Context) {
+        val dialog = Dialog(context, R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.custom_dialog)
+        dialog.show()
+        val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+        val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
+        val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+        okButton.text = "로그아웃"
+        contents.setText(R.string.logout_msg)
+
+        okButton.setOnClickListener { v: View? ->
+            instance.logout(mContext)
+            GlobalApplication.userInfo.init()
+            if(context is MainActivity)
+                context.refresh()
+            else{
+                //카테고리 화면에서 초기화 진행
+            }
+            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+
     }
 
     fun naverDelete() {

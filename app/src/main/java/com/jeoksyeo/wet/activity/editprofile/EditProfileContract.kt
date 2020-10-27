@@ -23,6 +23,8 @@ interface EditProfileContract {
 
         fun checkNickName(context: Context,name:String)
 
+        fun checkLogin(context: Context,provider:String?)
+
     }
 
 

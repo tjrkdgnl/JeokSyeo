@@ -54,4 +54,24 @@ class Presenter : EditProfileContract.BasePresenter {
             view.getView().checkNickNameText.visibility = View.INVISIBLE
         }
     }
+
+    override fun checkLogin(context: Context, provider: String?) {
+        provider?.let {
+            view.getView().insertInfoEditText.setText(GlobalApplication.userInfo.getNickName())
+
+            GlobalApplication.userInfo.getBirthDay()?.let {
+                val birth = it.split("-")
+                view.getView().birthdayYear.text = birth.get(0)
+                view.getView().birthdayMonth.text = birth.get(1)
+                view.getView().birthdayDay.text = birth.get(2)
+            }
+            GlobalApplication.userInfo.getGender()?.let {
+                if(it.equals("M")){
+                    view.setGender_Man()
+                }
+                else
+                    view.setGender_Woman()
+            }
+            }
+    }
 }

@@ -1,11 +1,14 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import com.application.GlobalApplication
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -23,15 +26,21 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView , View.OnClickLi
         presenter = Presenter().apply {
             view = this@MainActivity
         }
-
         presenter.initCarouselViewPager(this)
         presenter.initRecommendViewPager(this)
-        presenter.initNavigationItemSet(this)
+        presenter.initNavigationItemSet(this,this,GlobalApplication.userInfo.getProvider())
         presenter.initAlcholRanking(this)
+
+        presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
+
     }
 
     override fun getView():MainBinding {
         return binding
+    }
+
+    override fun refresh() {
+        startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     override fun onClick(v: View?) {

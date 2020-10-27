@@ -47,10 +47,11 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.edit_profile)
 
-
         presenter = Presenter().apply {
             view = this@EditProfile
         }
+        presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
+
 
         binding.insertInfoEditText.setOnKeyListener(this)
         binding.insertInfoEditText.addTextChangedListener(this)
@@ -58,8 +59,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             binding.editProfileBasicDatePicker.datePicker.setOnDateChangedListener(this)
         }
 
-        binding.editProfileBasicDatePicker.datePicker.maxDate = Calendar.getInstance().time.time
-
+        //datePicker 최대 날짜 설정
     }
 
     private fun CameraPermission() {

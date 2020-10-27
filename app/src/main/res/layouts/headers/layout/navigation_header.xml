@@ -16,7 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
-            android:id="@+id/navigation_header_drawerProfile"
+            android:id="@+id/navigation_header_Profile"
             android:layout_width="62dp"
             android:layout_height="62dp"
             android:src="@mipmap/review_profile"
@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/navigation_header_drawerName"
+            android:id="@+id/navigation_header_Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -32,8 +32,8 @@
             android:lineSpacingExtra="3sp"
             android:textStyle="bold"
             android:text="안녕하세요,\n로그인하시겠어요?"
-            app:layout_constraintTop_toTopOf="@id/navigation_header_drawerProfile"
-            app:layout_constraintStart_toEndOf="@id/navigation_header_drawerProfile"
+            app:layout_constraintTop_toTopOf="@id/navigation_header_Profile"
+            app:layout_constraintStart_toEndOf="@id/navigation_header_Profile"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="7dp" />
 

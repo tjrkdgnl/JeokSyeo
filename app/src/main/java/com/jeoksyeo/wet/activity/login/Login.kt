@@ -87,9 +87,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun appleExecute() {
-        appleLogin = AppleLogin(this)
+        appleLogin = AppleLogin(this,this)
         appleLogin.loginExecute()
     }
+
 
 
     override fun onClick(v: View?) {
@@ -120,14 +121,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     it.stackTrace
                 }
             }
-
-            R.id.kakaodelete ->{kakaoLogin.kakaoDelete()}
-
-            R.id.kakaologout ->{kakaoLogin.kakaoLogOut()}
-
-            R.id.naverDelete ->{naverLogin.naverDelete()}
-
-            R.id.naverlogout->{naverLogin.naverLogOut()}
 
             else -> {
             }

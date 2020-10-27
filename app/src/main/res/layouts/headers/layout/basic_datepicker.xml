@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:el_duration="230"
-        app:el_expanded="true"
+        app:el_expanded="false"
         app:el_parallax="0.5">
 
         <androidx.constraintlayout.widget.ConstraintLayout

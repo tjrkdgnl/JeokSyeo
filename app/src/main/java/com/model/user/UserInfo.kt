@@ -18,12 +18,32 @@ class UserInfo {
     private var refreshToken: String? = null
     private var profileURL: String? = null
     private var infoMap = HashMap<String, Any>()
-    private var address:String? =null
+    private var address: String? = null
 
     fun getMap() = infoMap
 
     fun getAccessToken() = accessToken
     fun getRefreshToken() = refreshToken
+    fun getNickName() = nickName
+    fun getBirthDay() = birthDay
+    fun getProfile() = profileURL
+    fun getGender() = gender
+    fun getProvider() = provider
+
+    fun init() {
+        user_id = null
+        oauth_token = null
+        provider = null
+        email = null
+        nickName = null
+        birthDay = null
+        gender = null
+        accessToken = null
+        refreshToken = null
+        profileURL = null
+        infoMap = HashMap<String, Any>()
+        address = null
+    }
 
     class Builder(private var id: String) {
         private var user_id: String? = null
@@ -37,7 +57,7 @@ class UserInfo {
         private var refreshToken: String? = null
         private var profileImgFile: File? = null
         private var profileImgURL: String? = null
-        private var address:String? =null
+        private var address: String? = null
 
         fun setOAuthId(user_id: String?): Builder {
             this.user_id = user_id
@@ -94,8 +114,8 @@ class UserInfo {
             return this
         }
 
-        fun setAddress(address:String){
-            this.address =address
+        fun setAddress(address: String) {
+            this.address = address
         }
 
         //회원가입 1단계를 위해서 public get 설정
@@ -124,7 +144,7 @@ class UserInfo {
             this.gender?.let { userInfo.infoMap.put(GlobalApplication.GENDER, it) }
             this.nickName?.let { userInfo.infoMap.put(GlobalApplication.NICKNAME, it) }
             this.birthDay?.let { userInfo.infoMap.put(GlobalApplication.BIRTHDAY, it) }
-            this.address?.let { userInfo.infoMap.put(GlobalApplication.ADDRESS,it) }
+            this.address?.let { userInfo.infoMap.put(GlobalApplication.ADDRESS, it) }
 
             Log.e("user_id", userInfo.user_id.toString())
             Log.e("oauth_provider", userInfo.provider.toString())

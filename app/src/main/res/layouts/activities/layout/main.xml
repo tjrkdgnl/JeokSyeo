@@ -91,12 +91,24 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="25dp"
                         android:lineSpacingExtra="1sp"
-                        android:text="주종을 선택해주세요"
-                        android:textColor="#333333"
+                        android:text="주종을 "
+                        android:textColor="@color/black"
                         android:textSize="@dimen/main_text_defaultSize"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="25dp"
+                        android:lineSpacingExtra="1sp"
+                        android:text="선택해주세요"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/main_text_miniSize"
+                        app:layout_constraintBottom_toBottomOf="@id/activityMain_selectAlcholListText"
+                        app:layout_constraintStart_toEndOf="@id/activityMain_selectAlcholListText" />
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
@@ -257,19 +269,32 @@
 
                 <TextView
                     android:id="@+id/activityMain_howAboutAlcholsText"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:background="#f8f8f8"
+                    android:background="@color/white"
                     android:lineSpacingExtra="1sp"
                     android:paddingStart="12dp"
                     android:paddingTop="15dp"
-                    android:text="이런 술은 어떤가요?"
+                    android:text="이런 술은 "
                     android:textColor="#000000"
                     android:textSize="@dimen/main_text_defaultSize"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activityMain_alcholCategory" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/white"
+                    android:gravity="start"
+                    android:lineSpacingExtra="1sp"
+                    android:text="어떤가요?"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/main_text_miniSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/activityMain_howAboutAlcholsText"
+                    app:layout_constraintStart_toEndOf="@id/activityMain_howAboutAlcholsText" />
 
                 <LinearLayout
                     android:id="@+id/recommend_layout"
@@ -288,19 +313,40 @@
 
                 <TextView
                     android:id="@+id/appMain_monthlyTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/orange"
+                    android:background="@color/white"
                     android:lineSpacingExtra="9sp"
                     android:paddingStart="12dp"
-                    android:paddingBottom="15dp"
-                    android:text="이번달 주장"
-                    android:textColor="@color/white"
+                    android:paddingBottom="10dp"
+                    android:text="이번달 "
+                    android:textColor="@color/black"
                     android:textSize="@dimen/main_text_defaultSize"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recommend_layout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:lineSpacingExtra="9sp"
+                    android:paddingBottom="9dp"
+                    android:text="주장"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/main_text_miniSize"
+                    app:layout_constraintBottom_toTopOf="@id/monthly_recylcerView"
+                    app:layout_constraintStart_toEndOf="@id/appMain_monthlyTitle"
+                    app:layout_constraintTop_toBottomOf="@id/recommend_layout" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.45dp"
+                    android:background="@color/light_grey"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/monthly_recylcerView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/monthly_recylcerView"
@@ -330,8 +376,7 @@
             layout="@layout/drawer_navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
-            />
+            android:layout_gravity="end" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

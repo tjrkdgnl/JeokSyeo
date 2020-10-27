@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.util.Log
@@ -11,6 +12,7 @@ import com.adapter.main.BannerAdapter
 import com.adapter.main.RecommendAlcholAdapter
 import com.adapter.navigation.NavigationAdpater
 import com.application.GlobalApplication
+import com.bumptech.glide.Glide
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
 import com.model.navigation.NavigationItem
@@ -21,6 +23,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.drawer_navigation.view.*
+import kotlinx.android.synthetic.main.fragment_signup_request.view.*
+import kotlinx.android.synthetic.main.main.view.*
+import kotlinx.android.synthetic.main.main.view.basic_header
+import kotlinx.android.synthetic.main.navigation_header.view.*
 
 @SuppressLint("SetTextI18n")
 class Presenter : MainContract.BasePresenter {
@@ -75,7 +82,7 @@ class Presenter : MainContract.BasePresenter {
         view.getView().activityMainRecommendViewPager2.clipChildren =false
     }
 
-    override fun initNavigationItemSet(context: Context) {
+    override fun initNavigationItemSet(context: Context,activity:Activity,provider: String?) {
         val lst = mutableListOf<NavigationItem>()
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
         lst.add(NavigationItem(R.mipmap.nv_profile, "내 프로필"))
@@ -83,11 +90,12 @@ class Presenter : MainContract.BasePresenter {
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
         lst.add(NavigationItem(R.mipmap.qna_img, "문의사항"))
-        lst.add(NavigationItem(R.mipmap.navigation5_img, "로그인"))
+        lst.add(provider?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
+            ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 
         view.getView().mainNavigation.navigationContainer.setHasFixedSize(true)
         view.getView().mainNavigation.navigationContainer.layoutManager = LinearLayoutManager(context)
-        view.getView().mainNavigation.navigationContainer.adapter = NavigationAdpater(context,lst)
+        view.getView().mainNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst,GlobalApplication.userInfo.getProvider())
     }
 
     override fun initAlcholRanking(context: Context) {
@@ -105,7 +113,17 @@ class Presenter : MainContract.BasePresenter {
 
     }
 
+    override fun checkLogin(context: Context,provider: String?) {
+        provider?.let {
+            //유저 프로필 설정하는 화면 필요함
+
+            view.getView().mainDrawerLayout.main_navigation.navigation_header_Name.text=
+                GlobalApplication.userInfo.getNickName() + "님 안녕하세요" +"\n" //레벨을 적어야함.
+        }
+    }
+
     override fun detachView() {
         compositeDisposable.dispose()
     }
+
 }
