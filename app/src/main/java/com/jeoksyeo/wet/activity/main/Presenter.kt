@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,7 @@ class Presenter : MainContract.BasePresenter {
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private val handler = Handler()
+    private val bundle = Bundle()
     private val slideRunnable = Runnable {
         view.getView().mainBanner.currentItem  +=1
     }

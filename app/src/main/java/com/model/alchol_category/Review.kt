@@ -1,4 +1,4 @@
-package com.model.recommend_alchol
+package com.model.alchol_category
 
 import com.google.gson.annotations.Expose
 
@@ -9,4 +9,8 @@ class Review {
     @SerializedName("score")
     @Expose
     var score: Float? = null
+
+    @SerializedName("review_count")
+    @Expose
+    var reviewCount: Int? = null
 }

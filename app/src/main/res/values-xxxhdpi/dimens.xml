@@ -10,6 +10,7 @@
     <dimen name="actionBar_right">21dp</dimen>
     <dimen name="pageMargin">33dp</dimen>
     <dimen name="offset">30dp</dimen>
+    <dimen name="grid_layout_margin">1.5px</dimen>
     <dimen name="okbutton_textSize">19sp</dimen>
     <dimen name="thumb_size">6dp</dimen>
     <dimen name="thumb_text_size">16sp</dimen>

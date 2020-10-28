@@ -131,9 +131,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     //카메라
-
     implementation "gun0912.ted:tedpermission:2.1.0"
     implementation 'com.github.yalantis:ucrop:2.2.6'
+
+    //ratingbar
+    implementation 'com.github.ome450901:SimpleRatingBar:1.5.0'
 
 }
 

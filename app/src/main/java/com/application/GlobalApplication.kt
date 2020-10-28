@@ -13,7 +13,7 @@ import java.io.IOException
 import java.util.*
 
 class GlobalApplication : Application() {
-
+    private val typeList = listOf<String>("TR", "BE", "WI", "SA", "FO")
     override fun onCreate() {
         super.onCreate()
 
@@ -25,7 +25,7 @@ class GlobalApplication : Application() {
     }
 
     companion object {
-        var instance: Application = Application()
+        var instance = GlobalApplication()
             private set
 
         lateinit var userInfo: UserInfo
@@ -33,28 +33,36 @@ class GlobalApplication : Application() {
 
         lateinit var userDataBase: UserDB
 
-        var device_width=0
-        var device_height=0
+        var device_width = 0
+        var device_height = 0
 
         const val NICKNAME = "nickname"
         const val BIRTHDAY = "birth"
         const val GENDER = "gender"
         const val CONGRATULATION = "congratulation"
         const val LOCATION = "location"
-        const val USER_ID ="user_id"
-        const val OAUTH_PROVIDER ="oauth_provider"
-        const val OAUTH_TOKEN ="oauth_token"
-        const val REFRESH_TOKEN="refresh_token"
-        const val ADDRESS ="address"
+        const val USER_ID = "user_id"
+        const val OAUTH_PROVIDER = "oauth_provider"
+        const val OAUTH_TOKEN = "oauth_token"
+        const val REFRESH_TOKEN = "refresh_token"
+        const val ADDRESS = "address"
+        const val CATEGORY_SIZE = 5
+        const val MOVE_TYPE = "type"
+        const val PAGINATION_SIZE= 20
+        const val DEFAULT_SORT = "like"
+    }
+
+    public fun getAlcholType(positon: Int): String {
+        return typeList[positon]
     }
 
     private fun RxjavaErrorHandling() {
 
         RxJavaPlugins.setErrorHandler { e: Throwable? ->
-            var error =e
+            var error = e
 
             if (e is UndeliverableException) {
-                error= e.cause
+                error = e.cause
             }
             if (e is IOException) {
                 return@setErrorHandler
@@ -82,5 +90,6 @@ class GlobalApplication : Application() {
             }
         }
     }
+
 
 }

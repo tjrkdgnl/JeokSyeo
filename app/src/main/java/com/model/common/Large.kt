@@ -1,11 +1,11 @@
-package com.model.recommend_alchol
+package com.model.common
 
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
 
 
-class Small {
+class Large {
     @SerializedName("src")
     @Expose
     var src: String? = null

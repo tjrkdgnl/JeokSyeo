@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <data>
+        <variable
+            name="alchol"
+            type="com.model.alchol_category.AlcholList" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ligthGrey2"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageView_GridAhchol_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1.2dp"
+            >
+
+            <ImageView
+                setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src}"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gridItem_GridAhchol_img_height"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                tools:text="19%"
+                android:textSize="10sp"
+                android:text="@{alchol.abv.toString()}"
+                android:textColor="#3f3f3f"
+                android:layout_gravity="right"
+                android:layout_marginEnd="11dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner_degree" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView_GridAhchol_img">
+
+            <TextView
+                android:id="@+id/textView_GridAlcholName_K"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:lineSpacingExtra="4sp"
+                android:textColor="#333333"
+                android:text="@{alchol.name.kr.toString()}"
+                android:textSize="@dimen/gridItem_GridAlcholName_K_textSize"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="천비향" />
+
+            <TextView
+                android:id="@+id/textView_GridAlcholOrigin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="2dp"
+                android:lineSpacingExtra="2sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                android:maxLines="1"
+                android:text="@{alchol.brewery.get(0).name.toString()}"
+                android:ellipsize="end"
+                android:textSize="@dimen/gridItem_origin_textSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcholName_K"
+                tools:text="한국 경기도 평택" />
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_gridRatingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcholOrigin"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="false"
+                app:srb_drawableEmpty="@mipmap/middle_star_empty"
+                app:srb_drawableFilled="@mipmap/middle_star_full"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="0"
+                app:srb_scrollable="false"
+                app:srb_starPadding="1.5dp"
+                app:srb_stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/textView_gridRatingBarCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:lineSpacingExtra="3sp"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                android:textStyle="bold"
+                android:text="@{alchol.review.score.toString()}"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar_gridRatingbar"
+                app:layout_constraintStart_toEndOf="@id/ratingBar_gridRatingbar"
+                app:layout_constraintTop_toTopOf="@id/ratingBar_gridRatingbar"
+                tools:text="3.7" />
+
+            <ImageView
+                android:id="@+id/imageView_gridHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/gridItem_gridHeart_marginBottom"
+                android:background="@null"
+                android:src="@mipmap/small_heart_empty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textView_gridHeartCount"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar_gridRatingbar"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <TextView
+                android:id="@+id/textView_gridHeartCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="2dp"
+                android:lineSpacingExtra="3sp"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                android:text="@{alchol.likeCount.toString()}"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_gridHeart"
+                app:layout_constraintStart_toEndOf="@id/imageView_gridHeart"
+                app:layout_constraintTop_toTopOf="@id/imageView_gridHeart"
+                app:layout_constraintEnd_toStartOf="@id/imageView_gridcommnet"
+                tools:text="51" />
+
+            <ImageView
+                android:id="@+id/imageView_gridcommnet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12.1dp"
+                android:layout_marginTop="@dimen/gridItem_gridHeart_marginTop"
+                android:background="@null"
+                android:src="@mipmap/talk"
+                app:layout_constraintBottom_toBottomOf="@id/textView_gridHeartCount"
+                app:layout_constraintEnd_toStartOf="@id/textView_gridCommentCount"
+                app:layout_constraintStart_toEndOf="@id/textView_gridHeartCount"
+                app:layout_constraintTop_toTopOf="@id/textView_gridHeartCount"/>
+
+            <TextView
+                android:id="@+id/textView_gridCommentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:lineSpacingExtra="3sp"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                android:text="@{alchol.review.reviewCount.toString()}"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_gridcommnet"
+                app:layout_constraintStart_toEndOf="@id/imageView_gridcommnet"
+                app:layout_constraintTop_toTopOf="@id/imageView_gridcommnet"
+                app:layout_constraintEnd_toStartOf="@id/imageView_gridAlchol"
+                tools:text="60" />
+
+            <ImageView
+                android:id="@+id/imageView_gridAlchol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12.1dp"
+                android:background="@null"
+                android:src="@mipmap/eye"
+                app:layout_constraintTop_toTopOf="@id/textView_gridCommentCount"
+                app:layout_constraintBottom_toBottomOf="@id/textView_gridCommentCount"
+                app:layout_constraintStart_toEndOf="@id/textView_gridCommentCount"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar_gridRatingbar"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

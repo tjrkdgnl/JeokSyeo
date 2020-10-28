@@ -3,12 +3,12 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.jeoksyeo.wet.activity.alchol_category.AlcholCategory
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
     private lateinit var binding: MainBinding
     private lateinit var presenter: Presenter
     private var checkRefresh = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.main)
@@ -26,6 +27,12 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         presenter = Presenter().apply {
             view = this@MainActivity
         }
+        binding.activityMainKoreanAlchol.setOnClickListener(this)
+        binding.activityMainBeer.setOnClickListener(this)
+        binding.activityMainWine.setOnClickListener(this)
+        binding.activityMainWhisky.setOnClickListener(this)
+        binding.activityMainSake.setOnClickListener(this)
+
         presenter.initCarouselViewPager(this)
         presenter.initRecommendViewPager(this)
         presenter.initNavigationItemSet(this, this, GlobalApplication.userInfo.getProvider())
@@ -53,6 +60,25 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                     binding.mainDrawerLayout.openDrawer(GravityCompat.END)
                 }
             }
+            R.id.activityMain_koreanAlchol ->{
+                startActivity(Intent(this,AlcholCategory::class.java)
+                    .putExtra(GlobalApplication.MOVE_TYPE,0))}
+
+            R.id.activityMain_beer ->{
+                startActivity(Intent(this,AlcholCategory::class.java)
+                    .putExtra(GlobalApplication.MOVE_TYPE,1))}
+
+            R.id.activityMain_wine ->{
+                startActivity(Intent(this,AlcholCategory::class.java)
+                    .putExtra(GlobalApplication.MOVE_TYPE,2))}
+
+            R.id.activityMain_whisky ->{
+                startActivity(Intent(this,AlcholCategory::class.java)
+                    .putExtra(GlobalApplication.MOVE_TYPE,3))}
+
+            R.id.activityMain_sake->{
+                startActivity(Intent(this,AlcholCategory::class.java)
+                    .putExtra(GlobalApplication.MOVE_TYPE,4))}
         }
     }
 

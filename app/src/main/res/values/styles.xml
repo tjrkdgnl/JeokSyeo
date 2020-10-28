@@ -19,6 +19,10 @@
         <item name="android:windowMinWidthMinor">75%</item>
     </style>
 
+    <style name="TabLayoutSelectedTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 
     //커서 색깔
     <style name="cursorColor">

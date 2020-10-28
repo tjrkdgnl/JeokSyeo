@@ -3,6 +3,9 @@ package com.model.recommend_alchol
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+import com.model.common.Class
+import com.model.common.Medium
+import com.model.common.Name
 
 
 class AlcholList {

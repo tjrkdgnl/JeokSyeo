@@ -1,8 +1,9 @@
-package com.model.recommend_alchol
+package com.model.alchol_category
 
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+
 
 class Name {
     @SerializedName("kr")

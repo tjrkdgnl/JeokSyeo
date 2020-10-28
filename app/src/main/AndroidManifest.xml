@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vuforia.engine.wet"
-    tools:ignore="LockedOrientationActivity">
+    tools:ignore="LockedOrientationActivity"
+    >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -28,10 +29,13 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true"
+        tools:replace ="android:label"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
         </activity>
+
+        <activity android:name="com.jeoksyeo.wet.activity.alchol_category.AlcholCategory"/>
 
         <activity android:name="com.jeoksyeo.wet.activity.setting.SettingActivity"/>
 
