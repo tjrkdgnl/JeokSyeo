@@ -77,6 +77,8 @@ PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
         binding.viewPager2Container.currentItem = offset
     }
 
+
+    //현재 보여지고 있는 fragment 갱신
     fun executeSorting(sort:String){
        val fragment = presenter.getFragement(binding.viewPager2Container.currentItem)
         viewModel.currentSort = sort
@@ -85,20 +87,15 @@ PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
             fragment.changeSort(sort)
         }
         else if (fragment is Fragment_List){
-            //
+            fragment.changeSort(sort)
         }
     }
 
     override fun onClick(v: View?) {
         when(v?.id){
+            R.id.imageView_listToggle -> { changeToggle(false) }
 
-            R.id.imageView_listToggle -> {
-                changeToggle(false)
-            }
-
-            R.id.imageView_viewToggle -> {
-                changeToggle(true)
-            }
+            R.id.imageView_viewToggle -> { changeToggle(true) }
 
             R.id.imageView_ArrowToggle -> {
                 if (popupMenu == null) {
@@ -132,16 +129,10 @@ PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
         return true
     }
 
+    //다음으로 선택된 탭을 sorting
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        val fragment = tab?.position?.let { presenter.getFragement(it) }
-        if(fragment is Fragment_Grid){
-            Log.e("안들어오나?","아니들어옴")
-            if(fragment.getSort() != viewModel.currentSort){
-                Log.e("fragment_sort",fragment.getSort())
-                Log.e("viewmodel_sort",viewModel.currentSort)
-
-                fragment.changeSort(viewModel.currentSort)
-            }
+        tab?.let {
+            presenter.checkSort(it.position,viewModel.currentSort)
         }
     }
 

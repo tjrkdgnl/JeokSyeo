@@ -102,9 +102,8 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
             FirebaseAuth.getInstance().signOut()
             GlobalApplication.userInfo.init()
             GlobalApplication.userDataBase.setAccessToken(null)
-            GlobalApplication.userDataBase.setRefreshToken(null)
             GlobalApplication.userDataBase.setAccessTokenExpire(null)
-            GlobalApplication.userDataBase.setRefreshToken(null)
+            GlobalApplication.userDataBase.setRefreshTokenExpire(null)
 
             mContext.startActivity(Intent(mContext,MainActivity::class.java))
             if(mContext is MainActivity){
@@ -138,9 +137,8 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                         Log.e("애플삭제", FirebaseAuth.getInstance().currentUser?.email.toString())
                         GlobalApplication.userInfo.init()
                         GlobalApplication.userDataBase.setAccessToken(null)
-                        GlobalApplication.userDataBase.setRefreshToken(null)
                         GlobalApplication.userDataBase.setAccessTokenExpire(null)
-                        GlobalApplication.userDataBase.setRefreshToken(null)
+                        GlobalApplication.userDataBase.setRefreshTokenExpire(null)
                         Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
 
                         mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))

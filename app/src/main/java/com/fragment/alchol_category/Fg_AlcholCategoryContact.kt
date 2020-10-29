@@ -1,14 +1,15 @@
 package com.fragment.alchol_category
 
 import android.content.Context
+import androidx.databinding.ViewDataBinding
 import com.model.alchol_category.AlcholList
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
 
 interface Fg_AlcholCategoryContact {
 
     interface BaseView{
-        fun getbinding():FragmentAlcholCategoryGridBinding
-        fun setGridAdapter(list:MutableList<AlcholList>)
+        fun getbinding(): ViewDataBinding
+        fun setAdapter(list:MutableList<AlcholList>)
         fun updateList(list:MutableList<AlcholList>)
         fun setAlcholTotalCount(totalCount:Int)
         fun changeSort(list:MutableList<AlcholList>)

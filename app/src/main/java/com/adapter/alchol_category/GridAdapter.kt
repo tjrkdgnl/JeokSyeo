@@ -7,6 +7,8 @@ import com.application.GlobalApplication
 import com.model.alchol_category.AlcholList
 
 class GridAdapter(private val lst:MutableList<AlcholList>):RecyclerView.Adapter<AlcholCategoryGridViewHolder>() {
+    private var duplicate =false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlcholCategoryGridViewHolder {
         return AlcholCategoryGridViewHolder(parent)
     }
@@ -25,19 +27,18 @@ class GridAdapter(private val lst:MutableList<AlcholList>):RecyclerView.Adapter<
         newList.clear()
 
         for(newData in list.withIndex()){
-            if(newData.index >GlobalApplication.PAGINATION_SIZE){
-                break
-            }
-
             for(previousData in lst){
                 if(newData.value.equals(previousData.alcholId)){
-
-                }
-                else{
-                    newList.add(newData.value)
+                    duplicate=true
+                    break
                 }
             }
+            if(!duplicate)
+                newList.add(newData.value)
+
+            duplicate=false
         }
+
         lst.addAll(newList)
         notifyDataSetChanged()
     }

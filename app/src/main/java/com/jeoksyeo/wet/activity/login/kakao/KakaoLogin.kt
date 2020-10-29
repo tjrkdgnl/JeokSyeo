@@ -76,9 +76,8 @@ class KakaoLogin(private val context: Context) {
             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             GlobalApplication.userInfo.init()
             GlobalApplication.userDataBase.setAccessToken(null)
-            GlobalApplication.userDataBase.setRefreshToken(null)
             GlobalApplication.userDataBase.setAccessTokenExpire(null)
-            GlobalApplication.userDataBase.setRefreshToken(null)
+            GlobalApplication.userDataBase.setRefreshTokenExpire(null)
 
 
             context.startActivity(Intent(context,MainActivity::class.java))
@@ -115,9 +114,8 @@ class KakaoLogin(private val context: Context) {
                     //서버 자체에서 탈퇴를 진행하는 api도 실행하기
                     GlobalApplication.userInfo.init()
                     GlobalApplication.userDataBase.setAccessToken(null)
-                    GlobalApplication.userDataBase.setRefreshToken(null)
                     GlobalApplication.userDataBase.setAccessTokenExpire(null)
-                    GlobalApplication.userDataBase.setRefreshToken(null)
+                    GlobalApplication.userDataBase.setRefreshTokenExpire(null)
 
                     context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     if(context is Activity){

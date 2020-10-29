@@ -91,12 +91,6 @@ object JWTUtil {
         //엑세스토큰 유효성 검사
         if (accessTokenExpire > currentUTC) {
             Log.e("엑세스토큰", "유효함")
-//            GlobalApplication.userDataBase.getAccessToken()?.let {
-//                //유효하면 userinfo를 위해 setting해줌
-//                GlobalApplication.userBuilder.setAccessToken(it)
-//                GlobalApplication.userBuilder.setRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
-//                decodeAccessToken(it)
-//            }
         } else {
             //엑세스토큰이 만료되었음으로 리프레쉬토큰 유효성검사 실시
             GlobalApplication.userDataBase.getRefreshTokenExpire().let { refreshTokenExpire ->
@@ -121,7 +115,6 @@ object JWTUtil {
                                     GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken)
                                     GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken)
                                     decodeAccessToken(it.data?.token?.accessToken)
-                                    decodeRefreshToken(it.data?.token?.refreshToken)
 
                                 }, { t: Throwable? -> t?.stackTrace })
                         )

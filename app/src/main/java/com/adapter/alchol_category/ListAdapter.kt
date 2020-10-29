@@ -8,6 +8,8 @@ import com.application.GlobalApplication
 import com.model.alchol_category.AlcholList
 
 class ListAdapter(private val lst:MutableList<AlcholList>):RecyclerView.Adapter<AlcholCategoryListViewHolder>() {
+    private var duplicate =false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlcholCategoryListViewHolder {
         return AlcholCategoryListViewHolder(parent)
     }
@@ -23,25 +25,34 @@ class ListAdapter(private val lst:MutableList<AlcholList>):RecyclerView.Adapter<
 
     fun updateList(list:MutableList<AlcholList>){
         val newlist = mutableListOf<AlcholList>()
+
         for(newData in list.withIndex()){
-
-            if(newData.index > GlobalApplication.PAGINATION_SIZE)
-                break
-
             for(previousData in lst){
                 if(newData.value.equals(previousData.alcholId)){
-
-                }
-                else{
-                    newlist.add(newData.value)
-                }
+                    duplicate =true
+                    break }
             }
+
+            if(!duplicate){
+                newlist.add(newData.value)
+            }
+
+            duplicate=false
         }
         lst.addAll(newlist)
         notifyDataSetChanged()
     }
 
+    fun changeSort(list:MutableList<AlcholList>){
+        lst.clear()
+        lst.addAll(list)
+        notifyDataSetChanged()
+    }
+
     fun getLastAlcholId():String?{
-        return lst.get(lst.size-1).alcholId
+        if(lst.size>1)
+            return lst.get(lst.size-1).alcholId
+        else
+            return null
     }
 }

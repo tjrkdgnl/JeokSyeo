@@ -13,6 +13,8 @@ import com.adapter.alchol_category.GridViewPagerAdapter
 import com.adapter.alchol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
 import com.error.ErrorManager
+import com.fragment.alchol_category.Fragment_Grid
+import com.fragment.alchol_category.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
 import com.model.alchol_category.AlcholList
 import com.service.ApiGenerator
@@ -56,4 +58,18 @@ class Presenter:AlcholCategoryContact.BasePresenter {
         return fragment
     }
 
+    override fun checkSort(position: Int,sort:String) {
+        getFragement(position)?.let {fragment ->
+            if(fragment is Fragment_Grid){
+                if(fragment.getSort() != sort){
+                    fragment.changeSort(sort)
+                }
+            }
+            else if (fragment is Fragment_List){
+                if(fragment.getSort() != sort){
+                    fragment.changeSort(sort)
+                }
+            }
+        }
+    }
 }

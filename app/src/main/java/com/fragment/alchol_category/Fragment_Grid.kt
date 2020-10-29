@@ -1,17 +1,15 @@
 package com.fragment.alchol_category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adapter.alchol_category.GridAdapter
-import com.application.GlobalApplication
 import com.model.alchol_category.AlcholList
 import com.viewmodel.AlcholCategoryViewModel
 import com.vuforia.engine.wet.R
@@ -47,14 +45,14 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
         binding.lifecycleOwner =this
         viewmodel = ViewModelProvider(requireActivity()).get(AlcholCategoryViewModel::class.java)
 
-        gridPresenter = GridPresenter().apply { 
+        gridPresenter = GridPresenter().apply {
             view =this@Fragment_Grid
             gridLayoutManager =GridLayoutManager(context, 2)
             position =this@Fragment_Grid.position
         }
 
         gridPresenter.initRecyclerView(requireContext(),null)
-        
+
         return binding.root
     }
 
@@ -62,11 +60,11 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
         gridPresenter.changeSort(sort)
     }
 
-    override fun getbinding(): FragmentAlcholCategoryGridBinding {
+    override fun getbinding(): ViewDataBinding {
         return binding
     }
-    
-    override fun setGridAdapter(list: MutableList<AlcholList>) {
+
+    override fun setAdapter(list: MutableList<AlcholList>) {
         gridAdapter = GridAdapter(list)
         binding.gridRecyclerView.adapter= gridAdapter
     }

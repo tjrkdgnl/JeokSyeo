@@ -2,7 +2,7 @@ package com.fragment.alchol_category
 
 import android.content.Context
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
 import com.custom.GridSpacingItemDecoration
@@ -10,18 +10,17 @@ import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.vuforia.engine.wet.R
-import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
+import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
+class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     override lateinit var view: Fg_AlcholCategoryContact.BaseView
     private val binding by lazy {
-        view.getbinding() as FragmentAlcholCategoryGridBinding
+        view.getbinding() as FragmentAlcholCategoryListBinding
     }
-
-    lateinit var gridLayoutManager: GridLayoutManager
+    lateinit var linearLayoutManager: LinearLayoutManager
     val type: String by lazy {
         GlobalApplication.instance.getAlcholType(position)
     }
@@ -32,7 +31,6 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     private var totalItemCount = 0
     private var pastVisibleItem = 0
     private var loading = false
-
 
     override fun initRecyclerView(context: Context, lastAlcholId: String?) {
         compositeDisposable.add(
@@ -50,33 +48,24 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
                 .subscribe({
                     //주류 총 개수
                     it.data?.pagingInfo?.alcholTotalCount?.let { it1 -> view.setAlcholTotalCount(it1) }
-
                     it.data?.alcholList?.let { list ->
                         //어댑터 셋팅
                         view.setAdapter(list.toMutableList())
-
                         //리싸이클러뷰 셋팅
-                        binding.gridRecyclerView.setHasFixedSize(true)
-                        val spacingPixcel =
-                            context.resources.getDimensionPixelSize(R.dimen.grid_layout_margin)
-                        binding.gridRecyclerView.addItemDecoration(
-                            GridSpacingItemDecoration(2, spacingPixcel, true, 0)
-                        )
-                        binding.gridRecyclerView.layoutManager = gridLayoutManager
-
-                        initScrollListener()
-                    }
+                        binding.listRecyclerView.setHasFixedSize(true)
+                        binding.listRecyclerView.layoutManager = linearLayoutManager
+                        initScrollListener() }
                 }, { t -> Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString()) })
         )
     }
 
     override fun initScrollListener() {
-        binding.gridRecyclerView.addOnScrollListener(object :
+        binding.listRecyclerView.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                visibleItemCount = gridLayoutManager.childCount
-                totalItemCount = gridLayoutManager.itemCount
-                pastVisibleItem = gridLayoutManager.findFirstVisibleItemPosition()
+                visibleItemCount = linearLayoutManager.childCount
+                totalItemCount = linearLayoutManager.itemCount
+                pastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition()
 
                 if (dy > 0) {
                     if (!loading) {

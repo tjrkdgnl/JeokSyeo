@@ -25,6 +25,8 @@ interface AlcholCategoryContact {
 
         fun getFragement(position:Int): Fragment?
 
+        fun checkSort(position:Int,sort:String)
+
     }
 
 }
