@@ -16,7 +16,7 @@ class ViewPagerTransformer(context: Context) : ViewPager2.PageTransformer {
     override fun transformPage(page: View, position: Float) {
         val myOffset = position * -(2 * pageOffset + pageMargin + 15)
 
-        val scaleFactor = Math.max(0.77f, 0.83f - Math.abs(position * 0.14285715f))
+        val scaleFactor = Math.max(0.70f, 0.80f - Math.abs(position * 0.14285715f))
 
         if (position < -1) {
 //            이전 page의 위치

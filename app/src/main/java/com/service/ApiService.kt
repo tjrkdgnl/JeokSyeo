@@ -1,6 +1,7 @@
 package com.service
 
 import com.model.alchol_category.GetAlcholCategory
+import com.model.alchol_detail.GetAlcholDetail
 import com.model.alchol_ranking.GetAlcholRanking
 import com.model.area.GetAreaData
 import com.model.nickname_check.GetResult
@@ -33,5 +34,17 @@ interface ApiService {
     @GET("v1/alchols")
     fun getAlcholCategory(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
     @Query("f") type:String, @Query("c")number:Int, @Query("s")sort:String, @Query("w") last_alcholId:String?) : Flowable<GetAlcholCategory>
+
+    @GET("v1/alchols/{alchol_id}")
+    fun getAlcholDetail(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                          @Path("alchol_id") alcholId:String) : Flowable<GetAlcholDetail>
+
+    @POST("v1/alchols/{alchol_id}/like")
+    fun alcholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                        @Path("alchol_id") alcholId:String?) : Flowable<GetAlcholDetail>
+
+    @DELETE("v1/alchols/{alchol_id}/like")
+    fun cancelAlcholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                   @Path("alchol_id") alcholId:String?) : Flowable<com.model.result.GetResult>
 
 }

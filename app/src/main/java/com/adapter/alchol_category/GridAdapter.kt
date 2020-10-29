@@ -1,13 +1,27 @@
 package com.adapter.alchol_category
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcholCategoryGridViewHolder
 import com.application.GlobalApplication
+import com.error.ErrorManager
+import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_category.AlcholList
+import com.service.ApiGenerator
+import com.service.ApiService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
-class GridAdapter(private val lst:MutableList<AlcholList>):RecyclerView.Adapter<AlcholCategoryGridViewHolder>() {
+class GridAdapter(private val context: Context
+                  , private val lst:MutableList<AlcholList>):RecyclerView.Adapter<AlcholCategoryGridViewHolder>() {
     private var duplicate =false
+    private lateinit var disposable:Disposable
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlcholCategoryGridViewHolder {
         return AlcholCategoryGridViewHolder(parent)
@@ -16,6 +30,19 @@ class GridAdapter(private val lst:MutableList<AlcholList>):RecyclerView.Adapter<
     override fun onBindViewHolder(holder: AlcholCategoryGridViewHolder, position: Int) {
         holder.bind(lst[position])
         holder.getViewBinding().ratingBarGridRatingbar.rating = lst[position].review?.score!!
+
+        holder.getViewBinding().gridItemParentLayout.setOnClickListener {
+            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                .getAlcholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                lst[position].alcholId!!)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val intent = Intent(context,AlcholDetail::class.java)
+                    intent.putExtra(GlobalApplication.MOVE_ALCHOL,it.data?.alchol)
+                    context.startActivity(intent)
+                },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+        }
     }
 
     override fun getItemCount(): Int {

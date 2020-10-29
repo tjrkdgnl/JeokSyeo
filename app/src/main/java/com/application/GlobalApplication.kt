@@ -1,7 +1,6 @@
 package com.application
 
 import android.app.Application
-import android.util.DisplayMetrics
 import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 import com.model.user.UserInfo
@@ -14,9 +13,9 @@ import java.util.*
 
 class GlobalApplication : Application() {
     private val typeList = listOf<String>("TR", "BE", "WI", "SA", "FO")
+
     override fun onCreate() {
         super.onCreate()
-
         userBuilder = UserInfo.Builder("")
         KakaoSdk.init(this, getString(R.string.kakaoNativeKey))
         userInfo = UserInfo()
@@ -39,7 +38,6 @@ class GlobalApplication : Application() {
         const val NICKNAME = "nickname"
         const val BIRTHDAY = "birth"
         const val GENDER = "gender"
-        const val CONGRATULATION = "congratulation"
         const val LOCATION = "location"
         const val USER_ID = "user_id"
         const val OAUTH_PROVIDER = "oauth_provider"
@@ -50,6 +48,7 @@ class GlobalApplication : Application() {
         const val MOVE_TYPE = "type"
         const val PAGINATION_SIZE= 20
         const val DEFAULT_SORT = "like"
+        const val MOVE_ALCHOL = "alchol Data"
     }
 
     public fun getAlcholType(positon: Int): String {

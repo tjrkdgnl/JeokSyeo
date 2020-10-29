@@ -20,14 +20,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="480dp"
+            android:layout_height="450dp"
             android:background="@drawable/recommenditem_shadow">
 
             <ImageView
                 android:id="@+id/activityMain_recommend_img"
                 setting_icon_str="@{recommendItem.media.get(0).mediaResource.medium.src}"
                 android:layout_width="match_parent"
-                android:layout_height="392dp"
+                android:layout_height="362dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -152,6 +152,7 @@ class UserInfo {
             Log.e("nickname", userInfo.nickName.toString())
             Log.e("birth", userInfo.birthDay.toString())
             Log.e("gender", userInfo.gender.toString())
+            Log.e("accessToken", userInfo.getAccessToken().toString())
             Log.e("map개수", userInfo.infoMap.size.toString())
 
             return userInfo

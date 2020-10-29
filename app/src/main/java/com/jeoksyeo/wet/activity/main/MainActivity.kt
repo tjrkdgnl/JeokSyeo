@@ -17,12 +17,14 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
     private lateinit var binding: MainBinding
     private lateinit var presenter: Presenter
     private var checkRefresh = false
-
+    private lateinit var moveIntent:Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.main)
         binding.basicHeader.windowHeaderListCategory.setOnClickListener(this)
         binding.mainNavigation.imageViewCancel.setOnClickListener(this)
+
+        moveIntent = Intent(this,AlcholCategory::class.java)
 
         presenter = Presenter().apply {
             view = this@MainActivity
@@ -61,24 +63,24 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                 }
             }
             R.id.activityMain_koreanAlchol ->{
-                startActivity(Intent(this,AlcholCategory::class.java)
-                    .putExtra(GlobalApplication.MOVE_TYPE,0))}
+                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,0)
+                startActivity(moveIntent)}
 
             R.id.activityMain_beer ->{
-                startActivity(Intent(this,AlcholCategory::class.java)
-                    .putExtra(GlobalApplication.MOVE_TYPE,1))}
+                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,1)
+                    startActivity(moveIntent)}
 
             R.id.activityMain_wine ->{
-                startActivity(Intent(this,AlcholCategory::class.java)
-                    .putExtra(GlobalApplication.MOVE_TYPE,2))}
+                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,2)
+                    startActivity(moveIntent)}
 
             R.id.activityMain_whisky ->{
-                startActivity(Intent(this,AlcholCategory::class.java)
-                    .putExtra(GlobalApplication.MOVE_TYPE,3))}
+                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,3)
+                    startActivity(moveIntent)}
 
             R.id.activityMain_sake->{
-                startActivity(Intent(this,AlcholCategory::class.java)
-                    .putExtra(GlobalApplication.MOVE_TYPE,4))}
+                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,4)
+                    startActivity(moveIntent)}
         }
     }
 

@@ -1,4 +1,4 @@
-package com.model.common
+package com.model.alchol_detail
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class Medium() :Parcelable {
+class BackgroundMedia() :Parcelable {
     @SerializedName("type")
     @Expose
     var type: String? = null
@@ -18,12 +18,12 @@ class Medium() :Parcelable {
 
     @SerializedName("media_resource")
     @Expose
-    var mediaResource: MediaResource? = null
+    var mediaResource: BackmediaResource? = null
 
     constructor(parcel: Parcel) : this() {
         type = parcel.readString()
         mediaId = parcel.readString()
-        mediaResource = parcel.readParcelable(MediaResource::class.java.classLoader)
+        mediaResource = parcel.readParcelable(BackmediaResource::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -36,13 +36,15 @@ class Medium() :Parcelable {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Medium> {
-        override fun createFromParcel(parcel: Parcel): Medium {
-            return Medium(parcel)
+    companion object CREATOR : Parcelable.Creator<BackgroundMedia> {
+        override fun createFromParcel(parcel: Parcel): BackgroundMedia {
+            return BackgroundMedia(parcel)
         }
 
-        override fun newArray(size: Int): Array<Medium?> {
+        override fun newArray(size: Int): Array<BackgroundMedia?> {
             return arrayOfNulls(size)
         }
     }
+
+
 }

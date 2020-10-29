@@ -25,8 +25,9 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     val type: String by lazy {
         GlobalApplication.instance.getAlcholType(position)
     }
-    var sort: String = GlobalApplication.DEFAULT_SORT
+    lateinit var sort: String
     var position = 0
+    var totalCount = 0
     private val compositeDisposable = CompositeDisposable()
     private var visibleItemCount = 0
     private var totalItemCount = 0
@@ -38,18 +39,15 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    type,
-                    20,
-                    sort,
-                    lastAlcholId
-                )
+                    GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken(),
+                    type, GlobalApplication.PAGINATION_SIZE, sort, lastAlcholId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     //주류 총 개수
-                    it.data?.pagingInfo?.alcholTotalCount?.let { it1 -> view.setAlcholTotalCount(it1) }
+                    it.data?.pagingInfo?.alcholTotalCount?.let { total ->
+                        totalCount = total
+                    }
 
                     it.data?.alcholList?.let { list ->
                         //어댑터 셋팅
@@ -120,13 +118,8 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    type,
-                    20,
-                    sort,
-                    null
-                )
+                    GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken(),
+                    type, GlobalApplication.PAGINATION_SIZE, sort, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

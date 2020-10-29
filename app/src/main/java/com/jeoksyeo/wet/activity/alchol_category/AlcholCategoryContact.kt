@@ -16,6 +16,8 @@ interface AlcholCategoryContact {
 
         fun changeToggle(toggle:Boolean)
 
+        fun setTotalCount(alcholCount:Int)
+
     }
 
     interface BasePresenter{
@@ -27,6 +29,7 @@ interface AlcholCategoryContact {
 
         fun checkSort(position:Int,sort:String)
 
+        fun callTotalCount(position:Int)
     }
 
 }

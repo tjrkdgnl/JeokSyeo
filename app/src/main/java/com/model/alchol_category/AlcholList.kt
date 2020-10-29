@@ -2,8 +2,8 @@ package com.model.alchol_category
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.model.alchol_ranking.Brewery
-import com.model.common.Class
+import com.model.common.Brewery
+import com.model.common.MainClass
 import com.model.common.Medium
 
 
@@ -22,7 +22,7 @@ class AlcholList {
 
     @SerializedName("class")
     @Expose
-    var class_: Class<*>? = null
+    var class_: MainClass? = null
 
     @SerializedName("brewery")
     @Expose

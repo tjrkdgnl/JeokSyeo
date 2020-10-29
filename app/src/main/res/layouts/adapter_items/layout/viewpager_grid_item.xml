@@ -12,6 +12,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/gridItem_ParentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ligthGrey2"
@@ -87,7 +88,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 android:maxLines="1"
-                android:text="@{alchol.brewery.get(0).name.toString()}"
+                android:text="@{alchol.brewery.get(0).location.toString()}"
                 android:ellipsize="end"
                 android:textSize="@dimen/gridItem_origin_textSize"
                 app:layout_constraintStart_toStartOf="parent"

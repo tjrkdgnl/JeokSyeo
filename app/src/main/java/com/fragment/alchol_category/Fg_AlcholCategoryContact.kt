@@ -11,7 +11,7 @@ interface Fg_AlcholCategoryContact {
         fun getbinding(): ViewDataBinding
         fun setAdapter(list:MutableList<AlcholList>)
         fun updateList(list:MutableList<AlcholList>)
-        fun setAlcholTotalCount(totalCount:Int)
+        fun getAlcholTotalCount() :Int
         fun changeSort(list:MutableList<AlcholList>)
         fun getLastAlcholId():String?
         fun getSort():String

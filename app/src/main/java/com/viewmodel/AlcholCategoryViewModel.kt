@@ -6,9 +6,9 @@ import com.application.GlobalApplication
 
 class AlcholCategoryViewModel: ViewModel() {
 
+    //보기 방식을 바꿨을 때 현재 sort에 따라서 셋팅되어야함.
     var currentSort:String = GlobalApplication.DEFAULT_SORT
 
-
-    val alcholTotalCount = MutableLiveData<Int>(0)
+    val viewModelCurrentPosition =MutableLiveData<Int>(0)
 
 }

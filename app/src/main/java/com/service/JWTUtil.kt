@@ -3,6 +3,7 @@ package com.service
 import android.util.Base64
 import android.util.Log
 import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.model.user.UserInfo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -66,6 +67,7 @@ object JWTUtil {
                 .setEmail(jsonObject.getString("email"))
                 .setBirthDay(jsonObject.getString("birth"))
                 .setGender(jsonObject.getString("gender"))
+                .setAccessToken("Bearer "+GlobalApplication.userDataBase.getAccessToken())
                 .build()
         } else {
             GlobalApplication.userDataBase.setRefreshTokenExpire(jsonObject.getLong("exp"))
@@ -84,13 +86,15 @@ object JWTUtil {
     }
 
     //토큰 만료시간을 체크
-    private fun checkExpireOfAccessToken(accessToken: Long) {
-        val accessTokenExpire: Long = accessToken * 1000L
+    private fun checkExpireOfAccessToken(expire: Long) {
+        val accessTokenExpire: Long = expire * 1000L
         val currentUTC = getCurrentUTC()
 
         //엑세스토큰 유효성 검사
         if (accessTokenExpire > currentUTC) {
             Log.e("엑세스토큰", "유효함")
+            decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
+
         } else {
             //엑세스토큰이 만료되었음으로 리프레쉬토큰 유효성검사 실시
             GlobalApplication.userDataBase.getRefreshTokenExpire().let { refreshTokenExpire ->
@@ -104,7 +108,6 @@ object JWTUtil {
                     val map = HashMap<String, Any>()
                     GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
                         map.put(GlobalApplication.REFRESH_TOKEN, refreshToken)
-
                         compositeDisposable.add(
                             ApiGenerator.retrofit.create(ApiService::class.java)
                                 .refreshToken(GlobalApplication.userBuilder.createUUID, map)
@@ -116,7 +119,7 @@ object JWTUtil {
                                     GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken)
                                     decodeAccessToken(it.data?.token?.accessToken)
 
-                                }, { t: Throwable? -> t?.stackTrace })
+                                }, { t: Throwable? ->Log.e(ErrorManager.TOKEN_REFRESH,t?.message.toString()) })
                         )
                     }
                 } else {

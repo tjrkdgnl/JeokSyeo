@@ -49,6 +49,7 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
             view =this@Fragment_Grid
             gridLayoutManager =GridLayoutManager(context, 2)
             position =this@Fragment_Grid.position
+            sort = viewmodel.currentSort
         }
 
         gridPresenter.initRecyclerView(requireContext(),null)
@@ -65,7 +66,7 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcholList>) {
-        gridAdapter = GridAdapter(list)
+        gridAdapter = GridAdapter(requireContext(),list)
         binding.gridRecyclerView.adapter= gridAdapter
     }
 
@@ -73,8 +74,8 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
         gridAdapter.updateList(list)
     }
 
-    override fun setAlcholTotalCount(totalCount: Int) {
-        viewmodel.alcholTotalCount.value =totalCount
+    override fun getAlcholTotalCount() :Int{
+       return gridPresenter.totalCount
     }
 
     override fun changeSort(list: MutableList<AlcholList>) {

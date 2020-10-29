@@ -1,13 +1,15 @@
-package com.model.common
+package com.model.alchol_detail
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+import com.model.common.Large
+import com.model.common.Medium_
+import com.model.common.Small
 
-
-class MediaResource() :Parcelable {
+class BackmediaResource() :Parcelable {
     @SerializedName("small")
     @Expose
     var small: Small? = null
@@ -36,12 +38,12 @@ class MediaResource() :Parcelable {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<MediaResource> {
-        override fun createFromParcel(parcel: Parcel): MediaResource {
-            return MediaResource(parcel)
+    companion object CREATOR : Parcelable.Creator<BackmediaResource> {
+        override fun createFromParcel(parcel: Parcel): BackmediaResource {
+            return BackmediaResource(parcel)
         }
 
-        override fun newArray(size: Int): Array<MediaResource?> {
+        override fun newArray(size: Int): Array<BackmediaResource?> {
             return arrayOfNulls(size)
         }
     }

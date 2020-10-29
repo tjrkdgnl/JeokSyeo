@@ -23,7 +23,7 @@ import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholCategoryBinding
 
 class AlcholCategory: FragmentActivity(), AlcholCategoryContact.BaseView, View.OnClickListener,
-PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
+PopupMenu.OnMenuItemClickListener{
     private lateinit var binding:AlcholCategoryBinding
     private lateinit var presenter:Presenter
     private  var popupMenu: PopupMenu? =null
@@ -35,27 +35,41 @@ PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
         binding = DataBindingUtil.setContentView(this, R.layout.alchol_category)
         binding.lifecycleOwner =this
 
-        intent?.let {
-            binding.viewPager2Container.currentItem = it.getIntExtra(GlobalApplication.MOVE_TYPE, 0)
-        }
-
         viewModel = ViewModelProvider(this).get(AlcholCategoryViewModel::class.java)
-
-        viewModel.alcholTotalCount.observe(this, Observer {
-            binding.textViewTotalProduct.text = "총" + it.toString() + "개의 주류가 있습니다."
-        })
 
         presenter = Presenter().apply {
             view=this@AlcholCategory
         }
 
         presenter.inintTabLayout(this)
+        intent?.let {
+            val selectPosition = it.getIntExtra(GlobalApplication.MOVE_TYPE, 0)
+            binding.viewPager2Container.currentItem = selectPosition
+            viewModel.viewModelCurrentPosition.value = selectPosition
+        }
 
-        binding.tabLayoutAlcholList.addOnTabSelectedListener(this)
+        binding.tabLayoutAlcholList.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.let {
+                    presenter.checkSort(it.position,viewModel.currentSort)
+                    viewModel.viewModelCurrentPosition.value = it.position
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+
+        viewModel.viewModelCurrentPosition.observe(this, Observer {
+            presenter.callTotalCount(it)
+        })
+
         binding.imageViewArrowToggle.setOnClickListener(this)
         binding.imageViewListToggle.setOnClickListener(this)
         binding.imageViewViewToggle.setOnClickListener(this)
-
     }
 
     override fun getView(): AlcholCategoryBinding {
@@ -75,6 +89,11 @@ PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
             binding.viewPager2Container.adapter = ListViewPagerAdapter(this)
         }
         binding.viewPager2Container.currentItem = offset
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun setTotalCount(alcholCount: Int) {
+        binding.textViewTotalProduct.text = "총 "+ alcholCount+"개의 주류가 있습니다."
     }
 
 
@@ -127,20 +146,5 @@ PopupMenu.OnMenuItemClickListener, TabLayout.OnTabSelectedListener{
             }
         }
         return true
-    }
-
-    //다음으로 선택된 탭을 sorting
-    override fun onTabSelected(tab: TabLayout.Tab?) {
-        tab?.let {
-            presenter.checkSort(it.position,viewModel.currentSort)
-        }
-    }
-
-    override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-    }
-
-    override fun onTabReselected(tab: TabLayout.Tab?) {
-
     }
 }

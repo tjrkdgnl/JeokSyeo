@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/category_drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="end"
+        >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,10 +22,9 @@
             layout="@layout/basic_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout_alcholList"
@@ -39,47 +45,6 @@
             app:tabTextColor="@color/tabTextDefaultColor">
 
         </com.google.android.material.tabs.TabLayout>
-
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/ConstraintLayout_totalProduct"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@color/orange"
-            android:orientation="vertical"
-            app:el_duration="500"
-            app:el_expanded="true"
-            app:el_parallax="0.5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout_order">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView_indicator"
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:layout_marginStart="20dp"
-                    android:src="@mipmap/btn_indicator"
-                    android:layout_gravity="center_vertical"
-                    />
-
-                <TextView
-                    android:id="@+id/textView_totalProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="총 OO개의 상품이 있습니다."
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/AlcholMainWindow_textView_totalProduct_textsize"
-                    android:layout_gravity="center_vertical"
-                    />
-            </LinearLayout>
-        </net.cachapa.expandablelayout.ExpandableLayout>
-
 
         <LinearLayout
             android:id="@+id/linearLayout_order"
@@ -163,17 +128,64 @@
             </LinearLayout>
         </LinearLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager2_container"
+        <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#f1f1f1"
+            app:layoutDescription="@xml/description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayout_totalProduct" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_order">
 
+            <LinearLayout
+                android:id="@+id/total_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/orange"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/viewPager2_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout_order">
+
+                <ImageView
+                    android:id="@+id/imageView_indicator"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:src="@mipmap/btn_indicator" />
+
+                <TextView
+                    android:id="@+id/textView_totalProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:text="총 OO개의 상품이 있습니다."
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/AlcholMainWindow_textView_totalProduct_textsize" />
+            </LinearLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager2_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#f1f1f1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/total_linearLayout" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <include
+            android:id="@+id/category_navigation"
+            layout="@layout/drawer_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end" />
 
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

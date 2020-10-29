@@ -72,7 +72,7 @@
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="@{alchol.brewery.get(0).name.toString()}"
+                android:text="@{alchol.brewery.get(0).location.toString()}"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView_listAlcholName_K"

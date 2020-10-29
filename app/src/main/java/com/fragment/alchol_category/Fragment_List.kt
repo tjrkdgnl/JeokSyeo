@@ -48,6 +48,7 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
             view=this@Fragment_List
             position =this@Fragment_List.position
             linearLayoutManager= LinearLayoutManager(requireContext())
+            sort=viewmodel.currentSort
         }
 
         listPresenter.initRecyclerView(requireContext(),null)
@@ -72,8 +73,8 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
         listAdapter.updateList(list)
     }
 
-    override fun setAlcholTotalCount(totalCount: Int) {
-        viewmodel.alcholTotalCount.value =totalCount
+    override fun getAlcholTotalCount(): Int {
+        return listPresenter.totalCount
     }
 
     override fun changeSort(list: MutableList<AlcholList>) {

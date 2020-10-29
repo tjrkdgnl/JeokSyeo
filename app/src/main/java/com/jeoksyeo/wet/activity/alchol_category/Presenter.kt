@@ -72,4 +72,15 @@ class Presenter:AlcholCategoryContact.BasePresenter {
             }
         }
     }
+
+    override fun callTotalCount(position: Int) {
+        val fragment = getFragement(position)
+
+        if(fragment is Fragment_Grid){
+            view.setTotalCount(fragment.getAlcholTotalCount())
+        }
+        else if(fragment is Fragment_List){
+            view.setTotalCount(fragment.getAlcholTotalCount())
+        }
+    }
 }
