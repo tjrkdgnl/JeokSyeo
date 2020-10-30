@@ -29,11 +29,13 @@
             app:cardElevation="1.2dp"
             >
 
+
+
             <ImageView
-                setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src}"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gridItem_GridAhchol_img_height"
                 android:scaleType="fitCenter"
+                setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

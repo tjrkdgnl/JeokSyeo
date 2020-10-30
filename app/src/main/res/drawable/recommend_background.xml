@@ -15,7 +15,7 @@
         </shape>
     </item>
 
-    <item  android:bottom="230dp" android:left="-250dp" android:right="-250dp" android:top="-400dp">
+    <item  android:bottom="240dp" android:left="-250dp" android:right="-250dp" android:top="-400dp">
         <shape android:shape="oval">
             <solid android:color="@color/white"/>
         </shape>

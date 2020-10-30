@@ -40,7 +40,7 @@ import com.service.ApiService
 import com.service.JWTUtil
 import java.lang.Exception
 
-class Login : AppCompatActivity(), View.OnClickListener {
+class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialog {
     private lateinit var binding: LoginBinding
     private val GOOGLE_SIGN = 1
     private lateinit var googleLogin: GoogleLogin
@@ -59,6 +59,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         lateinit var loginObj: Login
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
@@ -70,9 +71,16 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        if(GlobalApplication.userInfo.getProvider() ==null)
+            FirebaseAuth.getInstance().signOut()
+    }
+
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)
-        executeProgressBar(this,true)
+        executeProgressBar(true)
         if (kakaoLogin.instance.isKakaoTalkLoginAvailable(this))
             kakaoLogin.instance.loginWithKakaoTalk(this, callback = kakaoLogin.callback)
         else
@@ -81,7 +89,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun naverExecute() {
         naverLogin = NaverLogin(this)
-        executeProgressBar(this,true)
+        executeProgressBar(true)
         naverLogin.instance.startOauthLoginActivity(this, naverLogin.naverLoginHandler)
     }
 
@@ -91,12 +99,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun appleExecute() {
-        appleLogin = AppleLogin(this,this)
-        appleLogin.loginExecute()
-        executeProgressBar(this,true)
+            appleLogin = AppleLogin(this,this)
+            appleLogin.loginExecute(this)
+            executeProgressBar(true)
+
     }
 
-    private fun executeProgressBar(activity: Activity,setting:Boolean){
+    private fun progressbarStatus(activity: Activity,setting:Boolean){
         if(setting){
             binding.loginProgressBar.root.visibility = View.VISIBLE
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -107,7 +116,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.kakaoLogin_button -> kakaoExcute()
@@ -117,7 +125,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
             R.id.googleLogin_button -> googleExecute()
 
             R.id.appleLogin_button -> appleExecute()
-
 
             else -> {
             }
@@ -135,7 +142,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try {
-            executeProgressBar(this,true)
+            executeProgressBar(true)
             val account = task.getResult(ApiException::class.java)
 
             //구글 소셜 로그인을 파이어베이스에 넘겨줌.
@@ -146,16 +153,17 @@ class Login : AppCompatActivity(), View.OnClickListener {
                 setUserInfo("GOOGLE", it.result?.token.toString())
             }?.addOnFailureListener(this) {
                 Log.e(ErrorManager.Google_TAG, it.message.toString())
+                executeProgressBar(false)
             }
 
         } catch (e: Exception) {
             val message = e.message ?: e.stackTrace
             Log.e(ErrorManager.Google_TAG, message.toString())
+            executeProgressBar(false)
         }
     }
 
     fun setUserInfo(provider: String?, oauth_token: String?) {
-
         GlobalApplication.userBuilder
             .setProvider(provider)
             .setOAuthToken(oauth_token)
@@ -174,7 +182,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result: GetUserData ->
                 //프로그래스바 종료
-                executeProgressBar(this,false)
+                executeProgressBar(false)
 
                 //토큰이 있다는 것은 로그인 정보가 있다는 것. 여기서 액티비티 핸들링하기.
                 if (result.data?.token != null) {
@@ -206,7 +214,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                 }
             }, { t: Throwable? ->
                 t?.stackTrace
-                executeProgressBar(this,false)
+                executeProgressBar(false)
             })
     }
 
@@ -229,4 +237,9 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
+
+    override fun executeProgressBar(setting: Boolean) {
+        progressbarStatus(this,setting)
+    }
+
 }

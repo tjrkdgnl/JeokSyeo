@@ -19,6 +19,7 @@ import com.google.firebase.auth.OAuthProvider
 import com.jeoksyeo.wet.activity.login.Login
 import com.error.ErrorManager
 import com.google.android.gms.tasks.OnCompleteListener
+import com.jeoksyeo.wet.activity.login.ExecuteProgressBarDialog
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.vuforia.engine.wet.R
 import java.lang.Exception
@@ -33,7 +34,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
         provider.scopes = mutableListOf("email", "name")
     }
 
-    fun loginExecute() {
+    fun loginExecute(listener:ExecuteProgressBarDialog) {
         user = FirebaseAuth.getInstance().currentUser
 
         if (user == null) {
@@ -77,6 +78,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                     }
             }.addOnFailureListener { e ->
                 Log.e(ErrorManager.Apple_TAG, "activitySignIn:onFailure", e)
+                listener.executeProgressBar(false)
             }
         }
     }

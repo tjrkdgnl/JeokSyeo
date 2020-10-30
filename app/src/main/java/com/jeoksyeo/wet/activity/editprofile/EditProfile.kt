@@ -96,7 +96,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             tempFile?.let {
                 if (it.exists()) {
                     if (it.delete()) {
-                        Log.e("error", tempFile!!.absolutePath + " 삭제 성공")
+                        Log.e("error", it.absolutePath + " 삭제 성공")
                         tempFile = null
                     }
                 }
@@ -115,9 +115,12 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             }
 
             UCrop.RESULT_ERROR -> {
-                val throwable = UCrop.getError(data!!)
+                data?.let {
+                    val throwable = UCrop.getError(it)
 
-                throwable?.printStackTrace()
+                    throwable?.printStackTrace()
+                }
+
             }
 
         }
@@ -157,14 +160,16 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         options.setShowCropFrame(false) //crop의 사각형 틀 유무
 
         val savingUri = Uri.fromFile(tempFile)
-        UCrop.of(photoUri!!, savingUri)
-            .withAspectRatio(1f, 1f)
-            .withMaxResultSize(
-                GlobalApplication.device_width,
-                GlobalApplication.device_height
-            )
-            .withOptions(options)
-            .start(this)
+        photoUri?.let {
+            UCrop.of(it, savingUri)
+                .withAspectRatio(1f, 1f)
+                .withMaxResultSize(
+                    GlobalApplication.device_width,
+                    GlobalApplication.device_height
+                )
+                .withOptions(options)
+                .start(this)
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -32,18 +32,19 @@ class ListAdapter(private val context: Context,private val lst:MutableList<Alcho
         holder.getViewBinding().ratingBarListRatingbar.rating = lst[position].review?.score!!
 
         holder.getViewBinding().listItemParentLayout.setOnClickListener{
-            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                .getAlcholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                    lst[position].alcholId!!)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    val bundle = Bundle()
-                    bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alchol)
-
-                    GlobalApplication.instance.moveActivity(context,AlcholDetail::class.java
-                        ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
-                },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+            lst[position].alcholId?.let {alcholId->
+                disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getAlcholDetail(GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(), alcholId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        val bundle = Bundle()
+                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alchol)
+                        GlobalApplication.instance.moveActivity(context,AlcholDetail::class.java
+                            ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                    },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+            }
         }
     }
 

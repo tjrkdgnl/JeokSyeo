@@ -11,28 +11,32 @@ import com.model.alchol_detail.Alchol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholDetailBinding
 
-class AlcholDetail :AppCompatActivity(), AlcholDetailContract.BaseView , View.OnClickListener {
+class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.OnClickListener {
     private lateinit var binding: AlcholDetailBinding
-    private lateinit var presenter:Presenter
-    private  var alchol:Alchol? =null
+    private lateinit var presenter: Presenter
+    private var alchol: Alchol? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.alchol_detail)
-        binding.lifecycleOwner =this
+        binding.lifecycleOwner = this
 
         presenter = Presenter().apply {
             view = this@AlcholDetail
         }
 
-        if(intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)){
+        if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
             alchol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
             alchol?.let {
-                binding.alchol =alchol
+                binding.alchol = alchol
                 binding.executePendingBindings()
-                setLike(alchol?.isLiked!!)
-                presenter.initComponent(this, alchol!!)
+                alchol?.let {
+                    it.isLiked?.let {like->
+                        setLike(like)
+                    }
+                    presenter.initComponent(this, it)
+                }
             }
         }
 
@@ -44,37 +48,39 @@ class AlcholDetail :AppCompatActivity(), AlcholDetailContract.BaseView , View.On
     }
 
     override fun setLike(isLike: Boolean) {
-        Log.e("like",isLike.toString())
+        Log.e("like", isLike.toString())
 
-        if(isLike){
+        if (isLike) {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.full_heart)
-        }
-        else{
+        } else {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.empty_heart)
         }
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.AlcholDetail_selectedByMe -> {
-                if(GlobalApplication.userInfo.getProvider() !=null){
+                if (GlobalApplication.userInfo.getProvider() != null) {
                     alchol?.let {
-                        it.isLiked?.let { like->
-                            if(like)
-                                presenter.cancelAlcholLike(it.alcholId!!)
-                            else
-                                presenter.executeLike(it.alcholId!!)
+                        it.alcholId?.let { alcholId ->
+                            it.isLiked?.let { like ->
+                                if (like)
+                                    presenter.cancelAlcholLike(alcholId)
+                                else
+                                    presenter.executeLike(alcholId)
+                            }
                         }
+
                     }
-                }
-                else{
-                    CustomDialog.loginDialog(this,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                } else {
+                    CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
                 }
             }
         }
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+        overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
 }
