@@ -19,6 +19,7 @@
         android:gravity="center">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recommend_parentLayout"
             android:layout_width="match_parent"
             android:layout_height="450dp"
             android:background="@drawable/recommenditem_shadow">
@@ -82,29 +83,37 @@
                 app:layout_constraintEnd_toStartOf="@+id/activityMain_alcholDegree"
                 app:layout_constraintTop_toTopOf="@id/activityMain_recommend_alcholName" />
 
-            <RatingBar
+            <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/activityMain_recommend_ratingBar"
-                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numStars="5"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
-                android:transformPivotY="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="@id/activityMain_recommend_alcholName"
                 app:layout_constraintTop_toBottomOf="@id/activityMain_recommend_alcholName"
-                app:layout_constraintVertical_bias="0" />
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="false"
+                app:srb_drawableEmpty="@mipmap/middle_star_empty"
+                app:srb_drawableFilled="@mipmap/middle_star_full"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="0"
+                app:srb_scrollable="false"
+                app:srb_starPadding="1.5dp"
+                app:layout_constraintStart_toEndOf="@id/recommendAlchol_ratingBarScore"
+                app:srb_stepSize="0.5" />
 
             <TextView
                 android:id="@+id/recommendAlchol_ratingBarScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="35dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/recommand_alcholNumber"
+                android:text="@{recommendItem.review.score.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/activityMain_recommend_ratingBar"
-                app:layout_constraintEnd_toEndOf="@id/activityMain_recommend_ratingBar"
+                app:layout_constraintStart_toEndOf="@id/activityMain_recommend_ratingBar"
                 app:layout_constraintTop_toTopOf="@id/activityMain_recommend_ratingBar"
                 tools:text="3.7" />
 

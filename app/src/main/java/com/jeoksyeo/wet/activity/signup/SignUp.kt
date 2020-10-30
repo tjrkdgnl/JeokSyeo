@@ -26,7 +26,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
     private lateinit var binding: ActivitySignupBinding
     private lateinit var mutableList: MutableList<String>
     private var idx = 0
-    private var backIdx = 0
     private lateinit var signUpViewPagerAdapter: SignUpViewPagerAdapter
     private lateinit var viewModel: SignUpViewModel
     private lateinit var presenter: SignUpPresenter
@@ -57,7 +56,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         mutableList = mutableListOf()
         mutableList.add(GlobalApplication.NICKNAME)
         intent?.let {
-            val bundle = it.getBundleExtra("userBundle")
+            val bundle = it.getBundleExtra(GlobalApplication.USER_BUNDLE)
             bundle?.let { bun ->
                 if (!bun.getBoolean(GlobalApplication.BIRTHDAY, false)) mutableList.add(
                     GlobalApplication.BIRTHDAY
@@ -82,9 +81,12 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.infoConfirmButton ->nextView()
+            R.id.infoConfirmButton -> nextView()
 
-            R.id.signup_header_backButton -> finish()
+            R.id.signup_header_backButton -> {
+                finish()
+                overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+            }
 
             else -> {
             }
@@ -100,8 +102,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         if (viewModel.checkRequest) {
             startActivity(Intent(this, Login::class.java))
             finish()
-        }
-        else if (viewModel.lock) {
+        } else if (viewModel.lock) {
             GlobalApplication.userBuilder.setAddress(
 
                 viewModel.stateArea.value?.name + " " + viewModel.countryArea.value?.name + " " +
@@ -110,7 +111,8 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
             GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
             disposable = ApiGenerator.retrofit.create(ApiService::class.java).signUp(
                 GlobalApplication.userBuilder.createUUID,
-                GlobalApplication.userInfo.getMap())
+                GlobalApplication.userInfo.getMap()
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -119,11 +121,13 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
                     GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
                     JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
                     JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
-                    startActivity(Intent(this, MainActivity::class.java))
-                    Toast.makeText(this, "회원가입을 축하드립니다!", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,MainActivity::class.java))
-                    finish()
+                    GlobalApplication.instance.moveActivity(this, MainActivity::class.java, Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 }, { t: Throwable -> t.stackTrace })
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
 }

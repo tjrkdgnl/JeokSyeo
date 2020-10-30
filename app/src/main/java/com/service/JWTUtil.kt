@@ -138,9 +138,11 @@ object JWTUtil {
         //엑세스 토큰이 내장 DB에 저장되어져 있다면 로그인을 한 상태.
         Log.e("엑세스토큰 확인", GlobalApplication.userDataBase.getAccessToken().toString())
         Log.e("엑세스토큰만료시간 확인", GlobalApplication.userDataBase.getAccessTokenExpire().toString())
-        GlobalApplication.userDataBase.getAccessTokenExpire().let { expire ->
-            if (expire > 0) {
-                checkExpireOfAccessToken(expire)
+        GlobalApplication.userDataBase.getAccessToken()?.let { token ->
+            GlobalApplication.userDataBase.getAccessTokenExpire().let { expire ->
+                if (expire > 0) {
+                    checkExpireOfAccessToken(expire)
+                }
             }
         }
     }

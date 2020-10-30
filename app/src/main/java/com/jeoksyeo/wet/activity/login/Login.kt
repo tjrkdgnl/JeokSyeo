@@ -28,6 +28,8 @@ import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LoginBinding
 import com.error.ErrorManager
 import com.google.android.gms.tasks.OnCompleteListener
+import com.jeoksyeo.wet.activity.alchol_category.AlcholCategory
+import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.jeoksyeo.wet.activity.main.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -47,7 +49,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var appleLogin: AppleLogin
 
     private lateinit var disposable: Disposable
-    private lateinit var refreshDisposable: Disposable
+    private var handlingNumber = 0
 
     init {
         loginObj = this
@@ -61,11 +63,11 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
 
-        binding.kakaoLoginButton.setOnClickListener(this)
-        binding.naverLoginButton.setOnClickListener(this)
-        binding.googleLoginButton.setOnClickListener(this)
-        binding.appleLoginButton.setOnClickListener(this)
-
+        Log.e("액티비티넘버",intent.getIntExtra(GlobalApplication.ACTIVITY_HANDLING,0).toString())
+        if(intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)){
+            val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
+            handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING,0)!!
+        }
     }
 
     private fun kakaoExcute() {
@@ -116,7 +118,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
             R.id.appleLogin_button -> appleExecute()
 
-//            R.id.refreshButton-> refresh()
 
             else -> {
             }
@@ -153,19 +154,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun getRefreshToken() {
-        val map = HashMap<String, Any>()
-        GlobalApplication.userDataBase.getRefreshToken()?.let { map.put("refresh_token",it) }
-
-        refreshDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
-            .refreshToken(GlobalApplication.userBuilder.createUUID, map)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ result: GetUserData ->
-
-            }, { t: Throwable -> t.stackTrace })
-    }
-
     fun setUserInfo(provider: String?, oauth_token: String?) {
 
         GlobalApplication.userBuilder
@@ -196,15 +184,11 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
                     Toast.makeText(this,"로그인",Toast.LENGTH_SHORT).show()
 
-                    //인텐트가 시작되는 시점에서 flag를 달아야지만 제대로 flag 기능이 작동한다.
-                    //이전의 활동에서는 새로운 인텐트가 시작되는지 모르기때문에 flag 기능이 제대로 작동하지 않는다.
-                    startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    finish()
+                    moveActivity()
                 }
                 //회원가입
                 else {
                     GlobalApplication.userBuilder.setOAuthId(result.data?.user?.userId)
-                    val intent = Intent(this,SignUp::class.java)
                     val bundle = Bundle()
 
                     result.data?.user?.hasBirth?.let {
@@ -217,13 +201,32 @@ class Login : AppCompatActivity(), View.OnClickListener {
                         Log.e("성별체크", it.toString())
                         GlobalApplication.userBuilder.setGender(result.data?.user?.gender)
                     }
-
-                    intent.putExtra("userBundle",bundle)
-                    startActivity(intent)
+                    GlobalApplication.instance.moveActivity(this,SignUp::class.java
+                        ,0,bundle,GlobalApplication.USER_BUNDLE)
                 }
             }, { t: Throwable? ->
                 t?.stackTrace
                 executeProgressBar(this,false)
             })
+    }
+
+    private fun moveActivity(){
+        finish()
+        when(handlingNumber){
+            GlobalApplication.ACTIVITY_HANDLING_MAIN-> {
+                GlobalApplication.instance.moveActivity(this,MainActivity::class.java,Intent.FLAG_ACTIVITY_CLEAR_TOP) }
+
+            GlobalApplication.ACTIVITY_HANDLING_DETAIL->{
+                GlobalApplication.instance.moveActivity(this,AlcholDetail::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
+            GlobalApplication.ACTIVITY_HANDLING_CATEGORY->{
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
 }

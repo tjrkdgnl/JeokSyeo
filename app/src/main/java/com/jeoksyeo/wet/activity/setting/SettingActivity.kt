@@ -29,7 +29,16 @@ class SettingActivity: AppCompatActivity(), SettingContract.BaseView, View.OnCli
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.basicHeader_backButton ->finish()
+            R.id.basicHeader_backButton ->{
+                finish()
+                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+            }
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+    }
+
 }

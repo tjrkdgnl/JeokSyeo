@@ -97,7 +97,8 @@ class Presenter : MainContract.BasePresenter {
 
         view.getView().mainNavigation.navigationContainer.setHasFixedSize(true)
         view.getView().mainNavigation.navigationContainer.layoutManager = LinearLayoutManager(context)
-        view.getView().mainNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst,GlobalApplication.userInfo.getProvider())
+        view.getView().mainNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst
+            ,GlobalApplication.userInfo.getProvider(),GlobalApplication.ACTIVITY_HANDLING_MAIN)
     }
 
     override fun initAlcholRanking(context: Context) {

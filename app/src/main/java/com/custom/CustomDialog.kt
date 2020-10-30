@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
@@ -20,7 +22,6 @@ import kotlinx.android.synthetic.main.main.*
 
 
 object CustomDialog {
-
     fun loginDialog(context: Context, activityHandle: Int) {
         val dialog = Dialog(context, R.style.Theme_Dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -30,57 +31,16 @@ object CustomDialog {
         dialog.show()
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+
         okButton.setOnClickListener { v: View? ->
-            val intent = Intent(context, Login::class.java)
-            intent.putExtra("activityHandle", activityHandle)
-            context.startActivity(intent)
+            val bundle = Bundle()
+            bundle.putInt(GlobalApplication.ACTIVITY_HANDLING, activityHandle)
+            GlobalApplication.instance.moveActivity(context, Login::class.java,
+                0, bundle, GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
+
             dialog.dismiss()
         }
         cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
-    }
-
-    fun logoutDialog(context: Context): MutableList<Button>{
-        val dialog = Dialog(context, R.style.Theme_Dialog)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
-        dialog.show()
-        val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
-        val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
-        val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
-        okButton.text = "로그아웃"
-        contents.setText(R.string.logout_msg)
-        GlobalApplication.userInfo.init()
-        GlobalApplication.userDataBase.setAccessToken(null)
-        GlobalApplication.userDataBase.setRefreshToken(null)
-        GlobalApplication.userDataBase.setAccessTokenExpire(null)
-        GlobalApplication.userDataBase.setRefreshToken(null)
-
-
-        val lst = listOf<Button>(okButton,cancelButton)
-
-        return lst.toMutableList()
-    }
-
-    fun customDialog(context: Context?): Dialog {
-        val dialog = Dialog(context!!, R.style.Theme_Dialog)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
-        dialog.show()
-        return dialog
-    }
-
-    fun customDialog(context: Context?, activityHandle: Int): Dialog {
-        val dialog = Dialog(context!!, R.style.Theme_Dialog)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
-        dialog.show()
-        return dialog
     }
 
     fun QnA_Dialog(context: Context?, plzMsg: Int) {

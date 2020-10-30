@@ -186,7 +186,10 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.editProfile_G_back -> finish()
+            R.id.editProfile_G_back -> {
+                finish()
+                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+            }
 
             R.id.editProfile_G_album -> CameraPermission()
 
@@ -269,5 +272,10 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         else binding.birthdayDay.setText(dayOfMonth.toString())
 
         birthday += "-" + binding.birthdayMonth.text + "-" + binding.birthdayDay.text
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
 }

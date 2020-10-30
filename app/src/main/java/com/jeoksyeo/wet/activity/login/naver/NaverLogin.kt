@@ -19,8 +19,8 @@ import com.jeoksyeo.wet.activity.signup.SignUp
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.error.ErrorManager
+import com.jeoksyeo.wet.activity.editprofile.EditProfile
 import com.jeoksyeo.wet.activity.main.MainActivity
-import com.model.user.UserInfo
 import com.vuforia.engine.wet.R
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -100,14 +100,14 @@ class NaverLogin(private val mContext: Context) {
             GlobalApplication.userInfo.init()
             GlobalApplication.userDataBase.setAccessToken(null)
             GlobalApplication.userDataBase.setRefreshToken(null)
-            GlobalApplication.userDataBase.setAccessTokenExpire(null)
-            GlobalApplication.userDataBase.setRefreshToken(null)
+            GlobalApplication.userDataBase.setAccessTokenExpire(0)
+            GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
 
             mContext.startActivity(Intent(mContext,MainActivity::class.java))
             if(mContext is MainActivity){
                 mContext.finish()
-                mContext.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
             }
             Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
@@ -136,14 +136,14 @@ class NaverLogin(private val mContext: Context) {
                     GlobalApplication.userInfo.init()
                     GlobalApplication.userDataBase.setAccessToken(null)
                     GlobalApplication.userDataBase.setRefreshToken(null)
-                    GlobalApplication.userDataBase.setAccessTokenExpire(null)
-                    GlobalApplication.userDataBase.setRefreshToken(null)
+                    GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                    GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
                     Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
                     mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     if(mContext is Activity){
                         mContext.finish()
-                        mContext.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                        mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
                     }
                     dialog.dismiss()
                 }

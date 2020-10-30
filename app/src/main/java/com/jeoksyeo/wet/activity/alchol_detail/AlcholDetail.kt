@@ -6,16 +6,16 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.model.alchol_detail.Alchol
-import com.model.alchol_detail.Data
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholDetailBinding
-import javax.security.auth.login.LoginException
 
 class AlcholDetail :AppCompatActivity(), AlcholDetailContract.BaseView , View.OnClickListener {
     private lateinit var binding: AlcholDetailBinding
     private lateinit var presenter:Presenter
     private  var alchol:Alchol? =null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.alchol_detail)
@@ -25,11 +25,15 @@ class AlcholDetail :AppCompatActivity(), AlcholDetailContract.BaseView , View.On
             view = this@AlcholDetail
         }
 
-        if(intent.hasExtra(GlobalApplication.MOVE_ALCHOL)){
-            alchol = intent.getParcelableExtra<Alchol>(GlobalApplication.MOVE_ALCHOL)
-            binding.alchol =alchol
-            binding.executePendingBindings()
-            setLike(alchol?.isLiked!!)
+        if(intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)){
+            val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
+            alchol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
+            alchol?.let {
+                binding.alchol =alchol
+                binding.executePendingBindings()
+                setLike(alchol?.isLiked!!)
+                presenter.initComponent(this, alchol!!)
+            }
         }
 
         binding.AlcholDetailSelectedByMe.setOnClickListener(this)
@@ -53,15 +57,24 @@ class AlcholDetail :AppCompatActivity(), AlcholDetailContract.BaseView , View.On
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.AlcholDetail_selectedByMe -> {
-                alchol?.let {
-                    it.isLiked?.let { like->
-                        if(like)
-                            presenter.cancelAlcholLike(it.alcholId!!)
-                        else
-                            presenter.executeLike(it.alcholId!!)
+                if(GlobalApplication.userInfo.getProvider() !=null){
+                    alchol?.let {
+                        it.isLiked?.let { like->
+                            if(like)
+                                presenter.cancelAlcholLike(it.alcholId!!)
+                            else
+                                presenter.executeLike(it.alcholId!!)
+                        }
                     }
+                }
+                else{
+                    CustomDialog.loginDialog(this,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
                 }
             }
         }
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
 }

@@ -20,12 +20,8 @@ import com.jeoksyeo.wet.activity.login.Login
 import com.error.ErrorManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.jeoksyeo.wet.activity.main.MainActivity
-import com.jeoksyeo.wet.activity.setting.SettingActivity
-import com.model.user.UserInfo
-import com.nhn.android.naverlogin.OAuthLogin
 import com.vuforia.engine.wet.R
 import java.lang.Exception
-import java.lang.StringBuilder
 
 class AppleLogin(private val mContext:Context,private val activity: Activity) {
     private val provider = OAuthProvider.newBuilder("apple.com")
@@ -102,13 +98,14 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
             FirebaseAuth.getInstance().signOut()
             GlobalApplication.userInfo.init()
             GlobalApplication.userDataBase.setAccessToken(null)
-            GlobalApplication.userDataBase.setAccessTokenExpire(null)
-            GlobalApplication.userDataBase.setRefreshTokenExpire(null)
+            GlobalApplication.userDataBase.setRefreshToken(null)
+            GlobalApplication.userDataBase.setAccessTokenExpire(0)
+            GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
             mContext.startActivity(Intent(mContext,MainActivity::class.java))
             if(mContext is MainActivity){
                 mContext.finish()
-                mContext.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
             }
             Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
@@ -137,14 +134,15 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                         Log.e("애플삭제", FirebaseAuth.getInstance().currentUser?.email.toString())
                         GlobalApplication.userInfo.init()
                         GlobalApplication.userDataBase.setAccessToken(null)
-                        GlobalApplication.userDataBase.setAccessTokenExpire(null)
-                        GlobalApplication.userDataBase.setRefreshTokenExpire(null)
+                        GlobalApplication.userDataBase.setRefreshToken(null)
+                        GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                        GlobalApplication.userDataBase.setRefreshTokenExpire(0)
                         Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
 
                         mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         if(mContext is Activity){
                             mContext.finish()
-                            mContext.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                            mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
                         }
                     }
                     else{

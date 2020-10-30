@@ -65,16 +65,12 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcholList>) {
-        listAdapter = ListAdapter(list)
+        listAdapter = ListAdapter(requireContext(),list)
         binding.listRecyclerView.adapter= listAdapter
     }
 
     override fun updateList(list: MutableList<AlcholList>) {
         listAdapter.updateList(list)
-    }
-
-    override fun getAlcholTotalCount(): Int {
-        return listPresenter.totalCount
     }
 
     override fun changeSort(list: MutableList<AlcholList>) {
@@ -87,5 +83,9 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
 
     override fun getSort(): String {
         return listPresenter.sort
+    }
+
+    override fun setTotalCount(alcholCount: Int) {
+        viewmodel.setCount(alcholCount)
     }
 }

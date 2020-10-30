@@ -11,12 +11,11 @@ interface Fg_AlcholCategoryContact {
         fun getbinding(): ViewDataBinding
         fun setAdapter(list:MutableList<AlcholList>)
         fun updateList(list:MutableList<AlcholList>)
-        fun getAlcholTotalCount() :Int
         fun changeSort(list:MutableList<AlcholList>)
         fun getLastAlcholId():String?
         fun getSort():String
+        fun setTotalCount(alcholCount:Int)
     }
-
     interface BasePresenter{
         var view:BaseView
         fun initRecyclerView(context: Context, lastAlcholId:String?)
@@ -28,7 +27,5 @@ interface Fg_AlcholCategoryContact {
         fun changeSort(sort: String)
 
         fun setSortValue(sort:String)
-
     }
-
 }

@@ -1,10 +1,10 @@
 package com.adapter.alchol_category
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcholCategoryGridViewHolder
@@ -14,6 +14,7 @@ import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_category.AlcholList
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -38,9 +39,10 @@ class GridAdapter(private val context: Context
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    val intent = Intent(context,AlcholDetail::class.java)
-                    intent.putExtra(GlobalApplication.MOVE_ALCHOL,it.data?.alchol)
-                    context.startActivity(intent)
+                    val bundle = Bundle()
+                    bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alchol)
+                    GlobalApplication.instance.moveActivity(context,AlcholDetail::class.java
+                        ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
                 },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
         }
     }

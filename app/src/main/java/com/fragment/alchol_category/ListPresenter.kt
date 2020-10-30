@@ -26,7 +26,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
     lateinit var sort: String
     var position = 0
-    var totalCount = 0
+
     private val compositeDisposable = CompositeDisposable()
     private var visibleItemCount = 0
     private var totalItemCount = 0
@@ -49,7 +49,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
                 .subscribe({
                     //주류 총 개수
                     it.data?.pagingInfo?.alcholTotalCount?.let { total ->
-                        totalCount = total
+                        view.setTotalCount(total)
                     }
 
                     it.data?.alcholList?.let { list ->

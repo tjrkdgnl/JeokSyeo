@@ -1,6 +1,7 @@
 package com.fragment.alchol_category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +50,7 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
             view =this@Fragment_Grid
             gridLayoutManager =GridLayoutManager(context, 2)
             position =this@Fragment_Grid.position
-            sort = viewmodel.currentSort
+            sort = viewmodel.currentSort // 액티비티에서 변경된 sort로 정렬시키기 위함.
         }
 
         gridPresenter.initRecyclerView(requireContext(),null)
@@ -74,9 +75,6 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
         gridAdapter.updateList(list)
     }
 
-    override fun getAlcholTotalCount() :Int{
-       return gridPresenter.totalCount
-    }
 
     override fun changeSort(list: MutableList<AlcholList>) {
         gridAdapter.changeSort(list)
@@ -90,4 +88,8 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
         return gridPresenter.sort
     }
 
+    override fun setTotalCount(alcholCount: Int) {
+        Log.e("fragment set","in")
+        viewmodel.setCount(alcholCount)
+    }
 }

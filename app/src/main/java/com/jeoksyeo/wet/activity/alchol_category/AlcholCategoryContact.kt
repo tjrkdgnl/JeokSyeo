@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.model.alchol_category.AlcholList
+import com.model.alchol_detail.Alchol
 import com.vuforia.engine.wet.databinding.AlcholCategoryBinding
 
 interface AlcholCategoryContact {
@@ -29,7 +30,10 @@ interface AlcholCategoryContact {
 
         fun checkSort(position:Int,sort:String)
 
-        fun callTotalCount(position:Int)
-    }
+        fun initNavigationItemSet(context: Context,activity:Activity,provider: String?)
 
+        fun checkLogin(context: Context,provider: String?)
+
+
+    }
 }

@@ -3,6 +3,8 @@ package com.adapter.navigation
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.NavigationViewHolder
@@ -14,15 +16,16 @@ import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
 import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
-import com.jeoksyeo.wet.activity.main.MainActivity
 import com.jeoksyeo.wet.activity.setting.SettingActivity
 import com.model.navigation.NavigationItem
+import com.vuforia.engine.wet.R
 
 class NavigationAdpater(
     private val context: Context,
     private val activity:Activity,
     private val lst: MutableList<NavigationItem>,
-    private var provider:String?
+    private var provider:String?,
+    private val activityNumber:Int
 ) : RecyclerView.Adapter<NavigationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavigationViewHolder {
@@ -32,15 +35,20 @@ class NavigationAdpater(
     override fun onBindViewHolder(holder: NavigationViewHolder, position: Int) {
         holder.bind(lst[position])
         holder.getViewBinding().navigationLinearLayout.setOnClickListener {
-
+        Log.e("네이게이션",activityNumber.toString())
             when (position) {
-                0 -> {context.startActivity(Intent(context,SettingActivity::class.java)) }
-                1 -> {plzLogin(1)}
-                2 -> {plzLogin(2) }
-                3 -> {plzLogin(3) }
-                4 -> {plzLogin(4)}
-                5 -> {plzLogin(5) }
-                6 ->  checkLogin(lst[position].title)
+                0 -> {
+                    if(context is Activity){
+                        GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)
+                    }
+
+                }
+                1 -> {checkProvider(1)}
+                2 -> {checkProvider(2) }
+                3 -> {checkProvider(3) }
+                4 -> {checkProvider(4)}
+                5 -> {checkProvider(5) }
+                6 ->  checkLoginOut(lst[position].title)
             }
         }
     }
@@ -49,7 +57,7 @@ class NavigationAdpater(
         return lst.size
     }
 
-    private fun checkLogin(check: String?) {
+    private fun checkLoginOut(check: String?) {
         check?.let {
             if (it.equals("로그아웃")) {
                 when (provider) {
@@ -58,23 +66,33 @@ class NavigationAdpater(
                     "GOOGLE" -> { GoogleLogin(context,activity).googleLogOut() }
                     "APPLE" -> { AppleLogin(context,activity).appleSignOut() }
                 }
-
             } else {
-                context.startActivity(Intent(context, Login::class.java))
+                //로그인일 때
+                if(context is Activity){
+                    val bundle = Bundle()
+                    bundle.putInt(GlobalApplication.ACTIVITY_HANDLING,activityNumber)
+                    GlobalApplication.instance.moveActivity(context,Login::class.java
+                        ,0,bundle,GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
+                }
             }
         }
     }
 
-    private fun plzLogin(position: Int){
+    //프로바이더의 유무에 따라서 로그인 여부를 판단하고, 이후에 액티비티 전환
+    private fun checkProvider(position: Int){
         provider?.let {
             when(position){
-                1 -> context.startActivity(Intent(context, EditProfile::class.java))
+                1 -> {
+                    if(context is Activity)
+                        GlobalApplication.instance.moveActivity(context,EditProfile::class.java)
+                }
                 2 -> {}
                 3 -> {}
                 4 -> {}
                 5 -> {}
             }
 
-        } ?: CustomDialog.loginDialog(context,0)
+            // 프로바이더가 없으면 로그인을 통해 프로바이더를 얻어오기 위해서 로그인화면으로 유도
+        } ?: CustomDialog.loginDialog(context,activityNumber)
     }
 }

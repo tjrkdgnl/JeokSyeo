@@ -1,5 +1,7 @@
 package com.jeoksyeo.wet.activity.alchol_detail
 
+import android.content.Context
+import com.model.alchol_detail.Alchol
 import com.vuforia.engine.wet.databinding.AlcholDetailBinding
 
 interface AlcholDetailContract {
@@ -17,5 +19,6 @@ interface AlcholDetailContract {
 
         fun cancelAlcholLike(alcholId:String)
 
+        fun initComponent(context: Context, alchol: Alchol)
     }
 }

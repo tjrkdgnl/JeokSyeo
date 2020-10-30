@@ -17,14 +17,15 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
     private lateinit var binding: MainBinding
     private lateinit var presenter: Presenter
     private var checkRefresh = false
-    private lateinit var moveIntent:Intent
+    private val postionBundle:Bundle = Bundle()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.main)
         binding.basicHeader.windowHeaderListCategory.setOnClickListener(this)
         binding.mainNavigation.imageViewCancel.setOnClickListener(this)
 
-        moveIntent = Intent(this,AlcholCategory::class.java)
+
 
         presenter = Presenter().apply {
             view = this@MainActivity
@@ -62,25 +63,30 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                     binding.mainDrawerLayout.openDrawer(GravityCompat.END)
                 }
             }
-            R.id.activityMain_koreanAlchol ->{
-                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,0)
-                startActivity(moveIntent)}
+            R.id.activityMain_koreanAlchol -> {
+                postionBundle.putInt(GlobalApplication.MOVE_TYPE,0)
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                0,postionBundle,GlobalApplication.CATEGORY_BUNDLE)}
 
-            R.id.activityMain_beer ->{
-                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,1)
-                    startActivity(moveIntent)}
+            R.id.activityMain_beer -> {
+                postionBundle.putInt(GlobalApplication.MOVE_TYPE,1)
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                    0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
 
-            R.id.activityMain_wine ->{
-                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,2)
-                    startActivity(moveIntent)}
+            R.id.activityMain_wine -> {
+                postionBundle.putInt(GlobalApplication.MOVE_TYPE,2)
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                    0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
 
-            R.id.activityMain_whisky ->{
-                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,3)
-                    startActivity(moveIntent)}
+            R.id.activityMain_whisky -> {
+                postionBundle.putInt(GlobalApplication.MOVE_TYPE,3)
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                    0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
 
-            R.id.activityMain_sake->{
-                moveIntent.putExtra(GlobalApplication.MOVE_TYPE,4)
-                    startActivity(moveIntent)}
+            R.id.activityMain_sake -> {
+                postionBundle.putInt(GlobalApplication.MOVE_TYPE,4)
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                    0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
         }
     }
 

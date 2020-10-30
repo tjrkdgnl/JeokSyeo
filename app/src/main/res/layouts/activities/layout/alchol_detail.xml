@@ -178,9 +178,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detail_topRatingBar" />
 
-
                 <TextView
-                    android:id="@+id/textView_alcholInfo"
+                    android:id="@+id/textView_alcholExplain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
@@ -195,7 +194,7 @@
                     app:layout_constraintTop_toBottomOf="@id/AlcholDetail_underline" />
 
                 <TextView
-                    android:id="@+id/textView_alcholExplain"
+                    android:id="@+id/textView_alcholDescription"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginEnd="50dp"
@@ -207,7 +206,7 @@
                     android:textSize="@dimen/detail_default_textSize"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView_alcholInfo" />
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcholExplain" />
 
                 <ImageView
                     android:id="@+id/imageView_type"
@@ -219,7 +218,7 @@
                     android:src="@mipmap/ic_type"
                     app:layout_constraintEnd_toStartOf="@id/imageView_dosu"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView_alcholExplain" />
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcholDescription" />
 
                 <TextView
                     android:id="@+id/textView_alcholType"
@@ -227,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
-                    android:hint=""
+                    tools:text="맥주"
                     android:text="@{alchol.class_.firstClass.name.toString()}"
                     android:lineSpacingExtra="2sp"
                     android:textSize="@dimen/detail_default_textSize"
@@ -253,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
-                    android:hint=""
+                    tools:text="10%"
                     android:text="@{alchol.abv.toString()}"
                     android:lineSpacingExtra="2sp"
                     android:textSize="@dimen/detail_default_textSize"
@@ -279,7 +278,7 @@
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
-                    android:hint=""
+                    tools:text="4.6 "
                     android:text="@{alchol.review.score.toString()}"
                     android:textSize="@dimen/detail_default_textSize"
                     android:textStyle="bold"
@@ -287,6 +286,45 @@
                     app:layout_constraintStart_toStartOf="@id/imageView_star"
                     app:layout_constraintTop_toBottomOf="@id/imageView_star" />
 
+
+                <TextView
+                    android:id="@+id/textView_alcholinfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="2sp"
+                    android:text="주류정보"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/title_Size"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcholType" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/alcholComponent_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcholinfo"/>
+
+                <TextView
+                    android:id="@+id/textView_evalutionScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="43dp"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="2sp"
+                    android:text="사용자 평가지표"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/title_Size"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/alcholComponent_recyclerView" />
 
                 <Space
                     android:id="@+id/detail_space_top"
@@ -305,23 +343,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_space_top" />
-
-
-                <TextView
-                    android:id="@+id/textView_evalutionScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="43dp"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="2sp"
-                    android:text="사용자 평가지표"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/title_Size"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView_alcholType" />
-
 
                 <Space
                     android:id="@+id/detail_space"

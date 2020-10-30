@@ -27,7 +27,6 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
     lateinit var sort: String
     var position = 0
-    var totalCount = 0
     private val compositeDisposable = CompositeDisposable()
     private var visibleItemCount = 0
     private var totalItemCount = 0
@@ -46,7 +45,8 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
                 .subscribe({
                     //주류 총 개수
                     it.data?.pagingInfo?.alcholTotalCount?.let { total ->
-                        totalCount = total
+                        Log.e("total","in")
+                       view.setTotalCount(total)
                     }
 
                     it.data?.alcholList?.let { list ->
@@ -55,8 +55,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
 
                         //리싸이클러뷰 셋팅
                         binding.gridRecyclerView.setHasFixedSize(true)
-                        val spacingPixcel =
-                            context.resources.getDimensionPixelSize(R.dimen.grid_layout_margin)
+                        val spacingPixcel = context.resources.getDimensionPixelSize(R.dimen.grid_layout_margin)
                         binding.gridRecyclerView.addItemDecoration(
                             GridSpacingItemDecoration(2, spacingPixcel, true, 0)
                         )

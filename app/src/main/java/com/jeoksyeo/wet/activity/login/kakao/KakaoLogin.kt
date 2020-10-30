@@ -20,10 +20,6 @@ import com.kakao.sdk.user.UserApiClient
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.vuforia.engine.wet.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class KakaoLogin(private val context: Context) {
     val TAG = "KAKAO_USERINFO"
@@ -76,14 +72,15 @@ class KakaoLogin(private val context: Context) {
             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             GlobalApplication.userInfo.init()
             GlobalApplication.userDataBase.setAccessToken(null)
-            GlobalApplication.userDataBase.setAccessTokenExpire(null)
-            GlobalApplication.userDataBase.setRefreshTokenExpire(null)
+            GlobalApplication.userDataBase.setRefreshToken(null)
+            GlobalApplication.userDataBase.setAccessTokenExpire(0)
+            GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
 
             context.startActivity(Intent(context,MainActivity::class.java))
             if(context is MainActivity){
                 context.finish()
-                context.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                context.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
             }
             dialog.dismiss()
         }
@@ -114,13 +111,14 @@ class KakaoLogin(private val context: Context) {
                     //서버 자체에서 탈퇴를 진행하는 api도 실행하기
                     GlobalApplication.userInfo.init()
                     GlobalApplication.userDataBase.setAccessToken(null)
-                    GlobalApplication.userDataBase.setAccessTokenExpire(null)
-                    GlobalApplication.userDataBase.setRefreshTokenExpire(null)
+                    GlobalApplication.userDataBase.setRefreshToken(null)
+                    GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                    GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
                     context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     if(context is Activity){
                         context.finish()
-                        context.overridePendingTransition(R.anim.translation_x_right,R.anim.not_translation)
+                        context.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
                     }
                     Toast.makeText(context, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
                 }
