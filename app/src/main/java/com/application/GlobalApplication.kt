@@ -64,6 +64,7 @@ class GlobalApplication : Application() {
 
         const val ACTIVITY_HANDLING_MAIN = 0
         const val ACTIVITY_HANDLING_DETAIL = 1
+        const val ACTIVITY_HANDLING_COMMENT = 3
         const val ACTIVITY_HANDLING_CATEGORY = 2
     }
 

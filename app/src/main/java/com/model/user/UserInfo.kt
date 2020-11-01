@@ -122,7 +122,11 @@ class UserInfo {
         fun getOAuthToken() = this.oauth_token
         fun getProvider() = this.provider
         val createUUID: String
-            get() = UUID.randomUUID().toString()
+            get() {
+                val uuid = UUID.randomUUID().toString()
+                Log.e("UUID",uuid )
+                return uuid}
+
 
         fun build(): UserInfo {
             var userInfo = UserInfo()

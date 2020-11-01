@@ -1,8 +1,6 @@
 package com.adapter.alchol_category
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_category.AlcholList
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

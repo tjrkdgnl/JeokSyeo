@@ -441,7 +441,7 @@
                     app:layout_constraintTop_toTopOf="@id/AlcholDetail_reviewTotalscore" />
 
 
-                <FrameLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_commentList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comment_window_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f7f7f7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_window_top">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_commentSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/evalution_button_shape"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/comment_window_seekbarImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:src="@mipmap/journal_img" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="2sp"
+                android:text="테이스트 저널"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/aromaBackgroundTextSize"
+            android:textColor="#3CFFB248"
+            android:lineSpacingExtra="6sp"
+            android:text="AROMA"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/comment_window_aromaText"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaText"
+            />
+
+        <TextView
+            android:id="@+id/comment_window_aromaText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="45dp"
+            android:lineSpacingExtra="1sp"
+            android:text="아로마"
+            android:textColor="#000000"
+            android:textSize="@dimen/aromaTextSize"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_commentSeekBar" />
+
+        <ImageView
+            android:id="@+id/compoent_aroma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/componentMarginEnd"
+            android:onClick="onClick"
+            android:src="@mipmap/componet_question"
+            app:layout_constraintBottom_toBottomOf="@id/comment_window_aromaText"
+            app:layout_constraintEnd_toEndOf="@id/comment_window_aromaSeekbar"
+            app:layout_constraintTop_toTopOf="@id/comment_window_aromaText" />
+
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/comment_window_aromaSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="20dp"
+            app:bsb_bubble_color="@color/orange"
+            app:bsb_bubble_text_color="@color/white"
+            app:bsb_bubble_text_size="@dimen/thumb_text_size"
+            app:bsb_is_float_type="true"
+            app:bsb_max="5"
+            app:bsb_min="0"
+            app:bsb_progress="0"
+            app:bsb_second_track_color="@color/orange"
+            app:bsb_section_count="5"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_show_section_mark="false"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_thumb_radius="@dimen/thumb_size"
+            app:bsb_track_color="@color/white"
+            app:bsb_track_size="9dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaText"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_aromaText" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/aromaBackgroundTextSize"
+            android:textColor="#3CFFB248"
+            android:lineSpacingExtra="21sp"
+            android:text="MOUTHFEEL"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/comment_window_mouthfeelText"
+            app:layout_constraintStart_toStartOf="@id/comment_window_mouthfeelText"
+            />
+
+
+        <TextView
+            android:id="@+id/comment_window_mouthfeelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:lineSpacingExtra="1sp"
+            android:text="마우스필"
+            android:textColor="#000000"
+            android:textSize="@dimen/aromaTextSize"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_aromaSeekbar" />
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/comment_window_mourhfeelSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="20dp"
+            app:bsb_bubble_color="@color/orange"
+            app:bsb_bubble_text_color="@color/white"
+            app:bsb_bubble_text_size="@dimen/thumb_text_size"
+            app:bsb_is_float_type="true"
+            app:bsb_max="5"
+            app:bsb_min="0"
+            app:bsb_progress="0"
+            app:bsb_second_track_color="@color/orange"
+            app:bsb_section_count="5"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_show_section_mark="false"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_thumb_radius="@dimen/thumb_size"
+            app:bsb_track_color="@color/white"
+            app:bsb_track_size="9dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/comment_window_mouthfeelText"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_mouthfeelText" />
+
+        <ImageView
+            android:id="@+id/compoent_mouthfeel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/componentMarginEnd"
+            android:onClick="onClick"
+            android:src="@mipmap/componet_question"
+            app:layout_constraintBottom_toBottomOf="@id/comment_window_mouthfeelText"
+            app:layout_constraintEnd_toEndOf="@id/comment_window_mourhfeelSeekbar"
+            app:layout_constraintTop_toTopOf="@id/comment_window_mouthfeelText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/aromaBackgroundTextSize"
+            android:textColor="#3CFFB248"
+            android:lineSpacingExtra="21sp"
+            android:text="TASTE"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_tasteText"
+            app:layout_constraintTop_toTopOf="@id/comment_window_tasteText"
+            />
+
+        <TextView
+            android:id="@+id/comment_window_tasteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:lineSpacingExtra="1sp"
+            android:text="테이스트"
+            android:textColor="#000000"
+            android:textSize="@dimen/aromaTextSize"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_mourhfeelSeekbar" />
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/comment_window_tasteSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:bsb_bubble_color="@color/orange"
+            app:bsb_bubble_text_color="@color/white"
+            app:bsb_bubble_text_size="@dimen/thumb_text_size"
+            app:bsb_is_float_type="true"
+            app:bsb_max="5"
+            app:bsb_min="0"
+            app:bsb_progress="0"
+            app:bsb_second_track_color="@color/orange"
+            app:bsb_section_count="5"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_show_section_mark="false"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_thumb_radius="@dimen/thumb_size"
+            app:bsb_track_color="@color/white"
+            app:bsb_track_size="9dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/comment_window_tasteText"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_tasteText" />
+
+
+        <ImageView
+            android:id="@+id/compoent_taste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/componentMarginEnd"
+            android:onClick="onClick"
+            android:src="@mipmap/componet_question"
+            app:layout_constraintBottom_toBottomOf="@id/comment_window_tasteText"
+            app:layout_constraintEnd_toEndOf="@id/comment_window_tasteSeekbar"
+            app:layout_constraintTop_toTopOf="@id/comment_window_tasteText" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="45sp"
+            android:textColor="#3CFFB248"
+            android:lineSpacingExtra="21sp"
+            android:text="APPEARANCE"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_appearanceText"
+            app:layout_constraintTop_toTopOf="@id/comment_window_appearanceText"
+            />
+
+        <TextView
+            android:id="@+id/comment_window_appearanceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:lineSpacingExtra="1sp"
+            android:text="시각적특징"
+            android:textColor="#000000"
+            android:textSize="@dimen/aromaTextSize"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_tasteSeekbar" />
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/comment_window_appearanceSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="20dp"
+            app:bsb_bubble_color="@color/orange"
+            app:bsb_bubble_text_color="@color/white"
+            app:bsb_bubble_text_size="@dimen/thumb_text_size"
+            app:bsb_is_float_type="true"
+            app:bsb_max="5"
+            app:bsb_min="0"
+            app:bsb_progress="0"
+            app:bsb_second_track_color="@color/orange"
+            app:bsb_section_count="5"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_show_section_mark="false"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_thumb_radius="@dimen/thumb_size"
+            app:bsb_track_color="@color/white"
+            app:bsb_track_size="9dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/comment_window_appearanceText"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_appearanceText" />
+
+
+        <ImageView
+            android:id="@+id/compoent_appearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/componentMarginEnd"
+            android:onClick="onClick"
+            android:src="@mipmap/componet_question"
+            app:layout_constraintBottom_toBottomOf="@id/comment_window_appearanceText"
+            app:layout_constraintEnd_toEndOf="@id/comment_window_appearanceSeekbar"
+            app:layout_constraintTop_toTopOf="@id/comment_window_appearanceText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="45sp"
+            android:textColor="#3CFFB248"
+            android:lineSpacingExtra="21sp"
+            android:text="OVERALL"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_overallText"
+            app:layout_constraintTop_toTopOf="@id/comment_window_overallText"
+            />
+        <TextView
+            android:id="@+id/comment_window_overallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:lineSpacingExtra="1sp"
+            android:text="어울림"
+            android:textColor="#000000"
+            android:textSize="@dimen/aromaTextSize"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_appearanceSeekbar" />
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/comment_window_overallSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="20dp"
+            app:bsb_bubble_color="@color/orange"
+            app:bsb_bubble_text_color="@color/white"
+            app:bsb_bubble_text_size="@dimen/thumb_text_size"
+            app:bsb_is_float_type="true"
+            app:bsb_max="5"
+            app:bsb_min="0"
+            app:bsb_progress="0"
+            app:bsb_second_track_color="@color/orange"
+            app:bsb_section_count="5"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_show_section_mark="false"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_thumb_radius="@dimen/thumb_size"
+            app:bsb_track_color="@color/white"
+            app:bsb_track_size="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/comment_window_overallText"
+            app:layout_constraintTop_toBottomOf="@id/comment_window_overallText" />
+
+        <ImageView
+            android:id="@+id/compoent_overall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/componentMarginEnd"
+            android:onClick="onClick"
+            android:src="@mipmap/componet_question"
+            app:layout_constraintBottom_toBottomOf="@id/comment_window_overallText"
+            app:layout_constraintEnd_toEndOf="@id/comment_window_overallSeekbar"
+            app:layout_constraintTop_toTopOf="@id/comment_window_overallText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

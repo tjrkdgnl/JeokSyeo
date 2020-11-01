@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.custom.CustomDialog
+import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.alchol_detail.Alchol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholDetailBinding
@@ -32,7 +33,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
                 binding.alchol = alchol
                 binding.executePendingBindings()
                 alchol?.let {
-                    it.isLiked?.let {like->
+                    it.isLiked?.let { like ->
                         setLike(like)
                     }
                     presenter.initComponent(this, it)
@@ -60,21 +61,27 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.AlcholDetail_selectedByMe -> {
-                if (GlobalApplication.userInfo.getProvider() != null) {
+                GlobalApplication.userInfo.getProvider()?.let {
                     alchol?.let {
                         it.alcholId?.let { alcholId ->
                             it.isLiked?.let { like ->
                                 if (like)
                                     presenter.cancelAlcholLike(alcholId)
                                 else
-                                    presenter.executeLike(alcholId)
-                            }
+                                    presenter.executeLike(alcholId) }
                         }
-
                     }
-                } else {
-                    CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
-                }
+                } ?: CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+            }
+
+            R.id.AlcholDetail_evaluateButton->{
+                GlobalApplication.userInfo.getProvider()?.let {
+                    alchol?.let {alchol->
+                        val bundle = Bundle()
+                        bundle.putParcelable(GlobalApplication.ALCHOL_BUNDLE,alchol)
+                        GlobalApplication.instance.moveActivity(this,Comment::class.java)
+                    }
+                } ?: CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_COMMENT)
             }
         }
     }

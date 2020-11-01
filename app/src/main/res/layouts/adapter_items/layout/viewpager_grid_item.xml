@@ -29,9 +29,8 @@
             app:cardElevation="1.2dp"
             >
 
-
-
             <ImageView
+                android:id="@+id/grid_mainImg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gridItem_GridAhchol_img_height"
                 android:scaleType="fitCenter"

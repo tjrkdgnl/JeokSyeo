@@ -35,10 +35,11 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
+                    android:id="@+id/list_mainImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src.toString()}"
+                    android:scaleType="fitCenter"
+                    setting_icon_str="@{alchol.media.get(0).mediaResource.small.src.toString()}"
                     />
 
             </androidx.cardview.widget.CardView>

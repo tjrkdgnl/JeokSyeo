@@ -230,6 +230,9 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
             GlobalApplication.ACTIVITY_HANDLING_CATEGORY->{
                 GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
+            GlobalApplication.ACTIVITY_HANDLING_COMMENT->{
+                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java)
+            }
         }
     }
 

@@ -13,4 +13,9 @@
     <string name="delete_app">탈퇴하시겠습니까?</string>
     <string name="logout_msg">로그아웃하시겠습니까?</string>
     <string name="app_version">1.0.0</string>
+    <string name="explainAroma">과일, 꽃, 홉, 황, 알코올 등의 아로마가\n일차적으로 감지되며, 상호 간 시너지\n로 복합적인 향을 생성합니다.</string>
+    <string name="explainMouthfeel">마우스필의 평가 기준은 적절한 탄산,\n바디, 뒷맛이 핵심 속성이며, 질감을 포\n함한 입안의 모든 감촉을 의미합니다.</string>
+    <string name="explainTaste">사람은 다섯가지 맛(미각)과 아로마(후각)의 복합적인 인지로 전체적인 풍미\n를 즐길 수 있습니다.</string>
+    <string name="explainAppearance">시각적 특징은 색깔과 투명성, 헤드 등으로 구분되며, 원료의 볶음 ·숙성 정도,\n효모의 여과 여부로 차이가 발생합니다.</string>
+    <string name="explainOverall">아로마, 맛, 마우스필 등 플레이버의 복\n합적인 조화를 의미합니다. 직감적으로\n알 수 있는 개인의 호불호를 평가합니다.</string>
 </resources>

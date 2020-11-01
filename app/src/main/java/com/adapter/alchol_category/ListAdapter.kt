@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcholCategoryListViewHolder
 import com.application.GlobalApplication
+import com.bumptech.glide.Glide
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_category.AlcholList
@@ -46,6 +47,7 @@ class ListAdapter(private val context: Context,private val lst:MutableList<Alcho
                     },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
             }
         }
+
     }
 
     override fun getItemCount(): Int {

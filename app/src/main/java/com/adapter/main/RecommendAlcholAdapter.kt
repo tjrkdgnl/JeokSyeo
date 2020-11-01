@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.RecommendAlcholViewHolder
 import com.application.GlobalApplication
+import com.bumptech.glide.Glide
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.recommend_alchol.AlcholList

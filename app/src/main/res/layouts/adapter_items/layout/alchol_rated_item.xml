@@ -4,25 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingConstraints">
 
+    <data>
+        <variable
+            name="name"
+            type="String" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:background="@color/white"
             android:layout_height="match_parent">
 
-            <ImageView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/rated_alchol_img"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/nuggi"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/nuggi" />
+
+            </androidx.cardview.widget.CardView>
+
 
             <TextView
                 android:id="@+id/rated_item_name"
@@ -33,9 +49,10 @@
                 android:textColor="#333333"
                 android:textSize="18sp"
                 android:textStyle="normal"
+                tools:text="천비향"
                 app:layout_constraintStart_toEndOf="@id/rated_alchol_img"
                 app:layout_constraintTop_toTopOf="@id/rated_alchol_img"
-                tools:text="천비향" />
+                android:text="@{name}" />
 
             <TextView
                 android:id="@+id/rated_item_location"
@@ -48,7 +65,7 @@
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="@id/rated_item_name"
                 app:layout_constraintTop_toBottomOf="@id/rated_item_name"
-                tools:text="국순당" />
+                android:text="국순당" />
 
             <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/rated_item_ratingbar"
@@ -81,16 +98,15 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
-                app:animation_duration="300"
-                tools:text="천비향은 밑술 후에 네 번 덧술을 한 오양주 인데요. 현재 시판되는 전통 주류 중 유일하게 오양주로 술을 빚고 있습니다.
-알코올 도수를 높이고 술 맛을 좋게 하기 위함인데요. 일반적으로 한 번 덧술 할 때마다 이전 덧술 과정의 최소 1.5배의 쌀이 필요합니다. " >
+                app:animation_duration="170"
+                android:text="천비향은 밑술 후에 네 번 덧술을 한 오양주 인데요. 현재 시판되는 전통 주류 중 유일하게 오양주로 술을 빚고 있습니다. 덧술을 하는 것은 알코올 도수를 높이고 술 맛을 좋게 하기 위함인데요. 일반적으로 한 번 덧술 할 때마다 이전 덧술 과정의 최소 1.5배의 쌀이 필요합니다.  " >
             </at.blogc.android.views.ExpandableTextView>
 
 
             <LinearLayout
                 android:id="@+id/rated_item_expandableButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 app:layout_constraintTop_toTopOf="@id/rated_item_delete"
                 app:layout_constraintStart_toStartOf="@id/rated_itme_comment"
                 app:layout_constraintBottom_toBottomOf="@id/rated_item_delete"
@@ -98,27 +114,24 @@
 
                 <ImageView
                     android:id="@+id/rated_item_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@mipmap/down_errow"
                  />
 
                 <TextView
                     android:id="@+id/rated_item_expandableText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textStyle="normal"
                     android:textSize="12sp"
                     android:textColor="#7b7b7b"
                     android:lineSpacingExtra="5sp"
-                    tools:text="더보기"
+                    android:text="더보기"
                     android:gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     />
             </LinearLayout>
-
-
-
 
             <TextView
                 android:id="@+id/rated_item_delete"

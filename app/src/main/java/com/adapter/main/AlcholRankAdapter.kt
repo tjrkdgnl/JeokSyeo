@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcholRankViewHolder
 import com.application.GlobalApplication
+import com.bumptech.glide.Glide
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_ranking.AlcholList

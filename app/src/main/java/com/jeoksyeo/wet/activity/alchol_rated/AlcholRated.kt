@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.alchol_rated
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -9,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholRatedBinding
 
-class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView,TabLayout.OnTabSelectedListener {
+class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView,TabLayout.OnTabSelectedListener{
     private lateinit var binding:AlcholRatedBinding
     private lateinit var presenter:Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,4 +51,10 @@ class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView,TabLayout.On
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+    }
+
 }
