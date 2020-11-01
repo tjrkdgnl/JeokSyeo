@@ -137,6 +137,8 @@ dependencies {
     //ratingbar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.0'
 
+    implementation 'at.blogc:expandabletextview:1.0.5'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

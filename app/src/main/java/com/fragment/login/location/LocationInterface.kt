@@ -1,4 +1,4 @@
-package com.fragment.location
+package com.fragment.login.location
 
 import com.viewmodel.SignUpViewModel
 

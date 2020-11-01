@@ -45,7 +45,7 @@ class Presenter:AlcholCategoryContact.BasePresenter {
                     textView.text = lst[position]
                     textView.textSize =15f
                     textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
-                    textView.setTextColor(context.resources.getColor(R.color.black,null))
+                    textView.setTextColor(context.resources.getColor(R.color.tabColor,null))
                     textView.gravity = Gravity.CENTER_HORIZONTAL
                 }).attach()
         }

@@ -5,8 +5,10 @@
         android:title="리뷰순"/>
     <item android:id="@+id/likeOrder"
         android:title="좋아요순"/>
-    <item android:id="@+id/degreeOrder"
-        android:title="도수순"/>
+    <item android:id="@+id/degreeOrder_asc"
+        android:title="도수 낮은순"/>
+    <item android:id="@+id/degreeOrder_desc"
+    android:title="도수 높은순"/>
 
 
 </menu>

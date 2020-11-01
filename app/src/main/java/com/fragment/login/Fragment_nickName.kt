@@ -1,4 +1,4 @@
-package com.fragment
+package com.fragment.login
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
 import com.error.ErrorManager

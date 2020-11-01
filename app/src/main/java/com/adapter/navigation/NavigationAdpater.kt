@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.NavigationViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
+import com.jeoksyeo.wet.activity.alchol_rated.AlcholRated
 import com.jeoksyeo.wet.activity.editprofile.EditProfile
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
@@ -82,11 +83,8 @@ class NavigationAdpater(
     private fun checkProvider(position: Int){
         provider?.let {
             when(position){
-                1 -> {
-                    if(context is Activity)
-                        GlobalApplication.instance.moveActivity(context,EditProfile::class.java)
-                }
-                2 -> {}
+                1 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
+                2 -> { GlobalApplication.instance.moveActivity(context,AlcholRated::class.java)}
                 3 -> {}
                 4 -> {}
                 5 -> {}

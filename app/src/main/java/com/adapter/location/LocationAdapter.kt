@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.LocationViewHolder
 import com.application.GlobalApplication
 import com.error.ErrorManager
-import com.fragment.location.LocationInterface
+import com.fragment.login.location.LocationInterface
 import com.model.area.AreaList
 import com.service.ApiGenerator
 import com.service.ApiService

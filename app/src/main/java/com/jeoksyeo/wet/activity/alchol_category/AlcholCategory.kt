@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -60,11 +61,18 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
                     Log.e("tab","in")
                     presenter.checkSort(it.position, viewModel.currentSort)
                     viewModel.currentPosition.value =it.position
+                    (it.customView as? TextView)?.let {
+                        it.setTextColor(resources.getColor(R.color.orange,null))
+                    }
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.let {
+                    (it.customView as? TextView)?.let {
+                        it.setTextColor(resources.getColor(R.color.tabColor,null))
+                    }
+                }
             }
-
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
@@ -163,9 +171,14 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
 
             }
 
-            R.id.degreeOrder -> {
-                executeSorting("abv")
-                binding.textViewCurrentOrdering.text = "도수순"
+            R.id.degreeOrder_asc -> {
+                executeSorting("abv-asc")
+                binding.textViewCurrentOrdering.text = "도수 낮은순"
+            }
+
+            R.id.degreeOrder_desc -> {
+                executeSorting("abv-desc")
+                binding.textViewCurrentOrdering.text = "도수 높은순"
             }
         }
         return true

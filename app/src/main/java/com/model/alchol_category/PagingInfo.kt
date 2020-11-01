@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName
 
 
 class PagingInfo {
+    @SerializedName("page")
+    @Expose
+    var page: String? = null
+
     @SerializedName("next")
     @Expose
     var next: Boolean? = null

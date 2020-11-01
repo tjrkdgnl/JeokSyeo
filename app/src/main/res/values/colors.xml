@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <color name="tabColor">#8f8f8f</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="black">#000000</color>
@@ -23,7 +24,7 @@
     <color name="transparentGrey">#c7c7c7</color>
     <color name="tabTextDefaultColor">#3a3a3a</color>
     <color name="halfTransparent">#EFffffff</color>
-    <color name="orange">#ffb95b</color>
+    <color name="orange">#fdb14b</color>
     <color name="ligthGrey">#efefef</color>
     <color name="ligthGrey2">#fbfbfb</color>
     <color name="viewColor">#E5E5E5</color>

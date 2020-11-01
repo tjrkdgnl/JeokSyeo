@@ -4,8 +4,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.application.GlobalApplication
-import com.fragment.*
-import com.fragment.location.Fragment_location
+import com.fragment.login.location.Fragment_location
+import com.fragment.login.Fragment_birthDay
+import com.fragment.login.Fragment_gender
+import com.fragment.login.Fragment_nickName
+import com.fragment.login.RequestFragment
 
 class SignUpViewPagerAdapter(
     val fragmentActivity: FragmentActivity,

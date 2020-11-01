@@ -33,7 +33,7 @@ interface ApiService {
 
     @GET("v1/alchols")
     fun getAlcholCategory(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-    @Query("f") type:String, @Query("c")number:Int, @Query("s")sort:String, @Query("w") last_alcholId:String?) : Flowable<GetAlcholCategory>
+    @Query("f") type:String, @Query("c")number:Int, @Query("s")sort:String, @Query("p") pageNumber:String?) : Flowable<GetAlcholCategory>
 
     @GET("v1/alchols/{alchol_id}")
     fun getAlcholDetail(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,

@@ -56,7 +56,7 @@ class GridAdapter(private val context: Context
     fun updateList(list:MutableList<AlcholList>){
         val newList = mutableListOf<AlcholList>()
         newList.clear()
-
+        val currentItemCount = lst.size
         for(newData in list.withIndex()){
             for(previousData in lst){
                 if(newData.value.equals(previousData.alcholId)){
@@ -71,7 +71,7 @@ class GridAdapter(private val context: Context
         }
 
         lst.addAll(newList)
-        notifyDataSetChanged()
+        notifyItemChanged(currentItemCount-1,newList.size)
     }
 
     fun changeSort(list:MutableList<AlcholList>){

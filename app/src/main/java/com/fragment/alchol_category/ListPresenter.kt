@@ -32,6 +32,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     private var totalItemCount = 0
     private var pastVisibleItem = 0
     private var loading = false
+    private var pageNum = 1
 
     override fun initRecyclerView(context: Context, lastAlcholId: String?) {
         compositeDisposable.add(
@@ -42,14 +43,19 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
                     type,
                     GlobalApplication.PAGINATION_SIZE,
                     sort,
-                    lastAlcholId
+                    pageNum.toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     //주류 총 개수
-                    it.data?.pagingInfo?.alcholTotalCount?.let { total ->
-                        view.setTotalCount(total)
+                    it.data?.pagingInfo?.let { info ->
+                        info.alcholTotalCount?.let {total ->
+                            view.setTotalCount(total)
+                        }
+                        info.page?.let {pageNumber->
+                            pageNum = pageNumber.toInt()
+                        }
                     }
 
                     it.data?.alcholList?.let { list ->
@@ -89,16 +95,20 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
                     GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(), type, GlobalApplication.PAGINATION_SIZE, sort, alcholId
+                    GlobalApplication.userInfo.getAccessToken(), type
+                    , GlobalApplication.PAGINATION_SIZE, sort, (pageNum+1).toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    it.data?.pagingInfo?.next?.let { next ->
-                        if (next) {
-                            it.data?.alcholList?.toMutableList()?.let { list ->
-                                view.updateList(list.toMutableList())
-                                loading = false
+                    it.data?.pagingInfo?.let { info ->
+                        info.page?.let { pageNumber-> pageNum = pageNumber.toInt() }
+                        info.next?.let { next->
+                            if (next) {
+                                it.data?.alcholList?.toMutableList()?.let { list ->
+                                    view.updateList(list.toMutableList())
+                                    loading = false
+                                }
                             }
                         }
                     }
@@ -116,11 +126,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
                 .getAlcholCategory(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(),
-                    type,
-                    20,
-                    sort,
-                    null
-                )
+                    type, GlobalApplication.PAGINATION_SIZE, sort, "1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

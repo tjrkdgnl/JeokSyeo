@@ -54,6 +54,7 @@ class ListAdapter(private val context: Context,private val lst:MutableList<Alcho
 
     fun updateList(list:MutableList<AlcholList>){
         val newlist = mutableListOf<AlcholList>()
+        val currentSize = lst.size
 
         for(newData in list.withIndex()){
             for(previousData in lst){
@@ -69,7 +70,7 @@ class ListAdapter(private val context: Context,private val lst:MutableList<Alcho
             duplicate=false
         }
         lst.addAll(newlist)
-        notifyDataSetChanged()
+        notifyItemChanged(currentSize-1,newlist.size)
     }
 
     fun changeSort(list:MutableList<AlcholList>){

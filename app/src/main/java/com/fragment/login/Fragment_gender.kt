@@ -1,8 +1,6 @@
-package com.fragment
+package com.fragment.login
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,6 @@ import com.application.GlobalApplication
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentSignupGenderBinding
-import com.vuforia.engine.wet.databinding.FragmentSignupNicknameBinding
 
 class Fragment_gender : Fragment(),View.OnClickListener{
     private lateinit var viewmodel: SignUpViewModel

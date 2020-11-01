@@ -32,6 +32,8 @@
         tools:replace ="android:label"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <activity android:name="com.jeoksyeo.wet.activity.alchol_rated.AlcholRated"/>
+
         <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
         </activity>
 
