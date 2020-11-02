@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcholRankViewHolder
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
+import com.custom.OnSingleClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_ranking.AlcholList
@@ -37,7 +39,7 @@ class AlcholRankAdapter(
         holder.bind(lst[position])
         holder.getViewBinding().rankingText.text = (position+1).toString()
 
-        holder.getViewBinding().alcholRankParentLayout.setOnClickListener{
+        holder.getViewBinding().alcholRankParentLayout.setOnSingleClickListener{
             lst[position].alcholId?.let {alcholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcholDetail(GlobalApplication.userBuilder.createUUID,
@@ -61,5 +63,12 @@ class AlcholRankAdapter(
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         disposable?.dispose()
+    }
+
+    fun View.setOnSingleClickListener( onSingleClick:(View)->Unit){
+        val onSingleClickListener = OnSingleClickListener{
+            onSingleClick(it)
+        }
+        setOnClickListener(onSingleClick)
     }
 }

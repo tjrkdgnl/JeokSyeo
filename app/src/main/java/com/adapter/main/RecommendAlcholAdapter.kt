@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.RecommendAlcholViewHolder
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
+import com.custom.OnSingleClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.recommend_alchol.AlcholList
@@ -32,7 +34,7 @@ private var lst:MutableList<AlcholList>) : RecyclerView.Adapter<RecommendAlcholV
     override fun onBindViewHolder(holder: RecommendAlcholViewHolder, position: Int) {
         holder.bind(lst.get(position))
 
-        holder.getViewBinding().recommendParentLayout.setOnClickListener{
+        holder.getViewBinding().recommendParentLayout.setOnSingleClickListener{
             lst[position].alcholId?.let {alcholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcholDetail(GlobalApplication.userBuilder.createUUID,
@@ -58,4 +60,12 @@ private var lst:MutableList<AlcholList>) : RecyclerView.Adapter<RecommendAlcholV
         disposable?.dispose()
 
     }
+
+    fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
+        val setOnSingleClickListener = OnSingleClickListener{
+            onSingleClick(it)
+        }
+        setOnClickListener(setOnSingleClickListener)
+    }
+
 }
