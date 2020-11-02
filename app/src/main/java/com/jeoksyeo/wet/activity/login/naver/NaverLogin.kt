@@ -29,6 +29,7 @@ import java.lang.Exception
 class NaverLogin(private val mContext: Context) {
     val instance = OAuthLogin.getInstance()
     var naverLoginHandler: OAuthLoginHandler
+    lateinit var executeProgressBar:(Boolean)->Unit
 
     init {
         instance.init(
@@ -60,9 +61,11 @@ class NaverLogin(private val mContext: Context) {
                     } catch (e: Exception) {
                         val message = e.message ?: e.stackTrace
                         Log.e(ErrorManager.Naver_TAG, message.toString())
+                        executeProgressBar(false)
                     }
 
                 } else {
+                    executeProgressBar(false)
                     Log.e(
                         ErrorManager.Naver_TAG,
                         OAuthLogin.getInstance().getLastErrorCode(mContext).code

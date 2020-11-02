@@ -28,13 +28,14 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
     private val provider = OAuthProvider.newBuilder("apple.com")
     private val pending = FirebaseAuth.getInstance().pendingAuthResult
     private var user: FirebaseUser? = null
+    lateinit var executeProgressBar:(Boolean)->Unit
 
     init {
         provider.addCustomParameter("locale", "ko_KR")
         provider.scopes = mutableListOf("email", "name")
     }
 
-    fun loginExecute(listener:ExecuteProgressBarDialog) {
+    fun loginExecute() {
         user = FirebaseAuth.getInstance().currentUser
 
         if (user == null) {
@@ -78,7 +79,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                     }
             }.addOnFailureListener { e ->
                 Log.e(ErrorManager.Apple_TAG, "activitySignIn:onFailure", e)
-                listener.executeProgressBar(false)
+                executeProgressBar(false)
             }
         }
     }

@@ -40,16 +40,19 @@ import com.service.ApiService
 import com.service.JWTUtil
 import java.lang.Exception
 
-class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialog {
+class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: LoginBinding
     private val GOOGLE_SIGN = 1
     private lateinit var googleLogin: GoogleLogin
     private lateinit var kakaoLogin: KakaoLogin
     private lateinit var naverLogin: NaverLogin
     private lateinit var appleLogin: AppleLogin
-
     private lateinit var disposable: Disposable
     private var handlingNumber = 0
+
+    private val executeProgressBar:(Boolean)->Unit = {status->
+        progressbarStatus(this,status)
+    }
 
     init {
         loginObj = this
@@ -80,6 +83,8 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
 
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)
+        kakaoLogin.executeProgressBar =executeProgressBar
+
         executeProgressBar(true)
         if (kakaoLogin.instance.isKakaoTalkLoginAvailable(this))
             kakaoLogin.instance.loginWithKakaoTalk(this, callback = kakaoLogin.callback)
@@ -89,6 +94,8 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
 
     private fun naverExecute() {
         naverLogin = NaverLogin(this)
+        naverLogin.executeProgressBar=executeProgressBar
+
         executeProgressBar(true)
         naverLogin.instance.startOauthLoginActivity(this, naverLogin.naverLoginHandler)
     }
@@ -100,9 +107,10 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
 
     private fun appleExecute() {
             appleLogin = AppleLogin(this,this)
-            appleLogin.loginExecute(this)
-            executeProgressBar(true)
+            appleLogin.executeProgressBar = executeProgressBar
 
+            appleLogin.loginExecute()
+            executeProgressBar(true)
     }
 
     private fun progressbarStatus(activity: Activity,setting:Boolean){
@@ -134,6 +142,10 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        if(resultCode !=Activity.RESULT_OK){
+            executeProgressBar(false)
+        }
+
         if (requestCode == GOOGLE_SIGN) {
             var task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
@@ -148,13 +160,20 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
             //구글 소셜 로그인을 파이어베이스에 넘겨줌.
             val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
             FirebaseAuth.getInstance().signInWithCredential(credential)
-
-            FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
-                setUserInfo("GOOGLE", it.result?.token.toString())
-            }?.addOnFailureListener(this) {
-                Log.e(ErrorManager.Google_TAG, it.message.toString())
-                executeProgressBar(false)
-            }
+                .addOnCompleteListener {task->
+                    if(task.isSuccessful){
+                        FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
+                            setUserInfo("GOOGLE", it.result?.token.toString())
+                        }?.addOnFailureListener {
+                            Log.e(ErrorManager.Google_TAG, it.message.toString())
+                            executeProgressBar(false)
+                        }
+                    }else{
+                        executeProgressBar(false)
+                    }
+                }.addOnFailureListener {
+                    executeProgressBar(false)
+                }
 
         } catch (e: Exception) {
             val message = e.message ?: e.stackTrace
@@ -239,10 +258,6 @@ class Login : AppCompatActivity(), View.OnClickListener ,ExecuteProgressBarDialo
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
-    }
-
-    override fun executeProgressBar(setting: Boolean) {
-        progressbarStatus(this,setting)
     }
 
 }

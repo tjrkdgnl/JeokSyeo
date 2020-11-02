@@ -26,8 +26,11 @@ class KakaoLogin(private val context: Context) {
     val instance = LoginClient.instance
     val userInfo = UserApiClient.instance
 
+    lateinit var executeProgressBar:(Boolean) ->Unit
+
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
+            executeProgressBar(false)
             Log.e(ErrorManager.Kakao_TAG, "로그인 실패", error)
         } else if (token != null) {
             Log.i(ErrorManager.Kakao_TAG, "로그인 성공 ${token.accessToken}")
