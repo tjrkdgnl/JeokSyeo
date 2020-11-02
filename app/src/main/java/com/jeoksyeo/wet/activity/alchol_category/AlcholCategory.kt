@@ -149,7 +149,7 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
                 changeToggle(true)
             }
 
-            R.id.imageView_ArrowToggle -> {
+            R.id.sorting_constraintLayout -> {
                 if (popupMenu == null) {
                     popupMenu = PopupMenu(applicationContext, binding.imageViewArrowToggle)
                     menuInflater.inflate(R.menu.order_menu, popupMenu!!.menu)

@@ -58,39 +58,42 @@
             app:layout_constraintTop_toBottomOf="@id/tabLayout_alcholList">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/LinearLayout_rankProduct"
+                android:id="@+id/sorting_constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="onClick"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView_currentOrdering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="2"
-                    android:lineSpacingExtra="4sp"
-                    android:text="리뷰순"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/AlcholMainWindow_default_textsize"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/imageView_ArrowToggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="90dp"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
                     android:src="@mipmap/arrow_toggle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_currentOrdering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="2"
+                    android:lineSpacingExtra="4sp"
+                    android:text="리뷰순"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/AlcholMainWindow_default_textsize"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imageView_ArrowToggle"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
