@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingConstraints">
 
+    <data>
+        <variable
+            name="alchol"
+            type="com.model.alchol_detail.Alchol" />
+    </data>
 
     <ScrollView
         android:id="@+id/comment_window_container"
@@ -38,14 +43,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="120dp" />
+                    app:layout_constraintGuide_begin="165dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/horizontal_170_guideLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_end="372dp" />
+                    app:layout_constraintGuide_begin="170dp" />
 
                 <ImageView
                     android:id="@+id/imageView_background"
@@ -53,56 +58,69 @@
                     android:layout_height="350dp"
                     android:background="@null"
                     android:scaleType="centerCrop"
+                    setting_icon_str="@{alchol.backgroundMedia.get(0).mediaResource.medium.src.toString()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:background="#6A000000"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
-
                 <ImageView
                     android:id="@+id/comment_alcholImg"
-                    android:layout_width="150dp"
-                    android:layout_height="0dp"
-                    android:scaleType="fitXY"
+                    android:layout_width="@dimen/alcholSize_width"
+                    android:layout_height="@dimen/alcholSize_height"
+                    android:scaleType="fitCenter"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintVertical_bias="0.9"
+                    setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src.toString()}"
                     app:layout_constraintBottom_toBottomOf="@id/horizontal_280_guideLine"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:src="@mipmap/nuggi"
                     />
 
                 <TextView
                     android:id="@+id/comment_companyName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="6sp"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     tools:text="회사이름"
+                    android:maxLines="2"
+
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@{alchol.brewery.get(0).name.toString()}"
                     app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
                     app:layout_constraintTop_toTopOf="@id/horizontal_170_guideLine" />
 
                 <TextView
                     android:id="@+id/comment_alcholName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:lineSpacingExtra="8sp"
                     android:textColor="#ffffff"
                     android:textSize="27sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/comment_companyName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:maxLines="2"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:text="@{alchol.name.kr.toString()}"
+                    app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
                     app:layout_constraintTop_toBottomOf="@id/comment_companyName"
-                    tools:text="천비향 탁주" />
-
+                    tools:text="천비향 탁주입니다 마음것 이용해주세요" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -262,7 +280,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="26dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="70dp"
+                android:layout_marginBottom="50dp"
                 android:enabled="false"
                 android:onClick="onClick"
                 android:background="@drawable/change_button"

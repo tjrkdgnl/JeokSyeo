@@ -21,4 +21,6 @@ object ErrorManager {
     val ALCHOL_DETAIL = "주류 상세조회 오류"
     val ALCHOL_LIKE = "주류 좋아요 오류"
     val ALCHOL_CANCEL_LIKE = "주류 좋아요 취소 오류"
+
+    val COMMENT ="코멘트 작성 에러"
 }

@@ -205,6 +205,8 @@
                 app:layout_constraintStart_toEndOf="@id/textView_gridCommentCount"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar_gridRatingbar"
                 />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 </layout>

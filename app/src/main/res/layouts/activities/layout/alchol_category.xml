@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/category_drawerLayout"
         android:layout_width="match_parent"
@@ -179,7 +178,6 @@
 
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
         <include
             android:id="@+id/category_navigation"
             layout="@layout/drawer_navigation"

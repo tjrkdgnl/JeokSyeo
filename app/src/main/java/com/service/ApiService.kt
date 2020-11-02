@@ -47,4 +47,8 @@ interface ApiService {
     fun cancelAlcholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                    @Path("alchol_id") alcholId:String?) : Flowable<com.model.result.GetResult>
 
+    @POST("v1/alchols/{alchol_id}/reviews")
+    fun setComment(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                   @Path("alchol_id") alcholId:String?,@Body map:HashMap<String,Any>) : Single<com.model.result.GetResult>
+
 }

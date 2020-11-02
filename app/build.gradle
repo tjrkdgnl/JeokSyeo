@@ -143,6 +143,8 @@ dependencies {
 
     implementation "com.github.skydoves:balloon:1.2.2"
 
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

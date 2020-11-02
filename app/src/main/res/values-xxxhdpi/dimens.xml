@@ -16,7 +16,8 @@
     <dimen name="thumb_text_size">16sp</dimen>
     <dimen name="tabLayout_height">44dp</dimen>
     <dimen name="ok_button_size">60dp</dimen>
-
+    <dimen name="alcholSize_width">160dp</dimen>
+    <dimen name="alcholSize_height">240dp</dimen>
 
     //comment window
     <dimen name="aromaTextSize">20sp</dimen>

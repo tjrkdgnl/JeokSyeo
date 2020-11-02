@@ -2,6 +2,7 @@ package com.fragment.alchol_category
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
@@ -34,7 +35,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     private var loading = false
     private var pageNum:Int = 1
 
-    override fun initRecyclerView(context: Context, lastAlcholId: String?) {
+    override fun initRecyclerView(context: Context) {
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -122,6 +123,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
 
     override fun changeSort(sort: String) {
         setSortValue(sort)
+        executeProgressBar(true)
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -131,11 +133,26 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     view.changeSort(it.data?.alcholList?.toMutableList()!!)
-                }, { t -> Log.e(ErrorManager.PAGINATION_CHANGE, t.message.toString()) })
+                    executeProgressBar(false)
+                }, { t ->
+                    Log.e(ErrorManager.PAGINATION_CHANGE, t.message.toString())
+                    executeProgressBar(false)
+                })
         )
     }
 
     override fun setSortValue(sort: String) {
         this.sort = sort
+    }
+
+     val executeProgressBar:(Boolean)->Unit = {execute->
+        if(execute){
+            binding.gridProgressBar.root.visibility = View.VISIBLE
+
+        }
+        else{
+            binding.gridProgressBar.root.visibility = View.INVISIBLE
+     }
+
     }
 }

@@ -2,6 +2,7 @@ package com.fragment.alchol_category
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
@@ -34,7 +35,13 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     private var loading = false
     private var pageNum = 1
 
-    override fun initRecyclerView(context: Context, lastAlcholId: String?) {
+    override fun initRecyclerView(context: Context) {
+        val progressBarListener = object :ProgressbarListener{
+            override fun progressOnOff(check: Boolean) {
+                executeProgressBar(check)
+            }
+        }
+
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -121,6 +128,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
 
     override fun changeSort(sort: String) {
         setSortValue(sort)
+        executeProgressBar(true)
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -131,11 +139,26 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     view.changeSort(it.data?.alcholList?.toMutableList()!!)
-                }, { t -> Log.e(ErrorManager.PAGINATION_CHANGE, t.message.toString()) })
+                    executeProgressBar(false)
+                }, { t ->
+                    Log.e(ErrorManager.PAGINATION_CHANGE, t.message.toString())
+                    executeProgressBar(false)
+                })
         )
     }
 
     override fun setSortValue(sort: String) {
         this.sort = sort
+    }
+
+     val executeProgressBar: (Boolean) ->Unit =  { execute->
+        if(execute)
+            binding.listProgressBar.root.visibility = View.VISIBLE
+        else
+            binding.listProgressBar.root.visibility = View.INVISIBLE
+    }
+
+    interface ProgressbarListener{
+        fun progressOnOff(check:Boolean)
     }
 }

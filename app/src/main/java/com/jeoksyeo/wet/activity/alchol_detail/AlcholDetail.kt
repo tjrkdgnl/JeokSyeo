@@ -16,7 +16,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
     private lateinit var binding: AlcholDetailBinding
     private lateinit var presenter: Presenter
     private var alchol: Alchol? = null
-
+    private var isLike = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.alchol_detail)
@@ -35,6 +35,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
                 alchol?.let {
                     it.isLiked?.let { like ->
                         setLike(like)
+                        isLike = like
                     }
                     presenter.initComponent(this, it)
                 }
@@ -62,13 +63,16 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
         when (v?.id) {
             R.id.AlcholDetail_selectedByMe -> {
                 GlobalApplication.userInfo.getProvider()?.let {
-                    alchol?.let {
-                        it.alcholId?.let { alcholId ->
-                            it.isLiked?.let { like ->
-                                if (like)
-                                    presenter.cancelAlcholLike(alcholId)
-                                else
-                                    presenter.executeLike(alcholId) }
+                    if(!isLike){
+                        isLike =true
+                        alchol?.let {
+                            presenter.executeLike(it.alcholId!!)
+                        }
+                    }
+                    else{
+                        isLike=false
+                        alchol?.let {
+                            presenter.cancelAlcholLike(it.alcholId!!)
                         }
                     }
                 } ?: CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
@@ -78,8 +82,8 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
                 GlobalApplication.userInfo.getProvider()?.let {
                     alchol?.let {alchol->
                         val bundle = Bundle()
-                        bundle.putParcelable(GlobalApplication.ALCHOL_BUNDLE,alchol)
-                        GlobalApplication.instance.moveActivity(this,Comment::class.java)
+                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,alchol)
+                        GlobalApplication.instance.moveActivity(this,Comment::class.java,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
                     }
                 } ?: CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_COMMENT)
             }

@@ -39,7 +39,9 @@
         <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
         </activity>
 
-        <activity android:name="com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail"/>
+        <activity android:name="com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail"
+            android:launchMode="singleTop">
+        </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.alchol_category.AlcholCategory"/>
 

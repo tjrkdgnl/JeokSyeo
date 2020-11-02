@@ -21,7 +21,6 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
     private lateinit var viewmodel:AlcholCategoryViewModel
     private lateinit var listAdapter:ListAdapter
     private lateinit var listPresenter:ListPresenter
-
     companion object{
         fun newInstance(position:Int):Fragment_List{
             val fragment = Fragment_List()
@@ -51,7 +50,7 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
             sort=viewmodel.currentSort
         }
 
-        listPresenter.initRecyclerView(requireContext(),null)
+        listPresenter.initRecyclerView(requireContext())
 
         return binding.root
     }
@@ -65,7 +64,8 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcholList>) {
-        listAdapter = ListAdapter(requireContext(),list)
+        listAdapter = ListAdapter(requireContext(),list,
+            executeProgressBar = listPresenter.executeProgressBar)
         binding.listRecyclerView.adapter= listAdapter
     }
 

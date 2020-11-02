@@ -1,6 +1,8 @@
 package com.jeoksyeo.wet.activity.alchol_category
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -188,4 +190,5 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
+
 }

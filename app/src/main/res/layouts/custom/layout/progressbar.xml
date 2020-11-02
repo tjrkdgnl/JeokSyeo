@@ -17,12 +17,10 @@
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/progressbar_circle_color"
             android:progressDrawable="@drawable/progressbar_circle_color"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

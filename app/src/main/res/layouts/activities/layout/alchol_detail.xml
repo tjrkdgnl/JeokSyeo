@@ -10,6 +10,7 @@
             type="com.model.alchol_detail.Alchol" />
     </data>
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,6 +27,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="280dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/horizontal_380_guideLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="380dp" />
 
             <ImageView
                 android:id="@+id/imageView_background"
@@ -455,15 +463,19 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="320dp"
+                android:layout_width="@dimen/alcholSize_width"
+                android:layout_height="@dimen/alcholSize_height"
                 android:background="@null"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src.toString()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/horizontal_380_guideLine"
+                app:layout_constraintVertical_bias="1"
                 android:layout_marginTop="55dp"
                 android:src="@mipmap/nuggi" />
+
+
 
             <Button
                 android:id="@+id/AlcholDetail_evaluateButton"

@@ -61,6 +61,7 @@ class GlobalApplication : Application() {
         const val PAGINATION_SIZE= 20
         const val DEFAULT_SORT = "like"
         const val MOVE_ALCHOL = "alchol Data"
+        const val ALCHOL_LIKE = "likeAndDisLike"
 
         const val ACTIVITY_HANDLING_MAIN = 0
         const val ACTIVITY_HANDLING_DETAIL = 1

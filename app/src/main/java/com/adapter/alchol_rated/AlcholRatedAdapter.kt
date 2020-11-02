@@ -32,7 +32,7 @@ private val smoothScrollPosition: Fragment_alcholRated.SmoothScrollListener
             else{
                 checkList[position] =false
                 holder.getViewBinding().ratedItmeComment.collapse()
-                smoothScrollPosition.moveScroll(position)
+//                smoothScrollPosition.moveScroll(position)
             }
         }
     }

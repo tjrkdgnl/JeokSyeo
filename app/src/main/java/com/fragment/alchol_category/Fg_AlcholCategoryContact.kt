@@ -3,7 +3,6 @@ package com.fragment.alchol_category
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import com.model.alchol_category.AlcholList
-import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
 
 interface Fg_AlcholCategoryContact {
 
@@ -18,7 +17,7 @@ interface Fg_AlcholCategoryContact {
     }
     interface BasePresenter{
         var view:BaseView
-        fun initRecyclerView(context: Context, lastAlcholId:String?)
+        fun initRecyclerView(context: Context)
 
         fun initScrollListener()
 
@@ -27,5 +26,6 @@ interface Fg_AlcholCategoryContact {
         fun changeSort(sort: String)
 
         fun setSortValue(sort:String)
+
     }
 }
