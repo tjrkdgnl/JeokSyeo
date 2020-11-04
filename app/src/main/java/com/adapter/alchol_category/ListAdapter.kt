@@ -26,8 +26,9 @@ class ListAdapter(private val context: Context,
                   private val lst:MutableList<AlcholList>,
                   private val executeProgressBar:(Boolean)->Unit
 ):RecyclerView.Adapter<AlcholCategoryListViewHolder>() {
+
     private var disposable: Disposable? =null
-    private var duplicate =false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlcholCategoryListViewHolder {
         return AlcholCategoryListViewHolder(parent)
     }
@@ -76,6 +77,7 @@ class ListAdapter(private val context: Context,
     }
 
     fun updateList(list:MutableList<AlcholList>){
+        var duplicate =false
         val newlist = mutableListOf<AlcholList>()
         val currentSize = lst.size
 
@@ -114,12 +116,17 @@ class ListAdapter(private val context: Context,
         disposable?.dispose()
     }
 
-
     //중복 클릭을 방지하기 위해서 확장함수 선언
     fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
         val onSingleClickListener =OnSingleClickListener{
             onSingleClick(it)
         }
         setOnClickListener(onSingleClickListener)
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+
+        disposable?.dispose()
     }
 }

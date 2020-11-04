@@ -18,6 +18,7 @@ import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.alchol_ranking.AlcholList
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -40,6 +41,9 @@ class AlcholRankAdapter(
         holder.getViewBinding().rankingText.text = (position+1).toString()
 
         holder.getViewBinding().alcholRankParentLayout.setOnSingleClickListener{
+            val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+            JWTUtil.settingUserInfo(false,!loginCheck)
+
             lst[position].alcholId?.let {alcholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcholDetail(GlobalApplication.userBuilder.createUUID,

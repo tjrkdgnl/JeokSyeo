@@ -19,6 +19,7 @@ import com.error.ErrorManager
 import com.model.navigation.NavigationItem
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -42,6 +43,9 @@ class Presenter : MainContract.BasePresenter {
     }
 
     override fun initBanner(context: Context) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getBannerData(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
             .subscribeOn(Schedulers.io())
@@ -64,6 +68,9 @@ class Presenter : MainContract.BasePresenter {
     }
 
     override fun initRecommendViewPager(context: Context)  {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getRecommendAlchol(
                 GlobalApplication.userBuilder.createUUID,
@@ -106,6 +113,9 @@ class Presenter : MainContract.BasePresenter {
     }
 
     override fun initAlcholRanking(context: Context) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+
         view.getView().monthlyRecylcerView.setHasFixedSize(true)
         view.getView().monthlyRecylcerView.layoutManager = LinearLayoutManager(context)
 

@@ -23,11 +23,11 @@ object JWTUtil {
 
     //엑세스토큰 JWT decode
     @Throws(Exception::class)
-    fun decodeAccessToken(accessToken: String?) {
+    fun decodeAccessToken(accessToken: String?,splashCheck: Boolean=false,loginCheck: Boolean=false) {
         try {
             val split = accessToken?.split(".")
             Log.e("Decode accessToken", getJson(split?.get(1)))
-            jsonParsing(getJson(split?.get(1)), ACCESS_TOKEN)
+            jsonParsing(getJson(split?.get(1)), ACCESS_TOKEN,splashCheck,loginCheck)
         } catch (e: UnsupportedEncodingException) {
             e.stackTrace
         }
@@ -35,11 +35,11 @@ object JWTUtil {
 
     //리프레쉬토큰 JWT decode
     @Throws(Exception::class)
-    fun decodeRefreshToken(refreshToken: String?) {
+    fun decodeRefreshToken(refreshToken: String?,splashCheck: Boolean=false,loginCheck: Boolean=false) {
         try {
             val split = refreshToken?.split(".")
             Log.e("Decode refreshToken", getJson(split?.get(1)))
-            jsonParsing(getJson(split?.get(1)), REFRESH_TOKEN)
+            jsonParsing(getJson(split?.get(1)), REFRESH_TOKEN,splashCheck,loginCheck)
         } catch (e: UnsupportedEncodingException) {
             e.stackTrace
         }
@@ -54,11 +54,14 @@ object JWTUtil {
     }
 
     //json parsing
-    private fun jsonParsing(json: String, token: String) {
+    private fun jsonParsing(json: String, token: String,splashCheck:Boolean,loginCheck:Boolean) {
         val jsonObject = JSONObject(json)
 
+        val check = splashCheck || loginCheck
+
+
         //토큰 만료시간 셋팅
-        if (token.equals(ACCESS_TOKEN)) {
+        if (token.equals(ACCESS_TOKEN) && check) {
             GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp"))
             GlobalApplication.userInfo = UserInfo.Builder("")
                 .setOAuthId(jsonObject.getString("user_id"))
@@ -86,17 +89,20 @@ object JWTUtil {
     }
 
     //토큰 만료시간을 체크
-    private fun checkExpireOfAccessToken(expire: Long) {
+    private fun checkExpireOfAccessToken(expire: Long,splashCheck:Boolean,loginCheck: Boolean):Boolean {
         val accessTokenExpire: Long = expire * 1000L
         val currentUTC = getCurrentUTC()
 
         //엑세스토큰 유효성 검사
         if (accessTokenExpire > currentUTC) {
             Log.e("엑세스토큰", "유효함")
-            decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
+            decodeAccessToken(GlobalApplication.userDataBase.getAccessToken(),splashCheck,loginCheck)
+            return true
 
         } else {
+            Log.e("엑세스토큰", "만료")
             //엑세스토큰이 만료되었음으로 리프레쉬토큰 유효성검사 실시
+            var check =false
             GlobalApplication.userDataBase.getRefreshTokenExpire().let { refreshTokenExpire ->
                 val fiveDay = 432000000L
 
@@ -104,23 +110,30 @@ object JWTUtil {
                 if ((currentUTC - fiveDay) < refreshTokenExpire || refreshTokenExpire * 1000L > currentUTC) {
                     Log.e("리프레쉬 토큰", "유효함")
                     Log.e("리프레쉬토큰만료시간 확인", GlobalApplication.userDataBase.getRefreshTokenExpire().toString())
-
                     val map = HashMap<String, Any>()
-                    GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
-                        map.put(GlobalApplication.REFRESH_TOKEN, refreshToken)
-                        compositeDisposable.add(
-                            ApiGenerator.retrofit.create(ApiService::class.java)
-                                .refreshToken(GlobalApplication.userBuilder.createUUID, map)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe({
-                                    Log.e("토큰 갱신", "성공")
-                                    GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken)
-                                    GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken)
-                                    decodeAccessToken(it.data?.token?.accessToken)
 
-                                }, { t: Throwable? ->Log.e(ErrorManager.TOKEN_REFRESH,t?.message.toString()) })
-                        )
+                    try {
+                        GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
+                            map.put(GlobalApplication.REFRESH_TOKEN, refreshToken)
+                            val userData = ApiGenerator.retrofit.create(ApiService::class.java)
+                                    .refreshToken(GlobalApplication.userBuilder.createUUID, map)
+                                    .subscribeOn(Schedulers.io())
+                                    .blockingGet()
+
+                            userData?.data?.token?.let {token->
+                                token.accessToken?.let {accessToken ->
+                                    GlobalApplication.userDataBase.setAccessToken(accessToken)
+                                    decodeAccessToken(accessToken,splashCheck,loginCheck)
+                                    check=true
+                                }
+                                token.refreshToken?.let {refreshToken->
+                                    GlobalApplication.userDataBase.setRefreshToken(refreshToken)
+                                }
+                            }
+                        }
+                    }
+                    catch (e:Exception){
+
                     }
                 } else {
                     Log.e("리프레쉬 토큰 만료 체크", "만료됨")
@@ -128,22 +141,28 @@ object JWTUtil {
                     GlobalApplication.userDataBase.setRefreshToken(null)
                     GlobalApplication.userDataBase.setAccessTokenExpire(0)
                     GlobalApplication.userDataBase.setRefreshTokenExpire(0)
+                    GlobalApplication.userInfo = UserInfo()
+                    check =false
                 }
             }
+            return check
         }
     }
 
     //한번 회원가입을 진행하고나서 로그인을 계속 유지시키기 위한 method
-    fun settingUserInfo() {
+    fun settingUserInfo(splashCheck:Boolean=false,loginCheck: Boolean=false):Boolean {
         //엑세스 토큰이 내장 DB에 저장되어져 있다면 로그인을 한 상태.
         Log.e("엑세스토큰 확인", GlobalApplication.userDataBase.getAccessToken().toString())
         Log.e("엑세스토큰만료시간 확인", GlobalApplication.userDataBase.getAccessTokenExpire().toString())
+        var check =false
         GlobalApplication.userDataBase.getAccessToken()?.let { token ->
             GlobalApplication.userDataBase.getAccessTokenExpire().let { expire ->
-                if (expire > 0) {
-                    checkExpireOfAccessToken(expire)
+                if (expire >= 0) {
+                    check= checkExpireOfAccessToken(expire,splashCheck,loginCheck)
                 }
             }
         }
+        Log.e("check",check.toString())
+        return check
     }
 }

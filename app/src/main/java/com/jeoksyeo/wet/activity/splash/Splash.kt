@@ -10,6 +10,7 @@ import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.jeoksyeo.wet.activity.test.TestActivity
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SplashBinding
@@ -31,13 +32,12 @@ class Splash : AppCompatActivity() {
             .into(binding.splashImage)
 
 
-        JWTUtil.settingUserInfo()
+        JWTUtil.settingUserInfo(true)
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         GlobalApplication.device_width = displayMetrics.widthPixels
         GlobalApplication.device_height = displayMetrics.heightPixels
-
 
         handler.postDelayed(Runnable {
             startActivity(Intent(this, MainActivity::class.java))

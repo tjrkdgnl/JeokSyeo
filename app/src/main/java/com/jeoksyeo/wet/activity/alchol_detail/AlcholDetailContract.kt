@@ -15,6 +15,7 @@ interface AlcholDetailContract {
 
     interface BasePresenter{
         var view:BaseView
+        var context:Context
         fun executeLike(alcholId:String)
 
         fun cancelAlcholLike(alcholId:String)

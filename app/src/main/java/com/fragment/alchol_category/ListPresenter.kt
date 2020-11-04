@@ -10,6 +10,7 @@ import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,11 +37,8 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     private var pageNum = 1
 
     override fun initRecyclerView(context: Context) {
-        val progressBarListener = object :ProgressbarListener{
-            override fun progressOnOff(check: Boolean) {
-                executeProgressBar(check)
-            }
-        }
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -97,6 +95,9 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun pagination(alcholId: String?) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
+
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -126,6 +127,9 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
+
         setSortValue(sort)
         executeProgressBar(true)
         compositeDisposable.add(
@@ -157,7 +161,4 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
             binding.listProgressBar.root.visibility = View.INVISIBLE
     }
 
-    interface ProgressbarListener{
-        fun progressOnOff(check:Boolean)
-    }
 }

@@ -19,6 +19,7 @@ import com.model.alchol_detail.AlcholComponentData
 import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -27,6 +28,7 @@ import java.lang.RuntimeException
 
 class Presenter : AlcholDetailContract.BasePresenter {
     override lateinit var view: AlcholDetailContract.BaseView
+    override lateinit var context: Context
     private var compositeDisposable = CompositeDisposable()
     private var settingComponentList = mutableListOf<AlcholComponentData>()
 
@@ -47,34 +49,50 @@ class Presenter : AlcholDetailContract.BasePresenter {
         "CASK TYPE"
     )
     override fun executeLike(alcholId: String) {
-        compositeDisposable.add(
-            ApiGenerator.retrofit.create(ApiService::class.java)
-                .alcholLike(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    alcholId
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    view.setLike(true)
-                }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
-        )
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+
+        if(check){
+            compositeDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .alcholLike(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(),
+                        alcholId
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        view.setLike(true)
+                    }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
+            )
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
 
     override fun cancelAlcholLike(alcholId: String) {
-        compositeDisposable.add(
-            ApiGenerator.retrofit.create(ApiService::class.java)
-                .cancelAlcholLike(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(), alcholId
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    view.setLike(false)
-                }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
-        )
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+
+        if(check){
+            compositeDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .cancelAlcholLike(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(), alcholId
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        view.setLike(false)
+                    }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
+            )
+        }
+        else
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+
     }
 
     override fun initComponent(context: Context, alchol: Alchol, position: Int) {
@@ -173,7 +191,9 @@ class Presenter : AlcholDetailContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun initReview(context: Context, alcholId: String) {
-        try {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
+
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcholReivew(
@@ -190,12 +210,12 @@ class Presenter : AlcholDetailContract.BasePresenter {
                                 lst.toMutableList().let { muLst ->
                                     muLst.add(ReviewList())
                                     view.getView().recyclerViewReviewList.adapter =
-                                        AlcholReviewAdapter(alcholId,muLst)
+                                        AlcholReviewAdapter(context,alcholId,muLst)
                                 }
                             } else {
                                 lst.let {
                                     view.getView().recyclerViewReviewList.adapter =
-                                        AlcholReviewAdapter(alcholId,it.toMutableList())
+                                        AlcholReviewAdapter(context,alcholId,it.toMutableList())
                                 }
                             }
                         }
@@ -230,9 +250,6 @@ class Presenter : AlcholDetailContract.BasePresenter {
 
                     }, { t -> Log.e(ErrorManager.REVIEW, t.message.toString()) })
             )
-        } catch (e: RuntimeException) {
-            Log.e(ErrorManager.REVIEW, e.message.toString())
-        }
     }
 
     override fun expandableText() {
@@ -248,40 +265,48 @@ class Presenter : AlcholDetailContract.BasePresenter {
     }
 
     override fun checkReviewDuplicate(context: Context, alchol: Alchol?) {
-        compositeDisposable.add(
-            ApiGenerator.retrofit.create(ApiService::class.java)
-                .checkReviewDuplicate(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    alchol?.alcholId!!
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    result.data?.isExist?.let { exist ->
-                        if (exist)
-                            Toast.makeText(context, "해당 주류에 대한 평가를 이미 하셨습니다.", Toast.LENGTH_SHORT)
-                                .show()
-                        else {
-                            GlobalApplication.userInfo.getProvider()?.let {
-                                alchol.let { alchol ->
-                                    val bundle = Bundle()
-                                    bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alchol)
-                                    GlobalApplication.instance.moveActivity(
-                                        context,
-                                        Comment::class.java,
-                                        0,
-                                        bundle,
-                                        GlobalApplication.ALCHOL_BUNDLE
-                                    )
-                                }
-                            } ?: CustomDialog.loginDialog(
-                                context,
-                                GlobalApplication.ACTIVITY_HANDLING_COMMENT
-                            )
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+
+        if(check){
+            compositeDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .checkReviewDuplicate(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(),
+                        alchol?.alcholId!!
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ result ->
+                        result.data?.isExist?.let { exist ->
+                            if (exist)
+                                Toast.makeText(context, "해당 주류에 대한 평가를 이미 하셨습니다.", Toast.LENGTH_SHORT)
+                                    .show()
+                            else {
+                                GlobalApplication.userInfo.getProvider()?.let {
+                                    alchol.let { alchol ->
+                                        val bundle = Bundle()
+                                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alchol)
+                                        GlobalApplication.instance.moveActivity(
+                                            context,
+                                            Comment::class.java,
+                                            0,
+                                            bundle,
+                                            GlobalApplication.ALCHOL_BUNDLE
+                                        )
+                                    }
+                                } ?: CustomDialog.loginDialog(
+                                    context,
+                                    GlobalApplication.ACTIVITY_HANDLING_COMMENT
+                                )
+                            }
                         }
-                    }
-                }, { t -> Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })
-        )
+                    }, { t -> Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })
+            )
+        }
+       else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
 }

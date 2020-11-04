@@ -1,5 +1,6 @@
 package com.adapter.alcholdetail
 
+import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.model.review.ReviewList
 import com.vuforia.engine.wet.R
 import java.lang.RuntimeException
 
-class AlcholReviewAdapter(private val alcholId: String?, private val lst: MutableList<ReviewList>) :
+class AlcholReviewAdapter(private val context: Context,private val alcholId: String?, private val lst: MutableList<ReviewList>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //viewType을 위한 상수값
     private val NO_ITEM = 0
@@ -30,7 +31,7 @@ class AlcholReviewAdapter(private val alcholId: String?, private val lst: Mutabl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ITEM -> {
-                AlcholReviewViewHolder(parent)
+                AlcholReviewViewHolder(context,parent)
             }
             NO_ITEM -> {
                 NoAlcholReviewViewHolder(parent)

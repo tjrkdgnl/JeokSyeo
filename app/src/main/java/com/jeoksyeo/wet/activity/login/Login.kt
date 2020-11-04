@@ -207,8 +207,14 @@ class Login : AppCompatActivity(), View.OnClickListener {
                 if (result.data?.token != null) {
                     GlobalApplication.userDataBase.setAccessToken(result.data?.token?.accessToken)
                     GlobalApplication.userDataBase.setRefreshToken(result.data?.token?.refreshToken)
-                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
-                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
+                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken(),
+                        splashCheck = false,
+                        loginCheck = true
+                    )
+                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken(),
+                        splashCheck = false,
+                        loginCheck = true
+                    )
                     Toast.makeText(this,"로그인 되었습니다.",Toast.LENGTH_SHORT).show()
 
                     moveActivity()

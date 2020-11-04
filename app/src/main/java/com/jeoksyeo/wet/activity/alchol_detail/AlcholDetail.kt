@@ -26,6 +26,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
 
         presenter = Presenter().apply {
             view = this@AlcholDetail
+            context=this@AlcholDetail
         }
 
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
@@ -78,7 +79,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
                             presenter.cancelAlcholLike(it.alcholId!!)
                         }
                     }
-                } ?: CustomDialog.loginDialog(this, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                }
             }
 
             R.id.AlcholDetail_evaluateButton->{

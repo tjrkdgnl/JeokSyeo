@@ -21,12 +21,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class GridAdapter(private val context: Context
-                  ,private val categoryPosition: Int
-                  , private val lst:MutableList<AlcholList>
-                ,private val executeProgressBar:(Boolean)->Unit):RecyclerView.Adapter<AlcholCategoryGridViewHolder>() {
-    private var duplicate =false
-    private lateinit var disposable:Disposable
+class GridAdapter(private val context: Context,private val categoryPosition: Int
+                  , private val lst:MutableList<AlcholList>,private val executeProgressBar:(Boolean)->Unit)
+    :RecyclerView.Adapter<AlcholCategoryGridViewHolder>() {
+
+    private var disposable:Disposable? =null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlcholCategoryGridViewHolder {
         return AlcholCategoryGridViewHolder(parent)
@@ -75,8 +74,10 @@ class GridAdapter(private val context: Context
     }
 
     fun updateList(list:MutableList<AlcholList>){
+        var duplicate =false
         val newList = mutableListOf<AlcholList>()
         newList.clear()
+
         val currentItemCount = lst.size
         for(newData in list.withIndex()){
             for(previousData in lst){
@@ -108,6 +109,9 @@ class GridAdapter(private val context: Context
             return null
     }
 
+    fun addProgressBar(){
+
+    }
 
     //확장함수로 중복클릭 방지
     fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
@@ -115,5 +119,11 @@ class GridAdapter(private val context: Context
             onSingleClick(it)
         }
         setOnClickListener(onSingleClickListener)
+    }
+
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        disposable?.dispose()
     }
 }

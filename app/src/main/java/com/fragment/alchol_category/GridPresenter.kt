@@ -6,10 +6,12 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.viewmodel.AlcholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
@@ -40,6 +42,9 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun initRecyclerView(context: Context) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
+
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -95,6 +100,9 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun pagination(alcholId: String?) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
+
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcholCategory(
@@ -124,6 +132,9 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        JWTUtil.settingUserInfo(false,!loginCheck)
+
         setSortValue(sort)
         executeProgressBar(true)
         compositeDisposable.add(

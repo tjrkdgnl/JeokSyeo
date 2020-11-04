@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.skydoves.balloon.ArrowConstraints
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.Balloon
@@ -93,29 +95,36 @@ class CommentPresenter : CommentContract.BasePresenter {
             "overall",
             view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
         )
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check =JWTUtil.settingUserInfo(false,!loginCheck)
 
-        disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-            .setComment(
-                GlobalApplication.userBuilder.createUUID,
-                GlobalApplication.userInfo.getAccessToken(),
-                alcholId,
-                map
-            )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                it.data?.let { result ->
-                    result.result?.let {
-                        if (it.equals("SUCCESS")) {
-                            Toast.makeText(context, alcholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
-                            (context as Activity).finish()
-                        } else
-                            Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
-                                .show()
+        if(check){
+            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                .setComment(
+                    GlobalApplication.userBuilder.createUUID,
+                    GlobalApplication.userInfo.getAccessToken(),
+                    alcholId,
+                    map
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.let { result ->
+                        result.result?.let {
+                            if (it.equals("SUCCESS")) {
+                                Toast.makeText(context, alcholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
+                                (context as Activity).finish()
+                            } else
+                                Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
+                                    .show()
+                        }
                     }
-                }
 
-            }, { t -> Log.e(ErrorManager.COMMENT, t.message.toString()) })
+                }, { t -> Log.e(ErrorManager.COMMENT, t.message.toString()) })
+        }
+       else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_COMMENT)
+        }
     }
 
     override fun detachView() {

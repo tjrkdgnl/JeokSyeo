@@ -1,15 +1,18 @@
 package com.adapter.viewholder
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
 import com.application.GlobalApplication
 import com.base.BaseViewHolder
 import com.bumptech.glide.Glide
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.ReviewItemBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +21,7 @@ import io.reactivex.schedulers.Schedulers
 import java.text.FieldPosition
 
 @SuppressLint("SetTextI18n")
-class AlcholReviewViewHolder(val parent:ViewGroup) :BaseViewHolder<ReviewList,ReviewItemBinding>(R.layout.review_item,parent) {
+class AlcholReviewViewHolder(val context:Context,val parent:ViewGroup) :BaseViewHolder<ReviewList,ReviewItemBinding>(R.layout.review_item,parent) {
     private val compositeDisposable = CompositeDisposable()
 
     override fun bind(data: ReviewList) {
@@ -53,78 +56,110 @@ class AlcholReviewViewHolder(val parent:ViewGroup) :BaseViewHolder<ReviewList,Re
     }
 
     fun setLike(alcholId:String?,review:ReviewList,disLikeList:MutableList<Boolean>,position:Int){
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .setLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                alcholId,review.review_id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_full)
-                binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+        if(check){
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .setLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                    alcholId,review.review_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_full)
+                    binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
-                binding.textViewRecommendUpCount.text =
-                    (binding.textViewRecommendUpCount.text.toString().toInt()+1).toString()
+                    binding.textViewRecommendUpCount.text =
+                        (binding.textViewRecommendUpCount.text.toString().toInt()+1).toString()
 
-                if(disLikeList[position]){
-                    disLikeList[position] =false
-                    binding.textViewRecommendDownCount.text =
-                        (binding.textViewRecommendDownCount.text.toString().toInt()-1).toString()
-                }
+                    if(disLikeList[position]){
+                        disLikeList[position] =false
+                        binding.textViewRecommendDownCount.text =
+                            (binding.textViewRecommendDownCount.text.toString().toInt()-1).toString()
+                    }
 
-            },{
-               t -> Log.e(ErrorManager.REVIEW_LIKE,t.message.toString())
-            }))
+                },{
+                        t -> Log.e(ErrorManager.REVIEW_LIKE,t.message.toString())
+                }))
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
+
     }
     fun setUnlike(alcholId:String?,review:ReviewList){
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .setUnLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                alcholId,review.review_id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
-                binding.textViewRecommendUpCount.text =
-                    (binding.textViewRecommendUpCount.text.toString().toInt()-1).toString()
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check = JWTUtil.settingUserInfo(false,!loginCheck)
 
-            },{
-                    t -> Log.e(ErrorManager.REVIEW_UNLIKE,t.message.toString())
-            }))
-    }
-    fun setDislike(alcholId:String?,review:ReviewList,likeList:MutableList<Boolean>,position: Int){
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .setDislike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                alcholId,review.review_id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_full)
-                binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
-
-                binding.textViewRecommendDownCount.text =
-                    (binding.textViewRecommendDownCount.text.toString().toInt()+1).toString()
-
-                if(likeList[position]){
-                    likeList[position] =false
+        if(check){
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .setUnLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                    alcholId,review.review_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
                     binding.textViewRecommendUpCount.text =
                         (binding.textViewRecommendUpCount.text.toString().toInt()-1).toString()
-                }
-            },{
-                    t -> Log.e(ErrorManager.REVIEW_DISLIKE,t.message.toString())
-            }))
+
+                },{
+                        t -> Log.e(ErrorManager.REVIEW_UNLIKE,t.message.toString())
+                }))
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
+    }
+    fun setDislike(alcholId:String?,review:ReviewList,likeList:MutableList<Boolean>,position: Int){
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+
+        if(check){
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .setDislike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                    alcholId,review.review_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_full)
+                    binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
+
+                    binding.textViewRecommendDownCount.text =
+                        (binding.textViewRecommendDownCount.text.toString().toInt()+1).toString()
+
+                    if(likeList[position]){
+                        likeList[position] =false
+                        binding.textViewRecommendUpCount.text =
+                            (binding.textViewRecommendUpCount.text.toString().toInt()-1).toString()
+                    }
+                },{
+                        t -> Log.e(ErrorManager.REVIEW_DISLIKE,t.message.toString())
+                }))
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
     fun setUnDislike(alcholId:String?,review:ReviewList){
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .setUnDislike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                alcholId,review.review_id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+        var check = JWTUtil.settingUserInfo(false,!loginCheck)
 
-                binding.textViewRecommendDownCount.text =
-                    (binding.textViewRecommendDownCount.text.toString().toInt()-1).toString()
+        if(check){
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .setUnDislike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                    alcholId,review.review_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
-            },{ t -> Log.e(ErrorManager.REVIEW_UNDISLIKE,t.message.toString())
-            }))
+                    binding.textViewRecommendDownCount.text =
+                        (binding.textViewRecommendDownCount.text.toString().toInt()-1).toString()
+
+                },{ t -> Log.e(ErrorManager.REVIEW_UNDISLIKE,t.message.toString())
+                }))
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
 }

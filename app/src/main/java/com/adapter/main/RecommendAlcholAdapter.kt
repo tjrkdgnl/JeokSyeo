@@ -17,6 +17,7 @@ import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
 import com.model.recommend_alchol.AlcholList
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -35,6 +36,9 @@ private var lst:MutableList<AlcholList>) : RecyclerView.Adapter<RecommendAlcholV
         holder.bind(lst.get(position))
 
         holder.getViewBinding().recommendParentLayout.setOnSingleClickListener{
+            val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
+            JWTUtil.settingUserInfo(false,!loginCheck)
+
             lst[position].alcholId?.let {alcholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcholDetail(GlobalApplication.userBuilder.createUUID,
