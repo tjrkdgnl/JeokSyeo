@@ -1,7 +1,6 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +8,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.alchol_category.AlcholCategory
+import com.jeoksyeo.wet.activity.search.Search
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         binding.basicHeader.windowHeaderListCategory.setOnClickListener(this)
         binding.mainNavigation.imageViewCancel.setOnClickListener(this)
 
-
-
         presenter = Presenter().apply {
             view = this@MainActivity
         }
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         binding.activityMainWhisky.setOnClickListener(this)
         binding.activityMainSake.setOnClickListener(this)
 
-        presenter.initCarouselViewPager(this)
+        presenter.initBanner(this)
         presenter.initRecommendViewPager(this)
         presenter.initNavigationItemSet(this, this, GlobalApplication.userInfo.getProvider())
         presenter.initAlcholRanking(this)
@@ -54,6 +52,10 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.windowHeader_SearchButton ->{
+                GlobalApplication.instance.moveActivity(this, Search::class.java)
+            }
+
             R.id.imageView_cancel -> {
                 binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
             }

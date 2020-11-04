@@ -24,9 +24,33 @@ class More() :Parcelable {
     @Expose
     var srm: String? = null
 
+    @SerializedName("body")
+    @Expose
+    var body: String? = null
+
+    @SerializedName("acidic")
+    @Expose
+    var acidic: String? = null
+
+    @SerializedName("tannin")
+    @Expose
+    var tannin: String? = null
+
+    @SerializedName("sweet")
+    @Expose
+    var sweet: String? = null
+
+    @SerializedName("polishing")
+    @Expose
+    var polishing: String? = null
+
     @SerializedName("filtered")
     @Expose
     var filtered: Boolean? = null
+
+    @SerializedName("cask_type")
+    @Expose
+    var cask_type: Boolean? = null
 
     constructor(parcel: Parcel) : this() {
         malt = parcel.readString()

@@ -1,11 +1,11 @@
-package com.model.alchol_category
+package com.model.common
 
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
 
 
-class PagingInfo {
+class PageInfo {
     @SerializedName("page")
     @Expose
     var page: String? = null

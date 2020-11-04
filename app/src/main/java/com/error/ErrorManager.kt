@@ -23,4 +23,11 @@ object ErrorManager {
     val ALCHOL_CANCEL_LIKE = "주류 좋아요 취소 오류"
 
     val COMMENT ="코멘트 작성 에러"
+    val REVIEW = "리뷰 조회 에러"
+    val BANNER ="배너 조회 에러"
+    val REVIEW_DUPLICATE = "리뷰 중복 체크 에러"
+    val REVIEW_LIKE = "리뷰 좋아요 에러"
+    val REVIEW_UNLIKE = "리뷰 좋아요 취소 에러"
+    val REVIEW_DISLIKE = "리뷰 싫어요 에러"
+    val REVIEW_UNDISLIKE = "리뷰 싫어요 취소 에러"
 }

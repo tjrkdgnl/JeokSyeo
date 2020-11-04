@@ -54,6 +54,7 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
             view =this@Fragment_Grid
             gridLayoutManager =GridLayoutManager(context, 2)
             position =this@Fragment_Grid.position
+            viewModel = viewmodel
             sort = viewmodel.currentSort // 액티비티에서 변경된 sort로 정렬시키기 위함.
         }
 
@@ -71,7 +72,7 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcholList>) {
-        gridAdapter = GridAdapter(requireContext(),list,executeProgressBar = gridPresenter.executeProgressBar)
+        gridAdapter = GridAdapter(requireContext(),gridPresenter.position,list,executeProgressBar = gridPresenter.executeProgressBar)
         binding.gridRecyclerView.adapter= gridAdapter
     }
 
@@ -89,9 +90,5 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
 
     override fun getSort(): String {
         return gridPresenter.sort
-    }
-
-    override fun setTotalCount(alcholCount: Int) {
-        viewmodel.setCount(alcholCount)
     }
 }

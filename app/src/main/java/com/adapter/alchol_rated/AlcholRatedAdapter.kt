@@ -9,6 +9,7 @@ class AlcholRatedAdapter(private val lst:MutableList<String>,
 private val smoothScrollPosition: Fragment_alcholRated.SmoothScrollListener
 ):RecyclerView.Adapter<AlcholRatedViewHolder>() {
     private  val checkList = mutableListOf<Boolean>()
+
     init {
         for(i in lst){
             checkList.add(false)

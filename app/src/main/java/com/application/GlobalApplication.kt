@@ -17,6 +17,8 @@ import java.util.*
 
 class GlobalApplication : Application() {
     private val typeList = listOf<String>("TR", "BE", "WI", "SA", "FO")
+    private val levelList = listOf<String>("마시는 척 하는 사람","술을 즐기는 사람"
+        ,"술독에 빠진 사람","주도를 수련하는 사람","술로 해탈한 사람")
 
     override fun onCreate() {
         super.onCreate()
@@ -59,19 +61,19 @@ class GlobalApplication : Application() {
         const val CATEGORY_SIZE = 5
         const val MOVE_TYPE = "type"
         const val PAGINATION_SIZE= 20
+        const val CATEGORY_POSITION="category_position"
         const val DEFAULT_SORT = "like"
         const val MOVE_ALCHOL = "alchol Data"
         const val ALCHOL_LIKE = "likeAndDisLike"
-
         const val ACTIVITY_HANDLING_MAIN = 0
         const val ACTIVITY_HANDLING_DETAIL = 1
         const val ACTIVITY_HANDLING_COMMENT = 3
         const val ACTIVITY_HANDLING_CATEGORY = 2
     }
 
-    fun getAlcholType(positon: Int): String {
-        return typeList[positon]
-    }
+    fun getAlcholType(positon: Int) = typeList[positon]
+
+    fun getLevelName(positon: Int) = levelList[positon-1]
 
 
     //액티비티 전환

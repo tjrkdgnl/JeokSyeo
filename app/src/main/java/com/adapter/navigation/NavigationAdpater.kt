@@ -12,6 +12,7 @@ import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.jeoksyeo.wet.activity.alchol_rated.AlcholRated
 import com.jeoksyeo.wet.activity.editprofile.EditProfile
+import com.jeoksyeo.wet.activity.level.LevelActivity
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
@@ -38,18 +39,12 @@ class NavigationAdpater(
         holder.getViewBinding().navigationLinearLayout.setOnClickListener {
         Log.e("네이게이션",activityNumber.toString())
             when (position) {
-                0 -> {
-                    if(context is Activity){
-                        GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)
-                    }
-
-                }
+                0 -> { checkProvider(0) }
                 1 -> {checkProvider(1)}
                 2 -> {checkProvider(2) }
                 3 -> {checkProvider(3) }
                 4 -> {checkProvider(4)}
-                5 -> {checkProvider(5) }
-                6 ->  checkLoginOut(lst[position].title)
+                5 ->  {checkLoginOut(lst[position].title)}
             }
         }
     }
@@ -83,13 +78,12 @@ class NavigationAdpater(
     private fun checkProvider(position: Int){
         provider?.let {
             when(position){
+                0->{GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)}
                 1 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
                 2 -> { GlobalApplication.instance.moveActivity(context,AlcholRated::class.java)}
-                3 -> {}
+                3 -> {GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
                 4 -> {}
-                5 -> {}
             }
-
             // 프로바이더가 없으면 로그인을 통해 프로바이더를 얻어오기 위해서 로그인화면으로 유도
         } ?: CustomDialog.loginDialog(context,activityNumber)
     }

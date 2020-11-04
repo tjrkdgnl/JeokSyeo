@@ -35,6 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/windowHeader"
             app:tabGravity="fill"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
             app:tabIndicatorColor="@color/orange"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="3dp"

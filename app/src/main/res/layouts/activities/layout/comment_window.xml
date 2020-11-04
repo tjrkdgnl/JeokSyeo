@@ -167,7 +167,7 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/comment_window_commentSpace"
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
+                        android:layout_height="200dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
@@ -191,7 +191,8 @@
                                 android:background="@null"
                                 android:gravity="left|top"
                                 android:hint="코멘트를 작성해주세요."
-                                android:maxLength="100"
+                                android:maxLength="500"
+                                android:text=""
                                 android:paddingStart="17dp"
                                 android:paddingTop="26dp"
                                 android:paddingEnd="10dp"

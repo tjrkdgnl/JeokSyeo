@@ -20,6 +20,7 @@ import com.application.GlobalApplication
 import com.fragment.alchol_category.Fragment_Grid
 import com.fragment.alchol_category.Fragment_List
 import com.google.android.material.tabs.TabLayout
+import com.jeoksyeo.wet.activity.search.Search
 import com.viewmodel.AlcholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholCategoryBinding
@@ -44,13 +45,12 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
         }
         presenter.inintTabLayout(this)
 
-
         if(intent.hasExtra(GlobalApplication.CATEGORY_BUNDLE)){
             val bundle = intent.getBundleExtra(GlobalApplication.CATEGORY_BUNDLE)
             val selectPosition = bundle?.getInt(GlobalApplication.MOVE_TYPE)
             selectPosition?.let {
                 binding.viewPager2Container.currentItem = it
-                viewModel.currentPosition.value = it
+                viewModel.currentPosition.value=it
             }
         }
 
@@ -60,9 +60,8 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
-                    Log.e("tab","in")
+                    viewModel.currentPosition.value = it.position
                     presenter.checkSort(it.position, viewModel.currentSort)
-                    viewModel.currentPosition.value =it.position
                     (it.customView as? TextView)?.let {
                         it.setTextColor(resources.getColor(R.color.orange,null))
                     }
@@ -79,11 +78,10 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
             }
         })
 
-        //현재 페이지의 아이템 총 개수를 observer
-        viewModel.currentPosition.observe(this, Observer {position->
-            Log.e("옵저버","in")
-            if(viewModel.getCount(position) !=-1)
-                setTotalCount(viewModel.getCount(position))
+        viewModel.currentPosition.observe(this, Observer {
+            Log.e("현재 curr",binding.viewPager2Container.currentItem.toString())
+            binding.textViewTotalProduct.text = "총 "+ viewModel.totalCountList[binding.viewPager2Container.currentItem].toString()+
+                    "개의 상품이 있습니다."
         })
     }
 
@@ -116,42 +114,37 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
         binding.textViewTotalProduct.text = "총 " + alcholCount + "개의 주류가 있습니다."
     }
 
-
     //현재 보여지고 있는 fragment를 정한 sort방식으로 갱신
     fun executeSorting(sort: String) {
         val fragment = presenter.getFragement(binding.viewPager2Container.currentItem)
         viewModel.currentSort = sort
 
-        if (fragment is Fragment_Grid) {
+        if (fragment is Fragment_Grid)
             fragment.changeSort(sort)
-        } else if (fragment is Fragment_List) {
+        else if (fragment is Fragment_List)
             fragment.changeSort(sort)
-        }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.windowHeader_SearchButton ->{
+                GlobalApplication.instance.moveActivity(this, Search::class.java) }
+
             R.id.imageView_cancel -> {
                 if(binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END))
-                    binding.categoryDrawerLayout.closeDrawer(GravityCompat.END)
-            }
+                    binding.categoryDrawerLayout.closeDrawer(GravityCompat.END) }
 
             R.id.windowHeader_listCategory -> {
                 if (!binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END))
-                    binding.categoryDrawerLayout.openDrawer(GravityCompat.END)
-            }
+                    binding.categoryDrawerLayout.openDrawer(GravityCompat.END) }
 
-            R.id.imageView_listToggle -> {
-                changeToggle(false)
-            }
+            R.id.imageView_listToggle -> { changeToggle(false) }
 
-            R.id.imageView_viewToggle -> {
-                changeToggle(true)
-            }
+            R.id.imageView_viewToggle -> { changeToggle(true) }
 
             R.id.sorting_constraintLayout -> {
                 if (popupMenu == null) {
-                    popupMenu = PopupMenu(applicationContext, binding.imageViewArrowToggle)
+                    popupMenu = PopupMenu(applicationContext, binding.sortingConstraintLayout)
                     menuInflater.inflate(R.menu.order_menu, popupMenu!!.menu)
                     popupMenu!!.setOnMenuItemClickListener(this)
                 }
@@ -159,29 +152,20 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
             }
         }
     }
-
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.reviewOrder -> {
                 executeSorting("review")
-                binding.textViewCurrentOrdering.text = "리뷰순"
-            }
-
+                binding.textViewCurrentOrdering.text = "리뷰순" }
             R.id.likeOrder -> {
                 executeSorting("like")
-                binding.textViewCurrentOrdering.text = "좋아요순"
-
-            }
-
+                binding.textViewCurrentOrdering.text = "좋아요순" }
             R.id.degreeOrder_asc -> {
                 executeSorting("abv-asc")
-                binding.textViewCurrentOrdering.text = "도수 낮은순"
-            }
-
+                binding.textViewCurrentOrdering.text = "도수 낮은순" }
             R.id.degreeOrder_desc -> {
                 executeSorting("abv-desc")
-                binding.textViewCurrentOrdering.text = "도수 높은순"
-            }
+                binding.textViewCurrentOrdering.text = "도수 높은순" }
         }
         return true
     }
@@ -190,5 +174,4 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
-
 }

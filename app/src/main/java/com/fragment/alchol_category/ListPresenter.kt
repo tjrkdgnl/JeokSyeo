@@ -58,7 +58,6 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
                         info.alcholTotalCount?.let {total ->
-                            view.setTotalCount(total)
                         }
                         info.page?.let {pageNumber->
                             pageNum = pageNumber.toInt()

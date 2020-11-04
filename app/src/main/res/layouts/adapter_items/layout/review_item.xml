@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <data>
+        <variable
+            name="reivews"
+            type="com.model.review.ReviewList" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView_commentProfile_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="22dp"
+                android:src="@mipmap/review_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_commentUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:lineSpacingExtra="2sp"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                android:text="@{reivews.nickname}"
+                app:layout_constraintStart_toEndOf="@id/imageView_commentProfile_img"
+                app:layout_constraintTop_toTopOf="@id/imageView_commentProfile_img"
+                tools:text="유저의 이름" />
+
+            <TextView
+                android:id="@+id/textView_recommendDownCount"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@{reivews.dislikeCount.toString()}"
+                android:lineSpacingExtra="4sp"
+                android:textColor="#000000"
+                android:textSize="11sp"
+                tools:text="10"
+                app:layout_constraintBottom_toBottomOf="@id/textView_commentUserRank"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/imaveView_recommendDown_Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:background="@mipmap/dislike_empty"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_recommendDownCount"
+                app:layout_constraintEnd_toStartOf="@+id/textView_recommendDownCount"
+                app:layout_constraintTop_toTopOf="@+id/textView_recommendDownCount" />
+
+            <TextView
+                android:id="@+id/textView_recommendUpCount"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:hint="1000"
+                android:lineSpacingExtra="4sp"
+                android:textColor="#000000"
+                android:textSize="11sp"
+                android:text="@{reivews.likeCount.toString()}"
+                app:layout_constraintBottom_toBottomOf="@id/imaveView_recommendDown_Button"
+                app:layout_constraintEnd_toStartOf="@id/imaveView_recommendDown_Button"
+                app:layout_constraintTop_toTopOf="@+id/imaveView_recommendDown_Button" />
+
+            <ImageView
+                android:id="@+id/imageView_recommendUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:background="@mipmap/like_empty"
+                app:layout_constraintBottom_toBottomOf="@id/textView_recommendUpCount"
+                app:layout_constraintEnd_toStartOf="@+id/textView_recommendUpCount"
+                app:layout_constraintTop_toTopOf="@id/textView_recommendUpCount" />
+
+            <TextView
+                android:id="@+id/textView_commentUserRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:lineSpacingExtra="2sp"
+                android:text="Lv. 1 술을 마시는 척 하는 사람"
+                android:textColor="#b2b2b2"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/textView_commentUserName"
+                app:layout_constraintStart_toEndOf="@id/textView_commentUserName" />
+
+            <TextView
+                android:id="@+id/textView_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:lineSpacingExtra="4sp"
+                android:text="2월20일"
+                android:textColor="#e5e5e5"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/textView_commentUserName"
+                app:layout_constraintTop_toBottomOf="@id/textView_commentUserName" />
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_reviewRatingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/textView_date"
+                app:layout_constraintTop_toBottomOf="@id/textView_date"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="false"
+                app:srb_drawableEmpty="@mipmap/small_empty_star"
+                app:srb_drawableFilled="@mipmap/small_full_star"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="1"
+                app:srb_numStars="5"
+                app:srb_rating="0"
+                app:srb_scrollable="false"
+                app:srb_starPadding="1.5dp"
+                app:srb_stepSize="0.5" />
+
+
+            <at.blogc.android.views.ExpandableTextView
+                android:id="@+id/textView_reviewRatingScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5.4dp"
+                android:lineSpacingExtra="4sp"
+                android:text="@{reivews.score.toString()}"
+                android:textColor="#000000"
+                android:textSize="10sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                app:animation_duration="170"
+                tools:text="3.5"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar_reviewRatingbar"
+                app:layout_constraintStart_toEndOf="@id/ratingBar_reviewRatingbar"
+                app:layout_constraintTop_toTopOf="@id/ratingBar_reviewRatingbar" />
+
+
+            <at.blogc.android.views.ExpandableTextView
+                android:id="@+id/expandableTextView_reviewcomment"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:text="@{reivews.contents.toString()}"
+                app:animation_duration="1"
+                app:layout_constraintStart_toStartOf="@id/ratingBar_reviewRatingbar"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar_reviewRatingbar"
+                tools:text="이건 쫌 괜찮네" />
+
+
+            <TextView
+                android:id="@+id/reviewItem_toggleButton"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:text="더보기"
+                android:textColor="@color/light_grey"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandableTextView_reviewcomment" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

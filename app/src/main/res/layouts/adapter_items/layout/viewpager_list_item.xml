@@ -171,9 +171,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12.1dp"
                 android:background="@mipmap/small_alchol"
-                app:layout_constraintBottom_toBottomOf="@id/textView_listCommentCount"
-                app:layout_constraintStart_toEndOf="@id/textView_listCommentCount"
-                app:layout_constraintTop_toTopOf="@id/textView_listCommentCount" />
+                app:layout_constraintBottom_toBottomOf="@id/list_eyeCount"
+                app:layout_constraintStart_toEndOf="@id/list_eyeCount"
+                app:layout_constraintTop_toTopOf="@id/list_eyeCount" />
 
             <TextView
                 android:id="@+id/textView_listAlcholDosu"
@@ -189,17 +189,19 @@
                 tools:text="19%" />
 
             <ImageView
+                android:id="@+id/list_eye"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="1dp"
                 android:background="@null"
                 android:src="@mipmap/eye"
-                app:layout_constraintBottom_toBottomOf="@id/textView_listAlcholDosu"
-                app:layout_constraintStart_toEndOf="@id/textView_listAlcholDosu"
-                app:layout_constraintTop_toTopOf="@id/textView_listAlcholDosu" />
+                app:layout_constraintBottom_toBottomOf="@id/textView_listCommentCount"
+                app:layout_constraintStart_toEndOf="@id/textView_listCommentCount"
+                app:layout_constraintTop_toTopOf="@id/textView_listCommentCount" />
 
             <TextView
+                android:id="@+id/list_eyeCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -207,10 +209,10 @@
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 android:text="@{alchol.abv.toString()}"
-                app:layout_constraintBottom_toBottomOf="@id/imageView_listAlchol"
-                app:layout_constraintStart_toEndOf="@id/imageView_listAlchol"
-                app:layout_constraintTop_toTopOf="@id/imageView_listAlchol"
-                tools:text="19%" />
+                app:layout_constraintBottom_toBottomOf="@id/list_eye"
+                app:layout_constraintStart_toEndOf="@id/list_eye"
+                app:layout_constraintTop_toTopOf="@id/list_eye"
+                tools:text="999" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/myFavorite_brokenItem"

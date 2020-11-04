@@ -13,7 +13,6 @@ interface Fg_AlcholCategoryContact {
         fun changeSort(list:MutableList<AlcholList>)
         fun getLastAlcholId():String?
         fun getSort():String
-        fun setTotalCount(alcholCount:Int)
     }
     interface BasePresenter{
         var view:BaseView

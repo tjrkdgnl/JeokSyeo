@@ -16,8 +16,8 @@
     <dimen name="thumb_text_size">16sp</dimen>
     <dimen name="tabLayout_height">44dp</dimen>
     <dimen name="ok_button_size">60dp</dimen>
-    <dimen name="alcholSize_width">160dp</dimen>
-    <dimen name="alcholSize_height">240dp</dimen>
+    <dimen name="alcholSize_width">250dp</dimen>
+    <dimen name="alcholSize_height">375dp</dimen>
 
     //comment window
     <dimen name="aromaTextSize">20sp</dimen>
@@ -58,8 +58,8 @@
     //AlcholDetail
     <dimen name="title_Size">18sp</dimen>
     <dimen name="AlcholDetail_ImageViewSize">50dp</dimen>
-    <dimen name="detail_alchol_Name_k">18sp</dimen>
-    <dimen name="detail_alchol_Name_E">13sp</dimen>
+    <dimen name="detail_alchol_Name_k">23sp</dimen>
+    <dimen name="detail_alchol_Name_E">18sp</dimen>
     <dimen name="detail_default_textSize">14sp</dimen>
     <dimen name="detail_review_Score">31sp</dimen>
     <dimen name="detail_review_progress_height">20dp</dimen>

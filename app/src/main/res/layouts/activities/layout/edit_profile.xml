@@ -14,33 +14,12 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <ImageButton
-                android:id="@+id/editProfile_G_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="42dp"
-                android:background="@color/transparent"
-                android:onClick="onClick"
-                android:src="@mipmap/btn_top_back"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintEnd_toStartOf="@id/editProfile_title"
+            <include
+                android:id="@+id/edit_basic_header"
+                layout="@layout/activity_basic_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/editProfile_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="3sp"
-                android:text="회원정보 수정"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/editProfile_G_back"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/editProfile_G_back" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
                 android:id="@+id/editProfile_img"
@@ -53,7 +32,7 @@
                 app:layout_constraintBottom_toTopOf="@id/textView_writeNickname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editProfile_title" />
+                app:layout_constraintTop_toBottomOf="@id/edit_basic_header" />
 
             <ImageButton
                 android:id="@+id/editProfile_G_album"

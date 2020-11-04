@@ -139,9 +139,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
 
     @SuppressLint("SetTextI18n")
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        binding.commentWindowCommentCountText.text = binding.commentWindowCommentEditText.text.length.toString() + "/100"
-
-
+        binding.commentWindowCommentCountText.text = binding.commentWindowCommentEditText.text.length.toString() + "/500"
         binding.commentWindowEvaluateButton.isEnabled = commentPresenter.confirmCheck()
     }
 

@@ -19,6 +19,12 @@ interface AlcholDetailContract {
 
         fun cancelAlcholLike(alcholId:String)
 
-        fun initComponent(context: Context, alchol: Alchol)
+        fun initComponent(context: Context, alchol: Alchol,position:Int)
+
+        fun initReview(context: Context,alcholId:String)
+
+        fun expandableText()
+
+        fun checkReviewDuplicate(context: Context,alchol: Alchol?)
     }
 }

@@ -41,21 +41,26 @@ class Presenter : MainContract.BasePresenter {
         view.getView().mainBanner.currentItem  +=1
     }
 
-    override fun initCarouselViewPager(context: Context) {
-        val lst = mutableListOf<Int>()
-        lst.add(R.mipmap.nuggi)
-        lst.add(R.mipmap.alchol_img)
-        view.getView().mainBanner.adapter = BannerAdapter(context, lst, view.getView().mainBanner)
-        view.getView().mainBanner.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
+    override fun initBanner(context: Context) {
+        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+            .getBannerData(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it.data?.banner?.let {lst->
+                    view.getView().mainBanner.adapter = BannerAdapter(context,lst.toMutableList(), view.getView().mainBanner)
 
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                handler.removeCallbacks(slideRunnable)
-                handler.postDelayed(slideRunnable, 4000)
-                view.getView().bannerCount.text = "$position / ${lst.size}"
-            }
-        })
+                    view.getView().mainBanner.registerOnPageChangeCallback(object :
+                        ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            super.onPageSelected(position)
+                            handler.removeCallbacks(slideRunnable)
+                            handler.postDelayed(slideRunnable, 4000)
+                            view.getView().bannerCount.text = "$position / ${lst.size}"
+                        }
+                    })
+                }
+            },{ t->Log.e(ErrorManager.BANNER,t.message.toString()) }))
     }
 
     override fun initRecommendViewPager(context: Context)  {
@@ -91,7 +96,6 @@ class Presenter : MainContract.BasePresenter {
         lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-        lst.add(NavigationItem(R.mipmap.qna_img, "문의사항"))
         lst.add(provider?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
             ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 

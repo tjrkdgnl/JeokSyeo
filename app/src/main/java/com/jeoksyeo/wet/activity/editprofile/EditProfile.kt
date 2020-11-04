@@ -51,6 +51,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             view = this@EditProfile
         }
         presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
+        binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
 
 
         binding.insertInfoEditText.setOnKeyListener(this)
@@ -59,7 +60,6 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             binding.editProfileBasicDatePicker.datePicker.setOnDateChangedListener(this)
         }
 
-        //datePicker 최대 날짜 설정
     }
 
     private fun CameraPermission() {
@@ -191,7 +191,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.editProfile_G_back -> {
+            R.id.basicHeader_backButton -> {
                 finish()
                 overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
             }

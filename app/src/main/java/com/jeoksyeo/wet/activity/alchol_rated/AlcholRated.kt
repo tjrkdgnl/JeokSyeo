@@ -10,7 +10,8 @@ import com.google.android.material.tabs.TabLayout
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholRatedBinding
 
-class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView,TabLayout.OnTabSelectedListener{
+class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView
+    ,TabLayout.OnTabSelectedListener,View.OnClickListener{
     private lateinit var binding:AlcholRatedBinding
     private lateinit var presenter:Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,4 +58,11 @@ class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView,TabLayout.On
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
 
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.rated_back->{
+                finish()
+                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right) }
+        }
+    }
 }

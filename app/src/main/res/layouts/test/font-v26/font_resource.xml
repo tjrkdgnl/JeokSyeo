@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/apple_sd_gothic_neo_b"
+        />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/apple_sd_gothic_neo_sb"
+        />
+</font-family>

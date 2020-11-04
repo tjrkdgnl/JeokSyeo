@@ -17,7 +17,7 @@ interface MainContract {
     interface BasePresenter : DefaultPresenter{
         var view:BaseView
 
-        fun initCarouselViewPager(context:Context)
+        fun initBanner(context:Context)
 
         fun initRecommendViewPager(context: Context)
 

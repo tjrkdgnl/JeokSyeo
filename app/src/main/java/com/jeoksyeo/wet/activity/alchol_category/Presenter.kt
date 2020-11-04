@@ -87,7 +87,6 @@ class Presenter:AlcholCategoryContact.BasePresenter {
         lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-        lst.add(NavigationItem(R.mipmap.qna_img, "문의사항"))
         lst.add(provider?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
             ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 

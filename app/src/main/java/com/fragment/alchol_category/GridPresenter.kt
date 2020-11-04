@@ -10,6 +10,7 @@ import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.viewmodel.AlcholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,22 +19,25 @@ import io.reactivex.schedulers.Schedulers
 
 class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     override lateinit var view: Fg_AlcholCategoryContact.BaseView
-    private val binding by lazy {
-        view.getbinding() as FragmentAlcholCategoryGridBinding
-    }
-
     lateinit var gridLayoutManager: GridLayoutManager
-    val type: String by lazy {
-        GlobalApplication.instance.getAlcholType(position)
-    }
-    lateinit var sort: String
+    lateinit var viewModel: AlcholCategoryViewModel
+    lateinit var sort:String
     var position = 0
     private val compositeDisposable = CompositeDisposable()
+
+    //페이징을 위한 변수들
     private var visibleItemCount = 0
     private var totalItemCount = 0
     private var pastVisibleItem = 0
     private var loading = false
     private var pageNum:Int = 1
+
+    private val binding by lazy {
+        view.getbinding() as FragmentAlcholCategoryGridBinding
+    }
+    val type: String by lazy {
+        GlobalApplication.instance.getAlcholType(position)
+    }
 
     override fun initRecyclerView(context: Context) {
         compositeDisposable.add(
@@ -47,11 +51,9 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
                         info.alcholTotalCount?.let {total ->
-                            view.setTotalCount(total)
-                        }
+                            viewModel.totalCountList[position] = total }
                         info.page?.let {pageNumber->
-                            pageNum = pageNumber.toInt()
-                        }
+                            pageNum = pageNumber.toInt() }
                     }
 
                     it.data?.alcholList?.let { list ->

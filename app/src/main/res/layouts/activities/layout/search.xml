@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imageButton_searchBarBackButton"
+            android:layout_width="@dimen/userInfo_imageButton_backButton_size"
+            android:layout_height="@dimen/userInfo_imageButton_backButton_size"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/basic_backbutton_marginBottom"
+            android:background="@null"
+            android:onClick="onClick"
+            android:src="@mipmap/btn_top_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout_searchBar"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/imageButton_searchBarBackButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageButton_searchBarBackButton"
+            app:layout_constraintTop_toTopOf="@id/imageButton_searchBarBackButton">
+
+            <EditText
+                android:id="@+id/editText_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:elevation="6dp"
+                android:gravity="left|center"
+                android:hint="주류검색"
+                android:paddingStart="10dp"
+                android:textStyle="bold"
+                android:theme="@style/cursorColor"
+                android:textCursorDrawable="@color/light_yellow"
+                android:textSize="@dimen/search_editTextSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imageView_searchBar_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView_searchBar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:onClick="onClick"
+                android:src="@mipmap/search_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/search_boundary"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/light_yellow"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_searchBar" />
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#fbfbfb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_boundary">
+
+            <TextView
+                android:id="@+id/textView_recentSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="23dp"
+                android:lineSpacingExtra="2sp"
+                android:text="최근 검색어"
+                android:textStyle="bold"
+                android:textColor="#949292"
+                android:textSize="@dimen/recentSearch_textSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@mipmap/below_arrow"
+               app:layout_constraintBottom_toBottomOf="@id/textView_recentSearch"
+                app:layout_constraintTop_toTopOf="@id/textView_recentSearch"
+                app:layout_constraintStart_toEndOf="@id/textView_recentSearch"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="3dp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_searchlist"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/textView_recentSearch"
+                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constrainLayout_noSearch"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch">
+
+                <ImageView
+                    android:id="@+id/imageView_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:src="@mipmap/help"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_alcholName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:lineSpacingExtra="2sp"
+                    android:text="주류에 대한 검색결과가 없습니다."
+                    android:textColor="#7d7d7d"
+                    android:textSize="@dimen/search_default_textSize"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/imageView_help" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView_noRecentSearchContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:lineSpacingExtra="2sp"
+                android:text="최근 검색어 내역이 없습니다."
+                android:textColor="#7d7d7d"
+                android:textSize="@dimen/search_default_textSize"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch" />
+
+            <include
+                android:id="@+id/progress"
+                layout="@layout/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:layout_editor_absoluteX="2dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

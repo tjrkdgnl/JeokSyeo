@@ -1,13 +1,16 @@
 package com.adapter.main
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.adapter.viewholder.BannerViewHolder
+import com.model.banner.Banner
 
 class BannerAdapter(
-    private val context: Context, private val itemList: MutableList<Int>,
+    private val context: Context, private val itemList: MutableList<Banner>,
     private val viewPager2: ViewPager2
 ) : RecyclerView.Adapter<BannerViewHolder>() {
 
@@ -19,6 +22,11 @@ class BannerAdapter(
         holder.bind(itemList[position])
         if(position == itemList.size-2){
             viewPager2.post(addItemRunnable)
+        }
+
+        holder.getViewBinding().bannerParentLayout.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(itemList[position].url))
+            context.startActivity(intent)
         }
     }
 
