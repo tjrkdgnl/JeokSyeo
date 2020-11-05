@@ -24,7 +24,6 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.RuntimeException
 
 class Presenter : AlcholDetailContract.BasePresenter {
     override lateinit var view: AlcholDetailContract.BaseView
@@ -48,11 +47,12 @@ class Presenter : AlcholDetailContract.BasePresenter {
         "POLISHING",
         "CASK TYPE"
     )
-    override fun executeLike(alcholId: String) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check =JWTUtil.settingUserInfo(false,!loginCheck)
 
-        if(check){
+    override fun executeLike(alcholId: String) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() != null
+        var check = JWTUtil.settingUserInfo(false)
+
+        if (check) {
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .alcholLike(
@@ -66,17 +66,15 @@ class Presenter : AlcholDetailContract.BasePresenter {
                         view.setLike(true)
                     }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
             )
-        }
-        else{
-            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        } else {
+            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
 
     override fun cancelAlcholLike(alcholId: String) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+        var check = JWTUtil.settingUserInfo(false)
 
-        if(check){
+        if (check) {
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .cancelAlcholLike(
@@ -89,26 +87,36 @@ class Presenter : AlcholDetailContract.BasePresenter {
                         view.setLike(false)
                     }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
             )
-        }
-        else
-            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        } else
+            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
 
     }
 
     override fun initComponent(context: Context, alchol: Alchol, position: Int) {
         //SRM value에 따른 색 지정하기
         //SRM value가 무조건 정수는 아니기 때문에 try/catch로 parsing에러 잡아서 핸들링하기
-       alchol.class_?.firstClass?.code?.let {type->
-           when(type){
-               "TR"->{ setComponent(alchol, mutableListOf(10, 5, 9, 1, 8, 0, 3, 2))}
-               "BE"->{ setComponent(alchol, mutableListOf(0, 1, 6, 3, 2))}
-               "WI"->{ setComponent(alchol, mutableListOf(6, 7, 12, 11, 1, 0, 3, 2))}
-               "SA"->{ setComponent(alchol, mutableListOf(13, 7, 0, 1, 3, 2))}
-               "FO"->{ setComponent(alchol, mutableListOf(8, 0, 1, 2, 14))}
-           }
+        alchol.class_?.firstClass?.code?.let { type ->
+            when (type) {
+                "TR" -> {
+                    setComponent(alchol, mutableListOf(10, 5, 9, 1, 8, 0, 3, 2))
+                }
+                "BE" -> {
+                    setComponent(alchol, mutableListOf(0, 1, 6, 3, 2))
+                }
+                "WI" -> {
+                    setComponent(alchol, mutableListOf(6, 7, 12, 11, 1, 0, 3, 2))
+                }
+                "SA" -> {
+                    setComponent(alchol, mutableListOf(13, 7, 0, 1, 3, 2))
+                }
+                "FO" -> {
+                    setComponent(alchol, mutableListOf(8, 0, 1, 2, 14))
+                }
+            }
         }
 
-        view.getView().alcholComponentRecyclerView.adapter = AlcholComponentAdapter(settingComponentList)
+        view.getView().alcholComponentRecyclerView.adapter =
+            AlcholComponentAdapter(settingComponentList)
         view.getView().alcholComponentRecyclerView.setHasFixedSize(true)
         view.getView().alcholComponentRecyclerView
             .addItemDecoration(GridSpacingItemDecoration(2, 4, true, 0))
@@ -116,140 +124,159 @@ class Presenter : AlcholDetailContract.BasePresenter {
         view.getView().alcholComponentRecyclerView.layoutManager = GridLayoutManager(context, 2)
     }
 
-    private fun getComponent(compo: String, alchol: Alchol): String {
-        when (compo) {
+
+    //성분을 리스트로 주는 홉,몰트,첨가물
+    private fun getComponent(compo: String, alchol: Alchol): AlcholComponentData? {
+        return when (compo) {
+            "MALT" -> {
+                alchol.adjunct?.let {
+                    AlcholComponentData("MALT","첨가물"
+                        ,R.mipmap.malt, mutableListOf(it),10f,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
+
             "ADJUNCT" -> {
                 alchol.adjunct?.let {
-                    return it.toString()
-                }
-            }
+                    AlcholComponentData("ADJUNCT","첨가물"
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
             "TEMPERATURE" -> {
                 alchol.temperature?.let {
-                    return it.toString()
-                }
-            }
+                    AlcholComponentData("TEMPERATURE","음용온도"
+                        ,R.mipmap.temperature, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "BARREL AGED" -> {
                 alchol.barrelAged?.let {
-                    return it.toString()
-                }
-            }
+                    AlcholComponentData("BARREL","오크숙성"
+                        ,R.mipmap.barrel, mutableListOf(it.toString()),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "FILTERED" -> {
                 alchol.more?.filtered?.let {
-                return it.toString()
-            } }
+                    AlcholComponentData("FILTERED","여과 여부"
+                        ,R.mipmap.filtered, mutableListOf(it.toString()),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "SRM" -> {
                 alchol.more?.srm?.let {
-                    return it.toString()
-                }
-            }
+                    AlcholComponentData("SRM",""
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_SRM)} }
             "BODY TO HEAVY" -> {
                 alchol.more?.body?.let {
-                    return it.toString()
-                }
-            }
+                    AlcholComponentData("BODY TO HEAVY","바디"
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "ACIDIC" -> {
                 alchol.more?.acidic?.let {
-                    return it.toString()
-                }
-            }
+                    AlcholComponentData("ACIDIC","산도"
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "HOP" -> {
                 alchol.more?.hop?.let {
-                return it.toString()
-            }}
+                    AlcholComponentData("HOP","홉"
+                        ,R.mipmap.hop, mutableListOf(it),10f,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
             "IBU" -> {
                 alchol.more?.ibu?.let {
-                return it.toString()
-            }}
+                    AlcholComponentData("IBU",""
+                        ,R.mipmap.ibu, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "TANNIN" -> {
                 alchol.more?.tannin?.let {
-                return it.toString()
-            }}
+                    AlcholComponentData("TANNIN","타닌"
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "DRY TO SWEET" -> {
                 alchol.more?.sweet?.let {
-                return it.toString()
-            }}
+                    AlcholComponentData("DRY TO SWEET","당도"
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "POLISHING" -> {
                 alchol.more?.polishing?.let {
-                return it.toString()
-            }}
+                    AlcholComponentData("POLISHING","정미율"
+                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
             "CASK TYPE" -> {
                 alchol.more?.cask_type?.let {
-                return it.toString()
-            }}
+                    AlcholComponentData("CASK TYPE","캐스트 종류"
+                        ,R.mipmap.adjunct, mutableListOf(it.toString()),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+
+            else->{  AlcholComponentData("",""
+                ,R.mipmap.adjunct, mutableListOf(""),0f,GlobalApplication.COMPONENT_DEFAULT)}
         }
-        return ""
     }
 
-    private fun setComponent(alchol: Alchol, component:MutableList<Int>) {
+    private fun setComponent(alchol: Alchol, component: MutableList<Int>) {
         for (idx in component) {
-            if(getComponent(componentList.get(idx),alchol) !=""){
-                settingComponentList.add(AlcholComponentData(componentList.get(idx),
-                    getComponent(componentList[idx],alchol)))
+            val compo = getComponent(componentList[idx],alchol)
+            compo?.contents?.let {lst->
+                if(lst.get(0) != ""){
+                    settingComponentList.add(compo)
+                }
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initReview(context: Context, alcholId: String) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+    override fun initReview(context: Context, alcholId: String?) {
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() != null
+        JWTUtil.settingUserInfo(false)
 
-            compositeDisposable.add(
-                ApiGenerator.retrofit.create(ApiService::class.java)
-                    .getAlcholReivew(
-                        GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(),
-                        alcholId
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ result ->
-                        result.data?.reviewList?.let { lst ->
-                            if (lst.isEmpty()) {
-                                //데이터가 없을 때,
-                                lst.toMutableList().let { muLst ->
-                                    muLst.add(ReviewList())
+        compositeDisposable.add(
+            ApiGenerator.retrofit.create(ApiService::class.java)
+                .getAlcholReivew(
+                    GlobalApplication.userBuilder.createUUID,
+                    GlobalApplication.userInfo.getAccessToken(),
+                    alcholId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result ->
+                    result.data?.reviewList?.let { lst ->
+                        if (lst.isEmpty()) {
+                            //데이터가 없을 때,
+                            lst.toMutableList().let { muLst ->
+                                muLst.add(ReviewList().apply {
+                                    checkMore=GlobalApplication.DETAIL_REVIEW_ITEM_0 })
+
+                                view.getView().recyclerViewReviewList.adapter =
+                                    AlcholReviewAdapter(context, alcholId, muLst)
+                            }
+                        } else {
+                            lst.let {
+                                //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
+                                lst.toMutableList().let {muLst->
+                                    muLst.add(ReviewList().apply {
+                                        checkMore =GlobalApplication.DETAIL_REVIEW_ITEM_2
+                                    })
                                     view.getView().recyclerViewReviewList.adapter =
-                                        AlcholReviewAdapter(context,alcholId,muLst)
-                                }
-                            } else {
-                                lst.let {
-                                    view.getView().recyclerViewReviewList.adapter =
-                                        AlcholReviewAdapter(context,alcholId,it.toMutableList())
+                                        AlcholReviewAdapter(context, alcholId, muLst)
                                 }
                             }
                         }
-                        view.getView().recyclerViewReviewList.setHasFixedSize(true)
-                        view.getView().recyclerViewReviewList.layoutManager =
-                            LinearLayoutManager(context)
+                        //리뷰개수
+                        view.getView().detailReviewCountTop.text = lst.size.toString()
+                        view.getView().alcholReviewSumCountText.text = lst.size.toString() + "개"
+                    }
 
-                        result.data?.reviewInfo?.let {
-                            //점수 분포 및 seekbar
-                            view.getView().alcholDetailReviewRatingbar.rating = it.scoreAvg!!.toFloat()
-                            view.getView().detailTopRatingBar.rating = it.scoreAvg!!.toFloat()
-                            view.getView().alcholDetailScoreSeekbar.score1Seekbar.progress = it.score1Count!!
-                            view.getView().alcholDetailScoreSeekbar.score2Seekbar.progress = it.score2Count!!
-                            view.getView().alcholDetailScoreSeekbar.score3Seekbar.progress = it.score3Count!!
-                            view.getView().alcholDetailScoreSeekbar.score4Seekbar.progress = it.score4Count!!
-                            view.getView().alcholDetailScoreSeekbar.score5Seekbar.progress = it.score5Count!!
-                            view.getView().alcholDetailScoreSeekbar.score5.text = it.score5Count.toString()
-                            view.getView().alcholDetailScoreSeekbar.score4.text = it.score4Count.toString()
-                            view.getView().alcholDetailScoreSeekbar.score3.text = it.score3Count.toString()
-                            view.getView().alcholDetailScoreSeekbar.score2.text = it.score2Count.toString()
-                            view.getView().alcholDetailScoreSeekbar.score1.text = it.score1Count.toString()
+                    view.getView().recyclerViewReviewList.setHasFixedSize(true)
+                    view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
 
-                            //rating 점수
-                            view.getView().detailReviewCountTop.text = it.scoreAvg.toString()
-                            view.getView().alcholDetailReviewTotalscore.text = it.scoreAvg.toString()
-                            view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
+                    result.data?.reviewInfo?.let {
+                        //점수 분포 및 seekbar
+                        view.getView().alcholDetailReviewRatingbar.rating = it.scoreAvg!!.toFloat()
+                        view.getView().alcholDetailScoreSeekbar.score1Seekbar.progress =
+                            it.score1Count!!
+                        view.getView().alcholDetailScoreSeekbar.score2Seekbar.progress =
+                            it.score2Count!!
+                        view.getView().alcholDetailScoreSeekbar.score3Seekbar.progress =
+                            it.score3Count!!
+                        view.getView().alcholDetailScoreSeekbar.score4Seekbar.progress =
+                            it.score4Count!!
+                        view.getView().alcholDetailScoreSeekbar.score5Seekbar.progress =
+                            it.score5Count!!
+                        view.getView().alcholDetailScoreSeekbar.score5.text =
+                            it.score5Count.toString()
+                        view.getView().alcholDetailScoreSeekbar.score4.text =
+                            it.score4Count.toString()
+                        view.getView().alcholDetailScoreSeekbar.score3.text =
+                            it.score3Count.toString()
+                        view.getView().alcholDetailScoreSeekbar.score2.text =
+                            it.score2Count.toString()
+                        view.getView().alcholDetailScoreSeekbar.score1.text =
+                            it.score1Count.toString()
 
-                            //리뷰개수
-                            view.getView().detailReviewCountTop.text = it.reviewTotalCount.toString()
-                            view.getView().alcholReviewSumCountText.text = it.reviewTotalCount.toString() + "개"
-                        }
-
-                    }, { t -> Log.e(ErrorManager.REVIEW, t.message.toString()) })
-            )
+                        //rating 점수
+                        view.getView().alcholDetailReviewTotalscore.text = it.scoreAvg.toString()
+                        view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
+                        view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
+                    }
+                }, { t -> Log.e(ErrorManager.REVIEW, t.message.toString()) })
+        )
     }
 
     override fun expandableText() {
@@ -265,10 +292,10 @@ class Presenter : AlcholDetailContract.BasePresenter {
     }
 
     override fun checkReviewDuplicate(context: Context, alchol: Alchol?) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+        val loginCheck = GlobalApplication.userInfo.getAccessToken() != null
+        var check = JWTUtil.settingUserInfo(false)
 
-        if(check){
+        if (check) {
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .checkReviewDuplicate(
@@ -281,20 +308,20 @@ class Presenter : AlcholDetailContract.BasePresenter {
                     .subscribe({ result ->
                         result.data?.isExist?.let { exist ->
                             if (exist)
-                                Toast.makeText(context, "해당 주류에 대한 평가를 이미 하셨습니다.", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(
+                                    context,
+                                    "해당 주류에 대한 평가를 이미 하셨습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
                             else {
                                 GlobalApplication.userInfo.getProvider()?.let {
                                     alchol.let { alchol ->
                                         val bundle = Bundle()
                                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alchol)
                                         GlobalApplication.instance.moveActivity(
-                                            context,
-                                            Comment::class.java,
-                                            0,
-                                            bundle,
-                                            GlobalApplication.ALCHOL_BUNDLE
-                                        )
+                                            context, Comment::class.java, 0,
+                                            bundle, GlobalApplication.ALCHOL_BUNDLE)
                                     }
                                 } ?: CustomDialog.loginDialog(
                                     context,
@@ -304,9 +331,8 @@ class Presenter : AlcholDetailContract.BasePresenter {
                         }
                     }, { t -> Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })
             )
-        }
-       else{
-            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        } else {
+            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
 }

@@ -22,7 +22,7 @@ interface AlcholDetailContract {
 
         fun initComponent(context: Context, alchol: Alchol,position:Int)
 
-        fun initReview(context: Context,alcholId:String)
+        fun initReview(context: Context,alcholId:String?)
 
         fun expandableText()
 

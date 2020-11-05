@@ -21,7 +21,8 @@ import io.reactivex.schedulers.Schedulers
 import java.text.FieldPosition
 
 @SuppressLint("SetTextI18n")
-class AlcholReviewViewHolder(val context:Context,val parent:ViewGroup) :BaseViewHolder<ReviewList,ReviewItemBinding>(R.layout.review_item,parent) {
+class AlcholReviewViewHolder(
+    val context:Context,val parent:ViewGroup) :BaseViewHolder<ReviewList,ReviewItemBinding>(R.layout.review_item,parent) {
     private val compositeDisposable = CompositeDisposable()
 
     override fun bind(data: ReviewList) {
@@ -56,8 +57,7 @@ class AlcholReviewViewHolder(val context:Context,val parent:ViewGroup) :BaseView
     }
 
     fun setLike(alcholId:String?,review:ReviewList,disLikeList:MutableList<Boolean>,position:Int){
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+        var check = JWTUtil.settingUserInfo(false)
         if(check){
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .setLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
@@ -87,8 +87,7 @@ class AlcholReviewViewHolder(val context:Context,val parent:ViewGroup) :BaseView
 
     }
     fun setUnlike(alcholId:String?,review:ReviewList){
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+        var check = JWTUtil.settingUserInfo(false)
 
         if(check){
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -110,8 +109,7 @@ class AlcholReviewViewHolder(val context:Context,val parent:ViewGroup) :BaseView
         }
     }
     fun setDislike(alcholId:String?,review:ReviewList,likeList:MutableList<Boolean>,position: Int){
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+        var check = JWTUtil.settingUserInfo(false)
 
         if(check){
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -140,8 +138,7 @@ class AlcholReviewViewHolder(val context:Context,val parent:ViewGroup) :BaseView
         }
     }
     fun setUnDislike(alcholId:String?,review:ReviewList){
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+        var check = JWTUtil.settingUserInfo(false)
 
         if(check){
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)

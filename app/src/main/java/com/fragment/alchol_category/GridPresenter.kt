@@ -42,8 +42,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun initRecyclerView(context: Context) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -69,8 +68,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
                         binding.gridRecyclerView.setHasFixedSize(true)
                         val spacingPixcel = context.resources.getDimensionPixelSize(R.dimen.grid_layout_margin)
                         binding.gridRecyclerView.addItemDecoration(
-                            GridSpacingItemDecoration(2, spacingPixcel, true, 0)
-                        )
+                            GridSpacingItemDecoration(2, spacingPixcel, true, 0))
                         binding.gridRecyclerView.layoutManager = gridLayoutManager
 
                         initScrollListener()
@@ -100,8 +98,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun pagination(alcholId: String?) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -132,8 +129,7 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         setSortValue(sort)
         executeProgressBar(true)
@@ -166,6 +162,5 @@ class GridPresenter : Fg_AlcholCategoryContact.BasePresenter {
         else{
             binding.gridProgressBar.root.visibility = View.INVISIBLE
      }
-
     }
 }

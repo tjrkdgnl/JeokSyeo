@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
         presenter.initBanner(this)
         presenter.initRecommendViewPager(this)
-        presenter.initNavigationItemSet(this, this, GlobalApplication.userInfo.getProvider())
+        presenter.initNavigationItemSet(this, this)
         presenter.initAlcholRanking(this)
 
         presenter.checkLogin(this, GlobalApplication.userInfo.getProvider())

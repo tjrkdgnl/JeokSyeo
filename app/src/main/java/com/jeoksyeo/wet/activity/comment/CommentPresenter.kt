@@ -95,9 +95,8 @@ class CommentPresenter : CommentContract.BasePresenter {
             "overall",
             view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
         )
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check =JWTUtil.settingUserInfo(false,!loginCheck)
 
+        var check =JWTUtil.settingUserInfo(false)
         if(check){
             disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                 .setComment(

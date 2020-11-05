@@ -30,4 +30,6 @@ object ErrorManager {
     val REVIEW_UNLIKE = "리뷰 좋아요 취소 에러"
     val REVIEW_DISLIKE = "리뷰 싫어요 에러"
     val REVIEW_UNDISLIKE = "리뷰 싫어요 취소 에러"
+
+    val MY_RATED_LIST = "내가 평가한 주류 조회 에러"
 }

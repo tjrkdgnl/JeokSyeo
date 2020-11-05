@@ -42,7 +42,7 @@ class AlcholRankAdapter(
 
         holder.getViewBinding().alcholRankParentLayout.setOnSingleClickListener{
             val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-            JWTUtil.settingUserInfo(false,!loginCheck)
+            JWTUtil.settingUserInfo(false)
 
             lst[position].alcholId?.let {alcholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)

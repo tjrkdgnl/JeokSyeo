@@ -37,7 +37,7 @@ private var lst:MutableList<AlcholList>) : RecyclerView.Adapter<RecommendAlcholV
 
         holder.getViewBinding().recommendParentLayout.setOnSingleClickListener{
             val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-            JWTUtil.settingUserInfo(false,!loginCheck)
+            JWTUtil.settingUserInfo(false)
 
             lst[position].alcholId?.let {alcholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)

@@ -20,6 +20,6 @@ interface AlcholRatedContact {
         var view: BaseView
         fun initProfile(provider: String?)
 
-        fun inintTabLayout(context: Context)
+        fun initTabLayout(context: Context)
     }
 }

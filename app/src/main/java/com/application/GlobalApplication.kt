@@ -17,6 +17,7 @@ import java.util.*
 
 class GlobalApplication : Application() {
     private val typeList = listOf<String>("TR", "BE", "WI", "SA", "FO")
+    private val ratedList = listOf<String>("ALL","TR", "BE", "WI", "SA", "FO")
     private val levelList = listOf<String>("마시는 척 하는 사람","술을 즐기는 사람"
         ,"술독에 빠진 사람","주도를 수련하는 사람","술로 해탈한 사람")
 
@@ -69,9 +70,20 @@ class GlobalApplication : Application() {
         const val ACTIVITY_HANDLING_DETAIL = 1
         const val ACTIVITY_HANDLING_COMMENT = 3
         const val ACTIVITY_HANDLING_CATEGORY = 2
+
+        const val DETAIL_REVIEW_ITEM_0 = 0
+        const val DETAIL_REVIEW_ITEM_1 = 1
+        const val DETAIL_REVIEW_ITEM_2 = 2
+
+        const val COMPONENT_DEFAULT=0
+        const val COMPONENT_RECYCLERVIEW=1
+        const val COMPONENT_SRM=2
+
     }
 
     fun getAlcholType(positon: Int) = typeList[positon]
+
+    fun getRatedType(positon: Int) = ratedList[positon]
 
     fun getLevelName(positon: Int) = levelList[positon-1]
 

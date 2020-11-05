@@ -17,11 +17,28 @@ import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.login.Login
 import com.model.user.UserInfo
 import com.nhn.android.naverlogin.OAuthLogin
+import com.service.ApiGenerator
+import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main.*
+import java.util.logging.Logger
 
 
 object CustomDialog {
+
+    fun createCustomDialog(context: Context):Dialog{
+        val  dialog = Dialog(context,R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.custom_dialog)
+        dialog.show()
+        return dialog
+    }
+
     fun loginDialog(context: Context, activityHandle: Int) {
         val dialog = Dialog(context, R.style.Theme_Dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -32,7 +49,7 @@ object CustomDialog {
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
 
-        okButton.setOnClickListener { v: View? ->
+        okButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(GlobalApplication.ACTIVITY_HANDLING, activityHandle)
             GlobalApplication.instance.moveActivity(context, Login::class.java,
@@ -61,8 +78,8 @@ object CustomDialog {
             2 -> msgString = R.string.plzQnAComment
         }
         contents.setText(msgString)
-        okButton.setOnClickListener { v: View? -> dialog.dismiss() }
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        okButton.setOnClickListener { dialog.dismiss() }
+        cancelButton.setOnClickListener { dialog.dismiss() }
     }
 
 }

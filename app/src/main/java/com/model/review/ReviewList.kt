@@ -1,5 +1,6 @@
 package com.model.review
 
+import com.application.GlobalApplication
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
@@ -53,4 +54,6 @@ class ReviewList {
     @SerializedName("updated_at")
     @Expose
     var updatedAt: Int? = null
+
+    var checkMore =GlobalApplication.DETAIL_REVIEW_ITEM_1
 }

@@ -54,8 +54,6 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
     }
 
     override fun setLike(isLike: Boolean) {
-        Log.e("like", isLike.toString())
-
         if (isLike) {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.full_heart)
         } else {

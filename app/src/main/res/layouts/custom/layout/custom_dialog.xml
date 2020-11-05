@@ -14,12 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:lineSpacingExtra="10sp"
         android:gravity="center"
+        android:maxLines="2"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:lineSpacingExtra="10sp"
         android:text="로그인 후에 이용할 수 있습니다.\n로그인 하시겠습니까?"
-        android:textSize="15sp"
         android:textColor="@color/black"
-        />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/dialog_okButton"

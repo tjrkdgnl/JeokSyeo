@@ -25,7 +25,7 @@ class AlcholRated :AppCompatActivity(), AlcholRatedContact.BaseView
         }
 
         presenter.initProfile(GlobalApplication.userInfo.getProvider())
-        presenter.inintTabLayout(this)
+        presenter.initTabLayout(this)
         binding.ratedTablayout.addOnTabSelectedListener(this)
 
     }

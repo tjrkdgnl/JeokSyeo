@@ -37,14 +37,12 @@ class Presenter : MainContract.BasePresenter {
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private val handler = Handler()
-    private val bundle = Bundle()
     private val slideRunnable = Runnable {
         view.getView().mainBanner.currentItem  +=1
     }
 
     override fun initBanner(context: Context) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check = JWTUtil.settingUserInfo(false,!loginCheck)
+       JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getBannerData(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
@@ -68,8 +66,7 @@ class Presenter : MainContract.BasePresenter {
     }
 
     override fun initRecommendViewPager(context: Context)  {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getRecommendAlchol(
@@ -96,14 +93,16 @@ class Presenter : MainContract.BasePresenter {
         view.getView().activityMainRecommendViewPager2.clipChildren =false
     }
 
-    override fun initNavigationItemSet(context: Context,activity:Activity,provider: String?) {
+    fun initNavigationItemSet(context: Context,activity:Activity) {
+        JWTUtil.settingUserInfo(false)
+
         val lst = mutableListOf<NavigationItem>()
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
         lst.add(NavigationItem(R.mipmap.nv_profile, "내 프로필"))
         lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-        lst.add(provider?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
+        lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
             ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 
         view.getView().mainNavigation.navigationContainer.setHasFixedSize(true)
@@ -113,8 +112,7 @@ class Presenter : MainContract.BasePresenter {
     }
 
     override fun initAlcholRanking(context: Context) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        var check =JWTUtil.settingUserInfo(false,!loginCheck)
+       JWTUtil.settingUserInfo(false)
 
         view.getView().monthlyRecylcerView.setHasFixedSize(true)
         view.getView().monthlyRecylcerView.layoutManager = LinearLayoutManager(context)
@@ -130,7 +128,13 @@ class Presenter : MainContract.BasePresenter {
 
     }
 
+    override fun initNavigationItemSet(context: Context, activity: Activity, provider: String?) {
+        TODO("Not yet implemented")
+    }
+
     override fun checkLogin(context: Context,provider: String?) {
+        JWTUtil.settingUserInfo(false)
+
         provider?.let {
             //유저 프로필 설정하는 화면 필요함
 
@@ -142,5 +146,4 @@ class Presenter : MainContract.BasePresenter {
     override fun detachView() {
         compositeDisposable.dispose()
     }
-
 }

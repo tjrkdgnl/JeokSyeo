@@ -37,8 +37,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     private var pageNum = 1
 
     override fun initRecyclerView(context: Context) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -95,8 +94,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun pagination(alcholId: String?) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -127,8 +125,7 @@ class ListPresenter : Fg_AlcholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
-        JWTUtil.settingUserInfo(false,!loginCheck)
+        JWTUtil.settingUserInfo(false)
 
         setSortValue(sort)
         executeProgressBar(true)

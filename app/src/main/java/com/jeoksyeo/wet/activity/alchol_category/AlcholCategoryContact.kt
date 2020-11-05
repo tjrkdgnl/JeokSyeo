@@ -30,7 +30,7 @@ interface AlcholCategoryContact {
 
         fun checkSort(position:Int,sort:String)
 
-        fun initNavigationItemSet(context: Context,activity:Activity,provider: String?)
+        fun initNavigationItemSet(context: Context,activity:Activity)
 
         fun checkLogin(context: Context,provider: String?)
 

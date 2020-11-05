@@ -13,11 +13,12 @@ import com.custom.CenterLayoutManager
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 
-class Fragment_alcholRated:Fragment() {
+class Fragment_alcholRated:Fragment(), FragmentRated_Contract.BaseView {
     private var position =0
     private lateinit var binding:FragmentAlcholRatedBinding
     private lateinit var alcholRatedAdapter: AlcholRatedAdapter
     private lateinit var smoothScrollListener: SmoothScrollListener
+    private lateinit var presenter:Presenter
 
     interface  SmoothScrollListener{
         fun moveScroll(position:Int)
@@ -55,11 +56,20 @@ class Fragment_alcholRated:Fragment() {
             }
         }
 
-        alcholRatedAdapter= AlcholRatedAdapter(mutableListOf("전통주","사케","맥주","위스키","와인"),smoothScrollListener)
-        binding.ratedRecyclerView.adapter =alcholRatedAdapter
-        binding.ratedRecyclerView.setHasFixedSize(true)
-        binding.ratedRecyclerView.layoutManager = CenterLayoutManager(requireContext())
+        presenter = Presenter().apply {
+            view =this@Fragment_alcholRated
+            position =this@Fragment_alcholRated.position
+            smoothScrollListener = this@Fragment_alcholRated.smoothScrollListener
+        }
+
+        presenter.initRatedList(requireContext())
 
         return binding.root
     }
+
+    override fun getBinding(): FragmentAlcholRatedBinding {
+        return binding
+    }
+
+
 }

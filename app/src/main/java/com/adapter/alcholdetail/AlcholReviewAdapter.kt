@@ -1,25 +1,33 @@
 package com.adapter.alcholdetail
 
 import android.content.Context
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.adapter.viewholder.AlcholMoreReviewViewHolder
 import com.adapter.viewholder.AlcholReviewViewHolder
 import com.adapter.viewholder.NoAlcholReviewViewHolder
-import com.model.alchol_detail.Alchol
+import com.application.GlobalApplication
 import com.model.review.ReviewList
+import com.service.ApiGenerator
+import com.service.ApiService
 import com.vuforia.engine.wet.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.lang.RuntimeException
 
-class AlcholReviewAdapter(private val context: Context,private val alcholId: String?, private val lst: MutableList<ReviewList>) :
+class AlcholReviewAdapter(private val context: Context,
+                          private val alcholId: String?,
+                          private val lst: MutableList<ReviewList>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    //viewType을 위한 상수값
-    private val NO_ITEM = 0
-    private val ITEM = 1
-
     //좋아요, 싫어요 여부 체크리스트
     private val likeList = mutableListOf<Boolean>()
     private val disLikeList = mutableListOf<Boolean>()
+
+    private val compositeDisposable:CompositeDisposable? = CompositeDisposable()
+
+    //초기에는 detail presenter에서 호출되므로 다음 페이지는 항상 2부터이다.
+    private var pageNum =2
 
     init {
         for(idx  in 0..lst.size){
@@ -30,12 +38,16 @@ class AlcholReviewAdapter(private val context: Context,private val alcholId: Str
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM -> {
-                AlcholReviewViewHolder(context,parent)
-            }
-            NO_ITEM -> {
+            GlobalApplication.DETAIL_REVIEW_ITEM_0 -> {
                 NoAlcholReviewViewHolder(parent)
             }
+            GlobalApplication.DETAIL_REVIEW_ITEM_1 -> {
+                AlcholReviewViewHolder(context,parent)
+            }
+            GlobalApplication.DETAIL_REVIEW_ITEM_2 ->{
+                AlcholMoreReviewViewHolder(parent)
+            }
+
             else -> throw RuntimeException("알수 없는 viewtype 에러")
         }
     }
@@ -76,6 +88,28 @@ class AlcholReviewAdapter(private val context: Context,private val alcholId: Str
                 }
             }
         }
+        else if( holder is AlcholMoreReviewViewHolder){
+            holder.getViewBinding().reviewMoreParentLayout.setOnClickListener {
+
+            compositeDisposable?.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getAlcholReivew(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(),
+                        alcholId, pageNum)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ result ->
+                        result.data?.pageInfo?.page?.let {
+                            pageNum = it.toInt() + 1
+                        }
+                        result.data?.reviewList?.let {
+                            val currentPosition = lst.size
+                            lst.addAll(it.toMutableList())
+                            notifyItemChanged(currentPosition-1, lst.size)
+                        }
+                    }, {}))
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -83,6 +117,16 @@ class AlcholReviewAdapter(private val context: Context,private val alcholId: Str
     }
 
     override fun getItemViewType(position: Int): Int {
-        return lst[position].nickname?.let { ITEM } ?: NO_ITEM
+        return when(lst[position].checkMore){
+            GlobalApplication.DETAIL_REVIEW_ITEM_0 ->{    return GlobalApplication.DETAIL_REVIEW_ITEM_0}
+            GlobalApplication.DETAIL_REVIEW_ITEM_1->{  return GlobalApplication.DETAIL_REVIEW_ITEM_1}
+            GlobalApplication.DETAIL_REVIEW_ITEM_2->{return GlobalApplication.DETAIL_REVIEW_ITEM_2}
+            else->{GlobalApplication.DETAIL_REVIEW_ITEM_0}
+        }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        compositeDisposable?.dispose()
     }
 }

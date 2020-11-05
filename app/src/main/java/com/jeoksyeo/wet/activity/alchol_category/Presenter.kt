@@ -23,6 +23,7 @@ import com.model.alchol_category.AlcholList
 import com.model.navigation.NavigationItem
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -80,14 +81,16 @@ class Presenter:AlcholCategoryContact.BasePresenter {
         }
     }
 
-    override fun initNavigationItemSet(context: Context,activity:Activity,provider: String?) {
+    override fun initNavigationItemSet(context: Context,activity:Activity) {
+        JWTUtil.settingUserInfo(false)
+
         val lst = mutableListOf<NavigationItem>()
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
         lst.add(NavigationItem(R.mipmap.nv_profile, "내 프로필"))
         lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-        lst.add(provider?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
+        lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
             ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 
         view.getView().categoryNavigation.navigationContainer.setHasFixedSize(true)
@@ -99,6 +102,8 @@ class Presenter:AlcholCategoryContact.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun checkLogin(context: Context, provider: String?) {
+        JWTUtil.settingUserInfo(false)
+
         provider?.let {
             //유저 프로필 설정하는 화면 필요함
             view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text=

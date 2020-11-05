@@ -37,7 +37,6 @@ class ListAdapter(private val context: Context,
         holder.bind(lst[position])
         holder.getViewBinding().ratingBarListRatingbar.rating = lst[position].review?.score!!
 
-
         holder.getViewBinding().listItemParentLayout.setOnSingleClickListener{
             executeProgressBar(true)
             lst[position].alcholId?.let {alcholId->

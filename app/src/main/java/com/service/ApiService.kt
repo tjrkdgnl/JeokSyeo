@@ -5,6 +5,8 @@ import com.model.alchol_detail.GetAlcholDetail
 import com.model.alchol_ranking.GetAlcholRanking
 import com.model.area.GetAreaData
 import com.model.banner.GetBannerData
+import com.model.my_review_summary.GetMyReviewSum
+import com.model.rated.GetRatedList
 import com.model.nickname_check.GetResult
 import com.model.recommend_alchol.GetRecomendItem
 import com.model.review.GetReviewData
@@ -56,7 +58,7 @@ interface ApiService {
 
     @GET("v1/alchols/{alchol_id}/reviews")
     fun getAlcholReivew(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                        @Path("alchol_id") alcholId:String) : Flowable<GetReviewData>
+                        @Path("alchol_id") alcholId:String?,@Query("p")page:Int) : Flowable<GetReviewData>
 
     @GET("v1/main/banner")
     fun getBannerData(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<GetBannerData>
@@ -80,4 +82,22 @@ interface ApiService {
     @DELETE("v1/alchols/{alchol_id}/reviews/{review_id}/dislike")
     fun setUnDislike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                     @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+
+    @GET("v1/users/reviews")
+    fun getMyRatedList(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                       @Query("f")alcholType:String?,@Query("c")alcholCount:Int,@Query("p")pageNumber:Int) :Flowable<GetRatedList>
+
+
+    @GET("v1/users/reviews/summary")
+    fun getMyRatedReviewSum(@Header("X-Request-ID")UUID: String, @Header("Authorization")token: String?) :Single<GetMyReviewSum>
+
+    @DELETE("v1/alchols/{alchol_id}/reviews/{review_id}")
+    fun deleteMyRatedReview(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                  @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+
+    @PUT("v1/alchols/{alchol_id}/reviews/{review_id}")
+    fun editMyRatedReview(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                          @Path("alchol_id") alcholId:String?,@Path("review_id")reviewId:String?
+                          ,@Body map:HashMap<String,Any>) : Flowable<com.model.result.GetResult>
+
 }

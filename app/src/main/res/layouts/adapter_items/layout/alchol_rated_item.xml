@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="name"
-            type="String" />
+            name="review"
+            type="com.model.rated.ReviewList" />
     </data>
 
     <LinearLayout
@@ -35,10 +35,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
+                    setting_icon_str="@{review.alchol.media.get(0).mediaResource.small.src.toString()}"
                     android:src="@mipmap/nuggi" />
 
             </androidx.cardview.widget.CardView>
-
 
             <TextView
                 android:id="@+id/rated_item_name"
@@ -52,7 +52,7 @@
                 tools:text="천비향"
                 app:layout_constraintStart_toEndOf="@id/rated_alchol_img"
                 app:layout_constraintTop_toTopOf="@id/rated_alchol_img"
-                android:text="@{name}" />
+                android:text="@{review.alchol.name.toString()}" />
 
             <TextView
                 android:id="@+id/rated_item_location"
@@ -63,9 +63,10 @@
                 android:textColor="#7b7b7b"
                 android:textSize="14sp"
                 android:textStyle="normal"
+                tools:text="국순당"
                 app:layout_constraintStart_toStartOf="@id/rated_item_name"
                 app:layout_constraintTop_toBottomOf="@id/rated_item_name"
-                android:text="국순당" />
+                android:text="@{review.alchol.brewery.get(0).name.kr.toString()}" />
 
             <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/rated_item_ratingbar"
@@ -86,6 +87,18 @@
                 app:srb_starPadding="1.5dp"
                 app:srb_stepSize="0.5" />
 
+            <TextView
+                android:id="@+id/rated_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/rated_item_ratingbar"
+                app:layout_constraintBottom_toBottomOf="@id/rated_item_ratingbar"
+                app:layout_constraintStart_toEndOf="@id/rated_item_ratingbar"
+                tools:text="3.5"
+                android:text="@{review.score.toString()}"
+                android:layout_marginStart="8dp"/>
+
+
             <at.blogc.android.views.ExpandableTextView
                 android:id="@+id/rated_itme_comment"
                 android:layout_width="match_parent"
@@ -99,7 +112,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 app:animation_duration="170"
-                android:text="천비향은 밑술 후에 네 번 덧술을 한 오양주 인데요. 현재 시판되는 전통 주류 중 유일하게 오양주로 술을 빚고 있습니다. 덧술을 하는 것은 알코올 도수를 높이고 술 맛을 좋게 하기 위함인데요. 일반적으로 한 번 덧술 할 때마다 이전 덧술 과정의 최소 1.5배의 쌀이 필요합니다.  " >
+                android:text="@{review.contents.toString()}"
+                tools:text="천비향은 밑술 후에 네 번 덧술을 한 오양주 인데요. 현재 시판되는 전통 주류 중 유일하게 오양주로 술을 빚고 있습니다. 덧술을 하는 것은 알코올 도수를 높이고 술 맛을 좋게 하기 위함인데요. 일반적으로 한 번 덧술 할 때마다 이전 덧술 과정의 최소 1.5배의 쌀이 필요합니다.  " >
             </at.blogc.android.views.ExpandableTextView>
 
 
@@ -136,7 +150,7 @@
             <TextView
                 android:id="@+id/rated_item_delete"
                 android:layout_width="60dp"
-                android:layout_height="28dp"
+                android:layout_height="32dp"
                 android:text="삭제"
                 android:textStyle="normal"
                 android:textSize="14sp"
@@ -151,7 +165,7 @@
             <TextView
                 android:id="@+id/rated_item_comment_edit"
                 android:layout_width="60dp"
-                android:layout_height="28dp"
+                android:layout_height="32dp"
                 android:textStyle="normal"
                 android:background="@drawable/default_outline"
                 android:textSize="14sp"
