@@ -32,4 +32,8 @@ object ErrorManager {
     val REVIEW_UNDISLIKE = "리뷰 싫어요 취소 에러"
 
     val MY_RATED_LIST = "내가 평가한 주류 조회 에러"
+
+    val DELETE_USER ="회원가입 탈퇴 에러"
+    val IMAGE_UPLOAD ="이미지 업로드 에러"
+    val EDIT_PROFILE ="개인정보 수정 에러"
 }

@@ -1,5 +1,6 @@
 package com.custom
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -39,7 +40,8 @@ object CustomDialog {
         return dialog
     }
 
-    fun loginDialog(context: Context, activityHandle: Int) {
+    @SuppressLint("SetTextI18n")
+    fun loginDialog(context: Context, activityHandle: Int, sessionCheck:Boolean =false) {
         val dialog = Dialog(context, R.style.Theme_Dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -48,6 +50,11 @@ object CustomDialog {
         dialog.show()
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+        val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
+
+        if(sessionCheck){
+            contents.text = "세션이 만료되었습니다.\n재로그인 해주세요"
+        }
 
         okButton.setOnClickListener {
             val bundle = Bundle()

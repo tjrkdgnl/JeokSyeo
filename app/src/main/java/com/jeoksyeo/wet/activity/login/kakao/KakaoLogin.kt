@@ -19,12 +19,18 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.service.ApiGenerator
+import com.service.ApiService
 import com.vuforia.engine.wet.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class KakaoLogin(private val context: Context) {
     val TAG = "KAKAO_USERINFO"
     val instance = LoginClient.instance
     val userInfo = UserApiClient.instance
+    private  var disposable:Disposable? =null
 
     lateinit var executeProgressBar:(Boolean) ->Unit
 
@@ -103,32 +109,43 @@ class KakaoLogin(private val context: Context) {
         okButton.text = "회원탈퇴"
         contents.setText(R.string.delete_app)
 
-        okButton.setOnClickListener { v: View? ->
-            userInfo.unlink { error ->
-                if (error != null) {
-                    Log.e(TAG, "연결 끊기 실패", error)
-                    Toast.makeText(context, "탈퇴가 제대로 진행되지 않았습니다.\n " +
-                            "다시 진행해 주세요.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
-                    //서버 자체에서 탈퇴를 진행하는 api도 실행하기
-                    GlobalApplication.userInfo.init()
-                    GlobalApplication.userDataBase.setAccessToken(null)
-                    GlobalApplication.userDataBase.setRefreshToken(null)
-                    GlobalApplication.userDataBase.setAccessTokenExpire(0)
-                    GlobalApplication.userDataBase.setRefreshTokenExpire(0)
+        okButton.setOnClickListener {
+            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                .deleteUser(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.result?.let { result->
+                        if(result =="SUCCESS"){
+                            userInfo.unlink { error ->
+                                if (error != null) {
+                                    Log.e(TAG, "연결 끊기 실패", error)
+                                    Toast.makeText(context, "탈퇴가 제대로 진행되지 않았습니다.\n " +
+                                            "다시 진행해 주세요.", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                                    //서버 자체에서 탈퇴를 진행하는 api도 실행하기
+                                    GlobalApplication.userInfo.init()
+                                    GlobalApplication.userDataBase.setAccessToken(null)
+                                    GlobalApplication.userDataBase.setRefreshToken(null)
+                                    GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                                    GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
-                    context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    if(context is Activity){
-                        context.finish()
-                        context.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
+                                    context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+
+                                    if(context is Activity){
+                                        context.finish()
+                                        context.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
+                                    }
+                                    disposable?.dispose()
+                                    Toast.makeText(context, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
                     }
-                    Toast.makeText(context, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
+                },{t-> Log.e(ErrorManager.DELETE_USER,t.message.toString())})
             dialog.dismiss()
         }
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        cancelButton.setOnClickListener { dialog.dismiss() }
     }
 }

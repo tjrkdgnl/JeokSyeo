@@ -21,10 +21,16 @@ import com.error.ErrorManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.jeoksyeo.wet.activity.login.ExecuteProgressBarDialog
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.service.ApiGenerator
+import com.service.ApiService
 import com.vuforia.engine.wet.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
 class AppleLogin(private val mContext:Context,private val activity: Activity) {
+    private var disposable: Disposable? =null
     private val provider = OAuthProvider.newBuilder("apple.com")
     private val pending = FirebaseAuth.getInstance().pendingAuthResult
     private var user: FirebaseUser? = null
@@ -134,19 +140,30 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                     if (it.isSuccessful) {
                         //삭제 후 핸들링
                         //서버 자체에서 탈퇴를 진행하는 api도 실행하기
-                        Log.e("애플삭제", FirebaseAuth.getInstance().currentUser?.email.toString())
-                        GlobalApplication.userInfo.init()
-                        GlobalApplication.userDataBase.setAccessToken(null)
-                        GlobalApplication.userDataBase.setRefreshToken(null)
-                        GlobalApplication.userDataBase.setAccessTokenExpire(0)
-                        GlobalApplication.userDataBase.setRefreshTokenExpire(0)
-                        Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
+                        disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                            .deleteUser(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                it.data?.result?.let { result->
+                                    if(result =="SUCCESS"){
+                                        Log.e("애플삭제", FirebaseAuth.getInstance().currentUser?.email.toString())
+                                        GlobalApplication.userInfo.init()
+                                        GlobalApplication.userDataBase.setAccessToken(null)
+                                        GlobalApplication.userDataBase.setRefreshToken(null)
+                                        GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                                        GlobalApplication.userDataBase.setRefreshTokenExpire(0)
+                                        Toast.makeText(mContext, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
 
-                        mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        if(mContext is Activity){
-                            mContext.finish()
-                            mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
-                        }
+                                        mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                                        if(mContext is Activity){
+                                            mContext.finish()
+                                            mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
+                                        }
+                                        disposable?.dispose()
+                                    }
+                                }
+                            },{t-> Log.e(ErrorManager.DELETE_USER,t.message.toString())})
                     }
                     else{
                         Toast.makeText(mContext, "탈퇴가 제대로 진행되지않았습니다.\n" +

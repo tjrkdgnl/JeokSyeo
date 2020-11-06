@@ -59,7 +59,6 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             binding.editProfileBasicDatePicker.datePicker.setOnDateChangedListener(this)
         }
-
     }
 
     private fun CameraPermission() {
@@ -120,13 +119,12 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
                     throwable?.printStackTrace()
                 }
-
             }
-
         }
     }
 
     private fun setImage() {
+        presenter.imageUpload(this,tempFile)
         Glide.with(this)
             .load(tempFile?.absolutePath)
             .apply(
@@ -142,7 +140,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     private fun cropImage(photoUri: Uri?) {
         if (tempFile == null) {
             try {
-                tempFile = createTempFile()
+                tempFile = createImageFile()
             } catch (e: Exception) {
                 Toast.makeText(this, "이미지 처리 오류! 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                 finish()
@@ -186,6 +184,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         // 빈 파일 생성
         val image = File.createTempFile(imageFileName, ".jpg", storageDir)
         tempFile = image.absoluteFile
+        Log.e("파일생성",tempFile?.name.toString())
         return image
     }
 
@@ -205,7 +204,8 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             R.id.birthdayLinearLayout ->binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
             R.id.button_datePicker_ok -> binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
 
-            R.id.editProfile_G_okButton -> presenter.executeEditProfile(name,gender,birthday,tempFile?.absolutePath)
+            R.id.editProfile_G_okButton -> presenter.executeEditProfile(this,
+                binding.insertInfoEditText.text.toString(),gender,birthday)
         }
     }
 
@@ -219,6 +219,16 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         binding.editProfileGImageButtonGenderMan.setImageResource(R.mipmap.gender_checkbox_empty)
         binding.editProfileGImageButtonGenderWoman.setImageResource(R.mipmap.gender_checkbox_full)
         gender = "F"
+    }
+
+    override fun setBirthDay() {
+        GlobalApplication.userInfo.getBirthDay()?.let {
+            val birth = it.split("-")
+            binding.birthdayYear.text = birth.get(0)
+            binding.birthdayMonth.text = birth.get(1)
+            binding.birthdayDay.text = birth.get(2)
+        }
+        birthday = GlobalApplication.userInfo.getBirthDay()
     }
 
     override fun resultNickNameCheck(result: Boolean) {

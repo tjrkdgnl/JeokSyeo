@@ -30,6 +30,11 @@ class Presenter : AlcholDetailContract.BasePresenter {
     override lateinit var context: Context
     private var compositeDisposable = CompositeDisposable()
     private var settingComponentList = mutableListOf<AlcholComponentData>()
+    private val NUM_SIZE = 30f
+    private val RECYCLERVIEW_TEXT_SIZE = 10f
+    private val CHAR_SIZE = 20f
+    private val TEMPERATURE_SIZE =25f
+
 
     private val componentList = listOf<String>(
         "ADJUNCT",
@@ -131,60 +136,60 @@ class Presenter : AlcholDetailContract.BasePresenter {
             "MALT" -> {
                 alchol.adjunct?.let {
                     AlcholComponentData("MALT","첨가물"
-                        ,R.mipmap.malt, mutableListOf(it),10f,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
+                        ,R.mipmap.malt, mutableListOf(it),RECYCLERVIEW_TEXT_SIZE,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
 
             "ADJUNCT" -> {
                 alchol.adjunct?.let {
                     AlcholComponentData("ADJUNCT","첨가물"
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),RECYCLERVIEW_TEXT_SIZE,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
             "TEMPERATURE" -> {
                 alchol.temperature?.let {
-                    AlcholComponentData("TEMPERATURE","음용온도"
-                        ,R.mipmap.temperature, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                    AlcholComponentData("TEMPERATURE","음용 온도"
+                        ,R.mipmap.temperature, mutableListOf(it),TEMPERATURE_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "BARREL AGED" -> {
                 alchol.barrelAged?.let {
-                    AlcholComponentData("BARREL","오크숙성"
-                        ,R.mipmap.barrel, mutableListOf(it.toString()),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                    AlcholComponentData("BARREL","오크 숙성"
+                        ,R.mipmap.barrel, mutableListOf(it.toString().toUpperCase()),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "FILTERED" -> {
                 alchol.more?.filtered?.let {
                     AlcholComponentData("FILTERED","여과 여부"
-                        ,R.mipmap.filtered, mutableListOf(it.toString()),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.filtered, mutableListOf(it.toString().toUpperCase()),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "SRM" -> {
                 alchol.more?.srm?.let {
                     AlcholComponentData("SRM",""
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_SRM)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),NUM_SIZE,GlobalApplication.COMPONENT_SRM)} }
             "BODY TO HEAVY" -> {
                 alchol.more?.body?.let {
                     AlcholComponentData("BODY TO HEAVY","바디"
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "ACIDIC" -> {
                 alchol.more?.acidic?.let {
                     AlcholComponentData("ACIDIC","산도"
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "HOP" -> {
                 alchol.more?.hop?.let {
                     AlcholComponentData("HOP","홉"
-                        ,R.mipmap.hop, mutableListOf(it),10f,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
+                        ,R.mipmap.hop, mutableListOf(it),RECYCLERVIEW_TEXT_SIZE,GlobalApplication.COMPONENT_RECYCLERVIEW)} }
             "IBU" -> {
                 alchol.more?.ibu?.let {
                     AlcholComponentData("IBU",""
-                        ,R.mipmap.ibu, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.ibu, mutableListOf(it),NUM_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "TANNIN" -> {
                 alchol.more?.tannin?.let {
                     AlcholComponentData("TANNIN","타닌"
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "DRY TO SWEET" -> {
                 alchol.more?.sweet?.let {
                     AlcholComponentData("DRY TO SWEET","당도"
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "POLISHING" -> {
                 alchol.more?.polishing?.let {
                     AlcholComponentData("POLISHING","정미율"
-                        ,R.mipmap.adjunct, mutableListOf(it),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.adjunct, mutableListOf(it),NUM_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "CASK TYPE" -> {
                 alchol.more?.cask_type?.let {
                     AlcholComponentData("CASK TYPE","캐스트 종류"
-                        ,R.mipmap.adjunct, mutableListOf(it.toString()),10f,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.adjunct, mutableListOf(it.toString()),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
 
             else->{  AlcholComponentData("",""
                 ,R.mipmap.adjunct, mutableListOf(""),0f,GlobalApplication.COMPONENT_DEFAULT)}

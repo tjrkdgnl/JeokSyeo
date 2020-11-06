@@ -5,6 +5,7 @@ import com.model.alchol_detail.GetAlcholDetail
 import com.model.alchol_ranking.GetAlcholRanking
 import com.model.area.GetAreaData
 import com.model.banner.GetBannerData
+import com.model.image_upload.GetImageUploadData
 import com.model.my_review_summary.GetMyReviewSum
 import com.model.rated.GetRatedList
 import com.model.nickname_check.GetResult
@@ -14,7 +15,10 @@ import com.model.review_duplicate.GetReviewDuplicate
 import io.reactivex.Single
 import com.model.token.GetUserData
 import io.reactivex.Flowable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
+import java.io.File
 
 interface ApiService {
 
@@ -99,5 +103,17 @@ interface ApiService {
     fun editMyRatedReview(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                           @Path("alchol_id") alcholId:String?,@Path("review_id")reviewId:String?
                           ,@Body map:HashMap<String,Any>) : Flowable<com.model.result.GetResult>
+
+    @DELETE("v1/users/close")
+    fun deleteUser(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<com.model.result.GetResult>
+
+    @Multipart
+    @POST("v1/upload/image")
+    fun imageUpload(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                    @Part imageBody :MultipartBody.Part?) :Single<GetImageUploadData>
+
+    @PUT("v1/users")
+    fun editProfile(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                    @Body map:HashMap<String,Any>):Single<com.model.result.GetResult>
 
 }

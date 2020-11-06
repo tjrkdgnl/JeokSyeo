@@ -72,4 +72,8 @@ private var lst:MutableList<AlcholList>) : RecyclerView.Adapter<RecommendAlcholV
         setOnClickListener(setOnSingleClickListener)
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        disposable?.dispose()
+    }
 }

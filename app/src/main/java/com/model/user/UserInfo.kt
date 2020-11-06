@@ -20,6 +20,12 @@ class UserInfo {
     private var infoMap = HashMap<String, Any>()
     private var address: String? = null
 
+    val createUUID: String
+        get() {
+            val uuid = UUID.randomUUID().toString()
+            Log.e("UUID",uuid )
+            return uuid}
+
     fun getMap() = infoMap
 
     fun getAccessToken() = accessToken
@@ -121,11 +127,7 @@ class UserInfo {
         //회원가입 1단계를 위해서 public get 설정
         fun getOAuthToken() = this.oauth_token
         fun getProvider() = this.provider
-        val createUUID: String
-            get() {
-                val uuid = UUID.randomUUID().toString()
-                Log.e("UUID",uuid )
-                return uuid}
+
 
 
         fun build(): UserInfo {

@@ -26,7 +26,7 @@
             android:textColor="#676767"
             android:lineSpacingExtra="6sp"
             android:gravity="center_horizontal"
-            tools:text="작성된 주류 리뷰가 없습니다."
+            android:text="작성된 주류 리뷰가 없습니다."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

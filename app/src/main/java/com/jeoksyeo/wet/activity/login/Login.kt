@@ -160,8 +160,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
             //구글 소셜 로그인을 파이어베이스에 넘겨줌.
             val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
             FirebaseAuth.getInstance().signInWithCredential(credential)
-                .addOnCompleteListener {task->
-                    if(task.isSuccessful){
+                .addOnCompleteListener {result->
+                    if(result.isSuccessful){
                         FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
                             setUserInfo("GOOGLE", it.result?.token.toString())
                         }?.addOnFailureListener {

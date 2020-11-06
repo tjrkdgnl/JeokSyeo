@@ -21,7 +21,13 @@ import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.editprofile.EditProfile
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.service.ApiGenerator
+import com.service.ApiService
 import com.vuforia.engine.wet.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.lang.Exception
@@ -30,6 +36,7 @@ class NaverLogin(private val mContext: Context) {
     val instance = OAuthLogin.getInstance()
     var naverLoginHandler: OAuthLoginHandler
     lateinit var executeProgressBar:(Boolean)->Unit
+    private var disposable:Disposable? =null
 
     init {
         instance.init(
@@ -130,28 +137,35 @@ class NaverLogin(private val mContext: Context) {
         okButton.text = "회원탈퇴"
         contents.setText(R.string.delete_app)
 
-        okButton.setOnClickListener { v: View? ->
-            CoroutineScope(Dispatchers.IO).launch {
-              instance.logoutAndDeleteToken(mContext)
+        okButton.setOnClickListener {
+            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                .deleteUser(GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.result?.let { result ->
+                        if(result == "SUCCESS") {
+                            instance.logoutAndDeleteToken(mContext)
+                            //서버 자체에서 탈퇴를 진행하는 api도 실행하기
+                            GlobalApplication.userInfo.init()
+                            GlobalApplication.userDataBase.setAccessToken(null)
+                            GlobalApplication.userDataBase.setRefreshToken(null)
+                            GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                            GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
-                withContext(Dispatchers.Main) {
-                    //서버 자체에서 탈퇴를 진행하는 api도 실행하기
-                    GlobalApplication.userInfo.init()
-                    GlobalApplication.userDataBase.setAccessToken(null)
-                    GlobalApplication.userDataBase.setRefreshToken(null)
-                    GlobalApplication.userDataBase.setAccessTokenExpire(0)
-                    GlobalApplication.userDataBase.setRefreshTokenExpire(0)
+                            Toast.makeText(mContext, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
 
-                    Toast.makeText(mContext, "탈퇴완료 되었습니다.", Toast.LENGTH_SHORT).show()
-                    mContext.startActivity(Intent(mContext,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    if(mContext is Activity){
-                        mContext.finish()
-                        mContext.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
+                            mContext.startActivity(Intent(mContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                            if (mContext is Activity) {
+                                mContext.finish()
+                                mContext.overridePendingTransition(R.anim.right_to_current, R.anim.current_to_left)
+                            }
+                            disposable?.dispose()
+                            dialog.dismiss()
+                        }
                     }
-                    dialog.dismiss()
-                }
-            }
+                }, {t-> Log.e(ErrorManager.DELETE_USER,t.message.toString())})
         }
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        cancelButton.setOnClickListener { dialog.dismiss() }
     }
 }

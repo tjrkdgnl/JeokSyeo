@@ -18,5 +18,9 @@ class RecommendAlcholViewHolder(parent:ViewGroup)
                 binding.activtyMainLikeImg.setImageResource(R.mipmap.full_heart)
             }
         }
+
+        data.review?.score?.let {
+            binding.activityMainRecommendRatingBar.rating =it
+        }
     }
 }

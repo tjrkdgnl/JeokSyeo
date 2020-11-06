@@ -3,27 +3,64 @@ package com.jeoksyeo.wet.activity.editprofile
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
+import com.model.edit_profile.Profile
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.util.regex.Pattern
 
 class Presenter : EditProfileContract.BasePresenter {
     override lateinit var view: EditProfileContract.BaseView
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var profile:Profile? =null
 
-    override fun executeEditProfile(
-        name: String?,
-        gender: String?,
-        birthday: String?,
-        image: String?
-    ) {
-        //프로필 수정하는 api 실행하기.
+    override fun executeEditProfile(context:Context,name: String?, gender: String?, birthday: String?) {
+        val check = JWTUtil.settingUserInfo(false)
+
+        val map = HashMap<String,Any>()
+        profile?.let { map.put("profile",it) }
+        name?.let {
+            Log.e("name",it)
+            map.put("nickname", it) }
+        birthday?.let {
+            Log.e("birth",it)
+            map.put("birth", it) }
+        gender?.let {
+            Log.e("gender",it)
+            map.put("gender", it) }
+
+        if(check){
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .editProfile(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.result?.let {
+                        if(it =="SUCCESS"){
+                            Toast.makeText(context,"수정이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(context,"수정이 제대로 이뤄지지 않았습니다.",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                },{t->Log.e(ErrorManager.EDIT_PROFILE,t.message.toString())
+                }))
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_MAIN,true)
+        }
     }
 
     override fun checkNickName(context: Context, name: String) {
@@ -84,10 +121,7 @@ class Presenter : EditProfileContract.BasePresenter {
             view.getView().insertInfoEditText.setText(GlobalApplication.userInfo.getNickName())
 
             GlobalApplication.userInfo.getBirthDay()?.let {
-                val birth = it.split("-")
-                view.getView().birthdayYear.text = birth.get(0)
-                view.getView().birthdayMonth.text = birth.get(1)
-                view.getView().birthdayDay.text = birth.get(2)
+                view.setBirthDay()
             }
             GlobalApplication.userInfo.getGender()?.let {
                 if (it.equals("M")) {
@@ -97,4 +131,37 @@ class Presenter : EditProfileContract.BasePresenter {
             }
         }
     }
+
+    override fun imageUpload(context: Context,imageFile: File?) {
+
+        Log.e("path",imageFile?.name.toString())
+
+        val check = JWTUtil.settingUserInfo(false)
+
+        val imageBody =imageFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
+
+        val file = imageFile?.name?.let {name->
+            imageBody?.let { body ->
+                MultipartBody.Part.createFormData("file", name, body)
+            } }
+
+        if(check){
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .imageUpload(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({result->
+                    result.data?.mediaId?.let {
+                        profile = Profile("image",it)
+                    }
+                },{ t->
+                    Log.e(ErrorManager.IMAGE_UPLOAD,t.message.toString())
+                }))
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_MAIN,true)
+        }
+    }
+
+
 }
