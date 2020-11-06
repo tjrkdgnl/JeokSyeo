@@ -222,13 +222,13 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     }
 
     override fun setBirthDay() {
-        GlobalApplication.userInfo.getBirthDay()?.let {
+        GlobalApplication.userInfo.birthDay?.let {
             val birth = it.split("-")
             binding.birthdayYear.text = birth.get(0)
             binding.birthdayMonth.text = birth.get(1)
             binding.birthdayDay.text = birth.get(2)
         }
-        birthday = GlobalApplication.userInfo.getBirthDay()
+        birthday = GlobalApplication.userInfo.birthDay
     }
 
     override fun resultNickNameCheck(result: Boolean) {

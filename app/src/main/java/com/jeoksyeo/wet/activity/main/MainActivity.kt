@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
     }
 
     override fun refresh() {
+        presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
     }
 
     override fun onClick(v: View?) {

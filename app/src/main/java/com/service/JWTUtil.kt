@@ -69,6 +69,7 @@ object JWTUtil {
                 .setBirthDay(user.data?.userInfo?.birth)
                 .setProfile(user.data?.userInfo?.profile)
                 .setGender(user.data?.userInfo?.gender)
+                .setLevel(user.data?.userInfo?.level)
                 .setAccessToken("Bearer "+GlobalApplication.userDataBase.getAccessToken())
                 .build()
         } else {

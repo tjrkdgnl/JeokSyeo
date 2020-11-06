@@ -107,7 +107,7 @@ class Presenter:AlcholCategoryContact.BasePresenter {
         provider?.let {
             //유저 프로필 설정하는 화면 필요함
             view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text=
-                GlobalApplication.userInfo.getNickName() + "님 안녕하세요" +"\n" //레벨을 적어야함.
+                GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n" //레벨을 적어야함.
         }
     }
 }

@@ -209,7 +209,6 @@ class Presenter : AlcholDetailContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun initReview(context: Context, alcholId: String?) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() != null
         JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(
@@ -297,28 +296,27 @@ class Presenter : AlcholDetailContract.BasePresenter {
     }
 
     override fun checkReviewDuplicate(context: Context, alchol: Alchol?) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() != null
         var check = JWTUtil.settingUserInfo(false)
 
+        Log.e("alchol_Id",alchol?.alcholId.toString())
+
         if (check) {
-            compositeDisposable.add(
-                ApiGenerator.retrofit.create(ApiService::class.java)
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                     .checkReviewDuplicate(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
-                        alchol?.alcholId!!
-                    )
+                        alchol?.alcholId!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
                         result.data?.isExist?.let { exist ->
-                            if (exist)
+                            if (exist) {
                                 Toast.makeText(
                                     context,
                                     "해당 주류에 대한 평가를 이미 하셨습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
+                            }
                             else {
                                 GlobalApplication.userInfo.getProvider()?.let {
                                     alchol.let { alchol ->

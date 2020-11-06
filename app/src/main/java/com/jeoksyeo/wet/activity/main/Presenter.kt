@@ -14,6 +14,9 @@ import com.adapter.main.RecommendAlcholAdapter
 import com.adapter.navigation.NavigationAdpater
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
 import com.model.navigation.NavigationItem
@@ -137,9 +140,24 @@ class Presenter : MainContract.BasePresenter {
 
         provider?.let {
             //유저 프로필 설정하는 화면 필요함
-
             view.getView().mainDrawerLayout.main_navigation.navigation_header_Name.text=
-                GlobalApplication.userInfo.getNickName() + "님 안녕하세요" +"\n" //레벨을 적어야함.
+                GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n Lv."+
+                        GlobalApplication.userInfo.getLevel()+" "+
+                        GlobalApplication.instance.getLevelName(GlobalApplication.userInfo.getLevel()?:0)
+        }
+        GlobalApplication.userInfo.getProfile()?.let {lst->
+            if(lst.isNotEmpty()){
+               Glide.with(context)
+                   .load(lst[0].mediaResource?.small?.src.toString())
+                   .apply(
+                       RequestOptions()
+                           .signature(ObjectKey("signature"))
+                           .skipMemoryCache(true)
+                           .diskCacheStrategy(DiskCacheStrategy.NONE)
+                           .circleCrop()
+                   )
+                   .into(view.getView().mainNavigation.navigationHeader.navigationHeaderProfile)
+            }
         }
     }
 

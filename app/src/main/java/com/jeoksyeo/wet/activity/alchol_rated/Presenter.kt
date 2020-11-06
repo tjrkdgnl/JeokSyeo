@@ -25,7 +25,7 @@ class Presenter :AlcholRatedContact.BasesPresenter {
     @SuppressLint("SetTextI18n")
     override fun initProfile(provider:String?) {
         provider?.let {
-            view.getView().alcholRatedName.text = GlobalApplication.userInfo.getNickName() +"님,"
+            view.getView().alcholRatedName.text = GlobalApplication.userInfo.nickName +"님,"
             getMyReviewCount()
         }
     }

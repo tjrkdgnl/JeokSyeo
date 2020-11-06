@@ -53,14 +53,12 @@ class Presenter : EditProfileContract.BasePresenter {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe({user->
-                                    GlobalApplication.userInfo =UserInfo.Builder("")
-                                        .setAccessToken("Bearer "+GlobalApplication.userDataBase.getAccessToken())
-                                        .setProvider(GlobalApplication.userInfo.getProvider())
-                                        .setNickName(user.data?.userInfo?.nickname)
-                                        .setBirthDay(user.data?.userInfo?.birth)
-                                        .setGender(user.data?.userInfo?.gender)
-                                        .setProfile(user.data?.userInfo?.profile)
-                                        .build()
+                                    GlobalApplication.userInfo.apply {
+                                        this.nickName =user.data?.userInfo?.nickname
+                                        this.birthDay = user.data?.userInfo?.birth
+                                        this.gender = user.data?.userInfo?.gender
+                                        this.profileImg = user.data?.userInfo?.profile
+                                    }
                                     Toast.makeText(context,"수정이 완료되었습니다.",Toast.LENGTH_SHORT).show()
 
                                 },{t->Log.e(ErrorManager.USERINFO,t.message.toString())}
@@ -133,12 +131,12 @@ class Presenter : EditProfileContract.BasePresenter {
 
     override fun checkLogin(context: Context, provider: String?) {
         provider?.let {
-            view.getView().insertInfoEditText.setText(GlobalApplication.userInfo.getNickName())
+            view.getView().insertInfoEditText.setText(GlobalApplication.userInfo.nickName)
 
-            GlobalApplication.userInfo.getBirthDay()?.let {
+            GlobalApplication.userInfo.birthDay?.let {
                 view.setBirthDay()
             }
-            GlobalApplication.userInfo.getGender()?.let {
+            GlobalApplication.userInfo.gender?.let {
                 if (it == "M") {
                     view.setGender_Man()
                 }

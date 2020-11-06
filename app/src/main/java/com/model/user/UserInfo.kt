@@ -8,27 +8,25 @@ import kotlin.collections.HashMap
 
 class UserInfo {
     private var user_id: String? = null
+    private var level:Int? =0
     private var oauth_token: String? = null
     private var provider: String? = null
     private var email: String? = null
-    private var nickName: String? = null
-    private var birthDay: String? = null
-    private var gender: String? = null
+    var nickName: String? = null
+    var birthDay: String? = null
+    var gender: String? = null
     private var accessToken: String? = null
     private var refreshToken: String? = null
-    private var profileImg: List<Profile>?  = null
+    var profileImg: List<Profile>?  = null
     private var infoMap = HashMap<String, Any>()
     private var address: String? = null
 
     fun getMap() = infoMap
-
     fun getAccessToken() = accessToken
     fun getRefreshToken() = refreshToken
-    fun getNickName() = nickName
-    fun getBirthDay() = birthDay
     fun getProfile() = profileImg
-    fun getGender() = gender
     fun getProvider() = provider
+    fun getLevel() = level
 
     fun init() {
         user_id = null
@@ -57,9 +55,15 @@ class UserInfo {
         private var refreshToken: String? = null
         private var profileImg: List<Profile>? = null
         private var address: String? = null
+        private var level:Int? =0
 
         fun setOAuthId(user_id: String?): Builder {
             this.user_id = user_id
+            return this
+        }
+
+        fun setLevel(level:Int?):Builder{
+            this.level =level
             return this
         }
 
@@ -136,6 +140,7 @@ class UserInfo {
             userInfo.refreshToken = this.refreshToken
             userInfo.profileImg = this.profileImg
             userInfo.address = this.address
+            userInfo.level = this.level
 
             this.provider?.let { userInfo.infoMap.put(GlobalApplication.OAUTH_PROVIDER, it) }
             this.oauth_token?.let { userInfo.infoMap.put(GlobalApplication.OAUTH_TOKEN, it) }

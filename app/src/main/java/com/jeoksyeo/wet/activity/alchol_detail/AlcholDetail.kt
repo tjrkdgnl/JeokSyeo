@@ -29,6 +29,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
             context=this@AlcholDetail
         }
 
+
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
             category_position = bundle?.getInt(GlobalApplication.CATEGORY_POSITION)!!
@@ -37,7 +38,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
             alchol?.let { alcholData->
                 binding.alchol = alcholData
                 presenter.initComponent(this, alcholData,category_position)
-
+                Log.e("처음 알콜 상세",alchol?.alcholId.toString())
                 alcholData.isLiked?.let { like ->
                     setLike(like)
                         isLike = like }
