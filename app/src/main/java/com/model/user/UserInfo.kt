@@ -16,15 +16,9 @@ class UserInfo {
     private var gender: String? = null
     private var accessToken: String? = null
     private var refreshToken: String? = null
-    private var profileURL: String? = null
+    private var profileImg: List<Profile>?  = null
     private var infoMap = HashMap<String, Any>()
     private var address: String? = null
-
-    val createUUID: String
-        get() {
-            val uuid = UUID.randomUUID().toString()
-            Log.e("UUID",uuid )
-            return uuid}
 
     fun getMap() = infoMap
 
@@ -32,7 +26,7 @@ class UserInfo {
     fun getRefreshToken() = refreshToken
     fun getNickName() = nickName
     fun getBirthDay() = birthDay
-    fun getProfile() = profileURL
+    fun getProfile() = profileImg
     fun getGender() = gender
     fun getProvider() = provider
 
@@ -46,7 +40,7 @@ class UserInfo {
         gender = null
         accessToken = null
         refreshToken = null
-        profileURL = null
+        profileImg = null
         infoMap = HashMap<String, Any>()
         address = null
     }
@@ -61,8 +55,7 @@ class UserInfo {
         private var gender: String? = null
         private var accessToken: String? = null
         private var refreshToken: String? = null
-        private var profileImgFile: File? = null
-        private var profileImgURL: String? = null
+        private var profileImg: List<Profile>? = null
         private var address: String? = null
 
         fun setOAuthId(user_id: String?): Builder {
@@ -110,13 +103,8 @@ class UserInfo {
             return this
         }
 
-        fun setProfileFile(profileFile: File?): Builder {
-            this.profileImgFile = profileFile
-            return this
-        }
-
-        fun setProfileImgURL(profileImg: String?): Builder {
-            this.profileImgURL = profileImg
+        fun setProfile(profileImg: List<Profile>? ): Builder {
+            this.profileImg = profileImg
             return this
         }
 
@@ -128,6 +116,11 @@ class UserInfo {
         fun getOAuthToken() = this.oauth_token
         fun getProvider() = this.provider
 
+        val createUUID: String
+            get() {
+                val uuid = UUID.randomUUID().toString()
+                Log.e("UUID",uuid )
+                return uuid}
 
 
         fun build(): UserInfo {
@@ -141,7 +134,7 @@ class UserInfo {
             userInfo.gender = this.gender
             userInfo.accessToken = this.accessToken
             userInfo.refreshToken = this.refreshToken
-            userInfo.profileURL = this.profileImgURL
+            userInfo.profileImg = this.profileImg
             userInfo.address = this.address
 
             this.provider?.let { userInfo.infoMap.put(GlobalApplication.OAUTH_PROVIDER, it) }

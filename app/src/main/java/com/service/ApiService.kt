@@ -14,6 +14,7 @@ import com.model.review.GetReviewData
 import com.model.review_duplicate.GetReviewDuplicate
 import io.reactivex.Single
 import com.model.token.GetUserData
+import com.model.user.GetUserInfo
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -115,5 +116,9 @@ interface ApiService {
     @PUT("v1/users")
     fun editProfile(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                     @Body map:HashMap<String,Any>):Single<com.model.result.GetResult>
+
+    @GET("v1/users")
+    fun getUserInfo(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?):Single<GetUserInfo>
+
 
 }

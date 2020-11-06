@@ -3,10 +3,7 @@ package com.service
 import android.util.Base64
 import android.util.Log
 import com.application.GlobalApplication
-import com.error.ErrorManager
 import com.model.user.UserInfo
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
@@ -17,7 +14,6 @@ import java.util.*
 import kotlin.collections.HashMap
 
 object JWTUtil {
-    private val compositeDisposable = CompositeDisposable()
     private const val ACCESS_TOKEN = "accessToken"
     private const val REFRESH_TOKEN = "refreshToken"
 
@@ -59,17 +55,20 @@ object JWTUtil {
 
         val check = splashCheck || loginCheck
 
-
         //토큰 만료시간 셋팅
         if (token.equals(ACCESS_TOKEN) && check) {
             GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp"))
+            val user = ApiGenerator.retrofit.create(ApiService::class.java)
+                .getUserInfo(GlobalApplication.userBuilder.createUUID,"Bearer " +GlobalApplication.userDataBase.getAccessToken())
+                .subscribeOn(Schedulers.io())
+                .blockingGet()
+
             GlobalApplication.userInfo = UserInfo.Builder("")
-                .setOAuthId(jsonObject.getString("user_id"))
-                .setProvider(jsonObject.getString("oauth_provider"))
-                .setNickName(jsonObject.getString("nickname"))
-                .setEmail(jsonObject.getString("email"))
-                .setBirthDay(jsonObject.getString("birth"))
-                .setGender(jsonObject.getString("gender"))
+                .setProvider(jsonObject.getString("oauth_provider"))// //provider를 통해서 모든 로그인 체크 여부를 결정하기 때문에 setting해야함
+                .setNickName(user.data?.userInfo?.nickname)
+                .setBirthDay(user.data?.userInfo?.birth)
+                .setProfile(user.data?.userInfo?.profile)
+                .setGender(user.data?.userInfo?.gender)
                 .setAccessToken("Bearer "+GlobalApplication.userDataBase.getAccessToken())
                 .build()
         } else {

@@ -5,9 +5,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.application.GlobalApplication
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.edit_profile.Profile
+import com.model.user.UserInfo
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
@@ -31,15 +36,9 @@ class Presenter : EditProfileContract.BasePresenter {
 
         val map = HashMap<String,Any>()
         profile?.let { map.put("profile",it) }
-        name?.let {
-            Log.e("name",it)
-            map.put("nickname", it) }
-        birthday?.let {
-            Log.e("birth",it)
-            map.put("birth", it) }
-        gender?.let {
-            Log.e("gender",it)
-            map.put("gender", it) }
+        name?.let { map.put("nickname", it) }
+        birthday?.let { map.put("birth", it) }
+        gender?.let { map.put("gender", it) }
 
         if(check){
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -49,7 +48,23 @@ class Presenter : EditProfileContract.BasePresenter {
                 .subscribe({
                     it.data?.result?.let {
                         if(it =="SUCCESS"){
-                            Toast.makeText(context,"수정이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                                .getUserInfo(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({user->
+                                    GlobalApplication.userInfo =UserInfo.Builder("")
+                                        .setAccessToken("Bearer "+GlobalApplication.userDataBase.getAccessToken())
+                                        .setProvider(GlobalApplication.userInfo.getProvider())
+                                        .setNickName(user.data?.userInfo?.nickname)
+                                        .setBirthDay(user.data?.userInfo?.birth)
+                                        .setGender(user.data?.userInfo?.gender)
+                                        .setProfile(user.data?.userInfo?.profile)
+                                        .build()
+                                    Toast.makeText(context,"수정이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+
+                                },{t->Log.e(ErrorManager.USERINFO,t.message.toString())}
+                                ))
                         }
                         else{
                             Toast.makeText(context,"수정이 제대로 이뤄지지 않았습니다.",Toast.LENGTH_SHORT).show()
@@ -124,10 +139,24 @@ class Presenter : EditProfileContract.BasePresenter {
                 view.setBirthDay()
             }
             GlobalApplication.userInfo.getGender()?.let {
-                if (it.equals("M")) {
+                if (it == "M") {
                     view.setGender_Man()
-                } else
+                }
+                else if( it =="F")
                     view.setGender_Woman()
+            }
+            GlobalApplication.userInfo.getProfile()?.let{ lst->
+                if(lst.isNotEmpty()){
+                    Glide.with(context)
+                        .load(lst[0].mediaResource?.small?.src.toString())
+                        .apply(
+                            RequestOptions()
+                                .signature(ObjectKey("signature"))
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .circleCrop())
+                        .into(view.getView().editProfileImg)
+                }
             }
         }
     }
@@ -162,6 +191,4 @@ class Presenter : EditProfileContract.BasePresenter {
             CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_MAIN,true)
         }
     }
-
-
 }

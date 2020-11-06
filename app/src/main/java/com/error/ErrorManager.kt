@@ -36,4 +36,5 @@ object ErrorManager {
     val DELETE_USER ="회원가입 탈퇴 에러"
     val IMAGE_UPLOAD ="이미지 업로드 에러"
     val EDIT_PROFILE ="개인정보 수정 에러"
+    val USERINFO ="유저 정보 셋팅 에러"
 }
