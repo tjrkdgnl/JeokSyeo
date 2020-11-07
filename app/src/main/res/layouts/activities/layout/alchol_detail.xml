@@ -233,8 +233,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
-                    tools:text="10%"
-                    android:text="@{alchol.abv.toString()}"
+                    tools:text="0%"
+                    android:text="@{alchol.abv}"
                     android:lineSpacingExtra="2sp"
                     android:textSize="@dimen/detail_default_textSize"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
@@ -260,7 +260,7 @@
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
-                    tools:text="4.6 "
+                    android:text="0.0 "
                     android:textSize="@dimen/detail_default_textSize"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     app:layout_constraintEnd_toEndOf="@id/imageView_star"
@@ -470,14 +470,28 @@
                     app:layout_constraintTop_toBottomOf="@id/textView_evalutionScore" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:id="@+id/radarChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_space_top" />
+
+                <ImageView
+                    android:id="@+id/user_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@mipmap/user_indicator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_space_top"/>
 
                 <Space
                     android:id="@+id/detail_space"

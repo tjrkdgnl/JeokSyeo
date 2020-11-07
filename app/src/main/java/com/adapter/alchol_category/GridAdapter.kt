@@ -108,10 +108,6 @@ class GridAdapter(private val context: Context,private val categoryPosition: Int
             return null
     }
 
-    fun addProgressBar(){
-
-    }
-
     //확장함수로 중복클릭 방지
     fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
         val onSingleClickListener = OnSingleClickListener{

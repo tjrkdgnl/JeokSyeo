@@ -56,6 +56,7 @@ class AlcholReviewAdapter(private val context: Context,
         if (holder is AlcholReviewViewHolder) {
             holder.bind(lst[position])
 
+            //리뷰에 대한 좋아요,싫어요 표시 셋팅
             lst[position].has_like?.let {
                 if(it){
                     holder.getViewBinding().imageViewRecommendUpButton.setImageResource(R.mipmap.like_full)
@@ -67,6 +68,7 @@ class AlcholReviewAdapter(private val context: Context,
                     disLikeList[position]=true }
             }
 
+            //좋아요를 눌렀을 때
             holder.getViewBinding().imageViewRecommendUpButton.setOnClickListener{
                 if(!likeList[position]){
                     likeList[position] =true
@@ -77,6 +79,7 @@ class AlcholReviewAdapter(private val context: Context,
                     likeList[position] =false
                 }
             }
+            //싫어요를 눌렀을 때
             holder.getViewBinding().imaveViewRecommendDownButton.setOnClickListener{
                 if(!disLikeList[position]){
                     disLikeList[position]=true
@@ -88,6 +91,7 @@ class AlcholReviewAdapter(private val context: Context,
                 }
             }
         }
+        //리뷰 더 보기
         else if( holder is AlcholMoreReviewViewHolder){
             holder.getViewBinding().reviewMoreParentLayout.setOnClickListener {
 
@@ -103,9 +107,16 @@ class AlcholReviewAdapter(private val context: Context,
                             pageNum = it.toInt() + 1
                         }
                         result.data?.reviewList?.let {
-                            val currentPosition = lst.size
-                            lst.addAll(it.toMutableList())
-                            notifyItemChanged(currentPosition-1, lst.size)
+                            if(it.isNotEmpty()){ //리뷰가 있을 때
+                                val currentPosition = lst.size
+                                lst.addAll(it.toMutableList())
+                                notifyItemChanged(currentPosition-1, lst.size)
+                            }
+                            else{ //리뷰가 없을 때,
+                                val lastIdx = lst.size-1
+                                lst.removeAt(lastIdx)
+                                notifyItemRemoved(lastIdx)
+                            }
                         }
                     }, {}))
             }

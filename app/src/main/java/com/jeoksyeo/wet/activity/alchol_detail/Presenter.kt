@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -221,8 +222,11 @@ class Presenter : AlcholDetailContract.BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
                     result.data?.reviewList?.let { lst ->
+                        //데이터가 없을 때,
                         if (lst.isEmpty()) {
-                            //데이터가 없을 때,
+                            //차트 여부 표시
+                            view.getView().userIndicator.visibility = View.VISIBLE
+
                             lst.toMutableList().let { muLst ->
                                 muLst.add(ReviewList().apply {
                                     checkMore=GlobalApplication.DETAIL_REVIEW_ITEM_0 })
@@ -231,6 +235,10 @@ class Presenter : AlcholDetailContract.BasePresenter {
                                     AlcholReviewAdapter(context, alcholId, muLst)
                             }
                         } else {
+                            //차트 여부 표시
+                            view.getView().radarChart.visibility = View.VISIBLE
+                            view.getView().userIndicator.visibility = View.INVISIBLE
+
                             lst.let {
                                 //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
                                 lst.toMutableList().let {muLst->

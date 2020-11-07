@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"/>
         <TextView
+            android:id="@+id/more_reivew_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="normal"

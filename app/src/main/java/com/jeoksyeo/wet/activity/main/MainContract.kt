@@ -11,7 +11,6 @@ interface MainContract {
     interface BaseView{
         fun getView() :MainBinding
 
-        fun refresh()
     }
 
     interface BasePresenter : DefaultPresenter{

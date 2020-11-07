@@ -15,6 +15,10 @@ import com.adapter.alchol_category.GridViewPagerAdapter
 import com.adapter.alchol_category.ListViewPagerAdapter
 import com.adapter.navigation.NavigationAdpater
 import com.application.GlobalApplication
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.error.ErrorManager
 import com.fragment.alchol_category.Fragment_Grid
 import com.fragment.alchol_category.Fragment_List
@@ -107,7 +111,24 @@ class Presenter:AlcholCategoryContact.BasePresenter {
         provider?.let {
             //유저 프로필 설정하는 화면 필요함
             view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text=
-                GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n" //레벨을 적어야함.
+                GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n Lv."+
+                        GlobalApplication.userInfo.getLevel()+" "+
+                        GlobalApplication.instance.getLevelName(GlobalApplication.userInfo.getLevel()?:0)
+        }
+        GlobalApplication.userInfo.getProfile()?.let {lst->
+            Log.e("프로필 변경","변경")
+            if(lst.isNotEmpty()){
+                Glide.with(context)
+                    .load(lst[lst.size-1].mediaResource?.small?.src.toString())
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey("signature"))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .circleCrop()
+                    )
+                    .into(view.getView().categoryNavigation.navigationHeader.navigationHeaderProfile)
+            }
         }
     }
 }

@@ -58,7 +58,7 @@ class Alchol() :Parcelable {
     @SerializedName("abv")
     @Expose
     var abv: String? = null
-
+    get() = "$field %"
 
     @SerializedName("adjunct")
     @Expose

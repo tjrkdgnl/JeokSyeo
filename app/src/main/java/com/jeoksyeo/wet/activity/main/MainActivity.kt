@@ -16,7 +16,6 @@ import com.vuforia.engine.wet.databinding.MainBinding
 class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickListener {
     private lateinit var binding: MainBinding
     private lateinit var presenter: Presenter
-    private var checkRefresh = false
     private val postionBundle:Bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +41,13 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         presenter.checkLogin(this, GlobalApplication.userInfo.getProvider())
 
     }
+    override fun onStart() {
+        super.onStart()
+        presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
+    }
 
     override fun getView(): MainBinding {
         return binding
-    }
-
-    override fun refresh() {
-        presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
     }
 
     override fun onClick(v: View?) {
@@ -90,21 +89,6 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE,4)
                 GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
                     0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (checkRefresh) {
-            checkRefresh = false
-            refresh()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (!checkRefresh) {
-            checkRefresh = true
         }
     }
 

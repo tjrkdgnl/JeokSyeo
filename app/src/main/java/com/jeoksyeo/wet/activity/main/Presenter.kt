@@ -147,8 +147,9 @@ class Presenter : MainContract.BasePresenter {
         }
         GlobalApplication.userInfo.getProfile()?.let {lst->
             if(lst.isNotEmpty()){
+                //가장 최근에 업데이트한 이미지는 리스트의 마지막 번째에 존재함.
                Glide.with(context)
-                   .load(lst[0].mediaResource?.small?.src.toString())
+                   .load(lst[lst.size-1].mediaResource?.small?.src.toString())
                    .apply(
                        RequestOptions()
                            .signature(ObjectKey("signature"))
