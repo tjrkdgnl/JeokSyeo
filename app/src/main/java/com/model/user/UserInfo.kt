@@ -8,7 +8,7 @@ import kotlin.collections.HashMap
 
 class UserInfo {
     private var user_id: String? = null
-    private var level:Int? =0
+    private var level:Int =0
     private var oauth_token: String? = null
     private var provider: String? = null
     private var email: String? = null
@@ -55,14 +55,14 @@ class UserInfo {
         private var refreshToken: String? = null
         private var profileImg: List<Profile>? = null
         private var address: String? = null
-        private var level:Int? =0
+        private var level:Int =0
 
         fun setOAuthId(user_id: String?): Builder {
             this.user_id = user_id
             return this
         }
 
-        fun setLevel(level:Int?):Builder{
+        fun setLevel(level:Int):Builder{
             this.level =level
             return this
         }

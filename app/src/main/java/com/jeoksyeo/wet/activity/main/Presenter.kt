@@ -129,12 +129,12 @@ class Presenter : MainContract.BasePresenter {
     override fun checkLogin(context: Context) {
         JWTUtil.settingUserInfo(false)
 
-        GlobalApplication.userInfo.getProvider().let {
+        GlobalApplication.userInfo.getProvider()?.let {
             //유저 프로필 설정하는 화면 필요함
             view.getView().mainDrawerLayout.main_navigation.navigation_header_Name.text=
                 GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n Lv."+
                         GlobalApplication.userInfo.getLevel()+" "+
-                        GlobalApplication.instance.getLevelName(GlobalApplication.userInfo.getLevel()?:0)
+                        GlobalApplication.instance.getLevelName(GlobalApplication.userInfo.getLevel())
         }
         GlobalApplication.userInfo.getProfile()?.let {lst->
             if(lst.isNotEmpty()){

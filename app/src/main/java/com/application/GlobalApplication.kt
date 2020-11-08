@@ -85,7 +85,7 @@ class GlobalApplication : Application() {
 
     fun getRatedType(positon: Int) = ratedList[positon]
 
-    fun getLevelName(positon: Int) = levelList[positon-1]
+    fun getLevelName(positon: Int) = levelList[positon]
 
 
     //액티비티 전환
