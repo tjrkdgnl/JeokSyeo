@@ -119,14 +119,11 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
                                     }
                                 }
                             },{t-> Log.e(ErrorManager.DELETE_USER,t.message.toString())})
-                    } else {
-                        Toast.makeText(mContext, "탈퇴가 제대로 진행되지않았습니다.\n" + "다시 시도해주세요."
-                            , Toast.LENGTH_SHORT).show()
                     }
                     dialog.dismiss()
                 })?.addOnFailureListener {
                     Toast.makeText(mContext, "탈퇴가 제대로 진행되지않았습니다.\n" +
-                                "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                            "재 로그인 후, 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                     Log.e("구글삭제 실패", it.message.toString())
                     dialog.dismiss()
                 }

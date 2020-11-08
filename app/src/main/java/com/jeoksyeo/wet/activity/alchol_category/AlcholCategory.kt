@@ -88,7 +88,7 @@ class AlcholCategory : FragmentActivity(), AlcholCategoryContact.BaseView, View.
     override fun onStart() {
         super.onStart()
         presenter.initNavigationItemSet(this,this)
-        presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
+        presenter.checkLogin(this)
     }
 
     override fun getView(): AlcholCategoryBinding {

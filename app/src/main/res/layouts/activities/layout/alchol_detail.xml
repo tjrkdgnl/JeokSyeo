@@ -234,7 +234,7 @@
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
                     tools:text="0%"
-                    android:text="@{alchol.abv}"
+                    android:text="@{alchol.abv }"
                     android:lineSpacingExtra="2sp"
                     android:textSize="@dimen/detail_default_textSize"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"

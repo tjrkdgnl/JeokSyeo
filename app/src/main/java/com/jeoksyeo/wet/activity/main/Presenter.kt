@@ -3,7 +3,6 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,17 +25,12 @@ import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.drawer_navigation.view.*
-import kotlinx.android.synthetic.main.fragment_signup_request.view.*
 import kotlinx.android.synthetic.main.main.view.*
-import kotlinx.android.synthetic.main.main.view.basic_header
 import kotlinx.android.synthetic.main.navigation_header.view.*
 
 @SuppressLint("SetTextI18n")
 class Presenter : MainContract.BasePresenter {
-
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private val handler = Handler()
@@ -131,14 +125,11 @@ class Presenter : MainContract.BasePresenter {
 
     }
 
-    override fun initNavigationItemSet(context: Context, activity: Activity, provider: String?) {
-        TODO("Not yet implemented")
-    }
 
-    override fun checkLogin(context: Context,provider: String?) {
+    override fun checkLogin(context: Context) {
         JWTUtil.settingUserInfo(false)
 
-        provider?.let {
+        GlobalApplication.userInfo.getProvider().let {
             //유저 프로필 설정하는 화면 필요함
             view.getView().mainDrawerLayout.main_navigation.navigation_header_Name.text=
                 GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n Lv."+

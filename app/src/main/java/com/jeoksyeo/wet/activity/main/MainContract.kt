@@ -1,8 +1,6 @@
 package com.jeoksyeo.wet.activity.main
 
-import android.app.Activity
 import android.content.Context
-import android.os.Bundle
 import com.base.DefaultPresenter
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -13,7 +11,7 @@ interface MainContract {
 
     }
 
-    interface BasePresenter : DefaultPresenter{
+    interface BasePresenter {
         var view:BaseView
 
         fun initBanner(context:Context)
@@ -21,5 +19,9 @@ interface MainContract {
         fun initRecommendViewPager(context: Context)
 
         fun initAlcholRanking(context: Context)
+
+        fun detachView()
+
+        fun checkLogin(context: Context)
     }
 }

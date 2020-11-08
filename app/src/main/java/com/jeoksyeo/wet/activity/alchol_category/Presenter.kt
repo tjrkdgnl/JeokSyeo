@@ -105,10 +105,10 @@ class Presenter:AlcholCategoryContact.BasePresenter {
 
 
     @SuppressLint("SetTextI18n")
-    override fun checkLogin(context: Context, provider: String?) {
+    override fun checkLogin(context: Context) {
         JWTUtil.settingUserInfo(false)
 
-        provider?.let {
+        GlobalApplication.userInfo.getProvider().let {
             //유저 프로필 설정하는 화면 필요함
             view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text=
                 GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n Lv."+

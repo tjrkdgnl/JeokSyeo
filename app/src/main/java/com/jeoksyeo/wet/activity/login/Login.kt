@@ -168,10 +168,12 @@ class Login : AppCompatActivity(), View.OnClickListener {
                             Log.e(ErrorManager.Google_TAG, it.message.toString())
                             executeProgressBar(false)
                         }
-                    }else{
+                    }
+                    else{
                         executeProgressBar(false)
                     }
                 }.addOnFailureListener {
+                    Log.e(ErrorManager.Google_TAG,it.message.toString())
                     executeProgressBar(false)
                 }
 
@@ -265,5 +267,4 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
-
 }

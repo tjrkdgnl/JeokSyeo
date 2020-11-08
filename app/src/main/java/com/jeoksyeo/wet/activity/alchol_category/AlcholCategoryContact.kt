@@ -32,7 +32,7 @@ interface AlcholCategoryContact {
 
         fun initNavigationItemSet(context: Context,activity:Activity)
 
-        fun checkLogin(context: Context,provider: String?)
+        fun checkLogin(context: Context)
 
 
     }

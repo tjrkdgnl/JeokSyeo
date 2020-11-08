@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import com.application.GlobalApplication
 import com.base.BaseViewHolder
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.review.ReviewList
@@ -51,6 +54,11 @@ class AlcholReviewViewHolder(
             data.profile?.get(0)?.mediaResource?.small?.let {
                 Glide.with(parent.context)
                     .load(it.src)
+                    .apply(RequestOptions()
+                        .signature(ObjectKey("signature"))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .circleCrop())
                     .into(binding.imageViewCommentProfileImg)
             }
         }
