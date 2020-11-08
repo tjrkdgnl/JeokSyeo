@@ -10,20 +10,24 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@mipmap/notfavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/not_review"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="작성된 리뷰가 없습니다."
+                android:textStyle="normal"
+                android:textSize="18sp"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textSize="22sp"
+                android:textColor="#676767"
+                android:lineSpacingExtra="6sp"
+                android:gravity="center_horizontal"
+                android:text="작성된 주류 리뷰가 없습니다."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -43,14 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="165dp" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/horizontal_170_guideLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="170dp" />
+                    app:layout_constraintGuide_begin="162dp" />
 
                 <ImageView
                     android:id="@+id/imageView_background"
@@ -75,11 +68,12 @@
 
                 <ImageView
                     android:id="@+id/comment_alcholImg"
-                    android:layout_width="@dimen/alcholSize_width"
-                    android:layout_height="@dimen/alcholSize_height"
+                    android:layout_width="@dimen/comment_alchol_width"
+                    android:layout_height="@dimen/comment_alchol_height"
                     android:scaleType="fitCenter"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginBottom="4dp"
                     app:layout_constraintVertical_bias="0.9"
                     setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src.toString()}"
                     app:layout_constraintBottom_toBottomOf="@id/horizontal_280_guideLine"
@@ -95,34 +89,39 @@
                     android:lineSpacingExtra="6sp"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:textStyle="bold"
                     tools:text="회사이름"
-                    android:maxLines="2"
-
-                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0.62"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:text="@{alchol.brewery.get(0).name.toString()}"
                     app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
-                    app:layout_constraintTop_toTopOf="@id/horizontal_170_guideLine" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/comment_commentLayout"/>
 
                 <TextView
                     android:id="@+id/comment_alcholName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
                     android:lineSpacingExtra="8sp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:textColor="#ffffff"
-                    android:textSize="27sp"
+                    android:textSize="23sp"
                     android:textStyle="bold"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:maxLines="2"
+                    android:maxLines="3"
+                    app:layout_constraintVertical_bias="0.15"
                     app:layout_constraintHorizontal_bias="0"
                     android:text="@{alchol.name.kr.toString()}"
+                    app:layout_constraintBottom_toTopOf="@id/comment_commentLayout"
                     app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
                     app:layout_constraintTop_toBottomOf="@id/comment_companyName"
-                    tools:text="천비향 탁주입니다 마음것 이용해주세요" />
+                    tools:text="천비향 탁주입니다 마음 것 이용해주세요." />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/comment_commentLayout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/top_round"
@@ -213,7 +212,7 @@
                                 android:layout_marginBottom="20dp"
                                 android:gravity="end"
                                 android:lineSpacingExtra="5sp"
-                                android:text="0/100"
+                                android:text="0 / 500"
                                 android:textStyle="bold"
                                 android:textColor="#b2b2b2"
                                 android:textSize="12sp"
