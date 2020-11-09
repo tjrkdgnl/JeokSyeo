@@ -57,8 +57,10 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
     override fun setLike(isLike: Boolean) {
         if (isLike) {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.full_heart)
+            binding.alcholdetailLikeCount.text = (binding.alcholdetailLikeCount.text.toString().toInt()+1).toString()
         } else {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.empty_heart)
+            binding.alcholdetailLikeCount.text = (binding.alcholdetailLikeCount.text.toString().toInt()-1).toString()
         }
     }
 

@@ -212,7 +212,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/list_eye"
                 app:layout_constraintStart_toEndOf="@id/list_eye"
                 app:layout_constraintTop_toTopOf="@id/list_eye"
-                tools:text="999" />
+                android:text="0" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/myFavorite_brokenItem"
