@@ -88,6 +88,8 @@ object JWTUtil {
                 .setLevel(user.data?.userInfo?.level!!)
                 .setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                 .build()
+
+            Log.e("엑세스 토큰",GlobalApplication.userInfo.getAccessToken().toString())
         } else {
             GlobalApplication.userDataBase.setRefreshTokenExpire(jsonObject.getLong("exp"))
         }
@@ -100,7 +102,6 @@ object JWTUtil {
 
         val utc = simpleDateFormat.parse(simpleDateFormat.format(currentUTC))
 
-        Log.e("utc", utc?.time.toString())
         return utc?.time ?: 0
     }
 

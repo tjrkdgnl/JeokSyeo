@@ -7,8 +7,8 @@
 
     <data>
         <variable
-            name="alchol"
-            type="com.model.alchol_category.AlcholList" />
+            name="alcohol"
+            type="com.model.alcohol_category.AlcoholList" />
     </data>
 
     <LinearLayout
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gridItem_GridAhchol_img_height"
                 android:scaleType="fitCenter"
-                setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src}"
+                setting_icon_str="@{alcohol.media.get(0).mediaResource.medium.src}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 tools:text="19%"
                 android:textSize="10sp"
-                android:text="@{alchol.abv.toString()}"
+                android:text="@{alcohol.abv.toString()}"
                 android:textColor="#3f3f3f"
                 android:layout_gravity="right"
                 android:layout_marginEnd="11dp"
@@ -61,15 +61,15 @@
             app:layout_constraintTop_toBottomOf="@id/imageView_GridAhchol_img">
 
             <TextView
-                android:id="@+id/textView_GridAlcholName_K"
+                android:id="@+id/textView_GridAlcoholName_K"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="11dp"
                 android:lineSpacingExtra="4sp"
                 android:textColor="#333333"
-                android:text="@{alchol.name.kr.toString()}"
-                android:textSize="@dimen/gridItem_GridAlcholName_K_textSize"
+                android:text="@{alcohol.name.kr.toString()}"
+                android:textSize="@dimen/gridItem_GridAlcoholName_K_textSize"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
@@ -80,7 +80,7 @@
                 tools:text="천비향" />
 
             <TextView
-                android:id="@+id/textView_GridAlcholOrigin"
+                android:id="@+id/textView_GridAlcoholOrigin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -89,11 +89,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 android:maxLines="1"
-                android:text="@{alchol.brewery.get(0).location.toString()}"
+                android:text="@{alcohol.brewery.get(0).location.toString()}"
                 android:ellipsize="end"
                 android:textSize="@dimen/gridItem_origin_textSize"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcholName_K"
+                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcoholName_K"
                 tools:text="한국 경기도 평택" />
 
             <com.willy.ratingbar.ScaleRatingBar
@@ -103,7 +103,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcholOrigin"
+                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcoholOrigin"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="false"
                 app:srb_drawableEmpty="@mipmap/middle_star_empty"
@@ -125,7 +125,7 @@
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 android:textStyle="bold"
-                android:text="@{alchol.review.score.toString()}"
+                android:text="@{alcohol.review.score.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar_gridRatingbar"
                 app:layout_constraintStart_toEndOf="@id/ratingBar_gridRatingbar"
                 app:layout_constraintTop_toTopOf="@id/ratingBar_gridRatingbar"
@@ -158,7 +158,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alchol.likeCount.toString()}"
+                android:text="@{alcohol.likeCount.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_gridHeart"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridHeart"
                 app:layout_constraintTop_toTopOf="@id/imageView_gridHeart"
@@ -186,7 +186,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alchol.review.reviewCount.toString()}"
+                android:text="@{alcohol.review.reviewCount.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_gridcommnet"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridcommnet"
                 app:layout_constraintTop_toTopOf="@id/imageView_gridcommnet"
@@ -214,7 +214,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alchol.review.reviewCount.toString()}"
+                android:text="@{alcohol.review.reviewCount.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/category_grid_eye"
                 app:layout_constraintStart_toEndOf="@id/category_grid_eye"
                 app:layout_constraintTop_toTopOf="@id/category_grid_eye"

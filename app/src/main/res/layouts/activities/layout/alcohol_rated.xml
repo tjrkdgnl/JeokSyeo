@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rated_header"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/orange"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+            android:weightSum="5"
+            app:layout_constraintBottom_toTopOf="@id/rated_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0">
+
+            <ImageView
+                android:id="@+id/rated_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:onClick="onClick"
+                android:src="@mipmap/white_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="6sp"
+                android:text="내가 평가한 주류"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/basic_title_textSize"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rated_header" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/top_round_grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rated_header">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rated_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/top_round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/alcohol_rated_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="9sp"
+                    android:textColor="#222222"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="김현주님," />
+
+                <TextView
+                    android:id="@+id/rated_count_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="7dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="6sp"
+                    android:maxLines="1"
+                    android:textColor="#7a7a7a"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/rated_level"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/alcohol_rated_name"
+                    app:layout_constraintTop_toBottomOf="@id/alcohol_rated_name"
+                    tools:text="총 1500개의 주류를 평가하셨습니다" />
+
+                <TextView
+                    android:id="@+id/rated_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="7dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="@color/orange"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/rated_count_text"
+                    app:layout_constraintEnd_toStartOf="@id/rated_level_name"
+                    app:layout_constraintTop_toTopOf="@id/rated_count_text"
+                    tools:text="LV1." />
+
+                <TextView
+                    android:id="@+id/rated_level_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="@color/orange"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/rated_count_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rated_count_text"
+                    tools:text="주도를 수련하는 사람" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/rated_tablayout"
+                style="@style/TabLayoutSelectedTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tabLayout_height"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rated_user_info"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/orange"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="fixed"
+                app:tabPaddingBottom="-3dp"
+                app:tabRippleColor="@color/transparent"
+                app:tabTextColor="@color/tabTextDefaultColor" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/rated_viewPager2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rated_tablayout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

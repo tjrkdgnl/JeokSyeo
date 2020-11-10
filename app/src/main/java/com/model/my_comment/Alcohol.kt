@@ -9,21 +9,21 @@ import com.model.common.Name
 
 
 class Alcohol() :Parcelable {
-    @SerializedName("alchol_id")
+    @SerializedName("alcohol_id")
     @Expose
-    var alcholId: String? = null
+    var alcoholId: String? = null
 
     @SerializedName("name")
     @Expose
     var name: Name? = null
 
     constructor(parcel: Parcel) : this() {
-        alcholId = parcel.readString()
+        alcoholId = parcel.readString()
         name = parcel.readParcelable(Name::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(alcholId)
+        parcel.writeString(alcoholId)
         parcel.writeParcelable(name, flags)
     }
 

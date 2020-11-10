@@ -42,7 +42,7 @@
             android:launchMode="singleTop">
         </activity>
 
-        <activity android:name="com.jeoksyeo.wet.activity.alchol_rated.AlcholRated"
+        <activity android:name="com.jeoksyeo.wet.activity.alcohol_rated.AlcoholRated"
             android:launchMode="singleTop">
 
         </activity>
@@ -51,11 +51,11 @@
 
         </activity>
 
-        <activity android:name="com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail"
+        <activity android:name="com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail"
             android:launchMode="singleTop">
         </activity>
 
-        <activity android:name="com.jeoksyeo.wet.activity.alchol_category.AlcholCategory"
+        <activity android:name="com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory"
             android:launchMode="singleTop">
 
         </activity>

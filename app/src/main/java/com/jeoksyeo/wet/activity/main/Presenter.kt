@@ -7,9 +7,9 @@ import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.adapter.main.AlcholRankAdapter
+import com.adapter.main.AlcoholRankAdapter
 import com.adapter.main.BannerAdapter
-import com.adapter.main.RecommendAlcholAdapter
+import com.adapter.main.RecommendAlcoholAdapter
 import com.adapter.navigation.NavigationAdpater
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
@@ -66,16 +66,16 @@ class Presenter : MainContract.BasePresenter {
         JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .getRecommendAlchol(
+            .getRecommendAlcohol(
                 GlobalApplication.userBuilder.createUUID,
                 GlobalApplication.userInfo.getAccessToken()
             )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcholAdapter(
+                view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(
                     context,
-                    it.data?.alcholList?.toMutableList()!!
+                    it.data?.alcoholList?.toMutableList()!!
 
                 )
             }, { t -> Log.e(ErrorManager.ALCHOL_RECOMMEND,t.message.toString()) }))
@@ -108,18 +108,18 @@ class Presenter : MainContract.BasePresenter {
             ,GlobalApplication.userInfo.getProvider(),GlobalApplication.ACTIVITY_HANDLING_MAIN)
     }
 
-    override fun initAlcholRanking(context: Context) {
+    override fun initAlcoholRanking(context: Context) {
        JWTUtil.settingUserInfo(false)
 
         view.getView().monthlyRecylcerView.setHasFixedSize(true)
         view.getView().monthlyRecylcerView.layoutManager = LinearLayoutManager(context)
 
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java).getAlcholRanking(
+        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java).getAlcoholRanking(
             GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-              view.getView().monthlyRecylcerView.adapter = AlcholRankAdapter(context,it.data?.alcholList?.toMutableList()!!)
+              view.getView().monthlyRecylcerView.adapter = AlcoholRankAdapter(context,it.data?.alcoholList?.toMutableList()!!)
 
             },{t ->Log.e(ErrorManager.ALCHOL_RANKING,t.message.toString())}))
 

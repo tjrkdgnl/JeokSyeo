@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="alchol"
-            type="com.model.alchol_detail.Alchol" />
+            name="alcohol"
+            type="com.model.alcohol_detail.Alcohol" />
     </data>
 
     <ScrollView
@@ -51,7 +51,7 @@
                     android:layout_height="350dp"
                     android:background="@null"
                     android:scaleType="centerCrop"
-                    setting_icon_str="@{alchol.backgroundMedia.get(0).mediaResource.medium.src.toString()}"
+                    setting_icon_str="@{alcohol.backgroundMedia.get(0).mediaResource.medium.src.toString()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -67,15 +67,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/comment_alcholImg"
-                    android:layout_width="@dimen/comment_alchol_width"
-                    android:layout_height="@dimen/comment_alchol_height"
+                    android:id="@+id/comment_alcoholImg"
+                    android:layout_width="@dimen/comment_alcohol_width"
+                    android:layout_height="@dimen/comment_alcohol_height"
                     android:scaleType="fitCenter"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginBottom="4dp"
                     app:layout_constraintVertical_bias="0.9"
-                    setting_icon_str="@{alchol.media.get(0).mediaResource.medium.src.toString()}"
+                    setting_icon_str="@{alcohol.media.get(0).mediaResource.medium.src.toString()}"
                     app:layout_constraintBottom_toBottomOf="@id/horizontal_280_guideLine"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -95,13 +95,13 @@
                     app:layout_constraintVertical_bias="0.62"
                     android:maxLines="1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="@{alchol.brewery.get(0).name.toString()}"
+                    android:text="@{alcohol.brewery.get(0).name.toString()}"
                     app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/comment_commentLayout"/>
 
                 <TextView
-                    android:id="@+id/comment_alcholName"
+                    android:id="@+id/comment_alcoholName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="8sp"
@@ -114,7 +114,7 @@
                     android:maxLines="3"
                     app:layout_constraintVertical_bias="0.15"
                     app:layout_constraintHorizontal_bias="0"
-                    android:text="@{alchol.name.kr.toString()}"
+                    android:text="@{alcohol.name.kr.toString()}"
                     app:layout_constraintBottom_toTopOf="@id/comment_commentLayout"
                     app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
                     app:layout_constraintTop_toBottomOf="@id/comment_companyName"

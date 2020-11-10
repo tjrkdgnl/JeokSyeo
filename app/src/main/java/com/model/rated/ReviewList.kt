@@ -10,9 +10,9 @@ class ReviewList {
     @Expose
     var reviewId: String? = null
 
-    @SerializedName("alchol")
+    @SerializedName("alcohol")
     @Expose
-    var alchol: Alchol? = null
+    var alcohol: Alcohol? = null
 
     @SerializedName("contents")
     @Expose

@@ -76,7 +76,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/activityMain_alcholCategory"
+                    android:id="@+id/activityMain_alcoholCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#f8f8f8"
@@ -85,7 +85,7 @@
                     app:layout_constraintTop_toBottomOf="@id/banner_constrainLayout">
 
                     <TextView
-                        android:id="@+id/activityMain_selectAlcholListText"
+                        android:id="@+id/activityMain_selectAlcoholListText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -107,16 +107,16 @@
                         android:text="선택해주세요"
                         android:textColor="@color/black"
                         android:textSize="@dimen/main_text_miniSize"
-                        app:layout_constraintBottom_toBottomOf="@id/activityMain_selectAlcholListText"
-                        app:layout_constraintStart_toEndOf="@id/activityMain_selectAlcholListText" />
+                        app:layout_constraintBottom_toBottomOf="@id/activityMain_selectAlcoholListText"
+                        app:layout_constraintStart_toEndOf="@id/activityMain_selectAlcoholListText" />
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbars="none"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/activityMain_selectAlcholListText"
-                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcholListText">
+                        app:layout_constraintStart_toStartOf="@id/activityMain_selectAlcoholListText"
+                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcoholListText">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
@@ -124,11 +124,11 @@
                             android:layout_marginTop="17dp">
 
                             <ImageView
-                                android:id="@+id/activityMain_koreanAlchol"
+                                android:id="@+id/activityMain_koreanAlcohol"
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="10dp"
-                                android:background="@drawable/alchol_button_shadow"
+                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/btn_takju"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -142,25 +142,25 @@
                                 android:lineSpacingExtra="2sp"
                                 android:text="전통주"
                                 android:textColor="#333333"
-                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textSize="@dimen/alcohol_button_textSize"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlchol"
-                                app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlchol"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlchol" />
+                                app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlcohol"
+                                app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlcohol"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol" />
 
                             <ImageView
                                 android:id="@+id/activityMain_beer"
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="12dp"
-                                android:background="@drawable/alchol_button_shadow"
+                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/btn_beer"
-                                app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlchol"
-                                app:layout_constraintStart_toEndOf="@id/activityMain_koreanAlchol"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlchol"
-                                app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlchol"
+                                app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlcohol"
+                                app:layout_constraintStart_toEndOf="@id/activityMain_koreanAlcohol"
+                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol"
+                                app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlcohol"
                                 app:layout_constraintVertical_bias="1.0" />
 
                             <TextView
@@ -170,7 +170,7 @@
                                 android:lineSpacingExtra="2sp"
                                 android:text="맥주"
                                 android:textColor="#333333"
-                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textSize="@dimen/alcohol_button_textSize"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="@id/activityMain_beer"
                                 app:layout_constraintStart_toStartOf="@id/activityMain_beer"
@@ -182,7 +182,7 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="15dp"
-                                android:background="@drawable/alchol_button_shadow"
+                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/wine"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_beer"
@@ -197,7 +197,7 @@
                                 android:lineSpacingExtra="2sp"
                                 android:text="와인"
                                 android:textColor="#333333"
-                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textSize="@dimen/alcohol_button_textSize"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="@id/activityMain_wine"
                                 app:layout_constraintStart_toStartOf="@id/activityMain_wine"
@@ -208,7 +208,7 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="15dp"
-                                android:background="@drawable/alchol_button_shadow"
+                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/whisky"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_wine"
@@ -223,7 +223,7 @@
                                 android:lineSpacingExtra="2sp"
                                 android:text="위스키"
                                 android:textColor="#333333"
-                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textSize="@dimen/alcohol_button_textSize"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="@id/activityMain_whisky"
                                 app:layout_constraintStart_toStartOf="@id/activityMain_whisky"
@@ -234,7 +234,7 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="15dp"
-                                android:background="@drawable/alchol_button_shadow"
+                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/sake"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_whisky"
@@ -248,7 +248,7 @@
                                 android:lineSpacingExtra="2sp"
                                 android:text="사케"
                                 android:textColor="#333333"
-                                android:textSize="@dimen/alchol_button_textSize"
+                                android:textSize="@dimen/alcohol_button_textSize"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="@id/activityMain_sake"
                                 app:layout_constraintStart_toStartOf="@id/activityMain_sake"
@@ -263,12 +263,12 @@
                     android:layout_height="0.3dp"
                     android:background="#9f9f9f"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/activityMain_alcholCategory"
+                    app:layout_constraintBottom_toBottomOf="@id/activityMain_alcoholCategory"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/activityMain_howAboutAlcholsText"
+                    android:id="@+id/activityMain_howAboutAlcoholsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -281,7 +281,7 @@
                     android:textSize="@dimen/main_text_defaultSize"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityMain_alcholCategory" />
+                    app:layout_constraintTop_toBottomOf="@+id/activityMain_alcoholCategory" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -293,8 +293,8 @@
                     android:text="어떤가요?"
                     android:textColor="#000000"
                     android:textSize="@dimen/main_text_miniSize"
-                    app:layout_constraintBottom_toBottomOf="@+id/activityMain_howAboutAlcholsText"
-                    app:layout_constraintStart_toEndOf="@id/activityMain_howAboutAlcholsText" />
+                    app:layout_constraintBottom_toBottomOf="@+id/activityMain_howAboutAlcoholsText"
+                    app:layout_constraintStart_toEndOf="@id/activityMain_howAboutAlcoholsText" />
 
                 <LinearLayout
                     android:id="@+id/recommend_layout"
@@ -303,7 +303,7 @@
                     android:background="@drawable/recommend_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcholsText">
+                    app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcoholsText">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/activityMain_RecommendViewPager2"

@@ -11,7 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
-import com.model.alchol_detail.Alchol
+import com.model.alcohol_detail.Alcohol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.CommentWindowBinding
 import com.xw.repo.BubbleSeekBar
@@ -21,7 +21,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
     View.OnClickListener, TextWatcher, CommentContract.BaseView {
     private lateinit var binding:CommentWindowBinding
     private var calculateScore:Float =0f
-    private var alchol:Alchol? =null
+    private var alcohol:Alcohol? =null
 
     private lateinit var commentPresenter: CommentPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +36,9 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         if(intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)){
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
             bundle?.let { bun->
-               alchol = bun.getParcelable(GlobalApplication.MOVE_ALCHOL)
-                alchol?.let {
-                    binding.alchol = it
+               alcohol = bun.getParcelable(GlobalApplication.MOVE_ALCHOL)
+                alcohol?.let {
+                    binding.alcohol = it
                 }
             }
         }
@@ -96,7 +96,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.comment_window_evaluateButton->{commentPresenter.setComment(this,alchol?.alcholId,alchol?.name?.kr)}
+            R.id.comment_window_evaluateButton->{commentPresenter.setComment(this,alcohol?.alcoholId,alcohol?.name?.kr)}
 
             R.id.compoent_aroma -> {
                 with(commentPresenter.createBalloon(this,R.string.explainAroma)){

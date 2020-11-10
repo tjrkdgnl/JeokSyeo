@@ -58,12 +58,12 @@ class GlobalApplication : Application() {
         const val ACTIVITY_HANDLING_BUNDLE ="activityHandling_bundle"
 
         const val CATEGORY_BUNDLE ="category_bundle"
-        const val ALCHOL_BUNDLE = "alchol"
+        const val ALCHOL_BUNDLE = "alcohol"
         const val CATEGORY_SIZE = 5
         const val MOVE_TYPE = "type"
         const val PAGINATION_SIZE= 20
         const val DEFAULT_SORT = "like"
-        const val MOVE_ALCHOL = "alchol Data"
+        const val MOVE_ALCHOL = "alcohol Data"
         const val ALCHOL_LIKE = "likeAndDisLike"
         const val ACTIVITY_HANDLING_MAIN = 0
         const val ACTIVITY_HANDLING_DETAIL = 1
@@ -79,7 +79,7 @@ class GlobalApplication : Application() {
         const val COMPONENT_SRM=2
     }
 
-    fun getAlcholType(positon: Int) = typeList[positon]
+    fun getAlcoholType(positon: Int) = typeList[positon]
 
     fun getRatedType(positon: Int) = ratedList[positon]
 

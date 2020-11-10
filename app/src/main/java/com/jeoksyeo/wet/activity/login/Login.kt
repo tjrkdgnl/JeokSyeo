@@ -22,8 +22,8 @@ import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LoginBinding
 import com.error.ErrorManager
-import com.jeoksyeo.wet.activity.alchol_category.AlcholCategory
-import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
+import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.jeoksyeo.wet.activity.comment.Comment
 import com.jeoksyeo.wet.activity.main.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -244,10 +244,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
                 GlobalApplication.instance.moveActivity(this,MainActivity::class.java,Intent.FLAG_ACTIVITY_CLEAR_TOP) }
 
             GlobalApplication.ACTIVITY_HANDLING_DETAIL->{
-                GlobalApplication.instance.moveActivity(this,AlcholDetail::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                GlobalApplication.instance.moveActivity(this,AlcoholDetail::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
             GlobalApplication.ACTIVITY_HANDLING_CATEGORY->{
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
         }
     }

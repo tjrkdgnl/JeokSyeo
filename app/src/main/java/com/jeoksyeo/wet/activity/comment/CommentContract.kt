@@ -17,7 +17,7 @@ interface CommentContract {
         fun confirmCheck():Boolean
         fun getScore(): Float
         fun createBalloon(context: Context?, str: Int): Balloon?
-        fun setComment(context: Context,alcholId:String?,alcholName:String?)
+        fun setComment(context: Context,alcoholId:String?,alcoholName:String?)
         fun detachView()
     }
 

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="alchol"
-            type="com.model.alchol_category.AlcholList" />
+            name="alcohol"
+            type="com.model.alcohol_category.AlcoholList" />
     </data>
 
     <LinearLayout
@@ -39,24 +39,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
-                    setting_icon_str="@{alchol.media.get(0).mediaResource.small.src.toString()}"
+                    setting_icon_str="@{alcohol.media.get(0).mediaResource.small.src.toString()}"
                     />
 
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textView_listAlcholName_K"
+                android:id="@+id/textView_listAlcoholName_K"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="4sp"
                 android:textColor="#333333"
-                android:textSize="@dimen/list_item_listAlcholName_K_textsize"
+                android:textSize="@dimen/list_item_listAlcoholName_K_textsize"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="@{alchol.name.kr.toString()}"
+                android:text="@{alcohol.name.kr.toString()}"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageView_listAhchol_img"
@@ -65,20 +65,20 @@
                 />
 
             <TextView
-                android:id="@+id/textView_listAlcholOrigin"
+                android:id="@+id/textView_listAlcoholOrigin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:lineSpacingExtra="2sp"
-                android:textSize="@dimen/list_item_listAlcholName_E_textsize"
+                android:textSize="@dimen/list_item_listAlcoholName_E_textsize"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="@{alchol.brewery.get(0).location.toString()}"
+                android:text="@{alcohol.brewery.get(0).location.toString()}"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/textView_listAlcholName_K"
-                app:layout_constraintTop_toBottomOf="@id/textView_listAlcholName_K"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
+                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholName_K"
                 tools:text="한국 경기도 평택" />
 
             <com.willy.ratingbar.ScaleRatingBar
@@ -86,8 +86,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/textView_listAlcholName_K"
-                app:layout_constraintTop_toBottomOf="@id/textView_listAlcholOrigin"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
+                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholOrigin"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="false"
                 app:srb_drawableEmpty="@mipmap/middle_star_empty"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{alchol.review.score.toString()}"
+                android:text="@{alcohol.review.score.toString()}"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 android:textStyle="bold"
@@ -123,7 +123,7 @@
                 android:layout_marginTop="@dimen/listitem_heartImg_marginTop"
                 android:background="@null"
                 android:src="@mipmap/small_heart_empty"
-                app:layout_constraintStart_toStartOf="@id/textView_listAlcholName_K"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar" />
 
             <TextView
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{alchol.likeCount.toString()}"
+                android:text="@{alcohol.likeCount.toString()}"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listHeart"
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{alchol.review.reviewCount.toString()}"
+                android:text="@{alcohol.review.reviewCount.toString()}"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listcommnet"
@@ -166,7 +166,7 @@
                 tools:text="60" />
 
             <ImageView
-                android:id="@+id/imageView_listAlchol"
+                android:id="@+id/imageView_listAlcohol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12.1dp"
@@ -176,17 +176,17 @@
                 app:layout_constraintTop_toTopOf="@id/list_eyeCount" />
 
             <TextView
-                android:id="@+id/textView_listAlcholDosu"
+                android:id="@+id/textView_listAlcoholDosu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alchol.abv.toString()}"
-                app:layout_constraintBottom_toBottomOf="@id/imageView_listAlchol"
-                app:layout_constraintStart_toEndOf="@id/imageView_listAlchol"
-                app:layout_constraintTop_toTopOf="@id/imageView_listAlchol"
+                android:text="@{alcohol.abv.toString()}"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_listAlcohol"
+                app:layout_constraintStart_toEndOf="@id/imageView_listAlcohol"
+                app:layout_constraintTop_toTopOf="@id/imageView_listAlcohol"
                 tools:text="19%" />
 
             <ImageView

@@ -37,7 +37,7 @@ class KakaoLogin(private val context: Context) {
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             executeProgressBar(false)
-            Log.e(ErrorManager.Kakao_TAG, "로그인 실패", error)
+            Log.e(ErrorManager.Kakao_TAG, "로그인 실패 ->"+ error.message.toString())
         } else if (token != null) {
             Log.i(ErrorManager.Kakao_TAG, "로그인 성공 ${token.accessToken}")
 
@@ -50,7 +50,7 @@ class KakaoLogin(private val context: Context) {
     fun getUserInfo(context: Context, token: String) {
         userInfo.me { user, error ->
             if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error)
+                Log.e(TAG, "사용자 정보 요청 실패->"+ error.message.toString())
             } else if (user != null) {
 
             }

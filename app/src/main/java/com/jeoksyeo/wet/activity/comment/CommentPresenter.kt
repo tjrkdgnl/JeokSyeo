@@ -72,7 +72,7 @@ class CommentPresenter : CommentContract.BasePresenter {
             .build()
     }
 
-    override fun setComment(context: Context, alcholId: String?, alcholName: String?) {
+    override fun setComment(context: Context, alcoholId: String?, alcoholName: String?) {
         val map = HashMap<String, Any>()
         map.put("contents", view.getView().commentWindowCommentEditText.text.toString())
         map.put(
@@ -102,7 +102,7 @@ class CommentPresenter : CommentContract.BasePresenter {
                 .setComment(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(),
-                    alcholId,
+                    alcoholId,
                     map
                 )
                 .subscribeOn(Schedulers.io())
@@ -111,7 +111,7 @@ class CommentPresenter : CommentContract.BasePresenter {
                     it.data?.let { result ->
                         result.result?.let {
                             if (it.equals("SUCCESS")) {
-                                Toast.makeText(context, alcholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, alcoholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
                                 (context as Activity).finish()
                             } else
                                 Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)

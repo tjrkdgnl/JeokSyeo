@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.NavigationViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
-import com.jeoksyeo.wet.activity.alchol_rated.AlcholRated
+import com.jeoksyeo.wet.activity.alcohol_rated.AlcoholRated
 import com.jeoksyeo.wet.activity.editprofile.EditProfile
 import com.jeoksyeo.wet.activity.level.LevelActivity
 import com.jeoksyeo.wet.activity.login.Login
@@ -80,7 +80,7 @@ class NavigationAdpater(
             when(position){
                 0->{GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)}
                 1 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
-                2 -> { GlobalApplication.instance.moveActivity(context,AlcholRated::class.java)}
+                2 -> { GlobalApplication.instance.moveActivity(context,AlcoholRated::class.java)}
                 3 -> {GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
                 4 -> {}
             }

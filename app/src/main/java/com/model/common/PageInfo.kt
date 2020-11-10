@@ -18,7 +18,7 @@ class PageInfo {
     @Expose
     var count: Int? = null
 
-    @SerializedName("alchol_total_count")
+    @SerializedName("alcohol_total_count")
     @Expose
-    var alcholTotalCount: Int? = null
+    var alcoholTotalCount: Int? = null
 }

@@ -1,8 +1,8 @@
 package com.service
 
-import com.model.alchol_category.GetAlcholCategory
-import com.model.alchol_detail.GetAlcholDetail
-import com.model.alchol_ranking.GetAlcholRanking
+import com.model.alcohol_category.GetAlcoholCategory
+import com.model.alcohol_detail.GetAlcoholDetail
+import com.model.alcohol_ranking.GetAlcoholRanking
 import com.model.area.GetAreaData
 import com.model.banner.GetBannerData
 import com.model.image_upload.GetImageUploadData
@@ -10,7 +10,7 @@ import com.model.my_comment.GetCommentData
 import com.model.my_review_summary.GetMyReviewSum
 import com.model.rated.GetRatedList
 import com.model.nickname_check.GetResult
-import com.model.recommend_alchol.GetRecomendItem
+import com.model.recommend_alcohol.GetRecomendItem
 import com.model.review.GetReviewData
 import com.model.review_duplicate.GetReviewDuplicate
 import io.reactivex.Single
@@ -37,73 +37,73 @@ interface ApiService {
     fun checkNickName(@Header("X-Request-ID")UUID: String,@Query("n")name:String ) : Single<GetResult>
 
     @GET("/v1/main/recommend")
-    fun getRecommendAlchol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<GetRecomendItem>
+    fun getRecommendAlcohol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<GetRecomendItem>
 
     @GET("v1/main/rank")
-    fun getAlcholRanking(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) : Flowable<GetAlcholRanking>
+    fun getAlcoholRanking(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) : Flowable<GetAlcoholRanking>
 
-    @GET("v1/alchols")
-    fun getAlcholCategory(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-    @Query("f") type:String, @Query("c")number:Int, @Query("s")sort:String, @Query("p") pageNumber:String?) : Flowable<GetAlcholCategory>
+    @GET("v1/alcohols")
+    fun getAlcoholCategory(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+    @Query("f") type:String, @Query("c")number:Int, @Query("s")sort:String, @Query("p") pageNumber:String?) : Flowable<GetAlcoholCategory>
 
-    @GET("v1/alchols/{alchol_id}")
-    fun getAlcholDetail(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                          @Path("alchol_id") alcholId:String) : Flowable<GetAlcholDetail>
+    @GET("v1/alcohols/{alcohol_id}")
+    fun getAlcoholDetail(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                          @Path("alcohol_id") alcoholId:String) : Flowable<GetAlcoholDetail>
 
-    @POST("v1/alchols/{alchol_id}/like")
-    fun alcholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                        @Path("alchol_id") alcholId:String?) : Flowable<GetAlcholDetail>
+    @POST("v1/alcohols/{alcohol_id}/like")
+    fun alcoholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                        @Path("alcohol_id") alcoholId:String?) : Flowable<GetAlcoholDetail>
 
-    @DELETE("v1/alchols/{alchol_id}/like")
-    fun cancelAlcholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                   @Path("alchol_id") alcholId:String?) : Flowable<com.model.result.GetResult>
+    @DELETE("v1/alcohols/{alcohol_id}/like")
+    fun cancelAlcoholLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                   @Path("alcohol_id") alcoholId:String?) : Flowable<com.model.result.GetResult>
 
-    @POST("v1/alchols/{alchol_id}/reviews")
+    @POST("v1/alcohols/{alcohol_id}/reviews")
     fun setComment(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                   @Path("alchol_id") alcholId:String?,@Body map:HashMap<String,Any>) : Single<com.model.result.GetResult>
+                   @Path("alcohol_id") alcoholId:String?,@Body map:HashMap<String,Any>) : Single<com.model.result.GetResult>
 
-    @GET("v1/alchols/{alchol_id}/reviews")
-    fun getAlcholReivew(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                        @Path("alchol_id") alcholId:String?,@Query("p")page:Int) : Flowable<GetReviewData>
+    @GET("v1/alcohols/{alcohol_id}/reviews")
+    fun getAlcoholReivew(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                        @Path("alcohol_id") alcoholId:String?,@Query("p")page:Int) : Flowable<GetReviewData>
 
     @GET("v1/main/banner")
     fun getBannerData(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?) :Flowable<GetBannerData>
 
-    @GET("v1/alchols/{alchol_id}/reviews/check")
+    @GET("v1/alcohols/{alcohol_id}/reviews/check")
     fun checkReviewDuplicate(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                      @Path("alchol_id")alcholId: String) :Single<GetReviewDuplicate>
+                      @Path("alcohol_id")alcoholId: String) :Single<GetReviewDuplicate>
 
-    @POST("v1/alchols/{alchol_id}/reviews/{review_id}/like")
+    @POST("v1/alcohols/{alcohol_id}/reviews/{review_id}/like")
     fun setLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+                @Path("alcohol_id")alcoholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
 
-    @DELETE("v1/alchols/{alchol_id}/reviews/{review_id}/like")
+    @DELETE("v1/alcohols/{alcohol_id}/reviews/{review_id}/like")
     fun setUnLike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                    @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+                    @Path("alcohol_id")alcoholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
 
-    @POST("v1/alchols/{alchol_id}/reviews/{review_id}/dislike")
+    @POST("v1/alcohols/{alcohol_id}/reviews/{review_id}/dislike")
     fun setDislike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                    @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+                    @Path("alcohol_id")alcoholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
 
-    @DELETE("v1/alchols/{alchol_id}/reviews/{review_id}/dislike")
+    @DELETE("v1/alcohols/{alcohol_id}/reviews/{review_id}/dislike")
     fun setUnDislike(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                    @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+                    @Path("alcohol_id")alcoholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
 
     @GET("v1/users/reviews")
     fun getMyRatedList(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                       @Query("f")alcholType:String?,@Query("c")alcholCount:Int,@Query("p")pageNumber:Int) :Flowable<GetRatedList>
+                       @Query("f")alcoholType:String?,@Query("c")alcoholCount:Int,@Query("p")pageNumber:Int) :Flowable<GetRatedList>
 
 
     @GET("v1/users/reviews/summary")
     fun getMyRatedReviewSum(@Header("X-Request-ID")UUID: String, @Header("Authorization")token: String?) :Single<GetMyReviewSum>
 
-    @DELETE("v1/alchols/{alchol_id}/reviews/{review_id}")
+    @DELETE("v1/alcohols/{alcohol_id}/reviews/{review_id}")
     fun deleteMyRatedReview(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                  @Path("alchol_id")alcholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
+                  @Path("alcohol_id")alcoholId: String?,@Path("review_id")reviewId:String?):Single<com.model.result.GetResult>
 
-    @PUT("v1/alchols/{alchol_id}/reviews/{review_id}")
+    @PUT("v1/alcohols/{alcohol_id}/reviews/{review_id}")
     fun editMyRatedReview(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                          @Path("alchol_id") alcholId:String?,@Path("review_id")reviewId:String?
+                          @Path("alcohol_id") alcoholId:String?,@Path("review_id")reviewId:String?
                           ,@Body map:HashMap<String,Any>) : Flowable<com.model.result.GetResult>
 
     @DELETE("v1/users/close")
@@ -121,7 +121,7 @@ interface ApiService {
     @GET("v1/users")
     fun getUserInfo(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?):Single<GetUserInfo>
 
-    @GET("v1/alchols/{alchol_id}/reviews/{review_id}")
-    fun getCommentOfAlchol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                           @Path("alchol_id") alcholId: String?,@Path("review_id") reviewId:String?):Single<GetCommentData>
+    @GET("v1/alcohols/{alcohol_id}/reviews/{review_id}")
+    fun getCommentOfAlcohol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                           @Path("alcohol_id") alcoholId: String?,@Path("review_id") reviewId:String?):Single<GetCommentData>
 }

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.alchol_category.AlcholCategory
+import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         presenter = Presenter().apply {
             view = this@MainActivity
         }
-        binding.activityMainKoreanAlchol.setOnClickListener(this)
+        binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
         binding.activityMainWine.setOnClickListener(this)
         binding.activityMainWhisky.setOnClickListener(this)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
         presenter.initBanner(this)
         presenter.initRecommendViewPager(this)
-        presenter.initAlcholRanking(this)
+        presenter.initAlcoholRanking(this)
     }
 
     override fun onStart() {
@@ -63,29 +63,29 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                     binding.mainDrawerLayout.openDrawer(GravityCompat.END)
                 }
             }
-            R.id.activityMain_koreanAlchol -> {
+            R.id.activityMain_koreanAlcohol -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE,0)
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,
                 0,postionBundle,GlobalApplication.CATEGORY_BUNDLE)}
 
             R.id.activityMain_beer -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE,1)
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,
                     0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
 
             R.id.activityMain_wine -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE,2)
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,
                     0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
 
             R.id.activityMain_whisky -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE,3)
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,
                     0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
 
             R.id.activityMain_sake -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE,4)
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,
+                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,
                     0,postionBundle,GlobalApplication.CATEGORY_BUNDLE) }
         }
     }

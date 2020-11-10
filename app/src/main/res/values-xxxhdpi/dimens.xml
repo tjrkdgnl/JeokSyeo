@@ -16,10 +16,10 @@
     <dimen name="thumb_text_size">16sp</dimen>
     <dimen name="tabLayout_height">44dp</dimen>
     <dimen name="ok_button_size">60dp</dimen>
-    <dimen name="alcholSize_width">250dp</dimen>
-    <dimen name="alcholSize_height">375dp</dimen>
-    <dimen name="comment_alchol_width">150dp</dimen>
-    <dimen name="comment_alchol_height">225dp</dimen>
+    <dimen name="alcoholSize_width">250dp</dimen>
+    <dimen name="alcoholSize_height">375dp</dimen>
+    <dimen name="comment_alcohol_width">150dp</dimen>
+    <dimen name="comment_alcohol_height">225dp</dimen>
 
     //comment window
     <dimen name="aromaTextSize">20sp</dimen>
@@ -28,8 +28,8 @@
     <dimen name="comment_scoreTextSize">36sp</dimen>
 
     //recommand item
-    <dimen name="recommand_alcholName">20sp</dimen>
-    <dimen name="recommand_alcholNumber">16sp</dimen>
+    <dimen name="recommand_alcoholName">20sp</dimen>
+    <dimen name="recommand_alcoholNumber">16sp</dimen>
 
 
     //ActivityMainWindow
@@ -37,7 +37,7 @@
     <dimen name="autoViewPager_height">245dp</dimen>
     <dimen name="main_text_defaultSize">23sp</dimen>
     <dimen name="main_text_miniSize">21sp</dimen>
-    <dimen name="alchol_button_textSize">13sp</dimen>
+    <dimen name="alcohol_button_textSize">13sp</dimen>
     <dimen name="autoViewPager_textSize">12sp</dimen>
     <dimen name="whatIsQuestion_textSize">10sp</dimen>
 
@@ -57,15 +57,15 @@
     <dimen name="Part_textSize">14sp</dimen>
     <dimen name="QnA_info_height">340dp</dimen>
 
-    //AlcholDetail
+    //AlcoholDetail
     <dimen name="title_Size">18sp</dimen>
-    <dimen name="AlcholDetail_ImageViewSize">50dp</dimen>
-    <dimen name="detail_alchol_Name_k">23sp</dimen>
-    <dimen name="detail_alchol_Name_E">18sp</dimen>
+    <dimen name="AlcoholDetail_ImageViewSize">50dp</dimen>
+    <dimen name="detail_alcohol_Name_k">23sp</dimen>
+    <dimen name="detail_alcohol_Name_E">18sp</dimen>
     <dimen name="detail_default_textSize">14sp</dimen>
     <dimen name="detail_review_Score">31sp</dimen>
     <dimen name="detail_review_progress_height">20dp</dimen>
-    <dimen name="detail_alchol_score">26sp</dimen>
+    <dimen name="detail_alcohol_score">26sp</dimen>
     <dimen name="detail_my_score">21sp</dimen>
 
     //basic
@@ -77,24 +77,24 @@
     <dimen name="basic_userName">17sp</dimen>
     <dimen name="basic_level">14sp</dimen>
 
-    //AlcholListMainWindow
-    <dimen name="AlcholMainWindow_searchButton_size">30dp</dimen>
-    <dimen name="AlcholMainWindow_LinearLayout_height">38dp</dimen>
+    //AlcoholListMainWindow
+    <dimen name="AlcoholMainWindow_searchButton_size">30dp</dimen>
+    <dimen name="AlcoholMainWindow_LinearLayout_height">38dp</dimen>
     <dimen name="AlchileMainWindow_ArrowToggle_height">16dp</dimen>
-    <dimen name="AlcholMainWindow_textView_totalProduct_textsize">14sp</dimen>
-    <dimen name="AlcholMainWindow_default_textsize">15sp</dimen>
-    <dimen name="AlcholMainWindow_expandable_height">36dp</dimen>
+    <dimen name="AlcoholMainWindow_textView_totalProduct_textsize">14sp</dimen>
+    <dimen name="AlcoholMainWindow_default_textsize">15sp</dimen>
+    <dimen name="AlcoholMainWindow_expandable_height">36dp</dimen>
 
     //viewPager_list_item
     <dimen name="listItem_listAhchol_img_size">112dp</dimen>
-    <dimen name="list_item_listAlcholName_K_textsize">16sp</dimen>
-    <dimen name="list_item_listAlcholName_E_textsize">13sp</dimen>
+    <dimen name="list_item_listAlcoholName_K_textsize">16sp</dimen>
+    <dimen name="list_item_listAlcoholName_E_textsize">13sp</dimen>
     <dimen name="listItem_default_Imagesize">16dp</dimen>
     <dimen name="listitem_heartImg_marginTop">9dp</dimen>
 
     //viewPager_grid_item
     <dimen name="gridItem_GridAhchol_img_height">190dp</dimen>
-    <dimen name="gridItem_GridAlcholName_K_textSize">15sp</dimen>
+    <dimen name="gridItem_GridAlcoholName_K_textSize">15sp</dimen>
     <dimen name="gridItem_origin_textSize">12sp</dimen>
     <dimen name="gridItem_default_textsize">11sp</dimen>
     <dimen name="gridItem_gridHeart_marginTop">2dp</dimen>

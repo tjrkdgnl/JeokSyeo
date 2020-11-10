@@ -18,7 +18,7 @@ interface MainContract {
 
         fun initRecommendViewPager(context: Context)
 
-        fun initAlcholRanking(context: Context)
+        fun initAlcoholRanking(context: Context)
 
         fun detachView()
 

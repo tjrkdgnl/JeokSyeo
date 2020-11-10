@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <data>
+        <variable
+            name="review"
+            type="com.model.rated.ReviewList" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/rated_alcohol_img"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    setting_icon_str="@{review.alcohol.media.get(0).mediaResource.small.src.toString()}"
+                    android:src="@mipmap/nuggi" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/rated_item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:lineSpacingExtra="6sp"
+                android:layout_marginEnd="10dp"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                tools:text="천비향"
+                app:layout_constraintHorizontal_bias="0"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rated_alcohol_img"
+                app:layout_constraintTop_toTopOf="@id/rated_alcohol_img"
+                android:text="@{review.alcohol.name.toString()}" />
+
+            <TextView
+                android:id="@+id/rated_item_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="4sp"
+                android:textColor="#7b7b7b"
+                android:textSize="14sp"
+                android:layout_marginEnd="10dp"
+                android:textStyle="normal"
+                tools:text="국순당"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="@id/rated_item_name"
+                app:layout_constraintTop_toBottomOf="@id/rated_item_name"
+                android:text="@{review.alcohol.brewery.get(0).name.kr.toString()}" />
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/rated_item_ratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/rated_item_location"
+                app:layout_constraintTop_toBottomOf="@id/rated_item_location"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="false"
+                app:srb_drawableEmpty="@mipmap/middle_star_empty"
+                app:srb_drawableFilled="@mipmap/middle_star_full"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="0"
+                app:srb_scrollable="false"
+                app:srb_starPadding="1.5dp"
+                app:srb_stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/rated_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/rated_item_ratingbar"
+                app:layout_constraintBottom_toBottomOf="@id/rated_item_ratingbar"
+                app:layout_constraintStart_toEndOf="@id/rated_item_ratingbar"
+                tools:text="3.5"
+                android:text="@{review.score.toString()}"
+                android:layout_marginStart="8dp"/>
+
+
+            <at.blogc.android.views.ExpandableTextView
+                android:id="@+id/rated_itme_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rated_item_ratingbar"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                app:animation_duration="170"
+                android:text="@{review.contents.toString()}"
+                tools:text="천비향은 밑술 후에 네 번 덧술을 한 오양주 인데요. 현재 시판되는 전통 주류 중 유일하게 오양주로 술을 빚고 있습니다. 덧술을 하는 것은 알코올 도수를 높이고 술 맛을 좋게 하기 위함인데요. 일반적으로 한 번 덧술 할 때마다 이전 덧술 과정의 최소 1.5배의 쌀이 필요합니다.  " >
+            </at.blogc.android.views.ExpandableTextView>
+
+
+            <LinearLayout
+                android:id="@+id/rated_item_expandableButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toTopOf="@id/rated_item_delete"
+                app:layout_constraintStart_toStartOf="@id/rated_itme_comment"
+                app:layout_constraintBottom_toBottomOf="@id/rated_item_delete"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/rated_item_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/down_errow"
+                 />
+
+                <TextView
+                    android:id="@+id/rated_item_expandableText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="normal"
+                    android:textSize="12sp"
+                    android:textColor="#7b7b7b"
+                    android:lineSpacingExtra="5sp"
+                    android:text="더보기"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/rated_item_delete"
+                android:layout_width="60dp"
+                android:layout_height="32dp"
+                android:text="삭제"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4sp"
+                android:background="@drawable/default_outline_orange"
+                android:gravity="center_vertical|center_horizontal"
+                app:layout_constraintTop_toTopOf="@id/rated_item_comment_edit"
+                app:layout_constraintEnd_toStartOf="@id/rated_item_comment_edit"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/orange"/>
+
+            <TextView
+                android:id="@+id/rated_item_comment_edit"
+                android:layout_width="60dp"
+                android:layout_height="32dp"
+                android:textStyle="normal"
+                android:background="@drawable/default_outline"
+                android:textSize="14sp"
+                android:textColor="#7b7b7b"
+                android:lineSpacingExtra="4sp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="수정"
+                app:layout_constraintTop_toBottomOf="@id/rated_itme_comment"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>
