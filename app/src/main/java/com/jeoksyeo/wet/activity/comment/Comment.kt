@@ -44,7 +44,6 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         }
 
         binding.commentWindowContainer.setOnScrollChangeListener(this)
-
         binding.commentWindowBottomInclude.commentWindowAromaSeekbar.onProgressChangedListener = this
         binding.commentWindowBottomInclude.commentWindowMourhfeelSeekbar.onProgressChangedListener = this
         binding.commentWindowBottomInclude.commentWindowTasteSeekbar.onProgressChangedListener = this
