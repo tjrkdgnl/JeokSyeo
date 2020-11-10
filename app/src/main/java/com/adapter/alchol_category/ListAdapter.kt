@@ -22,7 +22,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class ListAdapter(private val context: Context,
-                  private val categoryPosition:Int,
                   private val lst:MutableList<AlcholList>,
                   private val executeProgressBar:(Boolean)->Unit
 ):RecyclerView.Adapter<AlcholCategoryListViewHolder>() {
@@ -48,9 +47,7 @@ class ListAdapter(private val context: Context,
                     .subscribe({
                         val bundle = Bundle()
                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alchol)
-                        bundle.putInt(GlobalApplication.CATEGORY_POSITION,categoryPosition)
-                        val intent = Intent(context,AlcholDetail::class.java)
-                        intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
+
                         GlobalApplication.instance.moveActivity(context,AlcholDetail::class.java
                             ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
                         executeProgressBar(false)

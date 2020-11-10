@@ -72,7 +72,8 @@ class Fragment_Grid:Fragment(), Fg_AlcholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcholList>) {
-        gridAdapter = GridAdapter(requireContext(),gridPresenter.position,list,executeProgressBar = gridPresenter.executeProgressBar)
+        gridAdapter = GridAdapter(requireContext(),list
+            ,executeProgressBar = gridPresenter.executeProgressBar)
         binding.gridRecyclerView.adapter= gridAdapter
     }
 

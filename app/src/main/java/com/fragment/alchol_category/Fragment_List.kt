@@ -65,7 +65,7 @@ class Fragment_List:Fragment(), Fg_AlcholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcholList>) {
-        listAdapter = ListAdapter(requireContext(),position,list,
+        listAdapter = ListAdapter(requireContext(),list,
             executeProgressBar = listPresenter.executeProgressBar)
         binding.listRecyclerView.adapter= listAdapter
     }

@@ -62,23 +62,21 @@ class GlobalApplication : Application() {
         const val CATEGORY_SIZE = 5
         const val MOVE_TYPE = "type"
         const val PAGINATION_SIZE= 20
-        const val CATEGORY_POSITION="category_position"
         const val DEFAULT_SORT = "like"
         const val MOVE_ALCHOL = "alchol Data"
         const val ALCHOL_LIKE = "likeAndDisLike"
         const val ACTIVITY_HANDLING_MAIN = 0
         const val ACTIVITY_HANDLING_DETAIL = 1
-        const val ACTIVITY_HANDLING_COMMENT = 3
         const val ACTIVITY_HANDLING_CATEGORY = 2
+        const val MOVE_MY_COMMENT ="my comment"
 
-        const val DETAIL_REVIEW_ITEM_0 = 0
-        const val DETAIL_REVIEW_ITEM_1 = 1
-        const val DETAIL_REVIEW_ITEM_2 = 2
+        const val DETAIL_NO_REVIEW = 0
+        const val DETAIL_REVIEW = 1
+        const val DETAIL_MORE_REVIEW = 2
 
         const val COMPONENT_DEFAULT=0
         const val COMPONENT_RECYCLERVIEW=1
         const val COMPONENT_SRM=2
-
     }
 
     fun getAlcholType(positon: Int) = typeList[positon]
@@ -87,6 +85,7 @@ class GlobalApplication : Application() {
 
     fun getLevelName(positon: Int) = levelList[positon]
 
+    fun checkCount(value:Int,count:Int=0)=  if(value >10000) "9999+" else (value+count).toString()
 
     //액티비티 전환
     fun moveActivity(context: Context,activityClass:Class<*>,flag:Int=0,bundle:Bundle? = null,bundleFlag:String?=null){

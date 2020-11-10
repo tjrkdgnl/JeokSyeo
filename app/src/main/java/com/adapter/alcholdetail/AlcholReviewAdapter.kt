@@ -38,13 +38,13 @@ class AlcholReviewAdapter(private val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            GlobalApplication.DETAIL_REVIEW_ITEM_0 -> {
+            GlobalApplication.DETAIL_NO_REVIEW -> {
                 NoAlcholReviewViewHolder(parent)
             }
-            GlobalApplication.DETAIL_REVIEW_ITEM_1 -> {
+            GlobalApplication.DETAIL_REVIEW -> {
                 AlcholReviewViewHolder(context,parent)
             }
-            GlobalApplication.DETAIL_REVIEW_ITEM_2 ->{
+            GlobalApplication.DETAIL_MORE_REVIEW ->{
                 AlcholMoreReviewViewHolder(parent)
             }
 
@@ -108,9 +108,7 @@ class AlcholReviewAdapter(private val context: Context,
                         }
                         result.data?.reviewList?.let {
                             if(it.isNotEmpty()){ //리뷰가 있을 때
-                                val currentPosition = lst.size
-                                lst.addAll(it.toMutableList())
-                                notifyItemChanged(currentPosition-1, lst.size)
+                                updateList(it.toMutableList())
                             }
                             else{ //리뷰가 없을 때,
                                 val lastIdx = lst.size-1
@@ -127,12 +125,34 @@ class AlcholReviewAdapter(private val context: Context,
         return lst.size
     }
 
+    //리뷰 더 보기 눌렀을 때, 리스트 업데이트
+    private fun updateList(list:MutableList<ReviewList>){
+        lst.removeAt(lst.size-1) // 더보기 칸 지우기
+        var duplicateCheck =false
+        val size = lst.size
+
+        for(newData in list){
+            for(j in lst){
+                if(newData.review_id == j.review_id){
+                    duplicateCheck=true
+                    break
+                }
+            }
+            if(!duplicateCheck){
+                lst.add(newData)
+            }
+            duplicateCheck=false
+        }
+        lst.add(ReviewList().apply { checkMore=GlobalApplication.DETAIL_MORE_REVIEW })
+        notifyItemChanged(size,lst.size)
+    }
+
     override fun getItemViewType(position: Int): Int {
         return when(lst[position].checkMore){
-            GlobalApplication.DETAIL_REVIEW_ITEM_0 ->{    return GlobalApplication.DETAIL_REVIEW_ITEM_0}
-            GlobalApplication.DETAIL_REVIEW_ITEM_1->{  return GlobalApplication.DETAIL_REVIEW_ITEM_1}
-            GlobalApplication.DETAIL_REVIEW_ITEM_2->{return GlobalApplication.DETAIL_REVIEW_ITEM_2}
-            else->{GlobalApplication.DETAIL_REVIEW_ITEM_0}
+            0 ->{    return GlobalApplication.DETAIL_NO_REVIEW}
+            1->{  return GlobalApplication.DETAIL_REVIEW}
+            2->{return GlobalApplication.DETAIL_MORE_REVIEW}
+            else->{GlobalApplication.DETAIL_NO_REVIEW}
         }
     }
 

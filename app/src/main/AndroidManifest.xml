@@ -48,11 +48,7 @@
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail"
@@ -83,7 +79,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name="com.jeoksyeo.wet.activity.splash.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity

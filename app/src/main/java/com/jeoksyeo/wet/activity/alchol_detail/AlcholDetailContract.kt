@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.alchol_detail
 
 import android.content.Context
+import android.content.Intent
 import com.model.alchol_detail.Alchol
 import com.vuforia.engine.wet.databinding.AlcholDetailBinding
 
@@ -9,23 +10,27 @@ interface AlcholDetailContract {
     interface  BaseView{
         fun getView():AlcholDetailBinding
 
-        fun setLike(isLike:Boolean)
+        fun setLikeImage(isLike:Boolean)
 
     }
 
     interface BasePresenter{
         var view:BaseView
         var context:Context
-        fun executeLike(alcholId:String)
+        var intent: Intent
 
-        fun cancelAlcholLike(alcholId:String)
+        fun init()
 
-        fun initComponent(context: Context, alchol: Alchol,position:Int)
+        fun executeLike()
 
-        fun initReview(context: Context,alcholId:String?)
+        fun cancelAlcholLike()
+
+        fun initComponent(context: Context)
+
+        fun initReview(context: Context)
 
         fun expandableText()
 
-        fun checkReviewDuplicate(context: Context,alchol: Alchol?)
+        fun checkReviewDuplicate(context: Context)
     }
 }

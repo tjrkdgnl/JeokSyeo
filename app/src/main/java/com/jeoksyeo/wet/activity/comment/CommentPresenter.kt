@@ -122,7 +122,7 @@ class CommentPresenter : CommentContract.BasePresenter {
                 }, { t -> Log.e(ErrorManager.COMMENT, t.message.toString()) })
         }
        else{
-            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_COMMENT)
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
 

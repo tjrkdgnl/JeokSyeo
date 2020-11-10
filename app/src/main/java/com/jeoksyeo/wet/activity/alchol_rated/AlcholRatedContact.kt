@@ -21,5 +21,6 @@ interface AlcholRatedContact {
         fun initProfile(provider: String?)
 
         fun initTabLayout(context: Context)
+
     }
 }

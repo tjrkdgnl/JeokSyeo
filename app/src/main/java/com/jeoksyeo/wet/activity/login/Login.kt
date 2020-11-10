@@ -1,8 +1,6 @@
 package com.jeoksyeo.wet.activity.login
 
 import android.app.Activity
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.jeoksyeo.wet.activity.signup.SignUp
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
@@ -27,9 +22,9 @@ import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LoginBinding
 import com.error.ErrorManager
-import com.google.android.gms.tasks.OnCompleteListener
 import com.jeoksyeo.wet.activity.alchol_category.AlcholCategory
 import com.jeoksyeo.wet.activity.alchol_detail.AlcholDetail
+import com.jeoksyeo.wet.activity.comment.Comment
 import com.jeoksyeo.wet.activity.main.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -38,7 +33,6 @@ import com.model.token.GetUserData
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
-import java.lang.Exception
 
 class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: LoginBinding
@@ -61,7 +55,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
     companion object {
         lateinit var loginObj: Login
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,41 +140,40 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
 
         if (requestCode == GOOGLE_SIGN) {
-            var task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                handleSignInResult(account.idToken!!)
+            }
+            catch (e:Exception){
+                Log.e(ErrorManager.Google_TAG, e.message.toString())
+            }
         }
     }
 
-    private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
-        try {
-            executeProgressBar(true)
-            val account = task.getResult(ApiException::class.java)
-
-            //구글 소셜 로그인을 파이어베이스에 넘겨줌.
-            val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-            FirebaseAuth.getInstance().signInWithCredential(credential)
-                .addOnCompleteListener {result->
-                    if(result.isSuccessful){
-                        FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
-                            setUserInfo("GOOGLE", it.result?.token.toString())
-                        }?.addOnFailureListener {
-                            Log.e(ErrorManager.Google_TAG, it.message.toString())
-                            executeProgressBar(false)
-                        }
-                    }
-                    else{
+    private fun handleSignInResult(idToken:String) {
+        executeProgressBar(true)
+        //구글 소셜 로그인을 파이어베이스에 넘겨줌.
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
+            .addOnCompleteListener(this) {result->
+                if(result.isSuccessful){
+                    FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
+                        setUserInfo("GOOGLE", it.result?.token.toString())
+                    }?.addOnFailureListener {
+                        Log.e(ErrorManager.Google_TAG, it.message.toString())
                         executeProgressBar(false)
                     }
-                }.addOnFailureListener {
-                    Log.e(ErrorManager.Google_TAG,it.message.toString())
+                }
+                else{
+                    Log.w(ErrorManager.Google_TAG, result.exception?.message.toString())
                     executeProgressBar(false)
                 }
-
-        } catch (e: Exception) {
-            val message = e.message ?: e.stackTrace
-            Log.e(ErrorManager.Google_TAG, message.toString())
-            executeProgressBar(false)
-        }
+            }.addOnFailureListener {
+                Log.e(ErrorManager.Google_TAG,it.message.toString())
+                executeProgressBar(false)
+            }
     }
 
     fun setUserInfo(provider: String?, oauth_token: String?) {
@@ -256,9 +248,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
             }
             GlobalApplication.ACTIVITY_HANDLING_CATEGORY->{
                 GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-            GlobalApplication.ACTIVITY_HANDLING_COMMENT->{
-                GlobalApplication.instance.moveActivity(this,AlcholCategory::class.java)
             }
         }
     }

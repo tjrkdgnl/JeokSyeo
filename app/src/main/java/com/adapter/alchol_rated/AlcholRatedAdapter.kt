@@ -2,6 +2,7 @@ package com.adapter.alchol_rated
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,9 @@ import com.adapter.viewholder.AlcholNoRatedViewHolder
 import com.adapter.viewholder.AlcholRatedViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
+import com.error.ErrorManager
 import com.fragment.alchol_rated.Fragment_alcholRated
+import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.rated.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -90,6 +93,44 @@ class AlcholRatedAdapter(private val context: Context,
                            notifyDataSetChanged()
                         },{
                             t->Log.e("내가 평가한 리뷰 삭제 에러",t.message.toString())
+                        }))
+                }
+                cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+            }
+
+            //리뷰 수정
+            holder.getViewBinding().ratedItemCommentEdit.setOnClickListener{
+                val dialog = CustomDialog.createCustomDialog(context)
+                val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+                val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+                val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
+
+                contents.text = lst[position].alchol?.name.toString() +"에 대한 리뷰를 수정하시겠습니까?"
+                okButton.text = "수정"
+
+                okButton.setOnClickListener {
+                    compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                        .getAlcholDetail(GlobalApplication.userBuilder.createUUID
+                            ,GlobalApplication.userInfo.getAccessToken(), lst[position].alchol?.alcholId!!)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ alchol->
+                            val bundle = Bundle()
+                            bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,alchol.data?.alchol)
+
+                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                                .getCommentOfAlchol(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                                    lst[position].alchol?.alcholId!!,lst[position].reviewId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({comment->
+                                    bundle.putParcelable(GlobalApplication.MOVE_MY_COMMENT,comment.data?.review)
+                                    GlobalApplication.instance.moveActivity(context, Comment::class.java
+                                        ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                                },{t ->
+                                    Log.e(ErrorManager.MY_COMMENT,t.message.toString()) }))
+                        },{ t ->
+                            Log.e(com.error.ErrorManager.ALCHOL_DETAIL,t.message.toString())
                         }))
                 }
                 cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }

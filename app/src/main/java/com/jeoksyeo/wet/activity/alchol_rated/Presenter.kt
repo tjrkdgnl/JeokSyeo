@@ -47,7 +47,6 @@ class Presenter :AlcholRatedContact.BasesPresenter {
         }
     }
 
-
     @SuppressLint("SetTextI18n")
      fun getMyReviewCount() {
         JWTUtil.settingUserInfo(false)

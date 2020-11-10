@@ -1,12 +1,10 @@
 package com.jeoksyeo.wet.activity.alchol_detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.model.alchol_detail.Alchol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcholDetailBinding
@@ -14,10 +12,7 @@ import com.vuforia.engine.wet.databinding.AlcholDetailBinding
 class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.OnClickListener {
     private lateinit var binding: AlcholDetailBinding
     private lateinit var presenter: Presenter
-    private var alchol: Alchol? = null
-    private var isLike = false
     private var refreshCheck =false
-    private var category_position=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,40 +22,25 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
         presenter = Presenter().apply {
             view = this@AlcholDetail
             context=this@AlcholDetail
+            intent =this@AlcholDetail.intent
         }
+        presenter.init()
 
-
-        if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
-            val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
-            category_position = bundle?.getInt(GlobalApplication.CATEGORY_POSITION)!!
-
-            alchol = bundle.getParcelable(GlobalApplication.MOVE_ALCHOL)
-            alchol?.let { alcholData->
-                binding.alchol = alcholData
-                presenter.initComponent(this, alcholData,category_position)
-                Log.e("처음 알콜 상세",alchol?.alcholId.toString())
-                alcholData.isLiked?.let { like ->
-                    setLike(like)
-                        isLike = like }
-
-                alcholData.alcholId?.let {id-> presenter.initReview(this,id) }
-            }
-        }
         binding.AlcholDetailSelectedByMe.setOnClickListener(this)
         binding.detailExpandableButton.setOnClickListener(this)
+
     }
 
     override fun getView(): AlcholDetailBinding {
         return binding
     }
 
-    override fun setLike(isLike: Boolean) {
+    override fun setLikeImage(isLike: Boolean) {
         if (isLike) {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.full_heart)
-            binding.alcholdetailLikeCount.text = (binding.alcholdetailLikeCount.text.toString().toInt()+1).toString()
+
         } else {
             binding.AlcholDetailSelectedByMe.setImageResource(R.mipmap.empty_heart)
-            binding.alcholdetailLikeCount.text = (binding.alcholdetailLikeCount.text.toString().toInt()-1).toString()
         }
     }
 
@@ -68,23 +48,25 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
         when (v?.id) {
             R.id.AlcholDetail_selectedByMe -> {
                 GlobalApplication.userInfo.getProvider()?.let {
-                    if(!isLike){
-                        isLike =true
-                        alchol?.let {
-                            presenter.executeLike(it.alcholId!!)
+                    if(!presenter.isLike){
+                        presenter.isLike =true
+                        presenter.alchol?.let {
+                            presenter.executeLike()
+                            binding.alcholdetailLikeCount.text = GlobalApplication.instance.checkCount(binding.alcholdetailLikeCount.text.toString().toInt(),1)
                         }
                     }
                     else{
-                        isLike=false
-                        alchol?.let {
-                            presenter.cancelAlcholLike(it.alcholId!!)
+                        presenter.isLike=false
+                        presenter.alchol?.let {
+                            presenter.cancelAlcholLike()
+                            binding.alcholdetailLikeCount.text = GlobalApplication.instance.checkCount(binding.alcholdetailLikeCount.text.toString().toInt(),-1)
                         }
                     }
                 }
             }
 
             R.id.AlcholDetail_evaluateButton->{
-                presenter.checkReviewDuplicate(this,alchol)
+                presenter.checkReviewDuplicate(this)
             }
 
             R.id.detail_expandableButton->{ presenter.expandableText()}
@@ -101,9 +83,7 @@ class AlcholDetail : AppCompatActivity(), AlcholDetailContract.BaseView, View.On
 
         if(refreshCheck){
             refreshCheck=false
-            alchol?.alcholId?.let {
-                presenter.initReview(this,it)
-            }
+            presenter.initReview(this)
         }
     }
 

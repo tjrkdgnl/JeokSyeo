@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.alchol_detail
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,17 +26,21 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class Presenter : AlcholDetailContract.BasePresenter {
     override lateinit var view: AlcholDetailContract.BaseView
     override lateinit var context: Context
+    override lateinit var intent: Intent
+    var isLike = false
+    var alchol:Alchol? =null
+
     private var compositeDisposable = CompositeDisposable()
     private var settingComponentList = mutableListOf<AlcholComponentData>()
     private val NUM_SIZE = 30f
     private val RECYCLERVIEW_TEXT_SIZE = 10f
     private val CHAR_SIZE = 20f
     private val TEMPERATURE_SIZE =25f
-
 
     private val componentList = listOf<String>(
         "ADJUNCT",
@@ -54,9 +59,29 @@ class Presenter : AlcholDetailContract.BasePresenter {
         "CASK TYPE"
     )
 
-    override fun executeLike(alcholId: String) {
-        val loginCheck = GlobalApplication.userInfo.getAccessToken() != null
-        var check = JWTUtil.settingUserInfo(false)
+    override fun init() {
+        if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
+            val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
+
+            alchol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
+            alchol?.let { alcholData-> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
+                view.getView().alchol = alcholData
+
+                initComponent(context) //주류 성분 표시 셋팅
+
+                alcholData.isLiked?.let { like ->   //좋아요 여부 확인하여 셋팅
+                    view.setLikeImage(like)
+                    view.getView().alcholdetailLikeCount.text = GlobalApplication.instance
+                        .checkCount(view.getView().alcholdetailLikeCount.text.toString().toInt())
+                    isLike = like
+                }
+                alcholData.alcholId?.let { initReview(context) } //리뷰 셋팅
+            }
+        }
+    }
+
+    override fun executeLike() {
+        val check = JWTUtil.settingUserInfo(false)
 
         if (check) {
             compositeDisposable.add(
@@ -64,59 +89,57 @@ class Presenter : AlcholDetailContract.BasePresenter {
                     .alcholLike(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
-                        alcholId
+                        alchol!!.alcholId
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        view.setLike(true)
+                        view.setLikeImage(true)
                     }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
             )
-        } else {
+        } else
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
-        }
     }
 
-    override fun cancelAlcholLike(alcholId: String) {
-        var check = JWTUtil.settingUserInfo(false)
+    override fun cancelAlcholLike() {
+        val check = JWTUtil.settingUserInfo(false)
 
         if (check) {
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .cancelAlcholLike(
                         GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(), alcholId
+                        GlobalApplication.userInfo.getAccessToken(), alchol!!.alcholId
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        view.setLike(false)
+                        view.setLikeImage(false)
                     }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
             )
         } else
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
-
     }
 
-    override fun initComponent(context: Context, alchol: Alchol, position: Int) {
+    override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기
         //SRM value가 무조건 정수는 아니기 때문에 try/catch로 parsing에러 잡아서 핸들링하기
-        alchol.class_?.firstClass?.code?.let { type ->
+        alchol!!.class_?.firstClass?.code?.let { type ->
             when (type) {
                 "TR" -> {
-                    setComponent(alchol, mutableListOf(10, 5, 9, 1, 8, 0, 3, 2))
+                    setComponent(alchol!!, mutableListOf(10, 5, 9, 1, 8, 0, 3, 2))
                 }
                 "BE" -> {
-                    setComponent(alchol, mutableListOf(0, 1, 6, 3, 2))
+                    setComponent(alchol!!, mutableListOf(0, 1, 6, 3, 2))
                 }
                 "WI" -> {
-                    setComponent(alchol, mutableListOf(6, 7, 12, 11, 1, 0, 3, 2))
+                    setComponent(alchol!!, mutableListOf(6, 7, 12, 11, 1, 0, 3, 2))
                 }
                 "SA" -> {
-                    setComponent(alchol, mutableListOf(13, 7, 0, 1, 3, 2))
+                    setComponent(alchol!!, mutableListOf(13, 7, 0, 1, 3, 2))
                 }
                 "FO" -> {
-                    setComponent(alchol, mutableListOf(8, 0, 1, 2, 14))
+                    setComponent(alchol!!, mutableListOf(8, 0, 1, 2, 14))
                 }
             }
         }
@@ -150,11 +173,12 @@ class Presenter : AlcholDetailContract.BasePresenter {
             "BARREL AGED" -> {
                 alchol.barrelAged?.let {
                     AlcholComponentData("BARREL","오크 숙성"
-                        ,R.mipmap.barrel, mutableListOf(it.toString().toUpperCase()),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.barrel, mutableListOf(it.toString().toUpperCase(Locale.getDefault())),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "FILTERED" -> {
                 alchol.more?.filtered?.let {
                     AlcholComponentData("FILTERED","여과 여부"
-                        ,R.mipmap.filtered, mutableListOf(it.toString().toUpperCase()),CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
+                        ,R.mipmap.filtered, mutableListOf(it.toString().toUpperCase(Locale.getDefault())),
+                        CHAR_SIZE,GlobalApplication.COMPONENT_DEFAULT)} }
             "SRM" -> {
                 alchol.more?.srm?.let {
                     AlcholComponentData("SRM",""
@@ -209,7 +233,7 @@ class Presenter : AlcholDetailContract.BasePresenter {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initReview(context: Context, alcholId: String?) {
+    override fun initReview(context: Context) {
         JWTUtil.settingUserInfo(false)
 
         compositeDisposable.add(
@@ -217,7 +241,7 @@ class Presenter : AlcholDetailContract.BasePresenter {
                 .getAlcholReivew(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(),
-                    alcholId,1)
+                    alchol!!.alcholId,1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -229,10 +253,10 @@ class Presenter : AlcholDetailContract.BasePresenter {
 
                             lst.toMutableList().let { muLst ->
                                 muLst.add(ReviewList().apply {
-                                    checkMore=GlobalApplication.DETAIL_REVIEW_ITEM_0 })
+                                    checkMore=GlobalApplication.DETAIL_NO_REVIEW })
 
                                 view.getView().recyclerViewReviewList.adapter =
-                                    AlcholReviewAdapter(context, alcholId, muLst)
+                                    AlcholReviewAdapter(context, alchol!!.alcholId, muLst)
                             }
                         } else {
                             //차트 여부 표시
@@ -243,10 +267,10 @@ class Presenter : AlcholDetailContract.BasePresenter {
                                 //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
                                 lst.toMutableList().let {muLst->
                                     muLst.add(ReviewList().apply {
-                                        checkMore =GlobalApplication.DETAIL_REVIEW_ITEM_2
+                                        checkMore =GlobalApplication.DETAIL_MORE_REVIEW
                                     })
                                     view.getView().recyclerViewReviewList.adapter =
-                                        AlcholReviewAdapter(context, alcholId, muLst)
+                                        AlcholReviewAdapter(context, alchol!!.alcholId, muLst)
                                 }
                             }
                         }
@@ -303,17 +327,15 @@ class Presenter : AlcholDetailContract.BasePresenter {
         }
     }
 
-    override fun checkReviewDuplicate(context: Context, alchol: Alchol?) {
-        var check = JWTUtil.settingUserInfo(false)
-
-        Log.e("alchol_Id",alchol?.alcholId.toString())
+    override fun checkReviewDuplicate(context: Context) {
+        val check = JWTUtil.settingUserInfo(false)
 
         if (check) {
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                     .checkReviewDuplicate(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
-                        alchol?.alcholId!!)
+                        alchol!!.alcholId!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
@@ -326,18 +348,11 @@ class Presenter : AlcholDetailContract.BasePresenter {
                                 ).show()
                             }
                             else {
-                                GlobalApplication.userInfo.getProvider()?.let {
-                                    alchol.let { alchol ->
-                                        val bundle = Bundle()
-                                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alchol)
-                                        GlobalApplication.instance.moveActivity(
-                                            context, Comment::class.java, 0,
-                                            bundle, GlobalApplication.ALCHOL_BUNDLE)
-                                    }
-                                } ?: CustomDialog.loginDialog(
-                                    context,
-                                    GlobalApplication.ACTIVITY_HANDLING_COMMENT
-                                )
+                                //주류 코멘트 화면으로 이동
+                                val bundle = Bundle()
+                                bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alchol)
+                                GlobalApplication.instance.moveActivity(context, Comment::class.java, 0,
+                                    bundle, GlobalApplication.ALCHOL_BUNDLE)
                             }
                         }
                     }, { t -> Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })

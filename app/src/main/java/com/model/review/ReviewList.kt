@@ -55,5 +55,5 @@ class ReviewList {
     @Expose
     var updatedAt: Int? = null
 
-    var checkMore =GlobalApplication.DETAIL_REVIEW_ITEM_1
+    var checkMore =GlobalApplication.DETAIL_REVIEW
 }

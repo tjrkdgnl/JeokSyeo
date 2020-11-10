@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiGenerator {
     //http://192.168.0.10:9090/
     //http://dev.jeoksyeo.com/
-    private const val BASE_URL = "http://dev.jeoksyeo.com/"
+    private const val BASE_URL =  "http://dev.jeoksyeo.com/"
 
     val retrofit :Retrofit = Retrofit.Builder()
         .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
