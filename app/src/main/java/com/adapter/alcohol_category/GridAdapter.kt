@@ -68,6 +68,8 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
         return lst.size
     }
 
+    //페이징을 통한 새로운 리스트의 아이템이 기존의 아이템과 중복되는지 확인 후, 리스트에 추가
+
     fun updateList(list:MutableList<AlcoholList>){
         var duplicate =false
         val newList = mutableListOf<AlcoholList>()
@@ -88,8 +90,12 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
         }
 
         lst.addAll(newList)
-        notifyItemChanged(currentItemCount-1,newList.size)
+        notifyItemChanged(currentItemCount-1,newList.size) //첫 시작 범위를 -1로 할당하지 않으면 바로 갱신이 되지않음
+
     }
+
+
+    //정렬이 변경될 때 리스트 내부의 아이템들을 모두 교체
 
     fun changeSort(list:MutableList<AlcoholList>){
         lst.clear()
@@ -97,6 +103,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
         notifyDataSetChanged()
     }
 
+    //페이징처리를 위해서 맨 마지막 주류 id값을 리턴
     fun getLastAlcoholId():String?{
         if(lst.size>1)
             return lst.get(lst.size-1).alcoholId

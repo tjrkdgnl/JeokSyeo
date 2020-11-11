@@ -24,9 +24,14 @@ class Alcohol_Component_Default(parent:ViewGroup)
             binding.componentBackground.setImageResource(it)
         }
 
-        if(data.contents?.get(0).equals("TRUE"))
-            binding.componentDescription.text ="YES"
-        else if(data.contents?.get(0).equals("FALSE"))
-            binding.componentDescription.text ="NO"
+        if (data.contents is String){
+            when (data.contents) {
+                "true" -> binding.componentDescription.text ="YES"
+                "false" -> binding.componentDescription.text ="NO"
+                else -> {
+                    binding.componentDescription.text = data.contents
+                }
+            }
+        }
     }
 }

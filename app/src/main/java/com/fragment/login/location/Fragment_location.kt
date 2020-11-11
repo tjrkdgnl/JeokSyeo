@@ -76,13 +76,13 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
         })
 
         viewmodel.countryArea.observe(viewLifecycleOwner, Observer { it ->
-            it?.let { area -> binding.countryText.text = area.name }
+            it.let { area -> binding.countryText.text = area.name }
         })
 
         viewmodel.townArea.observe(viewLifecycleOwner, Observer {
-            it?.let { town ->
+            it.let { town ->
                 if(town.name !=""){
-                    binding.countryText.text = viewmodel.countryArea.value?.name + town.name
+                    binding.countryText.text = viewmodel.countryArea.value?.name  +town.name
                 }
             }
         })

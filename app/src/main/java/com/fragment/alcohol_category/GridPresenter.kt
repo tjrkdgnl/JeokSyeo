@@ -41,6 +41,8 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
         GlobalApplication.instance.getAlcoholType(position)
     }
 
+
+
     override fun initRecyclerView(context: Context) {
         JWTUtil.settingUserInfo(false)
 
@@ -154,7 +156,8 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
         this.sort = sort
     }
 
-     val executeProgressBar:(Boolean)->Unit = {execute->
+
+    val executeProgressBar:(Boolean)->Unit = {execute->
         if(execute){
             binding.gridProgressBar.root.visibility = View.VISIBLE
 

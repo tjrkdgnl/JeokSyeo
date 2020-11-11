@@ -6,6 +6,7 @@ import com.model.alcohol_ranking.GetAlcoholRanking
 import com.model.area.GetAreaData
 import com.model.banner.GetBannerData
 import com.model.image_upload.GetImageUploadData
+import com.model.level.GetLevelData
 import com.model.my_comment.GetCommentData
 import com.model.my_review_summary.GetMyReviewSum
 import com.model.rated.GetRatedList
@@ -123,5 +124,8 @@ interface ApiService {
 
     @GET("v1/alcohols/{alcohol_id}/reviews/{review_id}")
     fun getCommentOfAlcohol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                           @Path("alcohol_id") alcoholId: String?,@Path("review_id") reviewId:String?):Single<GetCommentData>
+                            @Path("alcohol_id") alcoholId: String?,@Path("review_id") reviewId:String?):Single<GetCommentData>
+
+    @GET("v1/users/level")
+    fun getLevelData(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?):Single<GetLevelData>
 }

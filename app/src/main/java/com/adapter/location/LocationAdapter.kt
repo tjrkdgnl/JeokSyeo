@@ -32,14 +32,16 @@ class LocationAdapter(
         holder.bind(lst[position])
 
         holder.getViewBinding().locationName.setOnClickListener { v ->
-            var pressedPostion = position
-            if (pressedPostion != RecyclerView.NO_POSITION) {
-                when (depth) {
-                    0 -> viewmodel.stateArea.value = lst[pressedPostion]
+                        var pressedPostion = position
+                    if (pressedPostion != RecyclerView.NO_POSITION) {
+                        when (depth) {
+                            0 -> {viewmodel.stateArea.value = lst[pressedPostion]}
 
-                    1 -> viewmodel.countryArea.value =  lst[pressedPostion]
+                            1 ->{viewmodel.countryArea.value =  lst[pressedPostion]
+                                viewmodel.depth = 1}
 
-                    2 -> viewmodel.townArea.value = lst[pressedPostion]
+                            2 -> {viewmodel.townArea.value = lst[pressedPostion]
+                                viewmodel.depth =2}
                 }
 
                 if (!viewmodel.lock) {

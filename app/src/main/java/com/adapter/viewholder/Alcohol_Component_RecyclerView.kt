@@ -1,9 +1,11 @@
 package com.adapter.viewholder
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcoholdetail.DepthComponentAdapter
 import com.base.BaseViewHolder
+import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholComponentItemRecyclerviewBinding
@@ -19,10 +21,16 @@ class Alcohol_Component_RecyclerView(val parent:ViewGroup)
             binding.componentBackground.setImageResource(it)
         }
 
-        //data.contents?.toMutableList()
-        //데이터 사이즈에 대해서 더미 값 넣기.
-        binding.compoentRecyclerView.adapter = DepthComponentAdapter(mutableListOf("미시간 캐스케이드","할러타우","팔레","테트낭","월래밋"))
-        binding.compoentRecyclerView.setHasFixedSize(true)
-        binding.compoentRecyclerView.layoutManager =LinearLayoutManager(parent.context)
+
+        val lst = (data.contents as? List<String>)?.toMutableList()
+        var dummyCheck =false
+        if(lst?.size !=0 ){
+            if(lst?.size!! <=2)   //가운데 정렬을 위해서 더미 값 두개 추가
+                dummyCheck =true
+            Log.e("리싸이클러뷰 높이",binding.compoentRecyclerView.layoutManager?.height.toString())
+            binding.compoentRecyclerView.adapter = DepthComponentAdapter(parent.context,lst,dummyCheck)
+            binding.compoentRecyclerView.setHasFixedSize(true)
+            binding.compoentRecyclerView.layoutManager =LinearLayoutManager(parent.context)
+        }
     }
 }

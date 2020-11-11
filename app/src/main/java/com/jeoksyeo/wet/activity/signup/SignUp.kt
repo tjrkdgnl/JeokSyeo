@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.signup
 import android.content.Intent
 import com.adapter.signup.SignUpViewPagerAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.fragment.login.Fragment_nickName
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
@@ -22,7 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseView {
+class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseView{
     private lateinit var binding: ActivitySignupBinding
     private lateinit var mutableList: MutableList<String>
     private var idx = 0
@@ -102,12 +104,30 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         if (viewModel.checkRequest) {
             startActivity(Intent(this, Login::class.java))
             finish()
-        } else if (viewModel.lock) {
-            GlobalApplication.userBuilder.setAddress(
+        }
+        else if(viewModel.nickname !=null){
 
-                viewModel.stateArea.value?.name + " " + viewModel.countryArea.value?.name + " " +
-                        viewModel.townArea.value?.name
-            )
+            viewModel.nickname?.let { nic->
+                GlobalApplication.userBuilder.setNickName(nic)
+            }
+            Log.e("닉네임",viewModel.nickname.toString())
+            viewModel.nickname =null
+        }
+
+        else if (viewModel.lock) {
+            if(viewModel.depth ==1){
+                GlobalApplication.userBuilder.setAddress(
+                    viewModel.countryArea.value?.code!!
+                )
+                Log.e("컨트리코드",viewModel.countryArea.value?.code!!.toString())
+            }
+            else if(viewModel.depth ==2){
+                GlobalApplication.userBuilder.setAddress(
+                    viewModel.townArea.value?.code!!
+                )
+                Log.e("타운코드",viewModel.townArea.value?.code!!.toString())
+            }
+
             GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
             disposable = ApiGenerator.retrofit.create(ApiService::class.java).signUp(
                 GlobalApplication.userBuilder.createUUID,
@@ -130,4 +150,5 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
+
 }

@@ -3,26 +3,33 @@ package com.model.alcohol_detail
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
-
 import com.google.gson.annotations.SerializedName
 
 
 class More() :Parcelable {
     @SerializedName("malt")
     @Expose
-    var malt: String? = null
+    var malt: List<String>? = null
 
     @SerializedName("hop")
     @Expose
-    var hop: String? = null
+    var hop: List<String>? = null
 
     @SerializedName("ibu")
     @Expose
-    var ibu: String? = null
+    var ibu: Float? = null
 
     @SerializedName("srm")
     @Expose
-    var srm: String? = null
+    var srm: Srm? = null
+
+    @SerializedName("temperature")
+    @Expose
+    var temperature: List<String>? = null
+
+    @SerializedName("filtered")
+    @Expose
+    var filtered: Boolean? = null
 
     @SerializedName("body")
     @Expose
@@ -34,38 +41,44 @@ class More() :Parcelable {
 
     @SerializedName("tannin")
     @Expose
+
     var tannin: String? = null
 
     @SerializedName("sweet")
     @Expose
+
     var sweet: String? = null
 
     @SerializedName("polishing")
     @Expose
+
     var polishing: String? = null
 
-    @SerializedName("filtered")
+    @SerializedName("cask")
     @Expose
-    var filtered: Boolean? = null
+    var cask: String? = null
 
-    @SerializedName("cask_type")
+    @SerializedName("sake_type")
     @Expose
-    var cask_type: Boolean? = null
+    var sake_type: String? = null
+
 
     constructor(parcel: Parcel) : this() {
-        malt = parcel.readString()
-        hop = parcel.readString()
-        ibu = parcel.readString()
-        srm = parcel.readString()
+        malt = parcel.createStringArrayList()
+        hop = parcel.createStringArrayList()
+        ibu = parcel.readValue(Int::class.java.classLoader) as? Float
+        srm = parcel.readParcelable(Srm::class.java.classLoader)
         filtered = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        temperature = parcel.createStringArrayList()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(malt)
-        parcel.writeString(hop)
-        parcel.writeString(ibu)
-        parcel.writeString(srm)
+        parcel.writeStringList(malt)
+        parcel.writeStringList(hop)
+        parcel.writeValue(ibu)
+        parcel.writeParcelable(srm, flags)
         parcel.writeValue(filtered)
+        parcel.writeStringList(temperature)
     }
 
     override fun describeContents(): Int {
@@ -81,6 +94,4 @@ class More() :Parcelable {
             return arrayOfNulls(size)
         }
     }
-
-
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.model.alcohol_detail.Alcohol
+import com.model.my_comment.Comment
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.CommentWindowBinding
 import com.xw.repo.BubbleSeekBar
@@ -22,6 +23,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
     private lateinit var binding:CommentWindowBinding
     private var calculateScore:Float =0f
     private var alcohol:Alcohol? =null
+    private var myComment:Comment? = null
 
     private lateinit var commentPresenter: CommentPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +37,18 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
 
         if(intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)){
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
+
             bundle?.let { bun->
                alcohol = bun.getParcelable(GlobalApplication.MOVE_ALCHOL)
                 alcohol?.let {
                     binding.alcohol = it
                 }
+                myComment = bun.getParcelable(GlobalApplication.MOVE_MY_COMMENT)
             }
         }
+
+        if(myComment !=null)
+            commentPresenter.setMyComment(myComment!!)
 
         binding.commentWindowContainer.setOnScrollChangeListener(this)
         binding.commentWindowBottomInclude.commentWindowAromaSeekbar.onProgressChangedListener = this

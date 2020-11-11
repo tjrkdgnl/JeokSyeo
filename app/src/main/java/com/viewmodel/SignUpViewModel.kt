@@ -3,15 +3,11 @@ package com.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.fragment.login.Fragment_nickName
 import com.model.area.AreaList
 
 class SignUpViewModel : ViewModel() {
     var buttonState: MutableLiveData<Boolean> = MutableLiveData(false)
-        set(value) {
-            field = value
-        }
-
-    private var checkSignUp: MutableLiveData<Boolean> = MutableLiveData(false)
         set(value) {
             field = value
         }
@@ -21,11 +17,11 @@ class SignUpViewModel : ViewModel() {
         code=""
     }
 
-    var stateArea= MutableLiveData<AreaList>(emptyAreaList)
+    var stateArea= MutableLiveData(emptyAreaList)
 
-    var countryArea =MutableLiveData<AreaList>(emptyAreaList)
+    var countryArea =MutableLiveData(emptyAreaList)
 
-    var townArea = MutableLiveData<AreaList>(emptyAreaList)
+    var townArea = MutableLiveData(emptyAreaList)
 
     var lock =false
         set(value){
@@ -35,4 +31,7 @@ class SignUpViewModel : ViewModel() {
 
     var checkRequest=false
 
+    var nickname:String? = null
+
+    var depth =0
 }

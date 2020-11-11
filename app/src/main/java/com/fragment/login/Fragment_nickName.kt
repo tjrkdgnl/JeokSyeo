@@ -42,6 +42,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,22 +63,20 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         return binding.root
     }
 
-    private fun rightNickName(name: String) {
-        val check = Pattern.matches("^\\w+|[가-힣]+$", name)
+    private fun rightNickName() {
+        val check = Pattern.matches("^\\w+|[가-힣]+$", binding.insertInfoEditText.text.toString())
 
-        if (name.isNotEmpty()) {
+        if (binding.insertInfoEditText.text.toString().isNotBlank()) {
             if (check) {
                 //api 설정
-                Log.e("name",name)
                 nicknameDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                    .checkNickName(GlobalApplication.userBuilder.createUUID, name)
+                    .checkNickName(GlobalApplication.userBuilder.createUUID, binding.insertInfoEditText.text.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         //result=true면 닉네임 중복을 의미
                         if(!it.data?.result!!){
-                            GlobalApplication.userBuilder.setNickName(name)
-                            checkNickname = name.isNotEmpty()
+                            checkNickname = binding.insertInfoEditText.text.toString().isNotEmpty()
                             binding.checkNickNameText.visibility = View.VISIBLE
                             binding.checkNickNameText.text = getString(R.string.useNickName)
                             binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
@@ -119,7 +118,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        rightNickName(s.toString())
+        rightNickName()
         checkEnable()
     }
 
@@ -173,6 +172,8 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
 
             result = checkNickname && checkTotalAgreement
             viewmodel.buttonState.value = result
+            viewmodel.nickname = binding.insertInfoEditText.text.toString()
+
         } else {
             //total로 클릭하지 않고 mini 동의로 클릭했을 때
             if (checkAppAgreement && checkPrivateAgreement) {
@@ -184,6 +185,8 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                 result = checkNickname
 
                 viewmodel.buttonState.value = result
+                viewmodel.nickname = binding.insertInfoEditText.text.toString()
+
             }
             //mini 동의를 클릭했을 때
             else {

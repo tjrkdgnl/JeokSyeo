@@ -38,4 +38,7 @@ object ErrorManager {
     val IMAGE_UPLOAD ="이미지 업로드 에러"
     val EDIT_PROFILE ="개인정보 수정 에러"
     val USERINFO ="유저 정보 셋팅 에러"
+
+    val LEVEL_INFO = "레벨 조회 에러"
+    val JWT_ERROR = "JWT 에러"
 }

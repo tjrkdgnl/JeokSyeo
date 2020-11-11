@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
+import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.jeoksyeo.wet.activity.test.TestActivity
@@ -17,6 +19,7 @@ import com.vuforia.engine.wet.databinding.SplashBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 
 class Splash : AppCompatActivity() {
     private val compositeDisposable = CompositeDisposable()
@@ -31,8 +34,12 @@ class Splash : AppCompatActivity() {
             .load(R.drawable.splash_logo_gif)
             .into(binding.splashImage)
 
-
-        JWTUtil.settingUserInfo(true)
+        try{
+            JWTUtil.settingUserInfo(true)
+        }
+        catch (e:Exception){
+            Log.e(ErrorManager.JWT_ERROR,"splash-> ${e.message}")
+        }
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)

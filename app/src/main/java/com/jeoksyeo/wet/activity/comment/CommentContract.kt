@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.comment
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import com.model.my_comment.Comment
 import com.skydoves.balloon.Balloon
 import com.vuforia.engine.wet.databinding.CommentWindowBinding
 
@@ -19,6 +20,8 @@ interface CommentContract {
         fun createBalloon(context: Context?, str: Int): Balloon?
         fun setComment(context: Context,alcoholId:String?,alcoholName:String?)
         fun detachView()
+        fun setMyComment(myComment:Comment)
+
     }
 
 }

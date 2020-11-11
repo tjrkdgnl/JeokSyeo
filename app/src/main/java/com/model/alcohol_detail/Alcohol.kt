@@ -10,7 +10,7 @@ import com.model.common.Medium
 import com.model.common.Name
 
 
-class Alcohol() :Parcelable {
+class Alcohol() : Parcelable {
     @SerializedName("alcohol_id")
     @Expose
     var alcoholId: String? = null
@@ -21,7 +21,7 @@ class Alcohol() :Parcelable {
 
     @SerializedName("media")
     @Expose
-    var media: List<Medium>? = null
+    var media: List<Medium?>? = null
 
     @SerializedName("background_media")
     @Expose
@@ -55,17 +55,21 @@ class Alcohol() :Parcelable {
     @Expose
     var isLiked: Boolean? = null
 
+    @SerializedName("like_count")
+    @Expose
+    var likeCount: Int? = null
+
+    @SerializedName("view_count")
+    @Expose
+    var viewCount: Int? = null
+
     @SerializedName("abv")
     @Expose
     var abv: String? = null
 
     @SerializedName("adjunct")
     @Expose
-    var adjunct: String? = null
-
-    @SerializedName("temperature")
-    @Expose
-    var temperature: String? = null
+    var adjunct: List<String>? = null
 
     @SerializedName("barrel_aged")
     @Expose
@@ -73,7 +77,7 @@ class Alcohol() :Parcelable {
 
     @SerializedName("production_year")
     @Expose
-    var productionYear: String? = null
+    var productionYear: Int? = null
 
     @SerializedName("sale")
     @Expose
@@ -81,11 +85,11 @@ class Alcohol() :Parcelable {
 
     @SerializedName("capacity")
     @Expose
-    var capacity: String? = null
+    var capacity: Int? = null
 
     @SerializedName("food_pairing")
     @Expose
-    var foodPairing: String? = null
+    var foodPairing: List<String>? = null
 
     @SerializedName("review")
     @Expose
@@ -103,14 +107,15 @@ class Alcohol() :Parcelable {
         more = parcel.readParcelable(More::class.java.classLoader)
         award = parcel.createStringArrayList()
         isLiked = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
-        abv = parcel.readString()
-        adjunct = parcel.readString()
-        temperature = parcel.readString()
+        likeCount = parcel.readValue(Int::class.java.classLoader) as? Int
+        viewCount = parcel.readValue(Int::class.java.classLoader) as? Int
+        abv = parcel.readValue(Double::class.java.classLoader) as? String
+        adjunct = parcel.createStringArrayList()
         barrelAged = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
-        productionYear = parcel.readString()
+        productionYear = parcel.readValue(Int::class.java.classLoader) as? Int
         sale = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
-        capacity = parcel.readString()
-        foodPairing = parcel.readString()
+        capacity = parcel.readValue(Int::class.java.classLoader) as? Int
+        foodPairing = parcel.createStringArrayList()
         review = parcel.readParcelable(Review::class.java.classLoader)
     }
 
@@ -126,14 +131,15 @@ class Alcohol() :Parcelable {
         parcel.writeParcelable(more, flags)
         parcel.writeStringList(award)
         parcel.writeValue(isLiked)
-        parcel.writeString(abv)
-        parcel.writeString(adjunct)
-        parcel.writeString(temperature)
+        parcel.writeValue(likeCount)
+        parcel.writeValue(viewCount)
+        parcel.writeValue(abv)
+        parcel.writeStringList(adjunct)
         parcel.writeValue(barrelAged)
-        parcel.writeString(productionYear)
+        parcel.writeValue(productionYear)
         parcel.writeValue(sale)
-        parcel.writeString(capacity)
-        parcel.writeString(foodPairing)
+        parcel.writeValue(capacity)
+        parcel.writeStringList(foodPairing)
         parcel.writeParcelable(review, flags)
     }
 
@@ -150,4 +156,6 @@ class Alcohol() :Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+
 }

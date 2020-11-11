@@ -46,20 +46,16 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.AlcoholDetail_selectedByMe -> {
-                GlobalApplication.userInfo.getProvider()?.let {
-                    if(!presenter.isLike){
-                        presenter.isLike =true
-                        presenter.alchol?.let {
-                            presenter.executeLike()
-                            binding.alcoholdetailLikeCount.text = GlobalApplication.instance.checkCount(binding.alcoholdetailLikeCount.text.toString().toInt(),1)
-                        }
+                if(!presenter.isLike) {
+                    presenter.isLike = true
+                    presenter.alchol?.let {
+                        presenter.executeLike()
                     }
-                    else{
-                        presenter.isLike=false
-                        presenter.alchol?.let {
-                            presenter.cancelAlcoholLike()
-                            binding.alcoholdetailLikeCount.text = GlobalApplication.instance.checkCount(binding.alcoholdetailLikeCount.text.toString().toInt(),-1)
-                        }
+                }
+                else{
+                    presenter.isLike=false
+                    presenter.alchol?.let {
+                        presenter.cancelAlcoholLike()
                     }
                 }
             }

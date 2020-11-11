@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{recommendItem.review.score.toString()}"
+                android:text="@{recommendItem.alcoholLikeCount.toString()}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/recommand_alcoholNumber"
                 app:layout_constraintBottom_toBottomOf="@id/activtyMain_like_img"

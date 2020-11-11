@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.error.ErrorManager
+import com.model.my_comment.Comment
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
@@ -128,5 +129,23 @@ class CommentPresenter : CommentContract.BasePresenter {
 
     override fun detachView() {
         disposable?.dispose()
+    }
+
+    override fun setMyComment(myComment: Comment) {
+        view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.setProgress(myComment.aroma?.toFloat()!!)
+        view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.setProgress(myComment.mouthfeel?.toFloat()!!)
+        view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.setProgress(myComment.appearance?.toFloat()!!)
+        view.getView().commentWindowBottomInclude.commentWindowTasteSeekbar.setProgress(myComment.taste?.toFloat()!!)
+        view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.setProgress(myComment.overall?.toFloat()!!)
+        myComment.contents?.let { content->
+            view.getView().commentWindowCommentEditText.setText(content)
+        }
+
+        myComment.score?.let { score->
+            view.getView().commentWindowRatingBar.rating = score.toFloat()
+            view.getView().commentWindowScoreText.text = score.toString()
+        }
+
+        view.getView().commentWindowEvaluateButton.isEnabled =true
     }
 }

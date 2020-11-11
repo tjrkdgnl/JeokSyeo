@@ -131,7 +131,7 @@
                     android:textSize="15sp"
                     android:textColor="#444444"
                     android:lineSpacingExtra="7sp"
-                    android:text="0"
+                    android:text="@{alcohol.likeCount.toString()}"
                     android:layout_marginBottom="3dp"
                     android:layout_marginStart="10dp"
                     app:layout_constraintTop_toTopOf="@id/AlcoholDetail_selectedByMe"
@@ -182,11 +182,12 @@
                     android:textSize="15sp"
                     android:textColor="#444444"
                     android:lineSpacingExtra="7sp"
+                    tools:text="0"
                     android:layout_marginStart="10dp"
                     app:layout_constraintBottom_toBottomOf="@id/detail_eye_topImg"
                     app:layout_constraintTop_toTopOf="@id/detail_eye_topImg"
                     app:layout_constraintStart_toEndOf="@id/detail_eye_topImg"
-                    android:text="0"
+                    android:text="@{alcohol.viewCount.toString()}"
                     />
 
                 <ImageView
@@ -234,7 +235,7 @@
                     android:layout_marginTop="9dp"
                     android:gravity="center_horizontal"
                     tools:text="0%"
-                    android:text="@{alcohol.abv }"
+                    android:text="@{alcohol.abv}"
                     android:lineSpacingExtra="2sp"
                     android:textSize="@dimen/detail_default_textSize"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"

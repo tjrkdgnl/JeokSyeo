@@ -20,6 +20,8 @@
     <dimen name="alcoholSize_height">375dp</dimen>
     <dimen name="comment_alcohol_width">150dp</dimen>
     <dimen name="comment_alcohol_height">225dp</dimen>
+    <dimen name="component_recyclerview_height">65dp</dimen>
+
 
     //comment window
     <dimen name="aromaTextSize">20sp</dimen>
