@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.level
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -55,9 +56,9 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
 
         binding.textViewEvaluationText2.text = GlobalApplication.instance.getLevelName(presenter.myLevel) //현재 레벨
         binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(presenter.myLevel+1) //다음레벨
-        binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 $rest.toString()병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
+        binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-reviewCount}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
 
-        for(i in 0..rest){
+        for(i in 0..rest-1){
             presenter.miniAlcoholList[i].setImageResource(R.mipmap.mini_bottle_full)
         }
     }

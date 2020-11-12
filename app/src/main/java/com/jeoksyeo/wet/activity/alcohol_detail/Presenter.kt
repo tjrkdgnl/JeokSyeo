@@ -74,9 +74,12 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     isLike = like
                 }
 
-                alcholData.likeCount?.let { likecount->
+                alcholData.likeCount?.let { //찜한수 체크
                     view.getView().alcoholdetailLikeCount.text = GlobalApplication.instance
-                        .checkCount(likecount)
+                        .checkCount(it)
+                }
+                alcholData.viewCount?.let {  //조회수 체크
+                    view.getView().detailEyeCount.text = GlobalApplication.instance.checkCount(it)
                 }
 
                 alcholData.alcoholId?.let { initReview(context) } //리뷰 셋팅
@@ -101,9 +104,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.setLikeImage(true)
                         view.getView().alcoholdetailLikeCount.text =
                             GlobalApplication.instance.checkCount(
-                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1
-                            )
-
+                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1)
                     }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
             )
         } else
@@ -126,9 +127,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.setLikeImage(false)
                         view.getView().alcoholdetailLikeCount.text =
                             GlobalApplication.instance.checkCount(
-                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1
-                            )
-
+                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1)
                     }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
             )
         } else
@@ -392,7 +391,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             }
                         }
                         //리뷰개수
-                        view.getView().detailReviewCountTop.text = lst.size.toString()
+                        view.getView().detailReviewCountTop.text = GlobalApplication.instance.checkCount(result.data?.reviewList?.size!!)
                         view.getView().alcoholReviewSumCountText.text = lst.size.toString() + "개"
                     }
 

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@color/ligthGrey2"
         android:orientation="vertical">
-
+e
         <androidx.cardview.widget.CardView
             android:id="@+id/imageView_GridAhchol_img"
             android:layout_width="match_parent"
@@ -158,7 +158,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alcohol.likeCount.toString()}"
+                android:text="0"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_gridHeart"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridHeart"
                 app:layout_constraintTop_toTopOf="@id/imageView_gridHeart"
@@ -186,7 +186,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alcohol.review.reviewCount.toString()}"
+                android:text="0"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_gridcommnet"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridcommnet"
                 app:layout_constraintTop_toTopOf="@id/imageView_gridcommnet"
@@ -200,6 +200,7 @@
                 android:layout_marginStart="12.1dp"
                 android:background="@null"
                 android:src="@mipmap/eye"
+                app:layout_constraintEnd_toStartOf="@id/category_grid_eyeCount"
                 app:layout_constraintTop_toTopOf="@id/textView_gridCommentCount"
                 app:layout_constraintBottom_toBottomOf="@id/textView_gridCommentCount"
                 app:layout_constraintStart_toEndOf="@id/textView_gridCommentCount"
@@ -208,16 +209,19 @@
 
             <TextView
                 android:id="@+id/category_grid_eyeCount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="@{alcohol.viewCount.toString()}"
+                android:text="0"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@id/category_grid_eye"
                 app:layout_constraintStart_toEndOf="@id/category_grid_eye"
                 app:layout_constraintTop_toTopOf="@id/category_grid_eye"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="60" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

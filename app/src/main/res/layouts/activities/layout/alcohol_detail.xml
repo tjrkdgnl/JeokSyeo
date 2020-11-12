@@ -5,6 +5,7 @@
     tools:ignore="MissingConstraints">
 
     <data>
+
         <variable
             name="alcohol"
             type="com.model.alcohol_detail.Alcohol" />
@@ -35,10 +36,10 @@
 
             <ImageView
                 android:id="@+id/imageView_background"
+                setting_icon_str="@{alcohol.backgroundMedia.get(0).mediaResource.medium.src.toString()}"
                 android:layout_width="match_parent"
                 android:layout_height="340dp"
                 android:background="@null"
-                setting_icon_str="@{alcohol.backgroundMedia.get(0).mediaResource.medium.src.toString()}"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -76,14 +77,14 @@
                     android:id="@+id/AlcoholDetail_alcoholName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lineSpacingExtra="2sp"
-                    android:textColor="#000000"
-                    android:text="@{alcohol.name.kr.toString()}"
-                    android:textSize="@dimen/detail_alcohol_Name_k"
-                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:gravity="center"
                     android:fontFamily="@font/apple_sd_gothic_neo_b"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2sp"
+                    android:maxLines="1"
+                    android:text="@{alcohol.name.kr.toString()}"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/detail_alcohol_Name_k"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,16 +96,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="23dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center"
                     android:lineSpacingExtra="2sp"
+                    android:maxLines="1"
+                    android:text="@{alcohol.brewery.get(0).location.toString()}"
                     android:textColor="#b4b4b4"
                     android:textSize="@dimen/detail_alcohol_Name_E"
                     android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:text="@{alcohol.brewery.get(0).location.toString()}"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="@id/AlcoholDetail_alcoholName"
                     app:layout_constraintTop_toBottomOf="@id/AlcoholDetail_alcoholName"
@@ -114,91 +115,90 @@
                     android:id="@+id/AlcoholDetail_selectedByMe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:background="@null"
                     android:onClick="onClick"
-                    android:layout_marginTop="20dp"
                     android:src="@mipmap/empty_heart"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintEnd_toStartOf="@id/detail_reviewImg_top"
-                    app:layout_constraintTop_toBottomOf="@id/AlcoholDetail_alcoholOrigin"/>
+                    app:layout_constraintHorizontal_bias="0.15"
+                    app:layout_constraintStart_toStartOf="@id/ic_alcohol_type"
+                    app:layout_constraintEnd_toEndOf="@id/ic_alcohol_type"
+                    app:layout_constraintTop_toBottomOf="@id/AlcoholDetail_alcoholOrigin" />
 
                 <TextView
                     android:id="@+id/alcoholdetail_likeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="normal"
-                    android:textSize="15sp"
-                    android:textColor="#444444"
-                    android:lineSpacingExtra="7sp"
-                    android:text="@{alcohol.likeCount.toString()}"
-                    android:layout_marginBottom="3dp"
                     android:layout_marginStart="10dp"
-                    app:layout_constraintTop_toTopOf="@id/AlcoholDetail_selectedByMe"
+                    android:layout_marginBottom="3dp"
+                    android:lineSpacingExtra="7sp"
+                    android:text="0"
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@id/AlcoholDetail_selectedByMe"
                     app:layout_constraintStart_toEndOf="@id/AlcoholDetail_selectedByMe"
-                    />
+                    app:layout_constraintTop_toTopOf="@id/AlcoholDetail_selectedByMe" />
 
                 <ImageView
                     android:id="@+id/detail_reviewImg_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/middle_talk"
-                    app:layout_constraintTop_toTopOf="@id/AlcoholDetail_selectedByMe"
                     app:layout_constraintBottom_toBottomOf="@id/AlcoholDetail_selectedByMe"
-                  app:layout_constraintStart_toEndOf="@id/AlcoholDetail_selectedByMe"
-                    app:layout_constraintEnd_toStartOf="@id/detail_eye_topImg"
-                   />
+                    app:layout_constraintStart_toStartOf="@id/ic_degree_type"
+                    app:layout_constraintEnd_toEndOf="@id/ic_degree_type"
+                    app:layout_constraintHorizontal_bias="0.15"
+                    app:layout_constraintTop_toTopOf="@id/AlcoholDetail_selectedByMe" />
 
                 <TextView
                     android:id="@+id/detail_reviewCount_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="#333333"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    tools:text="30"
+                    android:layout_marginStart="10dp"
                     android:layout_marginBottom="3dp"
-                    app:layout_constraintTop_toTopOf="@id/detail_reviewImg_top"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:text="0"
+                    android:textColor="#333333"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@id/detail_reviewImg_top"
                     app:layout_constraintStart_toEndOf="@id/detail_reviewImg_top"
-                    android:layout_marginStart="10dp" />
+                    app:layout_constraintTop_toTopOf="@id/detail_reviewImg_top" />
 
                 <ImageView
                     android:id="@+id/detail_eye_topImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/middle_eye"
-                    app:layout_constraintTop_toTopOf="@id/detail_reviewImg_top"
                     app:layout_constraintBottom_toBottomOf="@id/detail_reviewImg_top"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/detail_reviewImg_top"/>
+                    app:layout_constraintStart_toStartOf="@id/ic_star_type"
+                    app:layout_constraintEnd_toEndOf="@id/ic_star_type"
+                    app:layout_constraintHorizontal_bias="0.15"
+                    app:layout_constraintTop_toTopOf="@id/detail_reviewImg_top" />
 
                 <TextView
                     android:id="@+id/detail_eyeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="normal"
-                    android:textSize="15sp"
-                    android:textColor="#444444"
-                    android:lineSpacingExtra="7sp"
-                    tools:text="0"
                     android:layout_marginStart="10dp"
+                    android:lineSpacingExtra="7sp"
+                    android:text="0"
+                    android:textColor="#444444"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@id/detail_eye_topImg"
-                    app:layout_constraintTop_toTopOf="@id/detail_eye_topImg"
                     app:layout_constraintStart_toEndOf="@id/detail_eye_topImg"
-                    android:text="@{alcohol.viewCount.toString()}"
-                    />
+                    app:layout_constraintTop_toTopOf="@id/detail_eye_topImg"
+                    tools:text="0" />
 
                 <ImageView
-                    android:id="@+id/imageView_type"
+                    android:id="@+id/ic_alcohol_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@null"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/ic_type"
-                    app:layout_constraintEnd_toStartOf="@id/imageView_dosu"
+                    app:layout_constraintEnd_toStartOf="@id/ic_degree_type"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/AlcoholDetail_selectedByMe" />
 
@@ -207,66 +207,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
-                    android:gravity="center_horizontal"
-                    tools:text="맥주"
-                    android:text="@{alcohol.class_.firstClass.name.toString()}"
-                    android:lineSpacingExtra="2sp"
-                    android:textSize="@dimen/detail_default_textSize"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    app:layout_constraintEnd_toEndOf="@id/imageView_type"
-                    app:layout_constraintStart_toStartOf="@id/imageView_type"
-                    app:layout_constraintTop_toBottomOf="@id/imageView_type" />
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="2sp"
+                    android:text="@{alcohol.class_.firstClass.name.toString()}"
+                    android:textSize="@dimen/detail_default_textSize"
+                    app:layout_constraintEnd_toEndOf="@id/ic_alcohol_type"
+                    app:layout_constraintStart_toStartOf="@id/ic_alcohol_type"
+                    app:layout_constraintTop_toBottomOf="@id/ic_alcohol_type"
+                    tools:text="맥주" />
 
                 <ImageView
-                    android:id="@+id/imageView_dosu"
+                    android:id="@+id/ic_degree_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:src="@mipmap/ic_alcohol"
-                    app:layout_constraintBottom_toBottomOf="@id/imageView_type"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView_star"
-                    app:layout_constraintStart_toEndOf="@id/imageView_type"
-                    app:layout_constraintTop_toTopOf="@id/imageView_type" />
+                    app:layout_constraintBottom_toBottomOf="@id/ic_alcohol_type"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_star_type"
+                    app:layout_constraintStart_toEndOf="@id/ic_alcohol_type"
+                    app:layout_constraintTop_toTopOf="@id/ic_alcohol_type" />
 
                 <TextView
                     android:id="@+id/textView_dosu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
-                    android:gravity="center_horizontal"
-                    tools:text="0%"
-                    android:text="@{alcohol.abv}"
-                    android:lineSpacingExtra="2sp"
-                    android:textSize="@dimen/detail_default_textSize"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    app:layout_constraintEnd_toEndOf="@id/imageView_dosu"
-                    app:layout_constraintStart_toStartOf="@id/imageView_dosu"
-                    app:layout_constraintTop_toBottomOf="@id/imageView_dosu" />
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="2sp"
+                    android:text="@{alcohol.abv}"
+                    android:textSize="@dimen/detail_default_textSize"
+                    app:layout_constraintEnd_toEndOf="@id/ic_degree_type"
+                    app:layout_constraintStart_toStartOf="@id/ic_degree_type"
+                    app:layout_constraintTop_toBottomOf="@id/ic_degree_type"
+                    tools:text="0%" />
 
                 <ImageView
-                    android:id="@+id/imageView_star"
+                    android:id="@+id/ic_star_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:src="@mipmap/ic_star"
-                    app:layout_constraintBottom_toBottomOf="@id/imageView_dosu"
+                    app:layout_constraintBottom_toBottomOf="@id/ic_degree_type"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imageView_dosu"
-                    app:layout_constraintTop_toTopOf="@id/imageView_dosu" />
+                    app:layout_constraintStart_toEndOf="@id/ic_degree_type"
+                    app:layout_constraintTop_toTopOf="@id/ic_degree_type" />
 
                 <TextView
                     android:id="@+id/detail_icRatringScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
                     android:text="0.0 "
                     android:textSize="@dimen/detail_default_textSize"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    app:layout_constraintEnd_toEndOf="@id/imageView_star"
-                    app:layout_constraintStart_toStartOf="@id/imageView_star"
-                    app:layout_constraintTop_toBottomOf="@id/imageView_star" />
+                    app:layout_constraintEnd_toEndOf="@id/ic_star_type"
+                    app:layout_constraintStart_toStartOf="@id/ic_star_type"
+                    app:layout_constraintTop_toBottomOf="@id/ic_star_type" />
 
                 <Button
                     android:id="@+id/AlcoholDetail_evaluateButton"
@@ -296,26 +296,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_alcoholinfo"
-                >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_alcoholinfo">
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.45dp"
                     android:background="@color/light_grey2"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView_alcoholExplain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
                     android:text="주류설명"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_Size"
                     app:layout_constraintStart_toStartOf="parent"
@@ -324,26 +324,26 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.45dp"
-                    android:background="@color/orange"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@id/textView_alcoholExplain"
-                    app:layout_constraintBottom_toBottomOf="@id/textView_alcoholExplain"/>
+                    android:background="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_alcoholExplain"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView_alcoholExplain" />
 
                 <at.blogc.android.views.ExpandableTextView
                     android:id="@+id/textView_alcoholDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
                     android:lineSpacingExtra="8sp"
+                    android:maxLines="5"
+                    android:text="그랑 크뤼 전통에서 양조 된 장인의 페일 에일. 황금빛 비등과 부드러운 홉 향을 즐겨보세요. 고수풀과 낙원의 곡물이 매운 미각을 둥글게하여 부드럽게 녹아서 호피와 행복의 비단결로 마무리합니다! 어떤 계절이든 축하하세요! 즐겨!"
                     android:textColor="#333333"
                     android:textSize="@dimen/detail_default_textSize"
-                    android:maxLines="5"
                     app:animation_duration="170"
-                    android:ellipsize="end"
-                    android:text="그랑 크뤼 전통에서 양조 된 장인의 페일 에일. 황금빛 비등과 부드러운 홉 향을 즐겨보세요. 고수풀과 낙원의 곡물이 매운 미각을 둥글게하여 부드럽게 녹아서 호피와 행복의 비단결로 마무리합니다! 어떤 계절이든 축하하세요! 즐겨!"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textView_alcoholExplain" />
@@ -352,34 +352,32 @@
                     android:id="@+id/detail_expandableButton"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
-                    android:onClick="onClick"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/textView_alcoholDescription"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="onClick"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:orientation="horizontal">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcoholDescription">
 
                     <ImageView
                         android:id="@+id/detail_arrow"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@mipmap/down_errow"
-                        />
+                        android:src="@mipmap/down_errow" />
 
                     <TextView
                         android:id="@+id/detail_expandableText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textStyle="normal"
-                        android:textSize="12sp"
-                        android:textColor="#7b7b7b"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_vertical"
                         android:lineSpacingExtra="5sp"
                         android:text="더보기"
-                        android:gravity="center_vertical"
-                        android:layout_marginStart="5dp"
-                        />
+                        android:textColor="#7b7b7b"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
                 </LinearLayout>
 
 
@@ -389,63 +387,62 @@
                 android:id="@+id/detail_component"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_description"
-                >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_description">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.45dp"
                     android:background="@color/light_grey2"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView_alcoholinfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
                     android:text="주류정보"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_Size"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/alcoholComponent_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/textView_alcoholinfo"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcoholinfo" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail_chart"
                 android:layout_width="match_parent"
-                android:background="@color/white"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_component"
-                android:layout_height="wrap_content">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_component">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.45dp"
                     android:background="@color/light_grey2"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView_evalutionScore"
@@ -453,14 +450,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="18dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
                     android:text="사용자 평가지표"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_Size"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Space
                     android:id="@+id/detail_space_top"
@@ -474,10 +471,10 @@
                     android:id="@+id/radarChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -492,7 +489,7 @@
                     android:src="@mipmap/user_indicator"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_space_top"/>
+                    app:layout_constraintTop_toBottomOf="@+id/detail_space_top" />
 
                 <Space
                     android:id="@+id/detail_space"
@@ -504,27 +501,27 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginTop="8dp"
-                android:id="@+id/detail_review"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_chart">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.45dp"
                     android:background="@color/light_grey2"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView_juryuReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="18dp"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
                     android:text="주류리뷰"
@@ -540,8 +537,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:gravity="center_horizontal"
-                    android:lineSpacingExtra="1sp"
                     android:hint="0개"
+                    android:lineSpacingExtra="1sp"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/title_Size"
                     android:textStyle="bold"
@@ -555,8 +552,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="51dp"
                     android:gravity="center_horizontal"
-                    android:lineSpacingExtra="4sp"
                     android:hint="0"
+                    android:lineSpacingExtra="4sp"
                     android:textColor="#000000"
                     android:textSize="@dimen/detail_review_Score"
                     android:textStyle="bold"
@@ -606,30 +603,30 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/alcoholDetail_scoreSeekbar" />
-                
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_review"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_review" />
+
             <ImageView
+                setting_icon_str="@{alcohol.media.get(0).mediaResource.medium.src.toString()}"
                 android:layout_width="@dimen/alcoholSize_width"
                 android:layout_height="@dimen/alcoholSize_height"
+                android:layout_marginTop="45dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                setting_icon_str="@{alcohol.media.get(0).mediaResource.medium.src.toString()}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@mipmap/nuggi"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_380_guideLine"
-                app:layout_constraintVertical_bias="1"
-                android:layout_marginTop="45dp"
-                android:src="@mipmap/nuggi" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

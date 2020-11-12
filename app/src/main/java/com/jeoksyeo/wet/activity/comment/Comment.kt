@@ -103,7 +103,9 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.comment_window_evaluateButton->{commentPresenter.setComment(this,alcohol?.alcoholId,alcohol?.name?.kr)}
+            R.id.comment_window_evaluateButton->{
+                myComment?.let { commentPresenter.editMyComment(this,alcohol?.alcoholId!!,myComment?.reviewId!!) }
+                    ?: commentPresenter.setComment(this,alcohol?.alcoholId,alcohol?.name?.kr)}
 
             R.id.compoent_aroma -> {
                 with(commentPresenter.createBalloon(this,R.string.explainAroma)){

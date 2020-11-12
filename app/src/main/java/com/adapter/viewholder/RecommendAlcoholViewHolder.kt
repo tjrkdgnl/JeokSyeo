@@ -1,6 +1,7 @@
 package com.adapter.viewholder
 
 import android.view.ViewGroup
+import com.application.GlobalApplication
 import com.base.BaseViewHolder
 import com.model.recommend_alcohol.AlcoholList
 import com.vuforia.engine.wet.R
@@ -21,6 +22,10 @@ class RecommendAlcoholViewHolder(parent:ViewGroup)
 
         data.review?.score?.let {
             binding.activityMainRecommendRatingBar.rating =it
+        }
+
+        data.alcoholLikeCount?.let {
+            binding.activityMainLikeCount.text = GlobalApplication.instance.checkCount(it)
         }
     }
 }

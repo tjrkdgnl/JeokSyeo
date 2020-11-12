@@ -2,7 +2,6 @@ package com.adapter.navigation
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.jeoksyeo.wet.activity.setting.SettingActivity
 import com.model.navigation.NavigationItem
-import com.vuforia.engine.wet.R
 
 class NavigationAdpater(
     private val context: Context,

@@ -1,6 +1,7 @@
 package com.adapter.viewholder
 
 import android.view.ViewGroup
+import com.application.GlobalApplication
 import com.base.BaseViewHolder
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
@@ -10,6 +11,18 @@ class AlcoholCategoryGridViewHolder(parent:ViewGroup): BaseViewHolder<AlcoholLis
     override fun bind(data: AlcoholList) {
         binding.alcohol = data
         binding.executePendingBindings()
-    }
 
+
+        data.likeCount?.let {
+            binding.textViewGridHeartCount.text = GlobalApplication.instance.checkCount(it)
+        }
+
+        data.review?.reviewCount?.let {
+            binding.textViewGridCommentCount.text =GlobalApplication.instance.checkCount(it)
+        }
+
+        data.viewCount?.let {
+            binding.categoryGridEyeCount.text = GlobalApplication.instance.checkCount(it)
+        }
+    }
 }

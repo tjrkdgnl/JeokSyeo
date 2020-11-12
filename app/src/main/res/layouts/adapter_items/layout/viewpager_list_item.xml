@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{alcohol.likeCount.toString()}"
+                android:text="0"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listHeart"
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{alcohol.review.reviewCount.toString()}"
+                android:text="0"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listcommnet"
@@ -213,7 +213,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/list_eye"
                 app:layout_constraintStart_toEndOf="@id/list_eye"
                 app:layout_constraintTop_toTopOf="@id/list_eye"
-                android:text="@{alcohol.viewCount.toString()}" />
+                android:text="0" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/myFavorite_brokenItem"

@@ -145,6 +145,9 @@ dependencies {
 
     implementation 'me.itangqi.waveloadingview:library:0.3.5'
 
+
+    implementation 'com.github.jorgecastilloprz:fillableloaders:1.03@aar'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

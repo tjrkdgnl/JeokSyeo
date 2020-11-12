@@ -124,14 +124,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:lineSpacingExtra="3sp"
-                android:text="@{recommendItem.alcoholLikeCount.toString()}"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="@dimen/recommand_alcoholNumber"
                 app:layout_constraintBottom_toBottomOf="@id/activtyMain_like_img"
                 app:layout_constraintEnd_toEndOf="@id/activityMain_alcoholDegree"
                 app:layout_constraintStart_toStartOf="@id/activityMain_alcoholDegree"
                 app:layout_constraintTop_toTopOf="@id/activtyMain_like_img"
-                tools:text="53" />
+                 />
 
             <ImageView
                 android:id="@+id/activtyMain_like_img"

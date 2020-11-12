@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcoholdetail.DepthComponentAdapter
 import com.base.BaseViewHolder
-import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholComponentItemRecyclerviewBinding

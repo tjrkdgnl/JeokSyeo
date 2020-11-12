@@ -109,6 +109,7 @@ class AlcoholRatedAdapter(private val context: Context,
                 okButton.text = "수정"
 
                 okButton.setOnClickListener {
+                    //comment 화면에 보여질 주류 정보를 얻기
                     compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                         .getAlcoholDetail(GlobalApplication.userBuilder.createUUID
                             ,GlobalApplication.userInfo.getAccessToken(), lst[position].alcohol?.alcoholId!!)
@@ -118,12 +119,15 @@ class AlcoholRatedAdapter(private val context: Context,
                             val bundle = Bundle()
                             bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,alcohol.data?.alcohol)
 
+                            //내가 남긴 코멘트 정보 가져오기
                             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                                 .getCommentOfAlcohol(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
                                     lst[position].alcohol?.alcoholId!!,lst[position].reviewId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe({comment->
+                                    dialog.dismiss()
+
                                     bundle.putParcelable(GlobalApplication.MOVE_MY_COMMENT,comment.data?.review)
                                     GlobalApplication.instance.moveActivity(context, Comment::class.java
                                         ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)

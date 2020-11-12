@@ -73,6 +73,7 @@ class CommentPresenter : CommentContract.BasePresenter {
             .build()
     }
 
+    //주류에 대한 코멘트를 작성하는 메소드
     override fun setComment(context: Context, alcoholId: String?, alcoholName: String?) {
         val map = HashMap<String, Any>()
         map.put("contents", view.getView().commentWindowCommentEditText.text.toString())
@@ -131,6 +132,7 @@ class CommentPresenter : CommentContract.BasePresenter {
         disposable?.dispose()
     }
 
+    //내가 남긴 코멘트 셋팅하는 메서드
     override fun setMyComment(myComment: Comment) {
         view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.setProgress(myComment.aroma?.toFloat()!!)
         view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.setProgress(myComment.mouthfeel?.toFloat()!!)
@@ -147,5 +149,41 @@ class CommentPresenter : CommentContract.BasePresenter {
         }
 
         view.getView().commentWindowEvaluateButton.isEnabled =true
+    }
+
+    override fun editMyComment(context:Context,alcoholId: String,commentId:String) {
+        val map = HashMap<String, Any>()
+        map["contents"] = view.getView().commentWindowCommentEditText.text.toString()
+        map["aroma"] = view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.progressFloat
+        map["mouthfeel"] = view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.progressFloat
+        map["taste"] = view.getView().commentWindowBottomInclude.commentWindowTasteSeekbar.progressFloat
+        map["appearance"] = view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.progressFloat
+        map["overall"] = view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
+
+        Log.e("아로마", map["aroma"].toString())
+        val check =JWTUtil.settingUserInfo(false)
+        if(check){
+            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                .editMyRatedReview(
+                    GlobalApplication.userBuilder.createUUID,
+                    GlobalApplication.userInfo.getAccessToken(),alcoholId,commentId,map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.let { result ->
+                        result.result?.let {
+                            if (it == "SUCCESS") {
+                                Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                                (context as Activity).finish()
+                            } else
+                                Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
+                                    .show()
+                        }
+                    }
+                }, { t -> Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
+        }
+        else{
+            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
 }

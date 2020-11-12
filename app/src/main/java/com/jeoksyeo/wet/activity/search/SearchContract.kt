@@ -1,0 +1,30 @@
+package com.jeoksyeo.wet.activity.search
+
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.model.alcohol_category.AlcoholList
+import com.vuforia.engine.wet.databinding.SearchBinding
+
+interface SearchContract {
+
+    interface BaseVIew{
+        fun getView():SearchBinding
+
+        fun updateRelativeList(list:MutableList<String>)
+        fun setSearchList(list:MutableList<AlcoholList>)
+        fun updatePaging(list:MutableList<AlcoholList>)
+        fun changeAdapter(keyword: String?)
+        fun noSearchItem(check:Boolean)
+
+    }
+
+
+    interface BasePresenter{
+        var view:BaseVIew
+        var layoutManager:LinearLayoutManager
+
+        fun detach()
+        fun setSearchResult(keyword:String?)
+
+        fun setRelativeSearch(keyword:String?)
+    }
+}

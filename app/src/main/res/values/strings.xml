@@ -18,4 +18,5 @@
     <string name="explainTaste">사람은 다섯가지 맛(미각)과 아로마(후각)의 복합적인 인지로 전체적인 풍미\n를 즐길 수 있습니다.</string>
     <string name="explainAppearance">시각적 특징은 색깔과 투명성, 헤드 등으로 구분되며, 원료의 볶음 ·숙성 정도,\n효모의 여과 여부로 차이가 발생합니다.</string>
     <string name="explainOverall">아로마, 맛, 마우스필 등 플레이버의 복\n합적인 조화를 의미합니다. 직감적으로\n알 수 있는 개인의 호불호를 평가합니다.</string>
+
 </resources>

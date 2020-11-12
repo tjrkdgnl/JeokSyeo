@@ -24,6 +24,7 @@ object ErrorManager {
     val MY_COMMENT ="내 코멘트 보기 에러"
 
     val COMMENT ="코멘트 작성 에러"
+    val COMMENT_EDIT ="코멘트 수정 에러"
     val REVIEW = "리뷰 조회 에러"
     val BANNER ="배너 조회 에러"
     val REVIEW_DUPLICATE = "리뷰 중복 체크 에러"
@@ -41,4 +42,7 @@ object ErrorManager {
 
     val LEVEL_INFO = "레벨 조회 에러"
     val JWT_ERROR = "JWT 에러"
+
+    val RELATIVE_SEARCH ="연관검색어 조회 에러"
+    val SEARCH ="주류 검색 에러"
 }

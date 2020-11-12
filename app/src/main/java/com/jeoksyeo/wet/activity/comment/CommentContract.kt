@@ -21,6 +21,7 @@ interface CommentContract {
         fun setComment(context: Context,alcoholId:String?,alcoholName:String?)
         fun detachView()
         fun setMyComment(myComment:Comment)
+        fun editMyComment(context: Context,alcoholId: String,commentId:String)
 
     }
 

@@ -85,7 +85,7 @@ class GlobalApplication : Application() {
 
     fun getLevelName(positon: Int) = levelList[positon]
 
-    fun checkCount(value:Int,count:Int=0)=  if(value >10000) "9999+" else (value+count).toString()
+    fun checkCount(value:Int,count:Int=0)=  if(value >=10000) "9999+" else (value+count).toString()
 
     //액티비티 전환
     fun moveActivity(context: Context,activityClass:Class<*>,flag:Int=0,bundle:Bundle? = null,bundleFlag:String?=null){
