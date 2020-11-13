@@ -10,6 +10,12 @@ class Data {
     @Expose
     var pagingInfo: PageInfo? = null
 
+
+    @SerializedName("summary")
+    @Expose
+    var summary: Summary? = null
+
+
     @SerializedName("reviewList")
     @Expose
     var reviewList: List<ReviewList>? = null

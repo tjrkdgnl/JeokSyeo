@@ -75,7 +75,7 @@
                 android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="@id/rated_item_name"
                 app:layout_constraintTop_toBottomOf="@id/rated_item_name"
-                android:text="@{review.alcohol.brewery.get(0).name.kr.toString()}" />
+                android:text="@{review.alcohol.brewery.get(0).name.toString()}" />
 
             <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/rated_item_ratingbar"

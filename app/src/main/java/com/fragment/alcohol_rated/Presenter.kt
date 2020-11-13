@@ -11,6 +11,7 @@ import com.model.rated.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.viewmodel.RatedViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +21,7 @@ class Presenter :FragmentRated_Contract.BasePresenter {
     override var position: Int =0
     override lateinit var view: FragmentRated_Contract.BaseView
     override lateinit var smoothScrollListener: Fragment_alcoholRated.SmoothScrollListener
+    override lateinit var viewmodel: RatedViewModel
 
     private val compositeDisposable = CompositeDisposable()
     private var visibleItemCount = 0
@@ -41,6 +43,10 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                 .subscribe({
                     it.data?.pagingInfo?.page?.let {
                         pageNum =it.toInt() +1
+                    }
+
+                    it.data?.summary?.let {summary->
+                        viewmodel.reviewCount.value = summary.reviewCount!!
                     }
 
                     it.data?.reviewList?.let { lst->

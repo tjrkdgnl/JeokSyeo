@@ -3,6 +3,7 @@ package com.fragment.alcohol_rated
 import android.content.Context
 import com.adapter.alcohol_rated.AlcoholRatedAdapter
 import com.custom.CenterSmoothScroller
+import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 
 interface FragmentRated_Contract {
@@ -14,6 +15,7 @@ interface FragmentRated_Contract {
     interface BasePresenter{
         var position:Int
         var view:BaseView
+        var viewmodel : RatedViewModel
         var smoothScrollListener:Fragment_alcoholRated.SmoothScrollListener
         fun initRatedList(context: Context)
     }

@@ -90,9 +90,6 @@ interface ApiService {
     fun getMyRatedList(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                        @Query("f")alcoholType:String?,@Query("c")alcoholCount:Int,@Query("p")pageNumber:Int) :Flowable<GetRatedList>
 
-    @GET("v1/users/reviews/summary")
-    fun getMyRatedReviewSum(@Header("X-Request-ID")UUID: String, @Header("Authorization")token: String?) :Single<GetMyReviewSum>
-
     @GET("v1/users")
     fun getUserInfo(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?):Single<GetUserInfo>
 

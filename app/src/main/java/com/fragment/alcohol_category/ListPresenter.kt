@@ -11,6 +11,7 @@ import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,6 +20,8 @@ import io.reactivex.schedulers.Schedulers
 
 class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     override lateinit var view: Fg_AlcoholCategoryContact.BaseView
+    private lateinit var viewModel: AlcoholCategoryViewModel
+
     private val binding by lazy {
         view.getbinding() as FragmentAlcholCategoryListBinding
     }
@@ -55,6 +58,8 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
                         info.alcoholTotalCount?.let {total ->
+                            viewModel.totalCountList[position] = total
+                            viewModel.currentPosition.value = position
                         }
                         info.page?.let {pageNumber->
                             pageNum = pageNumber.toInt()

@@ -57,7 +57,9 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
                         info.alcoholTotalCount?.let {total ->
-                            viewModel.totalCountList[position] = total }
+                            viewModel.totalCountList[position] = total
+                            viewModel.currentPosition.value = position
+                        }
                         info.page?.let {pageNumber->
                             pageNum = pageNumber.toInt() }
                     }

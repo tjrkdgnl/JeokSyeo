@@ -10,7 +10,7 @@ class AlcoholCategoryViewModel: ViewModel() {
     var currentSort:String = GlobalApplication.DEFAULT_SORT
 
 
-    var currentPosition = MutableLiveData<Int>(0)
+    var currentPosition = MutableLiveData(0)
 
-    var totalCountList = mutableListOf<Int>(0,0,0,0,0)
+    var totalCountList = mutableListOf(0,0,0,0,0)
 }

@@ -467,7 +467,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textView_evalutionScore" />
 
-                <LinearLayout
+                <com.github.mikephil.charting.charts.RadarChart
                     android:id="@+id/radarChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"

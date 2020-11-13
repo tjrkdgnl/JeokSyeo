@@ -148,6 +148,10 @@ dependencies {
 
     implementation 'com.github.jorgecastilloprz:fillableloaders:1.03@aar'
 
+
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

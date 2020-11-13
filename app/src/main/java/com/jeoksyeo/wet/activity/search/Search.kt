@@ -1,8 +1,8 @@
 package com.jeoksyeo.wet.activity.search
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -14,18 +14,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcohol_category.ListAdapter
 import com.adapter.search.SearchAdapter
+import com.application.GlobalApplication
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SearchBinding
 import io.reactivex.disposables.CompositeDisposable
 
-class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchContract.BaseVIew ,View.OnKeyListener{
+class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchContract.BaseVIew,
+    View.OnKeyListener {
     private lateinit var binding: SearchBinding
     private val compositeDisposable = CompositeDisposable()
     private var searchAdapter: SearchAdapter? = null
     private var listAdapter: ListAdapter? = null
     private lateinit var presenter: Presenter
     private lateinit var layoutManager: LinearLayoutManager
+    private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +44,11 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         hideKeypad(binding.editTextSearch)
         binding.editTextSearch.addTextChangedListener(this)
 
-        searchAdapter = SearchAdapter(this, listOf<String>().toMutableList(), this)
+        searchAdapter = initSearchAdapter()
         binding.recyclerViewSearchlist.adapter = searchAdapter
         binding.recyclerViewSearchlist.setHasFixedSize(true)
         binding.recyclerViewSearchlist.layoutManager = layoutManager
     }
-
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -68,24 +70,37 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        presenter.pageNum=1 // 검색 결과로 인한 페이지 체크는 어댑터가 달라지면 초기화해야함.
-        noSearchItem(false)
-        presenter.setRelativeSearch(s.toString())
-    }
+        // 300ms 이전이면 메세지 큐에 담겨져있는 Runnable 객체 모두 삭제하여 실행 안되도록 막음
+        handler.removeCallbacksAndMessages(null)
+        handler.postDelayed(Runnable {
+            presenter.pageNum = 1
+            noSearchItem(false)
+            presenter.setRelativeSearch(s.toString())
+        }, 300)
 
+    }
 
     //바인딩 객체 전달
     override fun getView(): SearchBinding {
         return binding
     }
 
+    override fun initSearchAdapter(): SearchAdapter {
+        return GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
+            SearchAdapter(this, lst.toMutableList(), this)
+        } ?: SearchAdapter(this, mutableListOf<String>().apply {
+            this.add("-1")
+        }, this)
+    }
+
     //사용자가 입력한 키워드에 따르는 연관겁색어 업데이트
     override fun updateRelativeList(list: MutableList<String>) {
-        if(binding.textViewRecentSearch.text !="연관검색어")
+        if (binding.textViewRecentSearch.text != "연관검색어") {
             binding.textViewRecentSearch.text = "연관검색어"
+            binding.recyclerViewSearchlist.adapter = searchAdapter
+        }
 
         searchAdapter?.updateList(list)
-        binding.recyclerViewSearchlist.adapter = searchAdapter
     }
 
     //키워드 검색 api의 결과로 받은 리스트를 리스트어댑터의 파라미터로 받아서 셋팅하는 메서드
@@ -102,15 +117,18 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     //연관검색어에서 검색결과로 어댑터 전환
     //프레젠터를 통해서 키워드에 대한 검색 결과 api를 실행
     override fun changeAdapter(keyword: String?) {
+        binding.textViewRecentSearch.text = "검색 결과"
         presenter.setSearchResult(keyword)
     }
 
-    override fun noSearchItem(check:Boolean) {
-        if(check){
+    override fun noSearchItem(check: Boolean) {
+        if (check) {
             binding.noSearchItem.root.visibility = View.VISIBLE
-        }
-        else{
-            binding.noSearchItem.root.visibility=View.INVISIBLE
+            binding.recyclerViewSearchlist.visibility = View.INVISIBLE
+        } else {
+            binding.noSearchItem.root.visibility = View.INVISIBLE
+            binding.recyclerViewSearchlist.visibility = View.VISIBLE
+
         }
     }
 

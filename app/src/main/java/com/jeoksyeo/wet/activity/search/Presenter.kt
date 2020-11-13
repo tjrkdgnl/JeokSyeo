@@ -49,12 +49,11 @@ class Presenter : SearchContract.BasePresenter {
                         pageNum = page.toInt() + 1
                     }
                     it.data?.alcoholList?.let { lst ->
-                        if(lst.isNotEmpty()){
+                        if (lst.isNotEmpty()) {
                             view.noSearchItem(false)
                             view.setSearchList(lst.toMutableList())
                             setListener(keyword)
-                        }
-                        else{
+                        } else {
                             view.noSearchItem(true)
                         }
                     }
@@ -118,20 +117,46 @@ class Presenter : SearchContract.BasePresenter {
     }
 
     override fun setRelativeSearch(keyword: String?) {
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .getRelativeKeyword(
-                GlobalApplication.userBuilder.createUUID,
-                GlobalApplication.userInfo.getAccessToken(), keyword
-            )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                it.data?.alcoholList?.let { lst ->
-                    view.updateRelativeList(lst.toMutableList())
-                }
-            }, { t ->
-                Log.e(ErrorManager.RELATIVE_SEARCH, t.message.toString())
-            })
+        Log.e("현재 키워드", keyword.toString())
+
+        var alcholKeyword = ""
+
+        if(keyword =="") //빈 값일 때는 사용자가 검색어를 모두 지웠을 때다. 따라서 최근 검색어가 표시되어야한다.
+        {
+            alcholKeyword = "-1"
+            view.getView().textViewRecentSearch.text = "최근검색어"
+        }
+        else
+            alcholKeyword = keyword!!
+
+        compositeDisposable.add(
+            ApiGenerator.retrofit.create(ApiService::class.java)
+                .getRelativeKeyword(
+                    GlobalApplication.userBuilder.createUUID,
+                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.alcoholList?.let { lst ->
+                        if (lst.isNotEmpty())
+                            view.updateRelativeList(lst.toMutableList())
+                        else if(alcholKeyword =="-1")
+                            if(GlobalApplication.userDataBase.getKeywordList()?.size !=0){
+                                GlobalApplication.userDataBase.getKeywordList()?.let { lst->
+                                    view.updateRelativeList(lst)
+                                }
+                            }
+                            else{
+                                view.updateRelativeList(mutableListOf<String>().apply {
+                                    this.add("-1")
+                                })
+                            }
+
+                    }
+                }, { t ->
+                    Log.e(ErrorManager.RELATIVE_SEARCH, t.message.toString())
+                })
         )
     }
 

@@ -32,5 +32,9 @@ interface AlcoholDetailContract {
         fun expandableText()
 
         fun checkReviewDuplicate(context: Context)
+
+        fun initRadarChart()
+
+
     }
 }

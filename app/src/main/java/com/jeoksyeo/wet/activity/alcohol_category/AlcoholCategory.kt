@@ -50,7 +50,6 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
             val selectPosition = bundle?.getInt(GlobalApplication.MOVE_TYPE)
             selectPosition?.let {
                 binding.viewPager2Container.currentItem = it
-                viewModel.currentPosition.value=it
             }
         }
 

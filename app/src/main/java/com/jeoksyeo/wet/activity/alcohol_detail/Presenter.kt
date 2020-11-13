@@ -15,9 +15,15 @@ import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
+import com.model.review.ReviewInfo
 import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -65,6 +71,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
             alchol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
             alchol?.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
+
                 view.getView().alcohol = alcholData
 
                 initComponent(context) //주류 성분 표시 셋팅
@@ -376,6 +383,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             }
                         } else {
                             //차트 여부 표시
+                            initRadarChart()
+
                             view.getView().radarChart.visibility = View.VISIBLE
                             view.getView().userIndicator.visibility = View.INVISIBLE
 
@@ -480,5 +489,93 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         } else {
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
+    }
+
+
+    override fun initRadarChart() {
+        view.getView().radarChart.scaleX = 1.35f
+        view.getView().radarChart.scaleY = 1.35f
+        view.getView().radarChart.isRotationEnabled =false
+
+        view.getView().radarChart.setBackgroundColor(context.resources.getColor(R.color.white,null))
+        view.getView().radarChart.description =null
+
+        view.getView().radarChart.webLineWidthInner =1f
+        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.white,null)
+        view.getView().radarChart.webAlpha = 100
+
+
+        setRadarChartData()
+
+        val xAxis = view.getView().radarChart.xAxis
+        xAxis.textSize ==11f
+        xAxis.yOffset =0f
+        xAxis.xOffset =1f
+        xAxis.valueFormatter = object :ValueFormatter(){
+            private val name = listOf("아로마", "마우스필", "어울림", "시각적특징", "테이스트")
+
+            override fun getFormattedValue(value: Float): String {
+                return name[value.toInt() % name.size]
+            }
+        }
+    }
+
+    private fun setRadarChartData(){
+        val backgroundDataEntry = mutableListOf<RadarEntry>()
+        val dataEntry = mutableListOf<RadarEntry>()
+
+        alchol?.let {
+            it.review?.let {review->
+
+                review.reviewCount?.let { total->
+                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
+                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
+                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
+                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
+                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
+                }
+                review.appearance?.let {
+                    dataEntry.add(RadarEntry(it.toFloat()))
+                }
+                review.aroma?.let {
+                    dataEntry.add(RadarEntry(it.toFloat()))
+                }
+                review.taste?.let {
+                    dataEntry.add(RadarEntry(it.toFloat()))
+                }
+                review.mouthfeel?.let {
+                    dataEntry.add(RadarEntry(it.toFloat()))
+                }
+                review.overall?.let {
+                    dataEntry.add(RadarEntry(it.toFloat()))
+                }
+            }
+        }
+
+        val backgroundSet = RadarDataSet(backgroundDataEntry,"background")
+        backgroundSet.color = context.resources.getColor(R.color.light_grey,null)
+        backgroundSet.fillColor = context.resources.getColor(R.color.light_grey,null)
+        backgroundSet.setDrawFilled(true)
+        backgroundSet.fillAlpha =180
+        backgroundSet.isDrawHighlightCircleEnabled =true
+        backgroundSet.setDrawHighlightIndicators(false)
+
+        val dataSet = RadarDataSet(dataEntry,"data")
+        dataSet.color = context.resources.getColor(R.color.orange,null)
+        dataSet.fillColor = context.resources.getColor(R.color.orange,null)
+        dataSet.setDrawFilled(true)
+        dataSet.fillAlpha =180
+        dataSet.isDrawHighlightCircleEnabled =true
+        dataSet.setDrawHighlightIndicators(false)
+
+        val sets = mutableListOf<IRadarDataSet>()
+        sets.add(backgroundSet)
+        sets.add(dataSet)
+
+        val data = RadarData(sets)
+        data.setDrawValues(false)
+        view.getView().radarChart.data = data
+        view.getView().radarChart.invalidate()
+
     }
 }

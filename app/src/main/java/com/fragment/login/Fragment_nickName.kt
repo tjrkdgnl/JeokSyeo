@@ -2,6 +2,7 @@ package com.fragment.login
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -34,6 +35,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
     private var checkTotalAgreement = false
     private var checkNickname = false
     private lateinit var nicknameDisposable: Disposable
+    private val handler = Handler()
 
     companion object {
         fun newInstance(): Fragment_nickName {
@@ -69,32 +71,46 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         if (binding.insertInfoEditText.text.toString().isNotBlank()) {
             if (check) {
                 //api 설정
-                nicknameDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                    .checkNickName(GlobalApplication.userBuilder.createUUID, binding.insertInfoEditText.text.toString())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        //result=true면 닉네임 중복을 의미
-                        if(!it.data?.result!!){
-                            checkNickname = binding.insertInfoEditText.text.toString().isNotEmpty()
-                            binding.checkNickNameText.visibility = View.VISIBLE
-                            binding.checkNickNameText.text = getString(R.string.useNickName)
-                            binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
-                            binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
-                        }
-                    }, {t ->Log.e(ErrorManager.NICKNAME_DUPLICATE,t.message.toString())})
+                handler.removeCallbacksAndMessages(null)
+                handler.postDelayed(Runnable { //서버 과부화를 막기위해서 300ms 이후에 조회 요청
+                    nicknameDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                        .checkNickName(GlobalApplication.userBuilder.createUUID, binding.insertInfoEditText.text.toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            //result=true면 닉네임 중복을 의미
+                            if(!it.data?.result!!){
+                                checkNickname = binding.insertInfoEditText.text.toString().isNotEmpty()
+                                setGreen()
+                            } else{
+                                setRed()
+                            }
+
+                        }, {t ->Log.e(ErrorManager.NICKNAME_DUPLICATE,t.message.toString())})
+                },300)
             } else {
-                binding.checkNickNameText.visibility = View.VISIBLE
-                binding.checkNickNameText.text = getString(R.string.dontUseNickName)
-                binding.insertNameLinearLayout.background =
-                    resources.getDrawable(R.drawable.bottom_line_red, null)
-                binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
+                setRed()
             }
         } else {
             binding.insertNameLinearLayout.background =
                 resources.getDrawable(R.drawable.bottom_line, null)
             binding.checkNickNameText.visibility = View.INVISIBLE
         }
+    }
+
+    private fun setGreen(){
+        binding.checkNickNameText.visibility = View.VISIBLE
+        binding.checkNickNameText.text = getString(R.string.useNickName)
+        binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
+        binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
+    }
+
+    private fun setRed(){
+        binding.checkNickNameText.visibility = View.VISIBLE
+        binding.checkNickNameText.text = getString(R.string.dontUseNickName)
+        binding.insertNameLinearLayout.background =
+            resources.getDrawable(R.drawable.bottom_line_red, null)
+        binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
     }
 
     fun hideKeypad(edit_nickname: EditText) {

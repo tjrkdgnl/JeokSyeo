@@ -1,6 +1,7 @@
 package com.adapter.viewholder
 
 import android.view.ViewGroup
+import com.application.GlobalApplication
 import com.base.BaseViewHolder
 import com.jeoksyeo.wet.activity.search.SearchContract
 import com.vuforia.engine.wet.R
@@ -13,9 +14,9 @@ class SearchViewHolder(parent: ViewGroup, val searchInterface: SearchContract.Ba
         getViewBinding().item = data
         getViewBinding().executePendingBindings()
 
-
         getViewBinding().searchContentsLayout.setOnClickListener {
             searchInterface.changeAdapter(data)
+            GlobalApplication.userDataBase.setKeyword(data)
         }
     }
 }

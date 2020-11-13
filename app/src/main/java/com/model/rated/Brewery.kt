@@ -27,7 +27,7 @@ class Brewery {
 
     @SerializedName("name")
     @Expose
-    var name: Name? = null
+    var name: String? = null
 
     @SerializedName("brewery_id")
     @Expose

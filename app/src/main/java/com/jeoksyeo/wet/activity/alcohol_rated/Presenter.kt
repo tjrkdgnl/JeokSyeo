@@ -26,7 +26,6 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
     override fun initProfile(provider:String?) {
         provider?.let {
             view.getView().alcoholRatedName.text = GlobalApplication.userInfo.nickName +"님,"
-            getMyReviewCount()
         }
     }
 
@@ -45,23 +44,5 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
                     textView.gravity = Gravity.CENTER_HORIZONTAL
                 }).attach()
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-     fun getMyReviewCount() {
-        JWTUtil.settingUserInfo(false)
-        compositeDisposable.add(
-            ApiGenerator.retrofit.create(ApiService::class.java)
-            .getMyRatedReviewSum(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                it.data?.summary?.let {sum->
-                    view.getView().ratedCountText.text = "총 " + sum.reviewCount.toString() +"개의 주류를 평가하셨습니다."
-                    view.getView().ratedLevelName.text ="LV" + sum.level.toString() +". " + GlobalApplication.instance.getLevelName(sum.level!!)
-                }
-            },{t->
-                Log.e("총 리뷰 개수 조회 에러",t.message.toString())
-            }))
     }
 }
