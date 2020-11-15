@@ -414,6 +414,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.45dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_alcoholinfo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView_alcoholinfo" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/alcoholComponent_recyclerView"
                     android:layout_width="match_parent"
@@ -458,6 +467,15 @@
                     android:textSize="@dimen/title_Size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.45dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_evalutionScore"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView_evalutionScore" />
 
                 <Space
                     android:id="@+id/detail_space_top"
@@ -544,6 +562,15 @@
                     app:layout_constraintBottom_toBottomOf="@id/textView_juryuReview"
                     app:layout_constraintStart_toEndOf="@id/textView_juryuReview"
                     app:layout_constraintTop_toTopOf="@id/textView_juryuReview" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.45dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="@id/alcohol_reviewSumCountText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/alcohol_reviewSumCountText" />
 
                 <TextView
                     android:id="@+id/alcoholDetail_reviewTotalscore"

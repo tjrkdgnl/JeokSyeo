@@ -37,8 +37,8 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
         val viewmodel = ViewModelProvider(this).get(RatedViewModel::class.java)
 
         viewmodel.reviewCount.observe(this, Observer {
-           binding.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
-          binding.ratedLevelName.text ="LV ${it}. " + GlobalApplication.instance.getLevelName(it)
+           binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
+          binding.profileHeader.ratedLevelName.text ="LV ${it}. " + GlobalApplication.instance.getLevelName(it)
         })
     }
 

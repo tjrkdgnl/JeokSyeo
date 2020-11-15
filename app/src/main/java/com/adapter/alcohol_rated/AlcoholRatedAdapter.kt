@@ -95,7 +95,7 @@ class AlcoholRatedAdapter(private val context: Context,
                             t->Log.e("내가 평가한 리뷰 삭제 에러",t.message.toString())
                         }))
                 }
-                cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+                cancelButton.setOnClickListener {  dialog.dismiss() }
             }
 
             //리뷰 수정
@@ -137,7 +137,7 @@ class AlcoholRatedAdapter(private val context: Context,
                             Log.e(com.error.ErrorManager.ALCHOL_DETAIL,t.message.toString())
                         }))
                 }
-                cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+                cancelButton.setOnClickListener {  dialog.dismiss() }
             }
         }
     }

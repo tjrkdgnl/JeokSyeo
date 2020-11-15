@@ -11,6 +11,7 @@ import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.jeoksyeo.wet.activity.alcohol_rated.AlcoholRated
 import com.jeoksyeo.wet.activity.editprofile.EditProfile
+import com.jeoksyeo.wet.activity.favorite.FavoriteActivity
 import com.jeoksyeo.wet.activity.level.LevelActivity
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
@@ -80,7 +81,7 @@ class NavigationAdpater(
                 1 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
                 2 -> { GlobalApplication.instance.moveActivity(context,AlcoholRated::class.java)}
                 3 -> {GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
-                4 -> {}
+                4 -> {GlobalApplication.instance.moveActivity(context,FavoriteActivity::class.java)}
             }
             // 프로바이더가 없으면 로그인을 통해 프로바이더를 얻어오기 위해서 로그인화면으로 유도
         } ?: CustomDialog.loginDialog(context,activityNumber)

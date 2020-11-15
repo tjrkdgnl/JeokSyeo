@@ -36,7 +36,6 @@ private var lst:MutableList<AlcoholList>) : RecyclerView.Adapter<RecommendAlcoho
         holder.bind(lst.get(position))
 
         holder.getViewBinding().recommendParentLayout.setOnSingleClickListener{
-            val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
             JWTUtil.settingUserInfo(false)
 
             lst[position].alcoholId?.let {alcoholId->

@@ -41,7 +41,6 @@ class AlcoholRankAdapter(
         holder.getViewBinding().rankingText.text = (position+1).toString()
 
         holder.getViewBinding().alcoholRankParentLayout.setOnSingleClickListener{
-            val loginCheck = GlobalApplication.userInfo.getAccessToken() !=null
             JWTUtil.settingUserInfo(false)
 
             lst[position].alcoholId?.let {alcoholId->

@@ -5,6 +5,7 @@ import com.model.alcohol_detail.GetAlcoholDetail
 import com.model.alcohol_ranking.GetAlcoholRanking
 import com.model.area.GetAreaData
 import com.model.banner.GetBannerData
+import com.model.favorite.GetFavoriteData
 import com.model.image_upload.GetImageUploadData
 import com.model.level.GetLevelData
 import com.model.my_comment.GetCommentData
@@ -108,6 +109,11 @@ interface ApiService {
     @GET("v1/alcohols/complete")
     fun getRelativeKeyword(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                       @Query("k")keyword:String?) :Flowable<GetRelavieKeyword>
+
+    @GET("v1/users/likes/alcohol")
+    fun getMyFavoriteAlcohol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
+                             @Query("f")type:String?,@Query("c")count:Int?,@Query("p")pageNum:Int):Flowable<GetFavoriteData>
+
 
 
     //삭제

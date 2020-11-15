@@ -32,6 +32,9 @@
         tools:replace ="android:label,android:allowBackup"
         tools:ignore="GoogleAppIndexingWarning">
 
+
+        <activity android:name="com.jeoksyeo.wet.activity.favorite.FavoriteActivity"/>
+
         <activity android:name="com.jeoksyeo.wet.activity.search.Search"/>
 
         <activity android:name="com.jeoksyeo.wet.activity.level.LevelActivity"

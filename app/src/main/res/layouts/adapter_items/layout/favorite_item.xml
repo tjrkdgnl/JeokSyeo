@@ -8,7 +8,7 @@
     <data>
         <variable
             name="alcohol"
-            type="com.model.alcohol_category.AlcoholList" />
+            type="com.model.favorite.AlcoholList" />
     </data>
 
     <LinearLayout
@@ -18,16 +18,14 @@
         android:background="@color/ligthGrey2"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/imageView_GridAhchol_img"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageView_favorite_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:background="@drawable/default_outline_round"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="1.2dp"
-            >
+            android:layout_marginRight="10dp">
 
             <ImageView
                 android:id="@+id/grid_mainImg"
@@ -37,21 +35,13 @@
                 setting_icon_str="@{alcohol.media.get(0).mediaResource.medium.src}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                tools:text="19%"
-                android:textSize="10sp"
-                android:text="@{alcohol.abv.toString()}"
-                android:textColor="#3f3f3f"
-                android:layout_gravity="right"
-                android:layout_marginEnd="11dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_corner_degree" />
-        </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -96,40 +86,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textView_GridAlcoholName_K"
                 tools:text="한국 경기도 평택" />
 
-            <com.willy.ratingbar.ScaleRatingBar
-                android:id="@+id/ratingBar_gridRatingbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcoholOrigin"
-                app:srb_clearRatingEnabled="true"
-                app:srb_clickable="false"
-                app:srb_drawableEmpty="@mipmap/middle_star_empty"
-                app:srb_drawableFilled="@mipmap/middle_star_full"
-                app:srb_isIndicator="false"
-                app:srb_minimumStars="0"
-                app:srb_numStars="5"
-                app:srb_rating="0"
-                app:srb_scrollable="false"
-                app:srb_starPadding="1.5dp"
-                app:srb_stepSize="0.5" />
 
-            <TextView
-                android:id="@+id/textView_gridRatingBarCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:lineSpacingExtra="3sp"
-                android:textColor="#b2b2b2"
-                android:textSize="@dimen/gridItem_default_textsize"
-                android:textStyle="bold"
-                android:text="@{alcohol.review.score.toString()}"
-                app:layout_constraintBottom_toBottomOf="@id/ratingBar_gridRatingbar"
-                app:layout_constraintStart_toEndOf="@id/ratingBar_gridRatingbar"
-                app:layout_constraintTop_toTopOf="@id/ratingBar_gridRatingbar"
-                tools:text="3.7" />
 
             <ImageView
                 android:id="@+id/imageView_gridHeart"
@@ -143,7 +100,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textView_gridHeartCount"
-                app:layout_constraintTop_toBottomOf="@id/ratingBar_gridRatingbar"
+                app:layout_constraintTop_toBottomOf="@id/textView_GridAlcoholOrigin"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintHorizontal_bias="0"
@@ -199,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12.1dp"
                 android:background="@null"
-                android:src="@mipmap/eye"
+                android:src="@mipmap/small_alchol"
                 app:layout_constraintEnd_toStartOf="@id/category_grid_eyeCount"
                 app:layout_constraintTop_toTopOf="@id/textView_gridCommentCount"
                 app:layout_constraintBottom_toBottomOf="@id/textView_gridCommentCount"

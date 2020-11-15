@@ -440,16 +440,17 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             it.score4Count!!
                         view.getView().alcoholDetailScoreSeekbar.score5Seekbar.progress =
                             it.score5Count!!
+
                         view.getView().alcoholDetailScoreSeekbar.score5.text =
-                            it.score5Count.toString()
+                            GlobalApplication.instance.checkCount(it.score5Count!!)
                         view.getView().alcoholDetailScoreSeekbar.score4.text =
-                            it.score4Count.toString()
+                            GlobalApplication.instance.checkCount(it.score4Count!!)
                         view.getView().alcoholDetailScoreSeekbar.score3.text =
-                            it.score3Count.toString()
+                            GlobalApplication.instance.checkCount(it.score3Count!!)
                         view.getView().alcoholDetailScoreSeekbar.score2.text =
-                            it.score2Count.toString()
+                            GlobalApplication.instance.checkCount(it.score2Count!!)
                         view.getView().alcoholDetailScoreSeekbar.score1.text =
-                            it.score1Count.toString()
+                            GlobalApplication.instance.checkCount(it.score1Count!!)
 
                         //rating 점수
                         view.getView().alcoholDetailReviewTotalscore.text = it.scoreAvg.toString()
@@ -512,15 +513,15 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
 
     override fun initRadarChart(review:Review) {
-        view.getView().radarChart.scaleX =1.34f
-        view.getView().radarChart.scaleY =1.34f
+        view.getView().radarChart.scaleX =1.33f
+        view.getView().radarChart.scaleY =1.33f
 
         view.getView().radarChart.isRotationEnabled =false //차트 회전
         view.getView().radarChart.description.isEnabled =false // 범례 값 설명
         view.getView().radarChart.legend.isEnabled =false //범례 값
         view.getView().radarChart.webLineWidth =0f //대각선 두께
         view.getView().radarChart.webColor = context.resources.getColor(R.color.white,null) // 대각선 색
-        view.getView().radarChart.webLineWidthInner =1f //내부선 두께
+        view.getView().radarChart.webLineWidthInner =0f //내부선 두께
         view.getView().radarChart.webColorInner = context.resources.getColor(R.color.light_grey3,null) //내부선 색
         view.getView().radarChart.webAlpha = 180 //내부선 투명도 , 255 - opaque , 0 - transparent
 
@@ -581,10 +582,10 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
 
         val bacgroundSet = RadarDataSet(backgroundEntry,"backgroundColor")
-        bacgroundSet.color = context.resources.getColor(R.color.light_grey3,null) //데이터 셋 line color
+        bacgroundSet.color = context.resources.getColor(R.color.light_grey3,null) //데이터 셋 바깥 line color
         bacgroundSet.fillColor = context.resources.getColor(R.color.light_grey3,null) // 데이터 셋 내부 color
         bacgroundSet.setDrawFilled(true)
-        bacgroundSet.fillAlpha =180
+        bacgroundSet.fillAlpha =200
         bacgroundSet.isDrawHighlightCircleEnabled =true
         bacgroundSet.setDrawHighlightIndicators(false)
 

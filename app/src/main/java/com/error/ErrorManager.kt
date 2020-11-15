@@ -45,4 +45,6 @@ object ErrorManager {
 
     val RELATIVE_SEARCH ="연관검색어 조회 에러"
     val SEARCH ="주류 검색 에러"
+
+    val FAVORITE ="내가 찜한 주류 조회 에러"
 }

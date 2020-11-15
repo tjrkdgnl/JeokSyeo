@@ -31,7 +31,7 @@ class LocationAdapter(
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
         holder.bind(lst[position])
 
-        holder.getViewBinding().locationName.setOnClickListener { v ->
+        holder.getViewBinding().locationName.setOnClickListener {
                         var pressedPostion = position
                     if (pressedPostion != RecyclerView.NO_POSITION) {
                         when (depth) {
