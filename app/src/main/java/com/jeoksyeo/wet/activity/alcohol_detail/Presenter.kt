@@ -520,9 +520,9 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         view.getView().radarChart.legend.isEnabled =false //범례 값
         view.getView().radarChart.webLineWidth =0f //대각선 두께
         view.getView().radarChart.webColor = context.resources.getColor(R.color.white,null) // 대각선 색
-        view.getView().radarChart.webLineWidthInner =3f //내부선 두께
-        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.white,null) //내부선 색
-        view.getView().radarChart.webAlpha = 255 //내부선 투명도 , 255 - opaque , 0 - transparent
+        view.getView().radarChart.webLineWidthInner =1f //내부선 두께
+        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.light_grey3,null) //내부선 색
+        view.getView().radarChart.webAlpha = 180 //내부선 투명도 , 255 - opaque , 0 - transparent
 
 
         val xAxis = view.getView().radarChart.xAxis
@@ -544,8 +544,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         yAxis.setLabelCount(5,false)
         yAxis.xOffset =0f
         yAxis.yOffset =0f
-        yAxis.axisMinimum =0f
-        yAxis.axisMaximum =WEB_LINE_MAX
+        yAxis.axisMinimum =0f// 최소 웹 라인의 개수
+        yAxis.axisMaximum =WEB_LINE_MAX //최대 웹 라인의 개수 지정
         yAxis.setDrawLabels(false) //수직으로 표시되는 수치값
         setRadarChartData(review)
     }
@@ -581,8 +581,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
 
         val bacgroundSet = RadarDataSet(backgroundEntry,"backgroundColor")
-        bacgroundSet.color = context.resources.getColor(R.color.light_grey,null)
-        bacgroundSet.fillColor = context.resources.getColor(R.color.light_grey,null)
+        bacgroundSet.color = context.resources.getColor(R.color.light_grey3,null) //데이터 셋 line color
+        bacgroundSet.fillColor = context.resources.getColor(R.color.light_grey3,null) // 데이터 셋 내부 color
         bacgroundSet.setDrawFilled(true)
         bacgroundSet.fillAlpha =180
         bacgroundSet.isDrawHighlightCircleEnabled =true
@@ -592,7 +592,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         dataSet.color = context.resources.getColor(R.color.orange,null)
         dataSet.fillColor = context.resources.getColor(R.color.orange,null)
         dataSet.setDrawFilled(true)
-        dataSet.fillAlpha =255
+        dataSet.fillAlpha =200
         dataSet.isDrawHighlightCircleEnabled =true
         dataSet.setDrawHighlightIndicators(false)
 
