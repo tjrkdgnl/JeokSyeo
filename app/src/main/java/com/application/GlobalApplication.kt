@@ -35,6 +35,9 @@ class GlobalApplication : Application() {
         var instance = GlobalApplication()
             private set
 
+        val context = this
+
+
         //유저 정보
         lateinit var userInfo: UserInfo
         lateinit var userBuilder: UserInfo.Builder

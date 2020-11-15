@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.alcohol_detail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,14 +16,17 @@ import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
+import com.model.alcohol_detail.Review
 import com.model.review.ReviewInfo
 import com.model.review.ReviewList
 import com.service.ApiGenerator
@@ -34,11 +38,17 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class Presenter : AlcoholDetailContract.BasePresenter {
+    //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정
+    private val WEB_LINE_MAX = 4.9f
+
     override lateinit var view: AlcoholDetailContract.BaseView
     override lateinit var context: Context
     override lateinit var intent: Intent
     var isLike = false
     var alchol: Alcohol? = null
+
+    private val typeface by lazy {
+        Typeface.createFromAsset(context.assets,"apple_sd_gothic_neo_sb.ttf")}
 
     private var compositeDisposable = CompositeDisposable()
     private var settingComponentList = mutableListOf<AlcoholComponentData>()
@@ -68,7 +78,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override fun init() {
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
-
             alchol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
             alchol?.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
 
@@ -383,7 +392,18 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             }
                         } else {
                             //차트 여부 표시
-                            initRadarChart()
+                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                                .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),alchol?.alcoholId!!)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({
+                                    //화면 갱신을 위해서는 alcochol detail api에 있는 리뷰 데이터가 필요하므로 재호출
+                                    it.data?.alcohol?.review?.let { review->
+                                        initRadarChart(review)
+                                    }
+                                },{t->
+                                    Log.e("차트 셋팅 에러",t.message.toString() )
+                                }))
 
                             view.getView().radarChart.visibility = View.VISIBLE
                             view.getView().userIndicator.visibility = View.INVISIBLE
@@ -405,8 +425,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     }
 
                     view.getView().recyclerViewReviewList.setHasFixedSize(true)
-                    view.getView().recyclerViewReviewList.layoutManager =
-                        LinearLayoutManager(context)
+                    view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
 
                     result.data?.reviewInfo?.let {
                         //점수 분포 및 seekbar
@@ -492,90 +511,98 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
 
-    override fun initRadarChart() {
-        view.getView().radarChart.scaleX = 1.35f
-        view.getView().radarChart.scaleY = 1.35f
-        view.getView().radarChart.isRotationEnabled =false
+    override fun initRadarChart(review:Review) {
+        view.getView().radarChart.scaleX =1.34f
+        view.getView().radarChart.scaleY =1.34f
 
-        view.getView().radarChart.setBackgroundColor(context.resources.getColor(R.color.white,null))
-        view.getView().radarChart.description =null
+        view.getView().radarChart.isRotationEnabled =false //차트 회전
+        view.getView().radarChart.description.isEnabled =false // 범례 값 설명
+        view.getView().radarChart.legend.isEnabled =false //범례 값
+        view.getView().radarChart.webLineWidth =0f //대각선 두께
+        view.getView().radarChart.webColor = context.resources.getColor(R.color.white,null) // 대각선 색
+        view.getView().radarChart.webLineWidthInner =3f //내부선 두께
+        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.white,null) //내부선 색
+        view.getView().radarChart.webAlpha = 255 //내부선 투명도 , 255 - opaque , 0 - transparent
 
-        view.getView().radarChart.webLineWidthInner =1f
-        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.white,null)
-        view.getView().radarChart.webAlpha = 100
-
-
-        setRadarChartData()
 
         val xAxis = view.getView().radarChart.xAxis
-        xAxis.textSize ==11f
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity =1f
+        xAxis.typeface = typeface
+        xAxis.textSize =11f
         xAxis.yOffset =0f
-        xAxis.xOffset =1f
-        xAxis.valueFormatter = object :ValueFormatter(){
-            private val name = listOf("아로마", "마우스필", "어울림", "시각적특징", "테이스트")
+        xAxis.xOffset =0f
+        xAxis.valueFormatter = object :IndexAxisValueFormatter(){
+            private val name = listOf("아로마", "마우스필", "어울림", "시각적특징","테이스트")
 
             override fun getFormattedValue(value: Float): String {
                 return name[value.toInt() % name.size]
             }
         }
+
+        val yAxis = view.getView().radarChart.yAxis
+        yAxis.setLabelCount(5,false)
+        yAxis.xOffset =0f
+        yAxis.yOffset =0f
+        yAxis.axisMinimum =0f
+        yAxis.axisMaximum =WEB_LINE_MAX
+        yAxis.setDrawLabels(false) //수직으로 표시되는 수치값
+        setRadarChartData(review)
     }
 
-    private fun setRadarChartData(){
-        val backgroundDataEntry = mutableListOf<RadarEntry>()
+    private fun setRadarChartData(review:Review){
+        val chartDataSetList = mutableListOf<IRadarDataSet>()
+        val backgroundEntry = mutableListOf<RadarEntry>()
         val dataEntry = mutableListOf<RadarEntry>()
 
-        alchol?.let {
-            it.review?.let {review->
+        review.let {info->
+            backgroundEntry.add(RadarEntry(5f))
+            backgroundEntry.add(RadarEntry(5f))
+            backgroundEntry.add(RadarEntry(5f))
+            backgroundEntry.add(RadarEntry(5f))
+            backgroundEntry.add(RadarEntry(5f))
 
-                review.reviewCount?.let { total->
-                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
-                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
-                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
-                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
-                    backgroundDataEntry.add(RadarEntry(total.toFloat()))
-                }
-                review.appearance?.let {
-                    dataEntry.add(RadarEntry(it.toFloat()))
-                }
-                review.aroma?.let {
-                    dataEntry.add(RadarEntry(it.toFloat()))
-                }
-                review.taste?.let {
-                    dataEntry.add(RadarEntry(it.toFloat()))
-                }
-                review.mouthfeel?.let {
-                    dataEntry.add(RadarEntry(it.toFloat()))
-                }
-                review.overall?.let {
-                    dataEntry.add(RadarEntry(it.toFloat()))
-                }
+            info.appearance?.let {
+                Log.e("시각적특징",it.toString())
+                dataEntry.add(RadarEntry(it.toFloat()))
+            }
+            info.aroma?.let {
+                dataEntry.add(RadarEntry(it.toFloat()))
+            }
+            info.taste?.let {
+                dataEntry.add(RadarEntry(it.toFloat()))
+            }
+            info.mouthfeel?.let {
+                dataEntry.add(RadarEntry(it.toFloat()))
+            }
+            info.overall?.let {
+                dataEntry.add(RadarEntry(it.toFloat()))
             }
         }
 
-        val backgroundSet = RadarDataSet(backgroundDataEntry,"background")
-        backgroundSet.color = context.resources.getColor(R.color.light_grey,null)
-        backgroundSet.fillColor = context.resources.getColor(R.color.light_grey,null)
-        backgroundSet.setDrawFilled(true)
-        backgroundSet.fillAlpha =180
-        backgroundSet.isDrawHighlightCircleEnabled =true
-        backgroundSet.setDrawHighlightIndicators(false)
+        val bacgroundSet = RadarDataSet(backgroundEntry,"backgroundColor")
+        bacgroundSet.color = context.resources.getColor(R.color.light_grey,null)
+        bacgroundSet.fillColor = context.resources.getColor(R.color.light_grey,null)
+        bacgroundSet.setDrawFilled(true)
+        bacgroundSet.fillAlpha =180
+        bacgroundSet.isDrawHighlightCircleEnabled =true
+        bacgroundSet.setDrawHighlightIndicators(false)
 
         val dataSet = RadarDataSet(dataEntry,"data")
         dataSet.color = context.resources.getColor(R.color.orange,null)
         dataSet.fillColor = context.resources.getColor(R.color.orange,null)
         dataSet.setDrawFilled(true)
-        dataSet.fillAlpha =180
+        dataSet.fillAlpha =255
         dataSet.isDrawHighlightCircleEnabled =true
         dataSet.setDrawHighlightIndicators(false)
 
-        val sets = mutableListOf<IRadarDataSet>()
-        sets.add(backgroundSet)
-        sets.add(dataSet)
 
-        val data = RadarData(sets)
+        chartDataSetList.add(bacgroundSet)
+        chartDataSetList.add(dataSet)
+
+        val data = RadarData(chartDataSetList)
         data.setDrawValues(false)
         view.getView().radarChart.data = data
         view.getView().radarChart.invalidate()
-
     }
 }
