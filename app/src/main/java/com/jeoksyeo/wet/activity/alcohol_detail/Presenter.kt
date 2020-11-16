@@ -27,6 +27,7 @@ import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
 import com.model.alcohol_detail.Review
+import com.model.alcohol_detail.Srm
 import com.model.review.ReviewInfo
 import com.model.review.ReviewList
 import com.service.ApiGenerator
@@ -52,9 +53,9 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
     private var compositeDisposable = CompositeDisposable()
     private var settingComponentList = mutableListOf<AlcoholComponentData>()
-    private val NUM_SIZE = 22f
+    private val NUM_SIZE = 30f
     private val RECYCLERVIEW_TEXT_SIZE = 10f
-    private val CHAR_SIZE = 20f
+    private val CHAR_SIZE = 25f
     private val TEMPERATURE_SIZE = 25f
 
     private val componentList = listOf<String>(
@@ -97,15 +98,13 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 alcholData.viewCount?.let {  //조회수 체크
                     view.getView().detailEyeCount.text = GlobalApplication.instance.checkCount(it)
                 }
-
-                alcholData.alcoholId?.let { initReview(context) } //리뷰 셋팅
             }
         }
     }
 
     override fun executeLike() {
         val check = JWTUtil.settingUserInfo(false)
-
+        Log.e("check",check.toString())
         if (check) {
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
@@ -288,7 +287,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "IBU" -> {
                 alcohol.more?.ibu?.let {
                     AlcoholComponentData(
-                        "IBU", ""
+                        "IBU", "-1"
                         , R.mipmap.ibu, it.toString(), NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -350,14 +349,18 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
             val data = compo?.contents
 
-            if (data is String) {
+            if (data is String) { //DEFAULT 형식 셋팅
                 if (data != "")
                     data.let { settingComponentList.add(compo) }
-            } else if (data is List<*>) {
+            }
+            else if (data is List<*>) { //LIST 형식 셋팅
                 if (data.size != 0) {
                     if (data[0] != "")
                         settingComponentList.add(compo)
                 }
+            }
+            if(data is Srm){//SRM 형식 셋팅
+                settingComponentList.add(compo)
             }
         }
     }

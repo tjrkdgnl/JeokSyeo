@@ -3,19 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="MissingConstraints">
 
-    <data>
-        <variable
-            name="componentSRM"
-            type="com.model.alcohol_detail.AlcoholComponentData" />
-    </data>
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/component_parentLayout"
+
         android:layout_width="match_parent"
         android:layout_height="151dp"
         android:background="@drawable/alcohol_component_srm"
         android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/component_parentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -27,11 +22,10 @@
                 android:gravity="center_horizontal"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:lineSpacingExtra="9sp"
-                android:text="@{componentSRM.mainTitle.toString()}"
+                android:text="SRM"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="normal"
-                tools:text="IBU"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -54,9 +48,9 @@
                 android:layout_height="0dp"
                 android:textStyle="normal"
                 android:textSize="30sp"
-                android:text="@{componentSRM.contents.toString()}"
                 android:textColor="@color/white"
                 android:lineSpacingExtra="10sp"
+                android:text="0"
                 tools:text="30"
                 android:gravity="center"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"

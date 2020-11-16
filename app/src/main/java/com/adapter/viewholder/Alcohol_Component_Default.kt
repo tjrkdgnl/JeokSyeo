@@ -1,6 +1,7 @@
 package com.adapter.viewholder
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.view.ViewGroup
 import com.base.BaseViewHolder
 import com.model.alcohol_detail.AlcoholComponentData
@@ -15,6 +16,10 @@ class Alcohol_Component_Default(parent:ViewGroup)
     override fun bind(data: AlcoholComponentData) {
         binding.componentDefaultItem = data
         binding.executePendingBindings()
+
+        if(data.mainTitle_kr == "-1"){
+            binding.compoentTitleKr.visibility = View.GONE
+        }
 
         data.textSize?.let {
             binding.componentDescription.textSize = it

@@ -101,7 +101,7 @@
                     android:gravity="center"
                     android:lineSpacingExtra="2sp"
                     android:maxLines="1"
-                    android:text="@{alcohol.brewery.get(0).location.toString()}"
+                    android:text="@{alcohol.brewery.get(0).name.toString()}"
                     android:textColor="#b4b4b4"
                     android:textSize="@dimen/detail_alcohol_Name_E"
                     android:textStyle="normal"

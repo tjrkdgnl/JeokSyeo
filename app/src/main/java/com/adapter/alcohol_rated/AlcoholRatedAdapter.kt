@@ -99,45 +99,33 @@ class AlcoholRatedAdapter(private val context: Context,
             }
 
             //리뷰 수정
-            holder.getViewBinding().ratedItemCommentEdit.setOnClickListener{
-                val dialog = CustomDialog.createCustomDialog(context)
-                val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
-                val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
-                val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
+            //comment 화면에 보여질 주류 정보를 얻기
+            holder.getViewBinding().ratedItemCommentEdit.setOnClickListener {
+                compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getAlcoholDetail(GlobalApplication.userBuilder.createUUID
+                        ,GlobalApplication.userInfo.getAccessToken(), lst[position].alcohol?.alcoholId!!)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ alcohol->
+                        val bundle = Bundle()
+                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,alcohol.data?.alcohol)
 
-                contents.text = lst[position].alcohol?.name.toString() +"에 대한 리뷰를 수정하시겠습니까?"
-                okButton.text = "수정"
+                        //내가 남긴 코멘트 정보 가져오기
+                        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                            .getCommentOfAlcohol(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                                lst[position].alcohol?.alcoholId!!,lst[position].reviewId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({comment->
 
-                okButton.setOnClickListener {
-                    //comment 화면에 보여질 주류 정보를 얻기
-                    compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                        .getAlcoholDetail(GlobalApplication.userBuilder.createUUID
-                            ,GlobalApplication.userInfo.getAccessToken(), lst[position].alcohol?.alcoholId!!)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ alcohol->
-                            val bundle = Bundle()
-                            bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,alcohol.data?.alcohol)
 
-                            //내가 남긴 코멘트 정보 가져오기
-                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                                .getCommentOfAlcohol(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                                    lst[position].alcohol?.alcoholId!!,lst[position].reviewId)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe({comment->
-                                    dialog.dismiss()
-
-                                    bundle.putParcelable(GlobalApplication.MOVE_MY_COMMENT,comment.data?.review)
-                                    GlobalApplication.instance.moveActivity(context, Comment::class.java
-                                        ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
-                                },{t ->
-                                    Log.e(ErrorManager.MY_COMMENT,t.message.toString()) }))
-                        },{ t ->
-                            Log.e(com.error.ErrorManager.ALCHOL_DETAIL,t.message.toString())
-                        }))
-                }
-                cancelButton.setOnClickListener {  dialog.dismiss() }
+                                bundle.putParcelable(GlobalApplication.MOVE_MY_COMMENT,comment.data?.review)
+                                GlobalApplication.instance.moveActivity(context, Comment::class.java
+                                    ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                            },{t ->
+                                Log.e(ErrorManager.MY_COMMENT,t.message.toString()) }))
+                    },{ t ->
+                        Log.e(com.error.ErrorManager.ALCHOL_DETAIL,t.message.toString()) }))
             }
         }
     }

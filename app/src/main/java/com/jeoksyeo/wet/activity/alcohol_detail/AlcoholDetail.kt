@@ -11,7 +11,6 @@ import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.OnClickListener {
     private lateinit var binding: AlcoholDetailBinding
     private lateinit var presenter: Presenter
-    private var refreshCheck =false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +23,15 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
             intent =this@AlcoholDetail.intent
         }
         presenter.init()
-
         binding.AlcoholDetailSelectedByMe.setOnClickListener(this)
         binding.detailExpandableButton.setOnClickListener(this)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.isLike=false
+        presenter.initReview(this)
 
     }
 
@@ -71,19 +76,5 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if(refreshCheck){
-            refreshCheck=false
-            presenter.initReview(this)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        refreshCheck =true
     }
 }
