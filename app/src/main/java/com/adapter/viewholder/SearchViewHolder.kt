@@ -1,5 +1,6 @@
 package com.adapter.viewholder
 
+import android.view.View
 import android.view.ViewGroup
 import com.application.GlobalApplication
 import com.base.BaseViewHolder
@@ -17,6 +18,19 @@ class SearchViewHolder(parent: ViewGroup, val searchInterface: SearchContract.Ba
         getViewBinding().searchContentsLayout.setOnClickListener {
             searchInterface.changeAdapter(data)
             GlobalApplication.userDataBase.setKeyword(data)
+        }
+    }
+
+    fun setImage(searchImg:Int){
+        getViewBinding().imageViewSearchIemIcon.setImageResource(searchImg)
+        when(searchImg){
+            R.mipmap.resent_timer->{
+                getViewBinding().deleteMySearch.visibility = View.VISIBLE
+            }
+
+            R.mipmap.relative_search_btn->{
+                getViewBinding().deleteMySearch.visibility = View.INVISIBLE
+            }
         }
     }
 }

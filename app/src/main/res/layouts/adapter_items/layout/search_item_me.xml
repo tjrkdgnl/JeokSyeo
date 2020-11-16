@@ -30,7 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:background="@null"
-                android:src="@drawable/ic_search_black_24dp" />
+                android:src="@mipmap/resent_timer" />
 
             <TextView
                 android:id="@+id/textView_listElements"

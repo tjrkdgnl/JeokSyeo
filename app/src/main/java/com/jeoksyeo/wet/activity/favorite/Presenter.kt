@@ -25,7 +25,7 @@ class Presenter : FavoriteContract.BasePresenter {
     private val compositeDisposable = CompositeDisposable()
 
     override fun initTabLayout() {
-        val tabList = listOf("전체","전통주","사케","맥주","와인","양")
+        val tabList = listOf("전체","전통주","사케","맥주","와인","양주")
 
         if(context is FragmentActivity){
             view.getBinding().favoriteViewPager2.adapter = FavoriteViewPagerAdapter(context as FragmentActivity)

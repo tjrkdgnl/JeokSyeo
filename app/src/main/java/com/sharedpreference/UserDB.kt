@@ -66,7 +66,7 @@ class UserDB(private val context: Context) {
         return keywordJson?.let {
             val jsonArray = JSONArray(keywordJson)
             val keywordList = mutableListOf<String>()
-            for (i in jsonArray.length()-1 downTo 0) {
+            for (i in jsonArray.length() - 1 downTo 0) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 keywordList.add(jsonObject[KEYWORD] as String)
             }
@@ -129,5 +129,53 @@ class UserDB(private val context: Context) {
         jsonArray.put(jsonObject)
 
         getSharedPreference().edit().putString(MY_SEARCH, jsonArray.toString()).apply()
+    }
+
+    fun deleteKeyword(keyword: String):Boolean {
+        val keywordString = getSharedPreference().getString(MY_SEARCH, null)
+        var confirmDeleteCheck = false
+
+        //내장디비에 저장된 검색어가 있는지 확인
+        keywordString?.let { string ->
+            val keywordJSonList = JSONArray(string)
+
+            val keywordList = mutableListOf<String>()
+
+            //저장된 jsonArray를 String array로 변환
+            for (i in 0 until keywordJSonList.length()) {
+                val jsonObject = keywordJSonList.getJSONObject(i)
+
+                keywordList.add(jsonObject[KEYWORD] as String)
+            }
+
+            //키워드 삭제
+            for(alcoholName in keywordList.withIndex()){
+                if(alcoholName.value == keyword){
+                    keywordList.removeAt(alcoholName.index)
+                    confirmDeleteCheck =true
+                    break
+                }
+            }
+
+            if(keywordList.size ==0){
+                getSharedPreference().edit().putString(MY_SEARCH,null).apply()
+            }
+            else{
+                val jsonArray = JSONArray()
+                //삭제 후 다시 저장.
+                for (keyword in keywordList) {
+                    val jsonObject = JSONObject()
+
+                    try {
+                        jsonObject.put(KEYWORD, keyword)
+                        jsonArray.put(jsonObject)
+                    } catch (e: Exception) {
+                        Log.e("JsonArray error", e.message.toString())
+                    }
+                }
+                getSharedPreference().edit().putString(MY_SEARCH, jsonArray.toString()).apply()
+            }
+        }
+        return confirmDeleteCheck
     }
 }

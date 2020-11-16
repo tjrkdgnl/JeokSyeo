@@ -94,13 +94,15 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     }
 
     //사용자가 입력한 키워드에 따르는 연관겁색어 업데이트
-    override fun updateRelativeList(list: MutableList<String>) {
-        if (binding.textViewRecentSearch.text != "연관검색어") {
-            binding.textViewRecentSearch.text = "연관검색어"
-            binding.recyclerViewSearchlist.adapter = searchAdapter
-        }
+    override fun updateRelativeList(list: MutableList<String>,searchImg:Int) {
+       if(binding.recyclerViewSearchlist.adapter is SearchAdapter){
 
-        searchAdapter?.updateList(list)
+       }
+        else{ //연관검색어 재 셋팅
+           binding.recyclerViewSearchlist.adapter = searchAdapter
+       }
+
+        searchAdapter?.updateList(list,searchImg)
     }
 
     //키워드 검색 api의 결과로 받은 리스트를 리스트어댑터의 파라미터로 받아서 셋팅하는 메서드
@@ -117,7 +119,6 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     //연관검색어에서 검색결과로 어댑터 전환
     //프레젠터를 통해서 키워드에 대한 검색 결과 api를 실행
     override fun changeAdapter(keyword: String?) {
-        binding.textViewRecentSearch.text = "검색 결과"
         presenter.setSearchResult(keyword)
     }
 
@@ -131,6 +132,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
         }
     }
+
 
     fun hideKeypad(edit_nickname: EditText) {
         val inputMethodManager =

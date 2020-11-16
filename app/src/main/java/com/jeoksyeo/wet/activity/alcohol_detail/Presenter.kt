@@ -513,17 +513,17 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
 
     override fun initRadarChart(review:Review) {
-        view.getView().radarChart.scaleX =1.33f
-        view.getView().radarChart.scaleY =1.33f
+        view.getView().radarChart.scaleX =1.27f
+        view.getView().radarChart.scaleY =1.27f
 
         view.getView().radarChart.isRotationEnabled =false //차트 회전
         view.getView().radarChart.description.isEnabled =false // 범례 값 설명
         view.getView().radarChart.legend.isEnabled =false //범례 값
         view.getView().radarChart.webLineWidth =0f //대각선 두께
         view.getView().radarChart.webColor = context.resources.getColor(R.color.white,null) // 대각선 색
-        view.getView().radarChart.webLineWidthInner =0f //내부선 두께
-        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.light_grey3,null) //내부선 색
-        view.getView().radarChart.webAlpha = 180 //내부선 투명도 , 255 - opaque , 0 - transparent
+        view.getView().radarChart.webLineWidthInner =0.75f //내부선 두께
+        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.light_grey4,null) //내부선 색
+        view.getView().radarChart.webAlpha = 200 //내부선 투명도 , 255 - opaque , 0 - transparent
 
 
         val xAxis = view.getView().radarChart.xAxis

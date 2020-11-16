@@ -8,13 +8,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/notfavorite"
+            android:src="@mipmap/help"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
+            android:id="@+id/plz_checkyourSearchKeyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="검색하신 주류는 존재하지 않습니다."

@@ -39,9 +39,9 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:elevation="6dp"
-                android:gravity="left|center"
-                android:hint="주류검색"
-                android:paddingStart="10dp"
+                android:gravity="center"
+                android:hint="찾으시는 주류가 있으신가요?"
+                android:textColorHint="@color/orange"
                 android:textStyle="bold"
                 android:theme="@style/cursorColor"
                 android:textCursorDrawable="@color/light_yellow"
@@ -97,16 +97,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@mipmap/below_arrow"
-               app:layout_constraintBottom_toBottomOf="@id/textView_recentSearch"
-                app:layout_constraintTop_toTopOf="@id/textView_recentSearch"
-                app:layout_constraintStart_toEndOf="@id/textView_recentSearch"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_searchlist"

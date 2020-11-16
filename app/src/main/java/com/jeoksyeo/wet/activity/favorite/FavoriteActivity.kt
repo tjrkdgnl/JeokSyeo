@@ -1,5 +1,6 @@
 package com.jeoksyeo.wet.activity.favorite
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
     private lateinit var viewmodel:FavoriteViewModel
     private val tabList = listOf("전체","전통주","사케","맥주","와인","양")
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.favorite_activity)
@@ -47,11 +49,12 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
 
 
         viewmodel.currentPosition.observe(this, Observer {
-            binding.profileHeader.ratedCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
-            binding.typeCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
-            binding.favoriteAlcoholTypeText.text = tabList[it]
+            if(it !=-1){
+                binding.profileHeader.ratedCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
+                binding.typeCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
+                binding.favoriteAlcoholTypeText.text = tabList[it]
+            }
         })
-
     }
 
     override fun getBinding(): FavoriteActivityBinding {
