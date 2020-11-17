@@ -90,7 +90,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
     }
 
     fun appleSignOut() {
-        val dialog = Dialog(mContext, R.style.Theme_Dialog)
+        val dialog = Dialog(mContext, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)
@@ -122,7 +122,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
     }
 
     fun appleDelete() {
-        val dialog = Dialog(mContext, R.style.Theme_Dialog)
+        val dialog = Dialog(mContext, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)

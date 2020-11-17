@@ -2,13 +2,16 @@ package com.jeoksyeo.wet.activity.alcohol_rated
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.google.android.material.tabs.TabLayout
 import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.R
@@ -36,9 +39,13 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
         val viewmodel = ViewModelProvider(this).get(RatedViewModel::class.java)
 
+
         viewmodel.reviewCount.observe(this, Observer {
+
            binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
-          binding.profileHeader.ratedLevelName.text ="LV ${it}. " + GlobalApplication.instance.getLevelName(it)
+        })
+        viewmodel.level.observe(this, Observer {
+            binding.profileHeader.ratedLevelName.text ="LV ${it}. " + GlobalApplication.instance.getLevelName(it)
         })
     }
 
@@ -68,9 +75,10 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.rated_back->{
+            R.id.rated_back-> {
                 finish()
-                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right) }
+                overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+            }
         }
     }
 }

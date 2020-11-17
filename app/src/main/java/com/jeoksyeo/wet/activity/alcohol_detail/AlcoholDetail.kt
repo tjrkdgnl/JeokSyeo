@@ -41,10 +41,10 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
     override fun setLikeImage(isLike: Boolean) {
         if (isLike) {
-            binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.full_heart)
+            binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_full_heart)
 
         } else {
-            binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.empty_heart)
+            binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_empty_heart)
         }
     }
 

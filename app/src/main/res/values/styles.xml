@@ -14,9 +14,10 @@
 
 
     //customDialog size
-    <style name="Theme_Dialog" parent="android:Theme.Holo.Dialog">
-        <item name="android:windowMinWidthMajor">75%</item>
-        <item name="android:windowMinWidthMinor">75%</item>
+    //defalut 65%
+    <style name="custom_dialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowMinWidthMajor">65%</item> //landscape 모드일 때 최소 가로폭
+        <item name="android:windowMinWidthMinor">65%</item> // portrait 모드일 때 최소 가로폭
     </style>
 
     <style name="TabLayoutSelectedTextStyle">

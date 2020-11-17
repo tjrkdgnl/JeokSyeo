@@ -44,7 +44,8 @@
                 android:text="테이스트 저널"
                 android:textColor="#ffffff"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+               />
         </LinearLayout>
 
 

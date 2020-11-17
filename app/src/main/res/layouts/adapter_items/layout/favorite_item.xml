@@ -53,6 +53,7 @@
             <TextView
                 android:id="@+id/textView_GridAlcoholName_K"
                 android:layout_width="0dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="11dp"
@@ -60,7 +61,6 @@
                 android:textColor="#333333"
                 android:text="@{alcohol.name.kr.toString()}"
                 android:textSize="@dimen/gridItem_GridAlcoholName_K_textSize"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 android:maxLines="1"
@@ -72,6 +72,7 @@
             <TextView
                 android:id="@+id/textView_GridAlcoholOrigin"
                 android:layout_width="0dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="2dp"
@@ -89,7 +90,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView_gridHeart"
+                android:id="@+id/imageView_favoriteHeart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -115,10 +116,10 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="0"
-                app:layout_constraintBottom_toBottomOf="@id/imageView_gridHeart"
-                app:layout_constraintStart_toEndOf="@id/imageView_gridHeart"
-                app:layout_constraintTop_toTopOf="@id/imageView_gridHeart"
+                android:text="@{alcohol.like_count.toString()}"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_favoriteHeart"
+                app:layout_constraintStart_toEndOf="@id/imageView_favoriteHeart"
+                app:layout_constraintTop_toTopOf="@id/imageView_favoriteHeart"
                 app:layout_constraintEnd_toStartOf="@id/imageView_gridcommnet"
                 tools:text="51" />
 
@@ -129,7 +130,7 @@
                 android:layout_marginStart="12.1dp"
                 android:layout_marginTop="@dimen/gridItem_gridHeart_marginTop"
                 android:background="@null"
-                android:src="@mipmap/talk"
+                android:src="@mipmap/small_talk"
                 app:layout_constraintBottom_toBottomOf="@id/textView_gridHeartCount"
                 app:layout_constraintEnd_toStartOf="@id/textView_gridCommentCount"
                 app:layout_constraintStart_toEndOf="@id/textView_gridHeartCount"
@@ -143,7 +144,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="0"
+                android:text="@{alcohol.review.review_count.toString()}"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_gridcommnet"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridcommnet"
                 app:layout_constraintTop_toTopOf="@id/imageView_gridcommnet"
@@ -156,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12.1dp"
                 android:background="@null"
-                android:src="@mipmap/small_alchol"
+                android:src="@mipmap/small_alcohol"
                 app:layout_constraintEnd_toStartOf="@id/category_grid_eyeCount"
                 app:layout_constraintTop_toTopOf="@id/textView_gridCommentCount"
                 app:layout_constraintBottom_toBottomOf="@id/textView_gridCommentCount"
@@ -171,7 +172,7 @@
                 android:lineSpacingExtra="3sp"
                 android:textColor="#b2b2b2"
                 android:textSize="@dimen/gridItem_default_textsize"
-                android:text="0"
+                android:text="@{alcohol.abv.toString()}"
                 android:maxLines="1"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@id/category_grid_eye"

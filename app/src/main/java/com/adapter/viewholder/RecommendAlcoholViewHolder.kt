@@ -16,7 +16,7 @@ class RecommendAlcoholViewHolder(parent:ViewGroup)
 
         data.isLiked?.let {
             if(it){
-                binding.activtyMainLikeImg.setImageResource(R.mipmap.full_heart)
+                binding.activtyMainLikeImg.setImageResource(R.mipmap.detail_full_heart)
             }
         }
 

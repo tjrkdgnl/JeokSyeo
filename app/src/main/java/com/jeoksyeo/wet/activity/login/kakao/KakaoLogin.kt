@@ -58,7 +58,7 @@ class KakaoLogin(private val context: Context) {
     }
 
     fun kakaoLogOut() {
-        val dialog = Dialog(context, R.style.Theme_Dialog)
+        val dialog = Dialog(context, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)
@@ -98,7 +98,7 @@ class KakaoLogin(private val context: Context) {
     }
 
     fun kakaoDelete() {
-        val dialog = Dialog(context, R.style.Theme_Dialog)
+        val dialog = Dialog(context, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)

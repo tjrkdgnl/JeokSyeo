@@ -34,9 +34,21 @@ class AlcoholList {
     @Expose
     var brewery: List<Brewery>? = null
 
+    @SerializedName("like_count")
+    @Expose
+    var like_count: Int? = null
+
+    @SerializedName("view_count")
+    @Expose
+    var view_count: Int? = null
+
     @SerializedName("review")
     @Expose
     var review: Review? = null
+
+    @SerializedName("abv")
+    @Expose
+    var abv: Float? = null
 
 
     var type =1

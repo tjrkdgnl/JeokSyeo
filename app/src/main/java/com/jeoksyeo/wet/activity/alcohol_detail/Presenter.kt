@@ -21,14 +21,12 @@ import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
 import com.model.alcohol_detail.Review
 import com.model.alcohol_detail.Srm
-import com.model.review.ReviewInfo
 import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -41,7 +39,6 @@ import io.reactivex.schedulers.Schedulers
 class Presenter : AlcoholDetailContract.BasePresenter {
     //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정
     private val WEB_LINE_MAX = 4.9f
-
     override lateinit var view: AlcoholDetailContract.BaseView
     override lateinit var context: Context
     override lateinit var intent: Intent

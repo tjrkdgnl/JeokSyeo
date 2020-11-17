@@ -7,4 +7,6 @@ class RatedViewModel : ViewModel() {
 
     var reviewCount =MutableLiveData<Int>()
 
+    var level = MutableLiveData<Int>()
+
 }

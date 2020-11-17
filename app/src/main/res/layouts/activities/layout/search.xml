@@ -43,13 +43,28 @@
                 android:hint="찾으시는 주류가 있으신가요?"
                 android:textColorHint="@color/orange"
                 android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:theme="@style/cursorColor"
                 android:textCursorDrawable="@color/light_yellow"
                 android:textSize="@dimen/search_editTextSize"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/imageView_searchBar_btn"
+                app:layout_constraintEnd_toStartOf="@id/initEditText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/initEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/cancel_btn"
+                android:visibility="invisible"
+                android:onClick="onClick"
+                app:layout_constraintEnd_toStartOf="@id/imageView_searchBar_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="10dp"
+                />
 
             <ImageView
                 android:id="@+id/imageView_searchBar_btn"

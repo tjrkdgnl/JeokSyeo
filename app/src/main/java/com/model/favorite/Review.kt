@@ -10,4 +10,8 @@ class Review {
     @Expose
     var score: Float? = null
 
+    @SerializedName("review_count")
+    @Expose
+    var review_count: Int? = null
+
 }

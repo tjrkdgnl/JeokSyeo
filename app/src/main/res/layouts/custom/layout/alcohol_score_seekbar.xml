@@ -12,14 +12,16 @@
             android:id="@+id/score_5Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="5점"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            android:gravity="end"
+            app:layout_constraintEnd_toStartOf="@id/score_5Seekbar"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <SeekBar
             android:id="@+id/score_5Seekbar"
@@ -31,41 +33,41 @@
             android:minHeight="@dimen/detail_review_progress_height"
             android:progress="0"
             android:progressDrawable="@drawable/progress_custom"
-            android:thumb="@null"
             android:progressTint="#FFC77B"
+            android:thumb="@null"
             android:thumbOffset="0dp"
-            app:layout_constraintStart_toEndOf="@id/score_5Text"
-            app:layout_constraintTop_toTopOf="@id/score_5Text"
             app:layout_constraintBottom_toBottomOf="@id/score_5Text"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_5Text"
+            app:layout_constraintTop_toTopOf="@id/score_5Text" />
 
         <TextView
             android:id="@+id/score_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="0"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/score_5Seekbar"
-            app:layout_constraintTop_toTopOf="@id/score_5Seekbar"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintBottom_toBottomOf="@id/score_5Seekbar"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_5Seekbar"
+            app:layout_constraintTop_toTopOf="@id/score_5Seekbar" />
 
         <TextView
             android:id="@+id/score_4Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="4점"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/score_5Text"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
+            app:layout_constraintHorizontal_bias="0"
+            android:gravity="end"
+            app:layout_constraintEnd_toStartOf="@id/score_4Seekbar"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/score_5Text" />
 
         <SeekBar
             android:id="@+id/score_4Seekbar"
@@ -77,40 +79,42 @@
             android:minHeight="@dimen/detail_review_progress_height"
             android:progress="0"
             android:progressDrawable="@drawable/progress_custom"
+            android:progressTint="#FFD59C"
             android:thumb="@null"
             android:thumbOffset="0dp"
-            android:progressTint="#FFD59C"
-            app:layout_constraintTop_toTopOf="@id/score_4Text"
             app:layout_constraintBottom_toBottomOf="@id/score_4Text"
             app:layout_constraintStart_toEndOf="@id/score_4Text"
-            />
+            app:layout_constraintTop_toTopOf="@id/score_4Text" />
 
         <TextView
             android:id="@+id/score_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="0"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/score_4Seekbar"
-            app:layout_constraintTop_toTopOf="@id/score_4Seekbar"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintBottom_toBottomOf="@id/score_4Seekbar"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_4Seekbar"
+            app:layout_constraintTop_toTopOf="@id/score_4Seekbar" />
 
         <TextView
             android:id="@+id/score_3Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
-            android:lineSpacingExtra="2sp"
-            android:text="3점"
-            android:textStyle="bold"
             android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/score_4Seekbar"
-            />
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+            android:lineSpacingExtra="2sp"
+
+            android:gravity="end"
+            android:text="3점"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/score_3Seekbar"
+            app:layout_constraintTop_toBottomOf="@id/score_4Seekbar" />
 
         <SeekBar
             android:id="@+id/score_3Seekbar"
@@ -122,41 +126,41 @@
             android:minHeight="@dimen/detail_review_progress_height"
             android:progress="0"
             android:progressDrawable="@drawable/progress_custom"
+            android:progressTint="#FFDCAC "
             android:thumb="@null"
             android:thumbOffset="0dp"
-            android:progressTint="#FFDCAC "
-            app:layout_constraintStart_toEndOf="@id/score_3Text"
-            app:layout_constraintTop_toTopOf="@id/score_3Text"
             app:layout_constraintBottom_toBottomOf="@id/score_3Text"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_3Text"
+            app:layout_constraintTop_toTopOf="@id/score_3Text" />
 
         <TextView
             android:id="@+id/score_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="0"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/score_3Seekbar"
-            app:layout_constraintTop_toTopOf="@id/score_3Seekbar"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintBottom_toBottomOf="@id/score_3Seekbar"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_3Seekbar"
+            app:layout_constraintTop_toTopOf="@id/score_3Seekbar" />
 
         <TextView
             android:id="@+id/score_2Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="2점"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/score_3Text"
+            app:layout_constraintHorizontal_bias="0"
+            android:textColor="#c7c7c7"
+            app:layout_constraintEnd_toStartOf="@id/score_2Seekbar"
+            android:gravity="end"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@id/score_3Text" />
 
         <SeekBar
             android:id="@+id/score_2Seekbar"
@@ -168,41 +172,42 @@
             android:minHeight="@dimen/detail_review_progress_height"
             android:progress="0"
             android:progressDrawable="@drawable/progress_custom"
+            android:progressTint="#FFEACD"
             android:thumb="@null"
             android:thumbOffset="0dp"
-            android:progressTint="#FFEACD"
-            app:layout_constraintStart_toEndOf="@id/score_2Text"
-            app:layout_constraintTop_toTopOf="@id/score_2Text"
             app:layout_constraintBottom_toBottomOf="@id/score_2Text"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_2Text"
+            app:layout_constraintTop_toTopOf="@id/score_2Text" />
 
         <TextView
             android:id="@+id/score_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="0"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/score_2Seekbar"
-            app:layout_constraintTop_toTopOf="@id/score_2Seekbar"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintBottom_toBottomOf="@id/score_2Seekbar"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_2Seekbar"
+            app:layout_constraintTop_toTopOf="@id/score_2Seekbar" />
 
         <TextView
             android:id="@+id/score_1Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="1점"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/score_2Text"
+            android:textColor="#c7c7c7"
+            android:paddingStart="1.7dp"
+            app:layout_constraintHorizontal_bias="0"
+            android:gravity="end"
+            app:layout_constraintEnd_toStartOf="@id/score_1Seekbar"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@id/score_2Text" />
 
         <SeekBar
             android:id="@+id/score_1Seekbar"
@@ -213,29 +218,26 @@
             android:maxHeight="12dp"
             android:minHeight="@dimen/detail_review_progress_height"
             android:progress="0"
-            android:progressTint="#FFF4E4"
             android:progressDrawable="@drawable/progress_custom"
+            android:progressTint="#FFF4E4"
             android:thumb="@null"
             android:thumbOffset="0dp"
-            app:layout_constraintStart_toEndOf="@id/score_1Text"
-            app:layout_constraintTop_toTopOf="@id/score_1Text"
             app:layout_constraintBottom_toBottomOf="@id/score_1Text"
-            />
+            app:layout_constraintStart_toEndOf="@id/score_1Text"
+            app:layout_constraintTop_toTopOf="@id/score_1Text" />
 
         <TextView
             android:id="@+id/score_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_default_textSize"
-            android:textColor="#c7c7c7"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="2sp"
             android:text="0"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/score_1Seekbar"
-            app:layout_constraintTop_toTopOf="@id/score_1Seekbar"
+            android:textColor="#c7c7c7"
+            android:textSize="@dimen/detail_default_textSize"
             app:layout_constraintBottom_toBottomOf="@id/score_1Seekbar"
-            />
-
+            app:layout_constraintStart_toEndOf="@id/score_1Seekbar"
+            app:layout_constraintTop_toTopOf="@id/score_1Seekbar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

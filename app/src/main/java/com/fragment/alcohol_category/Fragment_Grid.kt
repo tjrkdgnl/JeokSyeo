@@ -48,6 +48,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_grid,container,false)
         binding.lifecycleOwner =this
+
         viewmodel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
 
         gridPresenter = GridPresenter().apply {

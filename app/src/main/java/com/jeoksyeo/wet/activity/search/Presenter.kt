@@ -22,7 +22,7 @@ class Presenter : SearchContract.BasePresenter {
 
     private val compositeDisposable = CompositeDisposable()
 
-    var pageNum = 1
+    private var pageNum = 1
 
     private var loading = false
 
@@ -32,6 +32,7 @@ class Presenter : SearchContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun setSearchResult(keyword: String?) {
+        pageNum=1 //항상 페이지 초기화
         exeuteProgressBar(true)
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -54,8 +55,14 @@ class Presenter : SearchContract.BasePresenter {
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) {
                             view.getView().textViewRecentSearch.text = "검색 결과"
-                            view.getView().textViewRecentSearch.text = "\"${keyword}\" 관련해서 총 ${lst.size}개의 상품을 찾았습니다."
+                            view.getView().textViewRecentSearch.text =
+                                "\"${keyword}\" 관련해서 총 ${lst.size}개의 상품을 찾았습니다."
+
+                            view.getView().editTextSearch.setText(keyword)
                             view.noSearchItem(false)
+
+                            view.getView().initEditText.visibility = View.VISIBLE
+
                             view.setSearchList(lst.toMutableList())
                             setListener(keyword)
                         } else {
@@ -121,49 +128,40 @@ class Presenter : SearchContract.BasePresenter {
         )
     }
 
-    override fun setRelativeSearch(keyword: String?) {
-
-        var alcholKeyword =" "
-
-        if(keyword =="") //빈 값일 때는 사용자가 검색어를 모두 지웠을 때다. 따라서 최근 검색어가 표시되어야한다.
-        {
-            alcholKeyword = "-1"
-        }
-        else
-            alcholKeyword = keyword!!
+    override fun setRelativeSearch(keyword: String) {
+        var alcholKeyword = if(keyword.isEmpty()) "-1" else keyword
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getRelativeKeyword(
                     GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword
-                )
+                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     it.data?.alcoholList?.let { lst ->
-
                         if (lst.isNotEmpty()) { //사용자가 검색한 주류를 업데이트
                             view.getView().textViewRecentSearch.text = "연관검색어"
-                            view.updateRelativeList(lst.toMutableList(),R.mipmap.relative_search_btn)
-                        }
-                        else if(alcholKeyword =="-1") {//사용자가 검색어를 입력하지 않았거나, 검색어를 모두 지웠을 때
+                            view.updateRelativeList(
+                                lst.toMutableList(),
+                                R.mipmap.relative_search_btn
+                            )
+                        } else if (alcholKeyword == "-1") {//검색어가 없을 때
+                            Log.e("alcochol keyword", alcholKeyword)
 
-                            if(GlobalApplication.userDataBase.getKeywordList()?.size !=0){ // 최근 검색어 셋팅
-                                GlobalApplication.userDataBase.getKeywordList()?.let { lst->
+                            GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
+                                if (lst.size != 0) {
                                     view.updateRelativeList(lst)
                                     view.getView().textViewRecentSearch.text = "최근검색어"
                                 }
-                            }
-                            else{ //최근 검색어 조차 없을
-                                view.updateRelativeList(mutableListOf<String>().apply {
-                                    this.add("-1")
-                                })
-                            }
-                        }
-                        else{ //연관 검색어가 없을 때
-                            view.updateRelativeList(mutableListOf<String>("연관된 검색어가 존재하지 않습니다."),
-                            R.mipmap.relative_search_btn)
+                            } ?: view.updateRelativeList(mutableListOf<String>().apply {
+                                this.add("-1")
+                            })
+                        } else { //연관 검색어가 없을 때
+                            view.updateRelativeList(
+                                mutableListOf<String>("연관된 검색어가 존재하지 않습니다."),
+                                R.mipmap.relative_search_btn
+                            )
                         }
                     }
                 }, { t ->

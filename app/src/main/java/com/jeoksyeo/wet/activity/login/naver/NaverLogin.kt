@@ -19,13 +19,11 @@ import com.jeoksyeo.wet.activity.signup.SignUp
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.error.ErrorManager
-import com.jeoksyeo.wet.activity.editprofile.EditProfile
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
@@ -94,7 +92,7 @@ class NaverLogin(private val mContext: Context) {
     }
 
     fun naverLogOut() {
-        val dialog = Dialog(mContext, R.style.Theme_Dialog)
+        val dialog = Dialog(mContext, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)
@@ -126,7 +124,7 @@ class NaverLogin(private val mContext: Context) {
     }
 
     fun naverDelete() {
-        val dialog = Dialog(mContext, R.style.Theme_Dialog)
+        val dialog = Dialog(mContext, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog)

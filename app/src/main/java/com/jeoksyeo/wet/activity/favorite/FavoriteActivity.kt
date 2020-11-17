@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.favorite
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,11 +14,10 @@ import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FavoriteActivityBinding
 
 class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.OnClickListener {
-
     private lateinit var binding:FavoriteActivityBinding
     private lateinit var presenter:Presenter
     private lateinit var viewmodel:FavoriteViewModel
-    private val tabList = listOf("전체","전통주","사케","맥주","와인","양")
+    val tabList = listOf("전체","전통주","맥주","와인","양주","사케")
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +47,15 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
             }
         })
 
-
         viewmodel.currentPosition.observe(this, Observer {
             if(it !=-1){
-                binding.profileHeader.ratedCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
                 binding.typeCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
                 binding.favoriteAlcoholTypeText.text = tabList[it]
             }
+        })
+
+        viewmodel.summaryCount.observe(this, Observer {
+            binding.profileHeader.ratedCountText.text = "총 ${viewmodel.summaryCount.value}개의 주류를 찜하셨습니다."
         })
     }
 

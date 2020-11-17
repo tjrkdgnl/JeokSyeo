@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
 
 class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     override lateinit var view: Fg_AlcoholCategoryContact.BaseView
-    private lateinit var viewModel: AlcoholCategoryViewModel
+    lateinit var viewModel: AlcoholCategoryViewModel
 
     private val binding by lazy {
         view.getbinding() as FragmentAlcholCategoryListBinding

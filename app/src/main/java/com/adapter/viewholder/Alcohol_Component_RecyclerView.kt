@@ -20,7 +20,7 @@ class Alcohol_Component_RecyclerView(val parent:ViewGroup)
             binding.componentBackground.setImageResource(it)
         }
 
- 
+
         val lst = (data.contents as? List<String>)?.toMutableList()
         var dummyCheck =false
         if(lst?.size !=0 ){

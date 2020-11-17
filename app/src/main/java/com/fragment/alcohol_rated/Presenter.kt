@@ -46,7 +46,8 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                     }
 
                     it.data?.summary?.let {summary->
-                        viewmodel.reviewCount.value = summary.reviewCount!!
+                        viewmodel.reviewCount.value = summary.reviewCount
+                        viewmodel.level.value = summary.level
                     }
 
                     it.data?.reviewList?.let { lst->

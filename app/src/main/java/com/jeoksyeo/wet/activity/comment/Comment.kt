@@ -7,10 +7,13 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.model.alcohol_detail.Alcohol
 import com.model.my_comment.Comment
 import com.vuforia.engine.wet.R
@@ -67,8 +70,21 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+        val dialog = CustomDialog.createCustomDialog(this)
+
+        val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+        val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+        val content = dialog.findViewById<TextView>(R.id.dialog_contents)
+        content.text = "현재 작성중인 페이지를 떠나시겠습니까?"
+
+        okButton.setOnClickListener {
+            super.onBackPressed()
+            overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+            dialog.dismiss()
+        }
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
 

@@ -15,7 +15,7 @@ interface SearchContract {
         fun updateRelativeList(list:MutableList<String>,searchImg:Int = R.mipmap.resent_timer)
         fun setSearchList(list:MutableList<AlcoholList>)
         fun updatePaging(list:MutableList<AlcoholList>)
-        fun changeAdapter(keyword: String?)
+        fun changeAdapter(keyword: String?,relativeCheck:Boolean =true)
         fun noSearchItem(check:Boolean)
     }
 
@@ -27,6 +27,6 @@ interface SearchContract {
         fun detach()
         fun setSearchResult(keyword:String?)
 
-        fun setRelativeSearch(keyword:String?)
+        fun setRelativeSearch(keyword:String)
     }
 }

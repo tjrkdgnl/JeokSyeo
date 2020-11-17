@@ -1,6 +1,7 @@
 package com.adapter.search
 
 import android.content.Context
+import android.os.Handler
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.NoResentViewholder
@@ -18,6 +19,7 @@ class SearchAdapter(
     private val MY_SEARCH = 1
     private var searchholder: SearchViewHolder? = null
     private var searchImg: Int = R.mipmap.resent_timer //이미지에 따라서 delete 레이아웃 visible 여부 결정
+    private val handler = Handler()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -70,7 +72,6 @@ class SearchAdapter(
         this.searchImg = searchImg
         keywordLst.clear()
         keywordLst.addAll(list.toMutableList())
-        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {

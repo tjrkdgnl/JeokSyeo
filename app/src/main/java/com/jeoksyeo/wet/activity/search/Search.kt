@@ -29,6 +29,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     private lateinit var presenter: Presenter
     private lateinit var layoutManager: LinearLayoutManager
     private val handler = Handler()
+    private var relativeCheck:Boolean =true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +49,29 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         binding.recyclerViewSearchlist.adapter = searchAdapter
         binding.recyclerViewSearchlist.setHasFixedSize(true)
         binding.recyclerViewSearchlist.layoutManager = layoutManager
+
+        binding.editTextSearch.setOnFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+                binding.editTextSearch.hint = ""
+            } else{
+                binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
+            }
+        }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.imageView_searchBar_btn -> {
-                changeAdapter(binding.editTextSearch.text.toString())
+                changeAdapter(binding.editTextSearch.text.toString(),false)
             }
 
             R.id.imageButton_searchBarBackButton -> {
                 finish()
                 overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+            }
+
+            R.id.initEditText -> {
+                binding.editTextSearch.setText("")
             }
         }
     }
@@ -71,13 +84,18 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         // 300ms 이전이면 메세지 큐에 담겨져있는 Runnable 객체 모두 삭제하여 실행 안되도록 막음
-        handler.removeCallbacksAndMessages(null)
-        handler.postDelayed(Runnable {
-            presenter.pageNum = 1
-            noSearchItem(false)
-            presenter.setRelativeSearch(s.toString())
-        }, 300)
+        s ?: return handler.removeCallbacksAndMessages(null)
 
+        if(relativeCheck){
+            handler.postDelayed(Runnable {
+                binding.initEditText.visibility = View.INVISIBLE
+                noSearchItem(false)
+                presenter.setRelativeSearch(s.toString())
+            }, 300)
+        }
+        else{
+            relativeCheck=true // 연관검색어는 한번만 클릭되므로, 한번 이후는 다시 연관검색어가 검색되도록 만들어야한다.
+        }
     }
 
     //바인딩 객체 전달
@@ -94,15 +112,15 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     }
 
     //사용자가 입력한 키워드에 따르는 연관겁색어 업데이트
-    override fun updateRelativeList(list: MutableList<String>,searchImg:Int) {
-       if(binding.recyclerViewSearchlist.adapter is SearchAdapter){
+    override fun updateRelativeList(list: MutableList<String>, searchImg: Int) {
+        if (binding.recyclerViewSearchlist.adapter is SearchAdapter) {
 
-       }
-        else{ //연관검색어 재 셋팅
-           binding.recyclerViewSearchlist.adapter = searchAdapter
-       }
+        } else { //연관검색어 재 셋팅
+            binding.recyclerViewSearchlist.adapter = searchAdapter
+        }
 
-        searchAdapter?.updateList(list,searchImg)
+        searchAdapter?.updateList(list, searchImg)
+        searchAdapter?.notifyDataSetChanged()
     }
 
     //키워드 검색 api의 결과로 받은 리스트를 리스트어댑터의 파라미터로 받아서 셋팅하는 메서드
@@ -118,7 +136,8 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
     //연관검색어에서 검색결과로 어댑터 전환
     //프레젠터를 통해서 키워드에 대한 검색 결과 api를 실행
-    override fun changeAdapter(keyword: String?) {
+    override fun changeAdapter(keyword: String?,relativeCheck:Boolean) {
+        this.relativeCheck =relativeCheck
         presenter.setSearchResult(keyword)
     }
 
@@ -126,10 +145,10 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         if (check) {
             binding.noSearchItem.root.visibility = View.VISIBLE
             binding.recyclerViewSearchlist.visibility = View.INVISIBLE
+
         } else {
             binding.noSearchItem.root.visibility = View.INVISIBLE
             binding.recyclerViewSearchlist.visibility = View.VISIBLE
-
         }
     }
 

@@ -1,37 +1,23 @@
 package com.custom
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.login.Login
-import com.model.user.UserInfo
-import com.nhn.android.naverlogin.OAuthLogin
-import com.service.ApiGenerator
-import com.service.ApiService
-import com.service.JWTUtil
 import com.vuforia.engine.wet.R
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.main.*
-import java.util.logging.Logger
 
 
 object CustomDialog {
 
     fun createCustomDialog(context: Context):Dialog{
-        val  dialog = Dialog(context,R.style.Theme_Dialog)
+        val  dialog = Dialog(context,R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -42,7 +28,7 @@ object CustomDialog {
 
     @SuppressLint("SetTextI18n")
     fun loginDialog(context: Context, activityHandle: Int, sessionCheck:Boolean =false) {
-        val dialog = Dialog(context, R.style.Theme_Dialog)
+        val dialog = Dialog(context, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -69,7 +55,7 @@ object CustomDialog {
 
     fun QnA_Dialog(context: Context?, plzMsg: Int) {
         var msgString = -1
-        val dialog = Dialog(context!!, R.style.Theme_Dialog)
+        val dialog = Dialog(context!!, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
