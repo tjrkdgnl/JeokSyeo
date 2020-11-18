@@ -32,6 +32,8 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
             context = this@FavoriteActivity
         }
 
+        binding.basicHeader.title.text = "내가 찜한 주류"
+
         presenter.initTabLayout()
         presenter.initProfile()
 

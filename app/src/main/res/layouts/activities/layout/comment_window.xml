@@ -90,7 +90,7 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     tools:text="회사이름"
-                    app:layout_constraintVertical_bias="0.62"
+                    app:layout_constraintVertical_bias="0.54"
                     android:maxLines="1"
                     android:ellipsize="end"
                     app:layout_constraintEnd_toEndOf="parent"

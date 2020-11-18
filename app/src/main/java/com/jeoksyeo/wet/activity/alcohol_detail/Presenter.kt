@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -44,7 +45,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override lateinit var intent: Intent
     var isLike = false
     var alchol: Alcohol? = null
-
+    private var componentAdapter:AlcoholComponentAdapter? = null
+    private var toggle =true
     private val typeface by lazy {
         Typeface.createFromAsset(context.assets,"apple_sd_gothic_neo_sb.ttf")}
 
@@ -169,13 +171,49 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             }
         }
 
-        view.getView().alcoholComponentRecyclerView.adapter =
-            AlcoholComponentAdapter(settingComponentList)
-        view.getView().alcoholComponentRecyclerView.setHasFixedSize(true)
+        val halfLst = mutableListOf<AlcoholComponentData>()
+
+        if(settingComponentList.size>4){//컴포넌트가 4개만 표시
+            for(item in settingComponentList.withIndex()){
+                if(item.index <4){
+                    halfLst.add(item.value)
+                }
+            }
+        }
+        else{
+            view.getView().componentToggle.visibility =View.GONE
+        }
+
+        componentAdapter = AlcoholComponentAdapter(halfLst)
+        view.getView().alcoholComponentRecyclerView.adapter = componentAdapter
+
+        //리싸이클러뷰를 접고 펼칠 수 있기 때문에 고정 사이즈 사용하지않음.
+        view.getView().alcoholComponentRecyclerView.setHasFixedSize(false)
         view.getView().alcoholComponentRecyclerView
             .addItemDecoration(GridSpacingItemDecoration(2, 4, true, 0))
 
         view.getView().alcoholComponentRecyclerView.layoutManager = GridLayoutManager(context, 2)
+    }
+
+    fun commponentToggle(){
+        if(toggle){//펼쳤을 때,
+            toggle=false
+            view.getView().componentToggleText.text = "주류정보 접기"
+            val lst = mutableListOf<AlcoholComponentData>()
+
+            for(idx in 4 until settingComponentList.size){
+                lst.add(settingComponentList[idx])
+            }
+            componentAdapter?.addComponent(lst)
+            componentAdapter?.notifyItemChanged(3,settingComponentList.size)
+//            view.getView().alcoholComponentRecyclerView.layoutManager?.requestLayout()
+        }
+        else{//접을 때
+            toggle=true
+            view.getView().componentToggleText.text = "주류정보 펼치기"
+            componentAdapter?.deleteComponent()
+//            view.getView().alcoholComponentRecyclerView.layoutManager?.requestLayout()
+        }
     }
 
 
@@ -424,7 +462,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.getView().alcoholReviewSumCountText.text = lst.size.toString() + "개"
                     }
 
-                    view.getView().recyclerViewReviewList.setHasFixedSize(true)
+                    view.getView().recyclerViewReviewList.setHasFixedSize(false)
                     view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
 
                     result.data?.reviewInfo?.let {

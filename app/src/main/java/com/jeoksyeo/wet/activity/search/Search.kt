@@ -12,8 +12,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.adapter.alcohol_category.ListAdapter
 import com.adapter.search.SearchAdapter
+import com.adapter.search.SearchResultAdapter
 import com.application.GlobalApplication
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
@@ -25,7 +25,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     private lateinit var binding: SearchBinding
     private val compositeDisposable = CompositeDisposable()
     private var searchAdapter: SearchAdapter? = null
-    private var listAdapter: ListAdapter? = null
+    private var resultAdapter: SearchResultAdapter? = null
     private lateinit var presenter: Presenter
     private lateinit var layoutManager: LinearLayoutManager
     private val handler = Handler()
@@ -47,7 +47,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
         searchAdapter = initSearchAdapter()
         binding.recyclerViewSearchlist.adapter = searchAdapter
-        binding.recyclerViewSearchlist.setHasFixedSize(true)
+        binding.recyclerViewSearchlist.setHasFixedSize(false)
         binding.recyclerViewSearchlist.layoutManager = layoutManager
 
         binding.editTextSearch.setOnFocusChangeListener { v, hasFocus ->
@@ -125,13 +125,13 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
     //키워드 검색 api의 결과로 받은 리스트를 리스트어댑터의 파라미터로 받아서 셋팅하는 메서드
     override fun setSearchList(list: MutableList<AlcoholList>) {
-        listAdapter = ListAdapter(this, list, presenter.exeuteProgressBar)
-        binding.recyclerViewSearchlist.adapter = listAdapter
+        resultAdapter = SearchResultAdapter(this, list, presenter.exeuteProgressBar)
+        binding.recyclerViewSearchlist.adapter = resultAdapter
     }
 
     //검색결과 페이지네이션을 위한 메서드
     override fun updatePaging(list: MutableList<AlcoholList>) {
-        listAdapter?.updateList(list.toMutableList())
+        resultAdapter?.updateList(list.toMutableList())
     }
 
     //연관검색어에서 검색결과로 어댑터 전환

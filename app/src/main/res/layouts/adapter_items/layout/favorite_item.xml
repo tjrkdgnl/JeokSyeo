@@ -97,7 +97,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="@dimen/gridItem_gridHeart_marginBottom"
                 android:background="@null"
-                android:src="@mipmap/small_heart_empty"
+                android:src="@mipmap/small_heart_full"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textView_gridHeartCount"

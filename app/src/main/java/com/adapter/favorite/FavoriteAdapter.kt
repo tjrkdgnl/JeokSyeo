@@ -93,8 +93,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
     }
 
     fun pageUpdate(list: MutableList<AlcoholList>) {
-
-        val idx = lst.size - 1
+        val idx = lst.size
 
         lst.addAll(list)
         notifyItemChanged(idx, lst.size)

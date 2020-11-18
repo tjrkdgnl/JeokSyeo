@@ -432,13 +432,49 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textView_alcoholinfo" />
+
+
+                <LinearLayout
+                    android:id="@+id/component_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:onClick="onClick"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintTop_toBottomOf="@id/alcoholComponent_recyclerView">
+
+                    <ImageView
+                        android:id="@+id/commpoent_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/up_errow_orange"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="5dp" />
+
+                    <TextView
+                        android:id="@+id/component_toggle_text"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:textStyle="normal"
+                        android:textSize="15sp"
+                        android:textColor="@color/orange"
+                        android:lineSpacingExtra="7sp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="주류정보 펼치기"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -634,9 +670,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/alcoholDetail_scoreSeekbar" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="58dp"

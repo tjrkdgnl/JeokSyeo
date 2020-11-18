@@ -73,7 +73,7 @@ class Fragment_favorite : Fragment(), FavoriteContract.BaseView {
         this.gridLayoutManager = GridLayoutManager(requireContext(),2)
         this.favoriteAdapter = favoriteAdapter
 
-        binding.favoriteRecyclerView.setHasFixedSize(true)
+        binding.favoriteRecyclerView.setHasFixedSize(false)
         binding.favoriteRecyclerView.addItemDecoration(
             GridSpacingItemDecoration(
                 2,

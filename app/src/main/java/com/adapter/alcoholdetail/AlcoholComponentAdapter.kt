@@ -39,4 +39,17 @@ class AlcoholComponentAdapter(val lst:MutableList<AlcoholComponentData>)
     override fun getItemViewType(position: Int): Int {
         return lst[position].type
     }
+
+    fun addComponent(lst:MutableList<AlcoholComponentData>){
+        this.lst.addAll(lst)
+    }
+
+    fun deleteComponent(){
+        val size = lst.size-1
+
+        for(idx in size downTo 4){
+            lst.removeAt(idx)
+            notifyItemRemoved(idx)
+        }
+    }
 }

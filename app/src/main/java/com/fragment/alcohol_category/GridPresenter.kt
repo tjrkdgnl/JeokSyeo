@@ -69,7 +69,7 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                         view.setAdapter(list.toMutableList())
 
                         //리싸이클러뷰 셋팅
-                        binding.gridRecyclerView.setHasFixedSize(true)
+                        binding.gridRecyclerView.setHasFixedSize(false)
                         val spacingPixcel = context.resources.getDimensionPixelSize(R.dimen.grid_layout_margin)
                         binding.gridRecyclerView.addItemDecoration(
                             GridSpacingItemDecoration(2, spacingPixcel, true, 0))

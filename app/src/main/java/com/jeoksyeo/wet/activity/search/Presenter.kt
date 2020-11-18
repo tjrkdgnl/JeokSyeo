@@ -49,15 +49,17 @@ class Presenter : SearchContract.BasePresenter {
                 .subscribe({
                     exeuteProgressBar(false)
 
-                    it.data?.pagingInfo?.page?.let { page ->
-                        pageNum = page.toInt() + 1
+                    it.data?.pagingInfo?.let { info ->
+                        info.page?.let {page ->
+                            pageNum = page.toInt() + 1
+                        }
+                        info.alcoholTotalCount?.let { total->
+                            view.getView().textViewRecentSearch.text =
+                                "\"${keyword}\" 관련해서 총 ${total}개의 상품을 찾았습니다."
+                        }
                     }
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) {
-                            view.getView().textViewRecentSearch.text = "검색 결과"
-                            view.getView().textViewRecentSearch.text =
-                                "\"${keyword}\" 관련해서 총 ${lst.size}개의 상품을 찾았습니다."
-
                             view.getView().editTextSearch.setText(keyword)
                             view.noSearchItem(false)
 
@@ -148,11 +150,11 @@ class Presenter : SearchContract.BasePresenter {
                             )
                         } else if (alcholKeyword == "-1") {//검색어가 없을 때
                             Log.e("alcochol keyword", alcholKeyword)
+                            view.getView().textViewRecentSearch.text = "최근검색어"
 
                             GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
                                 if (lst.size != 0) {
                                     view.updateRelativeList(lst)
-                                    view.getView().textViewRecentSearch.text = "최근검색어"
                                 }
                             } ?: view.updateRelativeList(mutableListOf<String>().apply {
                                 this.add("-1")

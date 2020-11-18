@@ -70,7 +70,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                         //어댑터 셋팅
                         view.setAdapter(list.toMutableList())
                         //리싸이클러뷰 셋팅
-                        binding.listRecyclerView.setHasFixedSize(true)
+                        binding.listRecyclerView.setHasFixedSize(false)
                         binding.listRecyclerView.layoutManager = linearLayoutManager
                         initScrollListener()
                     }

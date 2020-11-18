@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.alcohol_detail
 import android.content.Context
 import android.content.Intent
 import com.model.alcohol_detail.Alcohol
+import com.model.alcohol_detail.AlcoholComponentData
 import com.model.alcohol_detail.Review
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 

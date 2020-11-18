@@ -89,7 +89,7 @@ class ListAdapter(private val context: Context,
             duplicate=false
         }
         lst.addAll(newlist)
-        notifyItemChanged(currentSize-1,newlist.size)
+        notifyItemChanged(currentSize,newlist.size)
     }
 
     fun changeSort(list:MutableList<AlcoholList>){

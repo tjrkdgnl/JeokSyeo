@@ -90,7 +90,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
         }
 
         lst.addAll(newList)
-        notifyItemChanged(currentItemCount-1,newList.size) //첫 시작 범위를 -1로 할당하지 않으면 바로 갱신이 되지않음
+        notifyItemChanged(currentItemCount,newList.size)
 
     }
 

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.model.alcohol_detail.AlcoholComponentData
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 
@@ -70,8 +71,11 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
             }
 
             R.id.detail_expandableButton->{ presenter.expandableText()}
+
+            R.id.component_toggle->{presenter.commponentToggle()}
         }
     }
+
 
     override fun onBackPressed() {
         super.onBackPressed()
