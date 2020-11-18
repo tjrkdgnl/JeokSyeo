@@ -37,7 +37,6 @@ class GlobalApplication : Application() {
 
         val context = this
 
-
         //유저 정보
         lateinit var userInfo: UserInfo
         lateinit var userBuilder: UserInfo.Builder
@@ -65,7 +64,7 @@ class GlobalApplication : Application() {
         const val CATEGORY_SIZE = 5
         const val MOVE_TYPE = "type"
         const val PAGINATION_SIZE= 20
-        const val DEFAULT_SORT = "like"
+        const val DEFAULT_SORT = "review"
         const val MOVE_ALCHOL = "alcohol Data"
         const val ALCHOL_LIKE = "likeAndDisLike"
         const val ACTIVITY_HANDLING_MAIN = 0
@@ -147,6 +146,4 @@ class GlobalApplication : Application() {
             }
         }
     }
-
-
 }

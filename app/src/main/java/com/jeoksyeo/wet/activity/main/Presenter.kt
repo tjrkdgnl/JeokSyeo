@@ -18,25 +18,25 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
+import com.model.banner.Banner
 import com.model.navigation.NavigationItem
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
+import java.util.concurrent.TimeUnit
 
 @SuppressLint("SetTextI18n")
 class Presenter : MainContract.BasePresenter {
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
-    private val handler = Handler()
-    private val slideRunnable = Runnable {
-        view.getView().mainBanner.currentItem  +=1
-    }
+    private lateinit var bannerAdapter: BannerAdapter
 
     override fun initBanner(context: Context) {
        JWTUtil.settingUserInfo(false)
@@ -47,20 +47,33 @@ class Presenter : MainContract.BasePresenter {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 it.data?.banner?.let {lst->
-                    view.getView().mainBanner.adapter = BannerAdapter(context,lst.toMutableList(), view.getView().mainBanner)
+                    val infiniteLst = mutableListOf<Banner>()
+                    var i = 0
+                    while(i !=200){
+                        infiniteLst.addAll(lst)
+                        i++
+                    }
+                    bannerAdapter =  BannerAdapter(context,infiniteLst)
 
-                    view.getView().mainBanner.registerOnPageChangeCallback(object :
-                        ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            super.onPageSelected(position)
-                            handler.removeCallbacks(slideRunnable)
-                            handler.postDelayed(slideRunnable, 4000)
-                            view.getView().bannerCount.text = "$position / ${lst.size}"
-                        }
-                    })
+                    view.getView().mainBanner.adapter =bannerAdapter
+                    view.getView().mainBanner.currentItem = 500
+
                 }
             },{ t->Log.e(ErrorManager.BANNER,t.message.toString()) }))
     }
+
+    fun autoSlide(){
+        compositeDisposable.add(Observable.interval(6000L,TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                view.getView().mainBanner.currentItem = view.getView().mainBanner.currentItem +1
+                view.getView().bannerCount.text = "${view.getView().mainBanner.currentItem % 5 +1} / 5"
+            },{t ->Log.e("banner auto slide",t.message.toString())
+
+            }))
+    }
+
+    fun getPosition() = bannerAdapter.currentPosition()
 
     override fun initRecommendViewPager(context: Context)  {
         JWTUtil.settingUserInfo(false)

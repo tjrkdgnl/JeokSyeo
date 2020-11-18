@@ -6,11 +6,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
+import io.reactivex.Observable
 
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickListener {
@@ -36,6 +38,16 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         presenter.initBanner(this)
         presenter.initRecommendViewPager(this)
         presenter.initAlcoholRanking(this)
+        presenter.autoSlide()
+
+        binding.mainBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                binding.bannerCount.text = "${position%5+1} / 5"
+
+            }
+        })
     }
 
     override fun onStart() {

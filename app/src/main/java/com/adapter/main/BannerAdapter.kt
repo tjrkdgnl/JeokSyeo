@@ -10,9 +10,9 @@ import com.adapter.viewholder.BannerViewHolder
 import com.model.banner.Banner
 
 class BannerAdapter(
-    private val context: Context, private val itemList: MutableList<Banner>,
-    private val viewPager2: ViewPager2
+    private val context: Context, private val itemList: MutableList<Banner>
 ) : RecyclerView.Adapter<BannerViewHolder>() {
+    private var position =0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
         return BannerViewHolder(parent)
@@ -20,10 +20,7 @@ class BannerAdapter(
 
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
         holder.bind(itemList[position])
-        if(position == itemList.size-2){
-            viewPager2.post(addItemRunnable)
-        }
-
+        this.position = position
         holder.getViewBinding().bannerParentLayout.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(itemList[position].url))
             context.startActivity(intent)
@@ -34,7 +31,6 @@ class BannerAdapter(
         return itemList.size
     }
 
-    private var addItemRunnable = Runnable {
-        itemList.addAll(itemList)
-    }
+    fun currentPosition() = position
+
 }
