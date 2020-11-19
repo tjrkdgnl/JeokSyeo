@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="alcohol"
+            type="com.model.alcohol_category.AlcoholList" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/listItem_parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+
+
+            <ImageView
+                android:id="@+id/imageView_listAhchol_img"
+                setting_icon_str="@{alcohol.media.get(0).mediaResource.small.src.toString()}"
+                android:layout_width="@dimen/listItem_listAhchol_img_size"
+                android:layout_height="@dimen/listItem_listAhchol_img_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/textView_listAlcoholName_K"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:lineSpacingExtra="4sp"
+                android:maxLines="1"
+                android:text="@{alcohol.name.kr.toString()}"
+                android:textColor="#333333"
+                android:textSize="@dimen/list_item_listAlcoholName_K_textsize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/imageView_listAhchol_img"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="천비향" />
+
+            <TextView
+                android:id="@+id/textView_listAlcoholOrigin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="2sp"
+                android:maxLines="1"
+                android:text="@{alcohol.brewery.get(0).location.toString()}"
+                android:textSize="@dimen/list_item_listAlcoholName_E_textsize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
+                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholName_K"
+                tools:text="한국 경기도 평택" />
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_listRatingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
+                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholOrigin"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="false"
+                app:srb_drawableEmpty="@mipmap/category_empty_star"
+                app:srb_drawableFilled="@mipmap/category_full_star"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="0"
+                app:srb_scrollable="false"
+                app:srb_starPadding="1.5dp"
+                app:srb_stepSize="0.5" />
+
+
+            <TextView
+                android:id="@+id/textView_listRatingBarCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="3sp"
+                android:text="@{alcohol.review.score.toString()}"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar_listRatingbar"
+                app:layout_constraintStart_toEndOf="@id/ratingBar_listRatingbar"
+                app:layout_constraintTop_toTopOf="@id/ratingBar_listRatingbar"
+                tools:text="3.7" />
+
+            <ImageView
+                android:id="@+id/imageView_listHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/listitem_heartImg_marginTop"
+                android:background="@null"
+                android:src="@mipmap/small_heart_empty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar" />
+
+            <TextView
+                android:id="@+id/textView_listHeartCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="3sp"
+                android:text="0"
+
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_listHeart"
+                app:layout_constraintStart_toEndOf="@id/imageView_listHeart"
+                app:layout_constraintTop_toTopOf="@id/imageView_listHeart"
+                tools:text="999+" />
+
+            <ImageView
+                android:id="@+id/imageView_listcommnet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12.1dp"
+                android:background="@null"
+                android:src="@mipmap/small_talk"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.13"
+                app:layout_constraintBottom_toBottomOf="@id/textView_listHeartCount"
+                app:layout_constraintStart_toEndOf="@id/imageView_listHeart"
+                app:layout_constraintTop_toTopOf="@id/textView_listHeartCount" />
+
+            <TextView
+                android:id="@+id/textView_listCommentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="3sp"
+                android:text="0"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_listcommnet"
+                app:layout_constraintStart_toEndOf="@id/imageView_listcommnet"
+                app:layout_constraintTop_toTopOf="@id/imageView_listcommnet"
+                tools:text="999+" />
+
+            <ImageView
+                android:id="@+id/imageView_listAlcohol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12.1dp"
+                android:background="@mipmap/small_alcohol"
+                app:layout_constraintBottom_toBottomOf="@id/list_eyeCount"
+                app:layout_constraintStart_toEndOf="@id/list_eye"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.28"
+                app:layout_constraintTop_toTopOf="@id/list_eyeCount" />
+
+            <TextView
+                android:id="@+id/textView_listAlcoholDosu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="3sp"
+                android:text="@{alcohol.abv.toString()}"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_listAlcohol"
+                app:layout_constraintStart_toEndOf="@id/imageView_listAlcohol"
+                app:layout_constraintTop_toTopOf="@id/imageView_listAlcohol"
+                tools:text="19%" />
+
+            <ImageView
+                android:id="@+id/list_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="1dp"
+                android:background="@null"
+                android:src="@mipmap/eye"
+                app:layout_constraintHorizontal_bias="0.17"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/textView_listCommentCount"
+                app:layout_constraintStart_toEndOf="@id/imageView_listcommnet"
+                app:layout_constraintTop_toTopOf="@id/textView_listCommentCount" />
+
+            <TextView
+                android:id="@+id/list_eyeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="3sp"
+                android:text="0"
+                android:textColor="#b2b2b2"
+                android:textSize="@dimen/gridItem_default_textsize"
+                app:layout_constraintBottom_toBottomOf="@id/list_eye"
+                app:layout_constraintStart_toEndOf="@id/list_eye"
+                app:layout_constraintTop_toTopOf="@id/list_eye"
+                tools:text="9999+" />
+
+            <View
+                android:id="@+id/monthly_boundary"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="@color/light_grey"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</layout>
