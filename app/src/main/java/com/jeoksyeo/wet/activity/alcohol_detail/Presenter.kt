@@ -179,12 +179,13 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     halfLst.add(item.value)
                 }
             }
+            componentAdapter = AlcoholComponentAdapter(halfLst)
         }
         else{
             view.getView().componentToggle.visibility =View.GONE
+            componentAdapter = AlcoholComponentAdapter(settingComponentList)
         }
 
-        componentAdapter = AlcoholComponentAdapter(halfLst)
         view.getView().alcoholComponentRecyclerView.adapter = componentAdapter
 
         //리싸이클러뷰를 접고 펼칠 수 있기 때문에 고정 사이즈 사용하지않음.

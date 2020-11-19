@@ -69,9 +69,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-
-        if(GlobalApplication.userInfo.getProvider() ==null)
-            FirebaseAuth.getInstance().signOut()
     }
 
     private fun kakaoExcute() {
@@ -94,11 +91,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun googleExecute() {
+        FirebaseAuth.getInstance().signOut()
         googleLogin = GoogleLogin(this, this)
         startActivityForResult(googleLogin.instance.signInIntent, GOOGLE_SIGN)
     }
 
     private fun appleExecute() {
+        FirebaseAuth.getInstance().signOut()
             appleLogin = AppleLogin(this,this)
             appleLogin.executeProgressBar = executeProgressBar
 
@@ -160,7 +159,9 @@ class Login : AppCompatActivity(), View.OnClickListener {
             .addOnCompleteListener(this) {result->
                 if(result.isSuccessful){
                     FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
-                        setUserInfo("GOOGLE", it.result?.token.toString())
+
+                            setUserInfo("GOOGLE", it.result?.token.toString())
+
                     }?.addOnFailureListener {
                         Log.e(ErrorManager.Google_TAG, it.message.toString())
                         executeProgressBar(false)

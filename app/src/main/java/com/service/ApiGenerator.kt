@@ -9,9 +9,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiGenerator {
-    //http://192.168.0.10:9090/
+    //http://172.31.99.244:9090/
     //http://dev.jeoksyeo.com/
     //"https://api.jeoksyeo.com/"
+
     
     private const val BASE_URL =  "http://dev.jeoksyeo.com/"
 

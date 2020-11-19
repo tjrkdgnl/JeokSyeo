@@ -54,7 +54,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .cancelAlcoholLike(
                                 GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(), lst[0].alcoholId
+                                GlobalApplication.userInfo.getAccessToken(), lst[position].alcoholId
                             )
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +71,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .alcoholLike(
                                 GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(), lst[0].alcoholId
+                                GlobalApplication.userInfo.getAccessToken(), lst[position].alcoholId
                             )
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -93,6 +93,10 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
     }
 
     fun pageUpdate(list: MutableList<AlcoholList>) {
+        for(idx in list.indices){ //페이징 처리되는 것 만큼 좋아요 체크 리스트도 개수 증가
+            likeCheckList.add(true)
+        }
+
         val idx = lst.size
 
         lst.addAll(list)
