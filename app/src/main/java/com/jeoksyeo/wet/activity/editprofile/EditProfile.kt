@@ -12,9 +12,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -253,7 +251,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-            hideKeypad(binding.insertInfoEditText)
+            GlobalApplication.instance.keyPadSetting(binding.insertInfoEditText,this)
             return true
         }
         return false
@@ -269,11 +267,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     override fun afterTextChanged(s: Editable?) {
     }
 
-    fun hideKeypad(edit_nickname: EditText) {
-        val inputMethodManager =
-            baseContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager?.hideSoftInputFromWindow(edit_nickname.windowToken, 0)
-    }
+
 
     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         birthday = year.toString()

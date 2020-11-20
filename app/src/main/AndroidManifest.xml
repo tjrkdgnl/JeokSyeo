@@ -35,7 +35,11 @@
 
         <activity android:name="com.jeoksyeo.wet.activity.favorite.FavoriteActivity"/>
 
-        <activity android:name="com.jeoksyeo.wet.activity.search.Search"/>
+        <activity android:name="com.jeoksyeo.wet.activity.search.Search"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            >
+
+        </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.level.LevelActivity"
             android:launchMode="singleTop">

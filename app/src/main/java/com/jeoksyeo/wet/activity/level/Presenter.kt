@@ -23,8 +23,6 @@ class Presenter :LevelContract.BasePresenter{
 
     val miniAlcoholList = mutableListOf<ImageView>()
 
-    var myLevel = 0
-
 
      override fun initMiniImageArray(){
         miniAlcoholList.add(view.getView().imageViewEvaluationByMeBottleLv1)
@@ -54,10 +52,7 @@ class Presenter :LevelContract.BasePresenter{
                 .subscribe({
                     it.data?.let {info->
                         view.settingMainAlcholGIF(info.level)
-                        myLevel =info.level
-
-                        if(info.reviewCount !=0)
-                            view.settingExperience(info.reviewCount)
+                        view.settingExperience(info.reviewCount,info.level)
 
                     }
                 },{

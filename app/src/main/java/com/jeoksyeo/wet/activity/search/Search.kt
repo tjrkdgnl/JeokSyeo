@@ -1,15 +1,14 @@
 package com.jeoksyeo.wet.activity.search
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.search.SearchAdapter
@@ -28,8 +27,9 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     private var resultAdapter: SearchResultAdapter? = null
     private lateinit var presenter: Presenter
     private lateinit var layoutManager: LinearLayoutManager
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private var relativeCheck:Boolean =true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +41,9 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
             layoutManager = this@Search.layoutManager
         }
 
+        binding.searchContentLayout.requestFocus()
         binding.editTextSearch.setOnKeyListener(this)
-        hideKeypad(binding.editTextSearch)
         binding.editTextSearch.addTextChangedListener(this)
-
         searchAdapter = initSearchAdapter()
         binding.recyclerViewSearchlist.adapter = searchAdapter
         binding.recyclerViewSearchlist.setHasFixedSize(false)
@@ -54,15 +53,22 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
             if(hasFocus){
                 binding.editTextSearch.hint = ""
             } else{
-                binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
+                if(binding.editTextSearch.text.isEmpty())
+                    binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
             }
         }
+
+       GlobalApplication.instance.removeEditextFocus(binding.editTextSearch,binding.searchContentLayout)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.imageView_searchBar_btn -> {
-                changeAdapter(binding.editTextSearch.text.toString(),false)
+                if(binding.editTextSearch.text.isNotEmpty()){
+                    binding.initEditText.visibility =View.VISIBLE
+                    changeAdapter(binding.editTextSearch.text.toString(),false)
+                    GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this)
+                }
             }
 
             R.id.imageButton_searchBarBackButton -> {
@@ -72,6 +78,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
             R.id.initEditText -> {
                 binding.editTextSearch.setText("")
+                GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this,false)
             }
         }
     }
@@ -88,13 +95,20 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
         if(relativeCheck){
             handler.postDelayed(Runnable {
-                binding.initEditText.visibility = View.INVISIBLE
+                if(!binding.initEditText.isVisible && s.isNotEmpty())
+                    binding.initEditText.visibility = View.VISIBLE
+                else if(binding.initEditText.isVisible && s.isEmpty()){
+                    binding.initEditText.visibility=View.INVISIBLE
+                }
+
                 noSearchItem(false)
                 presenter.setRelativeSearch(s.toString())
             }, 300)
         }
         else{
-            relativeCheck=true // 연관검색어는 한번만 클릭되므로, 한번 이후는 다시 연관검색어가 검색되도록 만들어야한다.
+            relativeCheck=true
+            binding.editTextSearch.isFocusable = true
+            // 연관검색어는 한번만 클릭되므로, 한번 이후는 다시 연관검색어가 검색되도록 만들어야한다.
         }
     }
 
@@ -102,6 +116,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     override fun getView(): SearchBinding {
         return binding
     }
+
 
     override fun initSearchAdapter(): SearchAdapter {
         return GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
@@ -139,6 +154,8 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     override fun changeAdapter(keyword: String?,relativeCheck:Boolean) {
         this.relativeCheck =relativeCheck
         presenter.setSearchResult(keyword)
+        binding.initEditText.visibility = View.VISIBLE //검색어 초기화 버튼 on
+        GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this) // 키패드는 감추
     }
 
     override fun noSearchItem(check: Boolean) {
@@ -153,15 +170,9 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
     }
 
 
-    fun hideKeypad(edit_nickname: EditText) {
-        val inputMethodManager =
-            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(edit_nickname.windowToken, 0)
-    }
-
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-            hideKeypad(binding.editTextSearch)
+            GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this)
             return true
         }
         return false
@@ -171,7 +182,6 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

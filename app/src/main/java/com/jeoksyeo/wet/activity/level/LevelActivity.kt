@@ -47,18 +47,20 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
     }
 
     override fun settingMainAlcholGIF(level: Int) {
+        when(level){
 
+        }
     }
 
     @SuppressLint("SetTextI18n")
-    override fun settingExperience(reviewCount: Int) {
+    override fun settingExperience(reviewCount: Int,level: Int) {
         val rest = reviewCount % 10
 
-        binding.textViewEvaluationText2.text = GlobalApplication.instance.getLevelName(presenter.myLevel) //현재 레벨
-        binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(presenter.myLevel+1) //다음레벨
+        binding.textViewEvaluationText2.text = GlobalApplication.instance.getLevelName(level) //현재 레벨
+        binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level+1) //다음레벨
         binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-reviewCount}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
 
-        for(i in 0..rest-1){
+        for(i in 0 until rest){
             presenter.miniAlcoholList[i].setImageResource(R.mipmap.mini_bottle_full)
         }
     }

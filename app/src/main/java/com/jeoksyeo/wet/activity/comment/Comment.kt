@@ -6,9 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -63,7 +61,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         binding.commentWindowCommentEditText.addTextChangedListener(this)
         binding.commentWindowCommentEditText.setOnKeyListener { v, keycode, event ->
             if (keycode == KeyEvent.KEYCODE_ENTER) {
-                hideKeypad(binding.commentWindowCommentEditText)
+                GlobalApplication.instance.keyPadSetting(binding.commentWindowCommentEditText,this)
                 return@setOnKeyListener true
             } else return@setOnKeyListener false
         }
@@ -170,11 +168,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
     override fun afterTextChanged(s: Editable?) {
     }
 
-    fun hideKeypad(edit_nickname: EditText) {
-        val inputMethodManager =
-            baseContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(edit_nickname.windowToken, 0)
-    }
+
 
     override fun getView(): CommentWindowBinding {
        return binding

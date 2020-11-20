@@ -4,8 +4,14 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.kakao.sdk.common.KakaoSdk
 import com.model.user.UserInfo
 import com.sharedpreference.UserDB
@@ -16,7 +22,7 @@ import java.io.IOException
 import java.util.*
 
 class GlobalApplication : Application() {
-    private val typeList = listOf<String>("TR", "BE", "WI", "SA", "FO")
+    private val typeList = listOf<String>("TR", "BE", "WI", "FO","SA" )
     private val ratedList = listOf<String>("ALL","TR", "BE", "WI", "SA", "FO")
     private val levelList = listOf<String>("마시는 척 하는 사람","술을 즐기는 사람"
         ,"술독에 빠진 사람","주도를 수련하는 사람","술로 해탈한 사람")
@@ -88,6 +94,38 @@ class GlobalApplication : Application() {
     fun getLevelName(positon: Int) = levelList[positon]
 
     fun checkCount(value:Int,count:Int=0)=  if(value >=10000) "9999+" else (value+count).toString()
+
+    fun keyPadSetting(editText: EditText, context: Context, hide:Boolean =true) {
+        if(hide){
+            val inputMethodManager =
+                context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(editText.windowToken, 0)
+        }
+        else{
+            editText.post(Runnable {
+                editText.requestFocus()
+                val inputMethodManager =
+                    context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(editText, 0)
+            })
+        }
+    }
+
+
+    fun removeEditextFocus(editText: EditText, view: View){
+        view.setOnTouchListener { v, event ->
+            Log.e("터치","터치")
+            if(event.action == MotionEvent.ACTION_DOWN){
+                val outRect =Rect()
+                editText.getGlobalVisibleRect(outRect)
+                if(!outRect.contains(event.rawX.toInt(),event.rawY.toInt())){
+                    editText.clearFocus()
+                    keyPadSetting(editText,view.context)
+                }
+            }
+            false
+        }
+    }
 
     //액티비티 전환
     fun moveActivity(context: Context,activityClass:Class<*>,flag:Int=0,bundle:Bundle? = null,bundleFlag:String?=null){

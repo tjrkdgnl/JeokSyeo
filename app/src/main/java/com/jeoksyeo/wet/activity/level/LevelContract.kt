@@ -10,7 +10,7 @@ interface LevelContract {
 
         fun settingMainAlcholGIF(level:Int)
 
-        fun settingExperience(reviewCount:Int)
+        fun settingExperience(reviewCount:Int,level: Int)
 
     }
 

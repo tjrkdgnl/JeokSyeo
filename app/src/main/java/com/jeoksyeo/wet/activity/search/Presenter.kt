@@ -3,6 +3,9 @@ package com.jeoksyeo.wet.activity.search
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
@@ -32,7 +35,7 @@ class Presenter : SearchContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun setSearchResult(keyword: String?) {
-        pageNum=1 //항상 페이지 초기화
+        pageNum = 1 //항상 페이지 초기화
         exeuteProgressBar(true)
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -49,21 +52,20 @@ class Presenter : SearchContract.BasePresenter {
                 .subscribe({
                     exeuteProgressBar(false)
 
+
                     it.data?.pagingInfo?.let { info ->
-                        info.page?.let {page ->
+                        info.page?.let { page ->
                             pageNum = page.toInt() + 1
                         }
-                        info.alcoholTotalCount?.let { total->
-                            view.getView().textViewRecentSearch.text =
-                                "\"${keyword}\" 관련해서 총 ${total}개의 상품을 찾았습니다."
+                        info.alcoholTotalCount?.let { total ->
+                            checkKeywordText(true,keyword!!,total)
+
                         }
                     }
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) {
                             view.getView().editTextSearch.setText(keyword)
                             view.noSearchItem(false)
-
-                            view.getView().initEditText.visibility = View.VISIBLE
 
                             view.setSearchList(lst.toMutableList())
                             setListener(keyword)
@@ -130,27 +132,44 @@ class Presenter : SearchContract.BasePresenter {
         )
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun checkKeywordText(show:Boolean, keyword:String ="", total:Int =0){
+        if(show){
+            view.getView().searchKeyword.text ="\"$keyword"
+            view.getView().keywordCount.text ="\"관련해서 총 ${total}개의 상품을 찾았습니다."
+            view.getView().keywordResult.visibility =View.VISIBLE
+            view.getView().textViewRecentSearch.visibility =View.INVISIBLE
+
+        }
+        else{
+            view.getView().textViewRecentSearch.text = keyword
+            view.getView().keywordResult.visibility =View.INVISIBLE
+            view.getView().textViewRecentSearch.visibility =View.VISIBLE
+        }
+    }
+
     override fun setRelativeSearch(keyword: String) {
-        var alcholKeyword = if(keyword.isEmpty()) "-1" else keyword
+        var alcholKeyword = if (keyword.isEmpty()) "-1" else keyword
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getRelativeKeyword(
                     GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword)
+                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword
+                )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) { //사용자가 검색한 주류를 업데이트
-                            view.getView().textViewRecentSearch.text = "연관검색어"
+                            checkKeywordText(false,"연관검색어")
                             view.updateRelativeList(
                                 lst.toMutableList(),
                                 R.mipmap.relative_search_btn
                             )
                         } else if (alcholKeyword == "-1") {//검색어가 없을 때
                             Log.e("alcochol keyword", alcholKeyword)
-                            view.getView().textViewRecentSearch.text = "최근검색어"
+                            checkKeywordText(false,"최근검색어")
 
                             GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
                                 if (lst.size != 0) {
@@ -158,10 +177,14 @@ class Presenter : SearchContract.BasePresenter {
                                 }
                             } ?: view.updateRelativeList(mutableListOf<String>().apply {
                                 this.add("-1")
+
+
+
                             })
                         } else { //연관 검색어가 없을 때
+                            checkKeywordText(false,"연관검색어")
                             view.updateRelativeList(
-                                mutableListOf<String>("연관된 검색어가 존재하지 않습니다."),
+                                mutableListOf<String>("2"),
                                 R.mipmap.relative_search_btn
                             )
                         }

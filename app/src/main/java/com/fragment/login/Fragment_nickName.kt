@@ -1,8 +1,8 @@
 package com.fragment.login
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,8 +10,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,7 +33,8 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
     private var checkTotalAgreement = false
     private var checkNickname = false
     private lateinit var nicknameDisposable: Disposable
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
+
 
     companion object {
         fun newInstance(): Fragment_nickName {
@@ -113,15 +112,10 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
     }
 
-    fun hideKeypad(edit_nickname: EditText) {
-        val inputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(edit_nickname.windowToken, 0)
-    }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-            hideKeypad(binding.insertInfoEditText)
+            GlobalApplication.instance.keyPadSetting(binding.insertInfoEditText,requireContext())
             return true
         }
         return false
