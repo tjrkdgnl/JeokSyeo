@@ -9,6 +9,10 @@ class Data {
     @Expose
     var pageInfo: PageInfo? = null
 
+    @SerializedName("userAssessment")
+    @Expose
+    var userAssessment: EvaluateIndicator? = null
+
     @SerializedName("reviewInfo")
     @Expose
     var reviewInfo: ReviewInfo? = null

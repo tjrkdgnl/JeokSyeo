@@ -29,6 +29,10 @@ class Alcohol_Component_Default(parent:ViewGroup)
             binding.componentBackground.setImageResource(it)
         }
 
+        if(data.contents is Float || data.contents is Int){
+            binding.componentDescription.text = data.contents.toString()
+        }
+
         if (data.contents is String){
             when (data.contents) {
                 "true" -> binding.componentDescription.text ="YES"

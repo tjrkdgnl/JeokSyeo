@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,8 +25,9 @@ import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.jeoksyeo.wet.activity.comment.Comment
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
-import com.model.alcohol_detail.Review
+import com.model.alcohol_detail.Color
 import com.model.alcohol_detail.Srm
+import com.model.review.EvaluateIndicator
 import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -44,17 +44,18 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override lateinit var context: Context
     override lateinit var intent: Intent
     var isLike = false
-    var alchol: Alcohol? = null
-    private var componentAdapter:AlcoholComponentAdapter? = null
-    private var toggle =true
+    var alcohol: Alcohol? = null
+    private var componentAdapter: AlcoholComponentAdapter? = null
+    private var toggle = true
     private val typeface by lazy {
-        Typeface.createFromAsset(context.assets,"apple_sd_gothic_neo_sb.ttf")}
+        Typeface.createFromAsset(context.assets, "apple_sd_gothic_neo_sb.ttf")
+    }
 
     private var compositeDisposable = CompositeDisposable()
     private var settingComponentList = mutableListOf<AlcoholComponentData>()
     private val NUM_SIZE = 30f
     private val RECYCLERVIEW_TEXT_SIZE = 10f
-    private val CHAR_SIZE = 25f
+    private val CHAR_SIZE = 22f
     private val TEMPERATURE_SIZE = 25f
 
     private val componentList = listOf<String>(
@@ -63,23 +64,27 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         "BARREL AGED",
         "FILTERED",
         "SRM",
-        "BODY TO HEAVY",
+        "BODY",
         "ACIDIC",
         "MALT",
         "HOP",
         "IBU",
         "TANNIN",
-        "DRY TO SWEET",
+        "SWEET",
         "POLISHING",
-        "CASK TYPE",
-        "SAKE_TYPE"
+        "CASK",
+        "SAKE_TYPE",
+        "GRAPE",
+        "RPR",
+        "SMV",
+        "COLOR"
     )
 
     override fun init() {
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
-            alchol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
-            alchol?.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
+            alcohol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
+            alcohol?.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
 
                 view.getView().alcohol = alcholData
 
@@ -101,16 +106,27 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
     }
 
+    override fun checkCountLine() {
+        view.getView().textViewAlcoholDescription.post(Runnable {
+            val lineCount = view.getView().textViewAlcoholDescription.lineCount
+            Log.e("라인수", view.getView().textViewAlcoholDescription.lineCount.toString())
+
+            if(lineCount <=5){
+                view.settingExpandableText(false)
+            }
+        })
+    }
+
     override fun executeLike() {
         val check = JWTUtil.settingUserInfo(false)
-        Log.e("check",check.toString())
+        Log.e("check", check.toString())
         if (check) {
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .alcoholLike(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
-                        alchol!!.alcoholId
+                        alcohol!!.alcoholId
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -118,7 +134,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.setLikeImage(true)
                         view.getView().alcoholdetailLikeCount.text =
                             GlobalApplication.instance.checkCount(
-                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1)
+                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1
+                            )
                     }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
             )
         } else
@@ -133,7 +150,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .cancelAlcoholLike(
                         GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(), alchol!!.alcoholId
+                        GlobalApplication.userInfo.getAccessToken(), alcohol!!.alcoholId
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -141,48 +158,50 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.setLikeImage(false)
                         view.getView().alcoholdetailLikeCount.text =
                             GlobalApplication.instance.checkCount(
-                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1)
+                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1
+                            )
                     }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
             )
         } else
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
     }
 
+
+
     override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기
         //SRM value가 무조건 정수는 아니기 때문에 try/catch로 parsing에러 잡아서 핸들링하기
-        alchol!!.class_?.firstClass?.code?.let { type ->
+        alcohol!!.class_?.firstClass?.code?.let { type ->
             when (type) {
                 "TR" -> {
-                    setComponent(alchol!!, mutableListOf(0, 4, 1, 5, 3, 2))
+                    setComponent(alcohol!!, mutableListOf(0, 4, 18,1, 5, 3, 2))
                 }
                 "BE" -> {
-                    setComponent(alchol!!, mutableListOf(9, 4, 8, 1, 7, 0, 3, 2))
+                    setComponent(alcohol!!, mutableListOf(9, 4, 8, 1, 7, 0, 3, 2))
                 }
                 "WI" -> {
-                    setComponent(alchol!!, mutableListOf(5, 4, 6, 11, 10, 1, 0, 3, 2))
+                    setComponent(alcohol!!, mutableListOf(5, 4, 18,6, 11, 10, 1, 0, 3, 2,15))
                 }
                 "SA" -> {
-                    setComponent(alchol!!, mutableListOf(14, 4, 11, 6, 12, 0, 1, 3, 2))
+                    setComponent(alcohol!!, mutableListOf(14, 4,18, 11, 6, 0, 1, 3, 2,16,17))
                 }
                 "FO" -> {
-                    setComponent(alchol!!, mutableListOf(7, 4, 0, 1, 2, 13))
+                    setComponent(alcohol!!, mutableListOf(7, 4, 18,0, 1, 2, 13,3))
                 }
             }
         }
 
         val halfLst = mutableListOf<AlcoholComponentData>()
 
-        if(settingComponentList.size>4){//컴포넌트가 4개만 표시
-            for(item in settingComponentList.withIndex()){
-                if(item.index <4){
+        if (settingComponentList.size > 4) {//컴포넌트가 4개만 표시
+            for (item in settingComponentList.withIndex()) {
+                if (item.index < 4) {
                     halfLst.add(item.value)
                 }
             }
             componentAdapter = AlcoholComponentAdapter(halfLst)
-        }
-        else{
-            view.getView().componentToggle.visibility =View.GONE
+        } else {
+            view.getView().componentToggle.visibility = View.GONE
             componentAdapter = AlcoholComponentAdapter(settingComponentList)
         }
 
@@ -196,24 +215,22 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         view.getView().alcoholComponentRecyclerView.layoutManager = GridLayoutManager(context, 2)
     }
 
-    fun commponentToggle(){
-        if(toggle){//펼쳤을 때,
-            toggle=false
+    fun commponentToggle() {
+        if (toggle) {//펼쳤을 때,
+            toggle = false
             view.getView().componentToggleText.text = "주류정보 접기"
             val lst = mutableListOf<AlcoholComponentData>()
 
-            for(idx in 4 until settingComponentList.size){
+            for (idx in 4 until settingComponentList.size) {
                 lst.add(settingComponentList[idx])
             }
             componentAdapter?.addComponent(lst)
-            componentAdapter?.notifyItemChanged(3,settingComponentList.size)
-//            view.getView().alcoholComponentRecyclerView.layoutManager?.requestLayout()
-        }
-        else{//접을 때
-            toggle=true
+            componentAdapter?.notifyItemChanged(3, settingComponentList.size)
+
+        } else {//접을 때
+            toggle = true
             view.getView().componentToggleText.text = "주류정보 펼치기"
             componentAdapter?.deleteComponent()
-//            view.getView().alcoholComponentRecyclerView.layoutManager?.requestLayout()
         }
     }
 
@@ -235,6 +252,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 }
             }
 
+
             "ADJUNCT" -> {
                 alcohol.adjunct?.let {
                     AlcoholComponentData(
@@ -252,9 +270,20 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 alcohol.more?.temperature?.let {
                     AlcoholComponentData(
                         "TEMPERATURE",
-                        "음용 온도"
-                        ,
+                        "음용 온도",
                         R.mipmap.temperature,
+                        it.toMutableList(),
+                        TEMPERATURE_SIZE,
+                        GlobalApplication.COMPONENT_RECYCLERVIEW
+                    )
+                }
+            }
+            "GRAPE" -> {
+                alcohol.more?.grape?.let {
+                    AlcoholComponentData(
+                        "GRAPE",
+                        "포도",
+                        R.mipmap.adjunct,
                         it.toMutableList(),
                         TEMPERATURE_SIZE,
                         GlobalApplication.COMPONENT_RECYCLERVIEW
@@ -265,8 +294,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 alcohol.barrelAged?.let {
                     AlcoholComponentData(
                         "BARREL",
-                        "오크 숙성"
-                        ,
+                        "오크 숙성",
                         R.mipmap.barrel,
                         it.toString(),
                         CHAR_SIZE,
@@ -287,20 +315,26 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 alcohol.more?.srm?.let {
                     AlcoholComponentData(
                         "SRM", ""
-                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
-                    )
+                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM)
                 }
             }
-            "BODY TO HEAVY" -> {
+            "COLOR" -> {
+                alcohol.more?.color?.let {
+                    AlcoholComponentData(
+                        "COLOR", ""
+                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM)
+                }
+            }
+            "BODY" -> {
                 alcohol.more?.body?.let {
                     AlcoholComponentData(
-                        "BODY TO HEAVY", "바디"
+                        "BODY", "바디"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
             }
             "ACIDIC" -> {
-                alcohol.more?.acidic?.let {
+                alcohol.more?.acidity?.let {
                     AlcoholComponentData(
                         "ACIDIC", "산도"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
@@ -336,7 +370,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     )
                 }
             }
-            "DRY TO SWEET" -> {
+            "SWEET" -> {
                 alcohol.more?.sweet?.let {
                     AlcoholComponentData(
                         "DRY TO SWEET", "당도"
@@ -344,16 +378,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     )
                 }
             }
-            "POLISHING" -> {
-                alcohol.more?.polishing?.let {
-                    AlcoholComponentData(
-                        "POLISHING", "정미율"
-                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
-                    )
-                }
-            }
-            "CASK TYPE" -> {
-                alcohol.more?.cask?.let {
+            "CASK" -> {
+                alcohol.more?.cask_type?.let {
                     AlcoholComponentData(
                         "CASK TYPE", "캐스트 종류"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
@@ -366,6 +392,22 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     AlcoholComponentData(
                         "SAKE TYPE", "사케 종류"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
+                    )
+                }
+            }
+            "RPR" -> {
+                alcohol.more?.rpr?.let {
+                    AlcoholComponentData(
+                        "RPR", "정미율"
+                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
+                    )
+                }
+            }
+            "SMV" -> {
+                alcohol.more?.smv?.let {
+                    AlcoholComponentData(
+                        "SMV", ""
+                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
             }
@@ -385,7 +427,16 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
             val data = compo?.contents
 
-            if (data is String) { //DEFAULT 형식 셋팅
+            if(data is Int){
+                data.let { settingComponentList.add(compo) }
+            }
+            else if(data is Color){
+                data.let { settingComponentList.add(compo) }
+            }
+            else if(data is Float){
+                data.let { settingComponentList.add(compo) }
+            }
+            else if (data is String) { //DEFAULT 형식 셋팅
                 if (data != "")
                     data.let { settingComponentList.add(compo) }
             }
@@ -395,7 +446,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         settingComponentList.add(compo)
                 }
             }
-            if(data is Srm){//SRM 형식 셋팅
+            else if (data is Srm) {//SRM 형식 셋팅
                 settingComponentList.add(compo)
             }
         }
@@ -410,7 +461,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 .getAlcoholReivew(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(),
-                    alchol!!.alcoholId, 1
+                    alcohol!!.alcoholId, 1
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -427,22 +478,13 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                 })
 
                                 view.getView().recyclerViewReviewList.adapter =
-                                    AlcoholReviewAdapter(context, alchol!!.alcoholId, muLst)
+                                    AlcoholReviewAdapter(context, alcohol!!.alcoholId, muLst)
                             }
                         } else {
                             //차트 여부 표시
-                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                                .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),alchol?.alcoholId!!)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe({
-                                    //화면 갱신을 위해서는 alcochol detail api에 있는 리뷰 데이터가 필요하므로 재호출
-                                    it.data?.alcohol?.review?.let { review->
-                                        initRadarChart(review)
-                                    }
-                                },{t->
-                                    Log.e("차트 셋팅 에러",t.message.toString() )
-                                }))
+                            result.data?.userAssessment?.let{
+                                initRadarChart(it)
+                            }
 
                             view.getView().radarChart.visibility = View.VISIBLE
                             view.getView().userIndicator.visibility = View.INVISIBLE
@@ -454,17 +496,18 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                         checkMore = GlobalApplication.DETAIL_MORE_REVIEW
                                     })
                                     view.getView().recyclerViewReviewList.adapter =
-                                        AlcoholReviewAdapter(context, alchol!!.alcoholId, muLst)
+                                        AlcoholReviewAdapter(context, alcohol!!.alcoholId, muLst)
                                 }
                             }
                         }
                         //리뷰개수
-                        view.getView().detailReviewCountTop.text = GlobalApplication.instance.checkCount(result.data?.reviewList?.size!!)
+                        view.getView().detailReviewCountTop.text =
+                            GlobalApplication.instance.checkCount(result.data?.reviewList?.size!!)
                         view.getView().alcoholReviewSumCountText.text = lst.size.toString() + "개"
                     }
-
                     view.getView().recyclerViewReviewList.setHasFixedSize(false)
-                    view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
+                    view.getView().recyclerViewReviewList.layoutManager =
+                        LinearLayoutManager(context)
 
                     result.data?.reviewInfo?.let {
                         //점수 분포 및 seekbar
@@ -521,7 +564,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     .checkReviewDuplicate(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
-                        alchol!!.alcoholId!!
+                        alcohol!!.alcoholId!!
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -536,7 +579,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             } else {
                                 //주류 코멘트 화면으로 이동
                                 val bundle = Bundle()
-                                bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alchol)
+                                bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
                                 GlobalApplication.instance.moveActivity(
                                     context, Comment::class.java, 0,
                                     bundle, GlobalApplication.ALCHOL_BUNDLE
@@ -551,29 +594,31 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
 
-    override fun initRadarChart(review:Review) {
-        view.getView().radarChart.scaleX =1.27f
-        view.getView().radarChart.scaleY =1.27f
+    override fun initRadarChart(review: EvaluateIndicator) {
+        view.getView().radarChart.scaleX = 1.27f
+        view.getView().radarChart.scaleY = 1.27f
 
-        view.getView().radarChart.isRotationEnabled =false //차트 회전
-        view.getView().radarChart.description.isEnabled =false // 범례 값 설명
-        view.getView().radarChart.legend.isEnabled =false //범례 값
-        view.getView().radarChart.webLineWidth =0f //대각선 두께
-        view.getView().radarChart.webColor = context.resources.getColor(R.color.white,null) // 대각선 색
-        view.getView().radarChart.webLineWidthInner =0.75f //내부선 두께
-        view.getView().radarChart.webColorInner = context.resources.getColor(R.color.light_grey4,null) //내부선 색
+        view.getView().radarChart.isRotationEnabled = false //차트 회전
+        view.getView().radarChart.description.isEnabled = false // 범례 값 설명
+        view.getView().radarChart.legend.isEnabled = false //범례 값
+        view.getView().radarChart.webLineWidth = 0f //대각선 두께
+        view.getView().radarChart.webColor =
+            context.resources.getColor(R.color.white, null) // 대각선 색
+        view.getView().radarChart.webLineWidthInner = 0.75f //내부선 두께
+        view.getView().radarChart.webColorInner =
+            context.resources.getColor(R.color.light_grey4, null) //내부선 색
         view.getView().radarChart.webAlpha = 200 //내부선 투명도 , 255 - opaque , 0 - transparent
 
 
         val xAxis = view.getView().radarChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.granularity =1f
+        xAxis.granularity = 1f
         xAxis.typeface = typeface
-        xAxis.textSize =11f
-        xAxis.yOffset =0f
-        xAxis.xOffset =0f
-        xAxis.valueFormatter = object :IndexAxisValueFormatter(){
-            private val name = listOf("아로마", "마우스필", "어울림", "시각적특징","테이스트")
+        xAxis.textSize = 11f
+        xAxis.yOffset = 0f
+        xAxis.xOffset = 0f
+        xAxis.valueFormatter = object : IndexAxisValueFormatter() {
+            private val name = listOf("아로마", "마우스필", "어울림", "시각적특징", "테이스트")
 
             override fun getFormattedValue(value: Float): String {
                 return name[value.toInt() % name.size]
@@ -581,21 +626,22 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
 
         val yAxis = view.getView().radarChart.yAxis
-        yAxis.setLabelCount(5,false)
-        yAxis.xOffset =0f
-        yAxis.yOffset =0f
-        yAxis.axisMinimum =0f// 최소 웹 라인의 개수
-        yAxis.axisMaximum =WEB_LINE_MAX //최대 웹 라인의 개수 지정
+        yAxis.setLabelCount(5, false)
+        yAxis.xOffset = 0f
+        yAxis.yOffset = 0f
+        yAxis.axisMinimum = 0f// 최소 웹 라인의 개수
+        yAxis.axisMaximum = WEB_LINE_MAX //최대 웹 라인의 개수 지정
         yAxis.setDrawLabels(false) //수직으로 표시되는 수치값
         setRadarChartData(review)
     }
 
-    private fun setRadarChartData(review:Review){
+    private fun setRadarChartData(review: EvaluateIndicator) {
         val chartDataSetList = mutableListOf<IRadarDataSet>()
         val backgroundEntry = mutableListOf<RadarEntry>()
         val dataEntry = mutableListOf<RadarEntry>()
 
-        review.let {info->
+
+        review.let { info ->
             backgroundEntry.add(RadarEntry(5f))
             backgroundEntry.add(RadarEntry(5f))
             backgroundEntry.add(RadarEntry(5f))
@@ -603,7 +649,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             backgroundEntry.add(RadarEntry(5f))
 
             info.appearance?.let {
-                Log.e("시각적특징",it.toString())
+                Log.e("시각적특징", it.toString())
                 dataEntry.add(RadarEntry(it.toFloat()))
             }
             info.aroma?.let {
@@ -620,20 +666,22 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             }
         }
 
-        val bacgroundSet = RadarDataSet(backgroundEntry,"backgroundColor")
-        bacgroundSet.color = context.resources.getColor(R.color.light_grey3,null) //데이터 셋 바깥 line color
-        bacgroundSet.fillColor = context.resources.getColor(R.color.light_grey3,null) // 데이터 셋 내부 color
+        val bacgroundSet = RadarDataSet(backgroundEntry, "backgroundColor")
+        bacgroundSet.color =
+            context.resources.getColor(R.color.light_grey3, null) //데이터 셋 바깥 line color
+        bacgroundSet.fillColor =
+            context.resources.getColor(R.color.light_grey3, null) // 데이터 셋 내부 color
         bacgroundSet.setDrawFilled(true)
-        bacgroundSet.fillAlpha =200
-        bacgroundSet.isDrawHighlightCircleEnabled =true
+        bacgroundSet.fillAlpha = 200
+        bacgroundSet.isDrawHighlightCircleEnabled = true
         bacgroundSet.setDrawHighlightIndicators(false)
 
-        val dataSet = RadarDataSet(dataEntry,"data")
-        dataSet.color = context.resources.getColor(R.color.orange,null)
-        dataSet.fillColor = context.resources.getColor(R.color.orange,null)
+        val dataSet = RadarDataSet(dataEntry, "data")
+        dataSet.color = context.resources.getColor(R.color.orange, null)
+        dataSet.fillColor = context.resources.getColor(R.color.orange, null)
         dataSet.setDrawFilled(true)
-        dataSet.fillAlpha =200
-        dataSet.isDrawHighlightCircleEnabled =true
+        dataSet.fillAlpha = 200
+        dataSet.isDrawHighlightCircleEnabled = true
         dataSet.setDrawHighlightIndicators(false)
 
 

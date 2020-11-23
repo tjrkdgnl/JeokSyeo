@@ -94,7 +94,7 @@ class KakaoLogin(private val context: Context) {
             dialog.dismiss()
         }
 
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        cancelButton.setOnClickListener { dialog.dismiss() }
     }
 
     fun kakaoDelete() {
@@ -120,8 +120,7 @@ class KakaoLogin(private val context: Context) {
                             userInfo.unlink { error ->
                                 if (error != null) {
                                     Log.e(TAG, "연결 끊기 실패", error)
-                                    Toast.makeText(context, "탈퇴가 제대로 진행되지 않았습니다.\n " +
-                                            "다시 진행해 주세요.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "재 로그인 후, 다시 진행해주세요.", Toast.LENGTH_SHORT).show()
                                 } else {
                                     Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
                                     //서버 자체에서 탈퇴를 진행하는 api도 실행하기
@@ -143,7 +142,10 @@ class KakaoLogin(private val context: Context) {
                             }
                         }
                     }
-                },{t-> Log.e(ErrorManager.DELETE_USER,t.message.toString())})
+                },{t->
+                    dialog.dismiss()
+                    Toast.makeText(context, "재 로그인 후, 다시 실행해주세요.", Toast.LENGTH_SHORT).show()
+                    Log.e(ErrorManager.DELETE_USER,t.message.toString())})
             dialog.dismiss()
         }
         cancelButton.setOnClickListener { dialog.dismiss() }

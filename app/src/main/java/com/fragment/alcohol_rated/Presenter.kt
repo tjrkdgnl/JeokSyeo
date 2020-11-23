@@ -103,6 +103,7 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                 }
                 it.data?.reviewList?.let { lst->
                     if(lst.isNotEmpty()){
+                        loading =false
                         alcoholRatedAdapter.updateItem(lst.toMutableList())
                     }
                 }

@@ -29,15 +29,13 @@ import io.reactivex.schedulers.Schedulers
 
 class GoogleLogin(private val mContext: Context, private val activity: Activity) {
     private  var disposable: Disposable? =null
-    val gso: GoogleSignInOptions
+    val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken(mContext.getString(R.string.googleWebApplicationId))
+        .requestEmail()
+        .build()
     val instance: GoogleSignInClient
 
     init {
-        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(mContext.getString(R.string.googleWebApplicationId))
-            .requestEmail()
-            .build()
-
         instance = GoogleSignIn.getClient(mContext, gso)
     }
 
@@ -70,7 +68,7 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
             Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        cancelButton.setOnClickListener { dialog.dismiss() }
     }
 
     fun googleDelete() {
@@ -87,7 +85,7 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
 
         okButton.setOnClickListener { v: View? ->
             FirebaseAuth.getInstance().currentUser?.delete()
-                ?.addOnCompleteListener(activity, OnCompleteListener {
+                ?.addOnCompleteListener(activity) {
                     if (it.isSuccessful) {
                         disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                             .deleteUser(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
@@ -118,12 +116,14 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
                                         disposable?.dispose()
                                     }
                                 }
-                            },{t-> Log.e(ErrorManager.DELETE_USER,t.message.toString())})
+                            },{t->
+                                dialog.dismiss()
+                                Toast.makeText(mContext, "재 로그인 후, 다시 실행해주세요.", Toast.LENGTH_SHORT).show()
+                                Log.e(ErrorManager.DELETE_USER,t.message.toString())})
                     }
                     dialog.dismiss()
-                })?.addOnFailureListener {
-                    Toast.makeText(mContext, "탈퇴가 제대로 진행되지않았습니다.\n" +
-                            "재 로그인 후, 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                }?.addOnFailureListener {
+                    Toast.makeText(mContext, "재 로그인 후, 다시 진행해주세요.", Toast.LENGTH_SHORT).show()
                     Log.e("구글삭제 실패", it.message.toString())
                     dialog.dismiss()
                 }

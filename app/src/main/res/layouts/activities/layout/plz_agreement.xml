@@ -19,27 +19,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/all_check"
+
+        <LinearLayout
+            android:id="@+id/all_agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
+            android:gravity="center_vertical|center_horizontal"
             android:onClick="onClick"
-            android:src="@mipmap/big_checkbox_empty"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plz_agreementText" />
+            app:layout_constraintTop_toBottomOf="@id/plz_agreementText">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:lineSpacingExtra="6sp"
-            android:text="전체동의"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@id/all_check"
-            app:layout_constraintStart_toEndOf="@id/all_check"
-            app:layout_constraintTop_toTopOf="@id/all_check" />
+            <ImageView
+                android:id="@+id/all_check"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/big_checkbox_empty" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="2dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:text="전체동의"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
 
         <View
             android:id="@+id/all_check_border"
@@ -47,87 +56,95 @@
             android:layout_height="0.5dp"
             android:layout_marginTop="20dp"
             android:background="@color/light_grey"
-            app:layout_constraintTop_toBottomOf="@id/all_check" />
-
-        <ImageView
-            android:id="@+id/app_agreemnt_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:onClick="onClick"
-            android:src="@mipmap/mini_checkbox_empty"
-            app:layout_constraintTop_toBottomOf="@id/all_check_border"
-
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/all_agreement" />
 
         <LinearLayout
             android:id="@+id/app_agreement"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:onClick="onClick"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:weightSum="4"
-            app:layout_constraintBottom_toBottomOf="@id/app_agreemnt_checkbox"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/app_agreemnt_checkbox"
-            app:layout_constraintTop_toTopOf="@id/app_agreemnt_checkbox">
+            android:onClick="onClick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/all_check_border">
+
+            <ImageView
+                android:id="@+id/app_agreemnt_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:src="@mipmap/mini_checkbox_empty" />
 
             <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
                 android:layout_weight="3"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:text="이용약관 동의 (필수)"
                 android:textColor="#808080"
                 android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/right_arrow" />
         </LinearLayout>
 
 
         <ImageView
-            android:id="@+id/private_agreemnt_checkbox"
-            android:layout_width="wrap_content"
+            android:id="@+id/app_agreement_webView"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
             android:onClick="onClick"
-            android:src="@mipmap/mini_checkbox_empty"
-            app:layout_constraintTop_toBottomOf="@id/app_agreemnt_checkbox" />
+            android:src="@mipmap/right_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/app_agreement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toTopOf="@id/app_agreement" />
 
         <LinearLayout
             android:id="@+id/private_agreement"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:weightSum="4"
-            app:layout_constraintBottom_toBottomOf="@id/private_agreemnt_checkbox"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/private_agreemnt_checkbox"
-            app:layout_constraintTop_toTopOf="@id/private_agreemnt_checkbox">
+            android:onClick="onClick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_agreement">
+
+            <ImageView
+                android:id="@+id/private_agreemnt_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/mini_checkbox_empty" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
+                android:layout_marginBottom="4dp"
                 android:layout_weight="3"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:lineSpacingExtra="4sp"
                 android:text="개인정보 취급방침 (필수)"
                 android:textColor="#808080"
                 android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/right_arrow" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/private_agreement_webView"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:src="@mipmap/right_arrow"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="@id/private_agreement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/private_agreement" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -91,10 +91,6 @@ class Alcohol() : Parcelable {
     @Expose
     var foodPairing: List<String>? = null
 
-    @SerializedName("review")
-    @Expose
-    var review: Review? = null
-
     constructor(parcel: Parcel) : this() {
         alcoholId = parcel.readString()
         name = parcel.readParcelable(Name::class.java.classLoader)
@@ -109,14 +105,13 @@ class Alcohol() : Parcelable {
         isLiked = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
         likeCount = parcel.readValue(Int::class.java.classLoader) as? Int
         viewCount = parcel.readValue(Int::class.java.classLoader) as? Int
-        abv = parcel.readValue(Double::class.java.classLoader) as? String
+        abv = parcel.readString()
         adjunct = parcel.createStringArrayList()
         barrelAged = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
         productionYear = parcel.readValue(Int::class.java.classLoader) as? Int
         sale = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
         capacity = parcel.readValue(Int::class.java.classLoader) as? Int
         foodPairing = parcel.createStringArrayList()
-        review = parcel.readParcelable(Review::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -133,14 +128,13 @@ class Alcohol() : Parcelable {
         parcel.writeValue(isLiked)
         parcel.writeValue(likeCount)
         parcel.writeValue(viewCount)
-        parcel.writeValue(abv)
+        parcel.writeString(abv)
         parcel.writeStringList(adjunct)
         parcel.writeValue(barrelAged)
         parcel.writeValue(productionYear)
         parcel.writeValue(sale)
         parcel.writeValue(capacity)
         parcel.writeStringList(foodPairing)
-        parcel.writeParcelable(review, flags)
     }
 
     override fun describeContents(): Int {

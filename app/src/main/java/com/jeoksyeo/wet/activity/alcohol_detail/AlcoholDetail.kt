@@ -1,11 +1,10 @@
 package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.application.GlobalApplication
-import com.model.alcohol_detail.AlcoholComponentData
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 
@@ -26,6 +25,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         presenter.init()
         binding.AlcoholDetailSelectedByMe.setOnClickListener(this)
         binding.detailExpandableButton.setOnClickListener(this)
+        presenter.checkCountLine()
 
     }
 
@@ -33,6 +33,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         super.onStart()
         presenter.isLike=false
         presenter.initReview(this)
+
 
     }
 
@@ -49,18 +50,28 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         }
     }
 
+    override fun settingExpandableText(check: Boolean) {
+        if(check){
+            binding.detailExpandableButton.visibility =View.VISIBLE
+
+        }
+        else{
+            binding.detailExpandableButton.visibility =View.INVISIBLE
+        }
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.AlcoholDetail_selectedByMe -> {
                 if(!presenter.isLike) {
                     presenter.isLike = true
-                    presenter.alchol?.let {
+                    presenter.alcohol?.let {
                         presenter.executeLike()
                     }
                 }
                 else{
                     presenter.isLike=false
-                    presenter.alchol?.let {
+                    presenter.alcohol?.let {
                         presenter.cancelAlcoholLike()
                     }
                 }

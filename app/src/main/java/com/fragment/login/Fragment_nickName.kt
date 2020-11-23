@@ -1,5 +1,6 @@
 package com.fragment.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
 import com.error.ErrorManager
+import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.SignUpViewModel
@@ -57,17 +59,22 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         binding.insertInfoEditText.addTextChangedListener(this)
         binding.insertInfoEditText.setOnKeyListener(this)
 
-        binding.plzAgreement.allCheck.setOnClickListener(this)
-        binding.plzAgreement.appAgreemntCheckbox.setOnClickListener(this)
-        binding.plzAgreement.privateAgreemntCheckbox.setOnClickListener(this)
+        binding.plzAgreement.allAgreement.setOnClickListener(this)
+        binding.plzAgreement.appAgreement.setOnClickListener(this)
+        binding.plzAgreement.privateAgreement.setOnClickListener(this)
+        binding.plzAgreement.appAgreementWebView.setOnClickListener(this)
+        binding.plzAgreement.privateAgreementWebView.setOnClickListener(this)
 
+
+        //화면을 터치할 시, 키패드 삭제
+        GlobalApplication.instance.removeEditextFocus(binding.insertInfoEditText,binding.nickNameParentLayout)
         return binding.root
     }
 
     private fun rightNickName() {
         val check = Pattern.matches("^\\w+|[가-힣]+$", binding.insertInfoEditText.text.toString())
 
-        if (binding.insertInfoEditText.text.toString().isNotBlank()) {
+        if (binding.insertInfoEditText.text.toString().isNotEmpty()) {
             if (check) {
                 //api 설정
                 handler.removeCallbacksAndMessages(null)
@@ -78,23 +85,34 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             //result=true면 닉네임 중복을 의미
-                            if(!it.data?.result!!){
-                                checkNickname = binding.insertInfoEditText.text.toString().isNotEmpty()
+                            if(!it.data?.result!!){// 중복이 아닌경우
+                                checkNickname = true
                                 setGreen()
-                            } else{
+                            } else{ //중복인 경우
                                 setRed()
+                                checkNickname = false
                             }
-
-                        }, {t ->Log.e(ErrorManager.NICKNAME_DUPLICATE,t.message.toString())})
+                            //버튼 활성화 여부 확인
+                            checkEnable()
+                        }, {t ->
+                            Log.e(ErrorManager.NICKNAME_DUPLICATE,t.message.toString())})
                 },300)
-            } else {
+            } else { //닉네임 패턴을 위배하는 경우
                 setRed()
+                checkNickname=false
+                //버튼 활성화 여부 확인
+                checkEnable()
             }
-        } else {
+        } else {// 사용자가 다 닉네임을 다 지운 경우
             binding.insertNameLinearLayout.background =
                 resources.getDrawable(R.drawable.bottom_line, null)
             binding.checkNickNameText.visibility = View.INVISIBLE
+
+            checkNickname=false
+            //버튼 활성화 여부 확인
+            checkEnable()
         }
+
     }
 
     private fun setGreen(){
@@ -113,6 +131,8 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
     }
 
 
+
+
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
             GlobalApplication.instance.keyPadSetting(binding.insertInfoEditText,requireContext())
@@ -129,12 +149,11 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         rightNickName()
-        checkEnable()
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.all_check -> {
+            R.id.all_agreement -> {
                 if (!checkTotalAgreement) {
                     checkTotalAgreement = true
                     checkPrivateAgreement = true
@@ -147,7 +166,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                 checkEnable()
             }
 
-            R.id.app_agreemnt_checkbox -> {
+            R.id.app_agreement -> {
                 if (!checkAppAgreement) {
                     checkAppAgreement = true
 
@@ -157,7 +176,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                 }
                 checkEnable()
             }
-            R.id.private_agreemnt_checkbox -> {
+            R.id.private_agreement -> {
                 if (!checkPrivateAgreement) {
                     checkPrivateAgreement = true
                 } else {
@@ -166,6 +185,17 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
 
                 }
                 checkEnable()
+            }
+            R.id.app_agreement_webView->{
+                val  bundle =Bundle()
+                bundle.putInt(GlobalApplication.AGREEMENT_INFO,0)
+                GlobalApplication.instance.moveActivity(requireContext(),Agreement::class.java,0,bundle,GlobalApplication.AGREEMENT,1)
+            }
+
+            R.id.private_agreement_webView->{
+                val  bundle =Bundle()
+                bundle.putInt(GlobalApplication.AGREEMENT_INFO,1)
+                GlobalApplication.instance.moveActivity(requireContext(),Agreement::class.java,0,bundle,GlobalApplication.AGREEMENT,1)
             }
             else -> {
             }
@@ -192,7 +222,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                 binding.plzAgreement.privateAgreemntCheckbox.setImageResource(R.mipmap.mini_checkbox_full)
 
                 //동의가 모두 끝났기 때문에 이름만 입력되면 버튼 활성화
-                result = checkNickname
+                result = checkNickname &&checkAppAgreement && checkPrivateAgreement
 
                 viewmodel.buttonState.value = result
                 viewmodel.nickname = binding.insertInfoEditText.text.toString()

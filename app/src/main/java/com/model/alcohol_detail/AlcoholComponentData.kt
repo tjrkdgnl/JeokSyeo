@@ -1,6 +1,6 @@
 package com.model.alcohol_detail
 
-data class AlcoholComponentData( val mainTitle:String?,
+data class AlcoholComponentData(val mainTitle:String?,
                                 val mainTitle_kr:String?,
                                 val compo_image:Int?,
                                 val contents:Any,

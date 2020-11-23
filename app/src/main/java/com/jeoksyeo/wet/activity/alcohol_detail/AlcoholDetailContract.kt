@@ -2,9 +2,7 @@ package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.content.Context
 import android.content.Intent
-import com.model.alcohol_detail.Alcohol
-import com.model.alcohol_detail.AlcoholComponentData
-import com.model.alcohol_detail.Review
+import com.model.review.EvaluateIndicator
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 
 interface AlcoholDetailContract {
@@ -14,6 +12,7 @@ interface AlcoholDetailContract {
 
         fun setLikeImage(isLike:Boolean)
 
+        fun settingExpandableText(check :Boolean)
     }
 
     interface BasePresenter{
@@ -35,8 +34,9 @@ interface AlcoholDetailContract {
 
         fun checkReviewDuplicate(context: Context)
 
-        fun initRadarChart(review:Review)
+        fun initRadarChart(review:EvaluateIndicator)
 
+        fun checkCountLine()
 
     }
 }

@@ -13,18 +13,19 @@ class Alcohol_Component_SRM(val parent:ViewGroup)
 
     override fun bind(data: AlcoholComponentData) {
         if(data.contents is Srm){
-            if(data.contents.color ==null){
                 binding.componentParentLayout.setBackgroundColor(Color.parseColor(data.contents.rgbHex))
-                binding.componentSrm.text = data.contents.srm.toString()
-            }
-            else{
                 binding.componentTitle.text = "COLOR"
                 binding.componentSrm.text = data.contents.color
                 binding.componentParentLayout.setBackgroundColor( parent.context.resources.getColor(R.color.white,null))
                 binding.componentTitle.setTextColor(parent.context.resources.getColor(R.color.orange,null))
                 binding.componentSrm.setTextColor(parent.context.resources.getColor(R.color.black,null))
                 binding.componentBorder.setBackgroundColor(parent.context.resources.getColor(R.color.orange,null))
-            }
+
+        }
+        else if(data.contents is com.model.alcohol_detail.Color){
+            binding.componentTitle.text = "COLOR"
+            binding.componentSrm.text = data.contents.name
+            binding.componentParentLayout.setBackgroundColor(Color.parseColor(data.contents.rgbHex))
         }
     }
 }

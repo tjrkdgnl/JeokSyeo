@@ -38,17 +38,17 @@ class Fragment_gender : Fragment(),View.OnClickListener{
         binding.lifecycleOwner =this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
-        binding.maleCheckbox.setOnClickListener(this)
-        binding.femaleCheckbox.setOnClickListener(this)
+        binding.maleLinearLayout.setOnClickListener(this)
+        binding.femaleLinearLayout.setOnClickListener(this)
 
         return binding.root
     }
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.male_checkbox ->{checkMale()}
+            R.id.male_LinearLayout ->{checkMale()}
 
-            R.id.female_checkbox ->{checkFemale()}
+            R.id.female_LinearLayout ->{checkFemale()}
 
             else->{}
         }

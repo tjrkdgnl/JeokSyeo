@@ -50,17 +50,18 @@ class SearchAdapter(
             //최근 검색어 삭제
             holder.getViewBinding().deleteMySearch.setOnClickListener {
                 //내장 디비에 저장된 최근 검색어 리스트를 기준으로 최신화
-                Log.e("포지션",position.toString())
+                Log.e("포지션 value",keywordLst[position])
                 val check = GlobalApplication.userDataBase.deleteKeyword(keywordLst[position])
 
                 if (check) {
                     keywordLst.removeAt(position)
+                    Log.e("키워드리스트 사이즈",keywordLst.size.toString())
 
                     if (keywordLst.size == 0) { //최근 검색어 없음 표시하기 위해서
                         keywordLst.add("-1")
                         notifyDataSetChanged()
                     } else {
-                        notifyItemRemoved(position)
+                      notifyDataSetChanged()
                     }
                 }
             }

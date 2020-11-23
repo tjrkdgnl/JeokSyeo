@@ -81,7 +81,7 @@
                     android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center"
                     android:lineSpacingExtra="2sp"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="@{alcohol.name.kr.toString()}"
                     android:textColor="#000000"
                     android:textSize="@dimen/detail_alcohol_Name_k"
@@ -119,9 +119,9 @@
                     android:background="@null"
                     android:onClick="onClick"
                     android:src="@mipmap/detail_empty_heart"
+                    app:layout_constraintEnd_toEndOf="@id/ic_alcohol_type"
                     app:layout_constraintHorizontal_bias="0.15"
                     app:layout_constraintStart_toStartOf="@id/ic_alcohol_type"
-                    app:layout_constraintEnd_toEndOf="@id/ic_alcohol_type"
                     app:layout_constraintTop_toBottomOf="@id/AlcoholDetail_alcoholOrigin" />
 
                 <TextView
@@ -130,9 +130,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:lineSpacingExtra="7sp"
                     android:text="0"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:textColor="#444444"
                     android:textSize="15sp"
                     android:textStyle="normal"
@@ -146,9 +146,9 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/detail_talk"
                     app:layout_constraintBottom_toBottomOf="@id/AlcoholDetail_selectedByMe"
-                    app:layout_constraintStart_toStartOf="@id/ic_degree_type"
                     app:layout_constraintEnd_toEndOf="@id/ic_degree_type"
                     app:layout_constraintHorizontal_bias="0.15"
+                    app:layout_constraintStart_toStartOf="@id/ic_degree_type"
                     app:layout_constraintTop_toTopOf="@id/AlcoholDetail_selectedByMe" />
 
                 <TextView
@@ -171,9 +171,9 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/detail_eye"
                     app:layout_constraintBottom_toBottomOf="@id/detail_reviewImg_top"
-                    app:layout_constraintStart_toStartOf="@id/ic_star_type"
                     app:layout_constraintEnd_toEndOf="@id/ic_star_type"
                     app:layout_constraintHorizontal_bias="0.15"
+                    app:layout_constraintStart_toStartOf="@id/ic_star_type"
                     app:layout_constraintTop_toTopOf="@id/detail_reviewImg_top" />
 
                 <TextView
@@ -181,11 +181,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:lineSpacingExtra="7sp"
                     android:text="0"
                     android:textColor="#444444"
                     android:textSize="15sp"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@id/detail_eye_topImg"
                     app:layout_constraintStart_toEndOf="@id/detail_eye_topImg"
@@ -280,9 +280,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/evalution_button_shape"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:onClick="onClick"
                     android:text="평가하기"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:textColor="#ffffff"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -339,23 +339,25 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="10dp"
                     android:ellipsize="end"
-                    android:lineSpacingExtra="8sp"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="8sp"
                     android:maxLines="5"
-                    android:text="그랑 크뤼 전통에서 양조 된 장인의 페일 에일. 황금빛 비등과 부드러운 홉 향을 즐겨보세요. 고수풀과 낙원의 곡물이 매운 미각을 둥글게하여 부드럽게 녹아서 호피와 행복의 비단결로 마무리합니다! 어떤 계절이든 축하하세요! 즐겨!"
+                    android:text="@{alcohol.description}"
                     android:textColor="#333333"
                     android:textSize="@dimen/detail_default_textSize"
                     app:animation_duration="170"
+                    app:layout_constraintBottom_toTopOf="@id/detail_expandableButton"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView_alcoholExplain" />
+                    app:layout_constraintTop_toBottomOf="@id/textView_alcoholExplain"
+                    tools:text="그랑 크뤼 전통에서 양조 된 장인의 페일 에일. 황금빛 비등과 부드러운 홉 향을 즐겨보세요. 고수풀과 낙원의 곡물이 매운 미각을 둥글게하여 부드럽게 녹아서 호피와 행복의 비단결로 마무리합니다! 어떤 계절이든 축하하세요! 즐겨!" />
 
                 <LinearLayout
                     android:id="@+id/detail_expandableButton"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
                     android:onClick="onClick"
@@ -375,8 +377,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
-                        android:gravity="center_vertical"
                         android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:gravity="center_vertical"
                         android:lineSpacingExtra="5sp"
                         android:text="더보기"
                         android:textColor="#7b7b7b"
@@ -443,8 +445,8 @@
                     android:id="@+id/component_toggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:onClick="onClick"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1"
                     app:layout_constraintTop_toBottomOf="@id/alcoholComponent_recyclerView">
@@ -453,27 +455,26 @@
                         android:id="@+id/commpoent_arrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/up_errow_orange"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="3dp"
-                        android:layout_marginEnd="5dp" />
+                        android:layout_marginEnd="5dp"
+                        android:src="@mipmap/up_errow_orange" />
 
                     <TextView
                         android:id="@+id/component_toggle_text"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                        android:textStyle="normal"
-                        android:textSize="15sp"
-                        android:textColor="@color/orange"
-                        android:lineSpacingExtra="7sp"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:text="주류정보 펼치기"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="22dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginEnd="22dp"
                         android:layout_marginBottom="10dp"
-                        />
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:lineSpacingExtra="7sp"
+                        android:text="주류정보 펼치기"
+                        android:textColor="@color/orange"
+                        android:textSize="15sp"
+                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -579,10 +580,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="18dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="2sp"
                     android:text="주류리뷰"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:textColor="#000000"
                     android:textSize="@dimen/title_Size"
                     app:layout_constraintStart_toStartOf="parent"
@@ -593,9 +594,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:hint="0개"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:lineSpacingExtra="1sp"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/title_Size"
@@ -617,11 +618,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="51dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:hint="0"
                     android:lineSpacingExtra="4sp"
                     android:textColor="#000000"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:textSize="@dimen/detail_review_Score"
                     app:layout_constraintEnd_toStartOf="@id/alcoholDetail_scoreSeekbar"
                     app:layout_constraintHorizontal_chainStyle="spread"
@@ -671,6 +672,7 @@
                     app:layout_constraintTop_toBottomOf="@id/alcoholDetail_scoreSeekbar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="58dp"

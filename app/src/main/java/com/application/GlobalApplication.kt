@@ -85,6 +85,9 @@ class GlobalApplication : Application() {
         const val COMPONENT_DEFAULT=0
         const val COMPONENT_RECYCLERVIEW=1
         const val COMPONENT_SRM=2
+
+        const val AGREEMENT = "agreement"
+        const val AGREEMENT_INFO = "agreement_info"
     }
 
     fun getAlcoholType(positon: Int) = typeList[positon]
@@ -128,7 +131,7 @@ class GlobalApplication : Application() {
     }
 
     //액티비티 전환
-    fun moveActivity(context: Context,activityClass:Class<*>,flag:Int=0,bundle:Bundle? = null,bundleFlag:String?=null){
+    fun moveActivity(context: Context,activityClass:Class<*>,flag:Int=0,bundle:Bundle? = null,bundleFlag:String?=null,animationFlag:Int=0){
         var activity = context as Activity
         var intent = Intent(context,activityClass)
 
@@ -147,7 +150,17 @@ class GlobalApplication : Application() {
             Intent.FLAG_ACTIVITY_CLEAR_TOP ->{
                 activity.startActivity(intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP )) }
         }
-        activity.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
+
+        when(animationFlag){
+            0 ->{
+                activity.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )
+            }
+
+            1 ->{
+                activity.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_current )
+            }
+        }
+
     }
 
 

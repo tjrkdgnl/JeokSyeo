@@ -116,12 +116,11 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .subscribe({
                     it.data?.pagingInfo?.let { info ->
                         info.page?.let { pageNumber-> pageNum = pageNumber.toInt() }
-                        info.next?.let { next->
-                            if (next) {
-                                it.data?.alcoholList?.toMutableList()?.let { list ->
-                                    view.updateList(list.toMutableList())
-                                    loading = false
-                                }
+
+                        it.data?.alcoholList?.toMutableList()?.let { list ->
+                            if(list.isNotEmpty()){
+                                loading = false
+                                view.updateList(list.toMutableList())
                             }
                         }
                     }

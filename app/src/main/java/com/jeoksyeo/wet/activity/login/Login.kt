@@ -98,11 +98,11 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun appleExecute() {
         FirebaseAuth.getInstance().signOut()
-            appleLogin = AppleLogin(this,this)
-            appleLogin.executeProgressBar = executeProgressBar
+        appleLogin = AppleLogin(this,this)
+        appleLogin.executeProgressBar = executeProgressBar
 
-            appleLogin.loginExecute()
-            executeProgressBar(true)
+        appleLogin.loginExecute()
+        executeProgressBar(true)
     }
 
     private fun progressbarStatus(activity: Activity,setting:Boolean){

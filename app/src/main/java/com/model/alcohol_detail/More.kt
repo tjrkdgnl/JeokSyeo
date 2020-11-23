@@ -7,10 +7,6 @@ import com.google.gson.annotations.SerializedName
 
 
 class More() :Parcelable {
-    @SerializedName("malt")
-    @Expose
-    var malt: List<String>? = null
-
     @SerializedName("hop")
     @Expose
     var hop: List<String>? = null
@@ -23,62 +19,94 @@ class More() :Parcelable {
     @Expose
     var srm: Srm? = null
 
-    @SerializedName("temperature")
+    @SerializedName("color")
     @Expose
+    var color: Color? = null
+
+    @SerializedName("temperature")
+    @Expose //
     var temperature: List<String>? = null
 
     @SerializedName("filtered")
     @Expose
     var filtered: Boolean? = null
 
-    @SerializedName("body")
+    @SerializedName("rpr")
     @Expose
-    var body: String? = null
+    var rpr: Float? = null
 
-    @SerializedName("acidic")
+    @SerializedName("smv")
     @Expose
-    var acidic: String? = null
-
-    @SerializedName("tannin")
-    @Expose
-
-    var tannin: String? = null
-
-    @SerializedName("sweet")
-    @Expose
-
-    var sweet: String? = null
-
-    @SerializedName("polishing")
-    @Expose
-
-    var polishing: String? = null
-
-    @SerializedName("cask")
-    @Expose
-    var cask: String? = null
+    var smv: Float? = null
 
     @SerializedName("sake_type")
     @Expose
     var sake_type: String? = null
 
+    @SerializedName("body")
+    @Expose
+    var body: String? = null
+
+    @SerializedName("acidity")
+    @Expose
+    var acidity: String? = null
+
+    @SerializedName("tannin")
+    @Expose
+    var tannin: String? = null
+
+    @SerializedName("sweet")
+    @Expose
+    var sweet: String? = null
+
+    @SerializedName("grape")
+    @Expose
+    var grape: List<String>? = null
+
+    @SerializedName("malt")
+    @Expose
+    var malt: List<String>? = null
+
+    @SerializedName("cask_type")
+    @Expose
+    var cask_type: String? = null
 
     constructor(parcel: Parcel) : this() {
-        malt = parcel.createStringArrayList()
         hop = parcel.createStringArrayList()
-        ibu = parcel.readValue(Int::class.java.classLoader) as? Float
+        ibu = parcel.readValue(Float::class.java.classLoader) as? Float
         srm = parcel.readParcelable(Srm::class.java.classLoader)
-        filtered = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        color = parcel.readParcelable(Color::class.java.classLoader)
         temperature = parcel.createStringArrayList()
+        filtered = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        rpr = parcel.readValue(Float::class.java.classLoader) as? Float
+        smv = parcel.readValue(Float::class.java.classLoader) as? Float
+        sake_type = parcel.readString()
+        body = parcel.readString()
+        acidity = parcel.readString()
+        tannin = parcel.readString()
+        sweet = parcel.readString()
+        grape = parcel.createStringArrayList()
+        malt = parcel.createStringArrayList()
+        cask_type = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeStringList(malt)
         parcel.writeStringList(hop)
         parcel.writeValue(ibu)
         parcel.writeParcelable(srm, flags)
-        parcel.writeValue(filtered)
+        parcel.writeParcelable(color, flags)
         parcel.writeStringList(temperature)
+        parcel.writeValue(filtered)
+        parcel.writeValue(rpr)
+        parcel.writeValue(smv)
+        parcel.writeString(sake_type)
+        parcel.writeString(body)
+        parcel.writeString(acidity)
+        parcel.writeString(tannin)
+        parcel.writeString(sweet)
+        parcel.writeStringList(grape)
+        parcel.writeStringList(malt)
+        parcel.writeString(cask_type)
     }
 
     override fun describeContents(): Int {
@@ -94,4 +122,6 @@ class More() :Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+
 }

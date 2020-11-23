@@ -9,7 +9,7 @@ import kotlin.collections.HashMap
 class UserInfo {
     private var user_id: String? = null
     private var level:Int =0
-    private var oauth_token: String? = null
+    private var oauth_token: String? = null //소셜 로그인 토큰값
     private var provider: String? = null
     private var email: String? = null
     var nickName: String? = null
@@ -142,6 +142,7 @@ class UserInfo {
             userInfo.address = this.address
             userInfo.level = this.level
 
+
             this.provider?.let { userInfo.infoMap.put(GlobalApplication.OAUTH_PROVIDER, it) }
             this.oauth_token?.let { userInfo.infoMap.put(GlobalApplication.OAUTH_TOKEN, it) }
             this.user_id?.let { userInfo.infoMap.put(GlobalApplication.USER_ID, it) }
@@ -150,13 +151,15 @@ class UserInfo {
             this.birthDay?.let { userInfo.infoMap.put(GlobalApplication.BIRTHDAY, it) }
             this.address?.let { userInfo.infoMap.put(GlobalApplication.ADDRESS, it) }
 
-            Log.e("user_id", userInfo.user_id.toString())
+
             Log.e("oauth_provider", userInfo.provider.toString())
             Log.e("oauth_token", userInfo.oauth_token.toString())
+            Log.e("user_id", userInfo.user_id.toString())
             Log.e("nickname", userInfo.nickName.toString())
             Log.e("birth", userInfo.birthDay.toString())
             Log.e("gender", userInfo.gender.toString())
-            Log.e("accessToken", userInfo.getAccessToken().toString())
+            Log.e("address", this.address.toString())
+
             Log.e("map개수", userInfo.infoMap.size.toString())
 
             return userInfo

@@ -12,7 +12,6 @@ import com.vuforia.engine.wet.databinding.NoResentSearchItemBinding
 class NoResentViewholder(parent:ViewGroup,  private val searchInterface: SearchContract.BaseVIew) : BaseViewHolder<String,NoResentSearchItemBinding>(R.layout.no_resent_search_item,parent) {
     override fun bind(data: String) {
 
-        searchInterface.getView().recyclerViewCover.visibility = View.VISIBLE
-        Log.e("뷰높이",searchInterface.getView().recyclerViewCover.isVisible.toString())
+
     }
 }

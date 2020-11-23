@@ -55,11 +55,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "849955731245-seo0lupf316vb9jv48sq42qe7dad9b7t.apps.googleusercontent.com",
+          "client_id": "849955731245-s31qn4097m90s2durqrml8r53v4rddr4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.vuforia.engine.wet",
             "certificate_hash": "bb7bdec1ee32914aeee789fb6cb3b9855c08d3c0"
+          }
+        },
+        {
+          "client_id": "849955731245-t6fij6q63m0nug501oc16d4tr3474j53.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vuforia.engine.wet",
+            "certificate_hash": "0e74f464b264ad5d900551778b63257e6b4b6bd3"
           }
         }
       ],

@@ -2,6 +2,7 @@ package com.fragment.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,13 @@ import com.application.GlobalApplication
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentSignupBirthdayBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnClickListener {
     private lateinit var viewmodel: SignUpViewModel
     private lateinit var binding: FragmentSignupBirthdayBinding
+    private lateinit var date:String
 
     companion object {
         fun newInstance(): Fragment_birthDay {
@@ -27,19 +30,16 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_signup_birthday, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_birthday, container, false)
         binding.lifecycleOwner = this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
+
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault())
 
         binding.basicDatePicker.datePicker.maxDate = Calendar.getInstance().time.time
 
@@ -47,6 +47,11 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         binding.basicDatePicker.buttonDatePickerOk.setOnClickListener(this)
 
         val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR,-15)
+
+        //최대 날짜를 통해 사용자가 생년월일이 지정했는지 판단
+        date= simpleDateFormat.format(calendar.time)
+        Log.e("date",date)
         binding.basicDatePicker.datePicker.maxDate = calendar.time.time
         binding.basicDatePicker.datePicker.init(
             calendar.get(Calendar.YEAR),
@@ -75,7 +80,8 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
 
         GlobalApplication.userBuilder.setBirthDay(birthDay)
 
-        viewmodel.buttonState.value = true
+        //생년월일을 변경하지 않으면 버튼 활성화가 되면 안된다.
+        viewmodel.buttonState.value = birthDay != date
     }
 
     override fun onClick(v: View?) {
@@ -87,7 +93,6 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
             R.id.button_datePicker_ok -> {
                 if (binding.basicDatePicker.ExpandableDatePicker.isExpanded) {
                     binding.basicDatePicker.ExpandableDatePicker.collapse()
-                    viewmodel.buttonState.value = true
                 }
             }
         }

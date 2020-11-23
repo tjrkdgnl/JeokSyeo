@@ -6,13 +6,11 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
-import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
 import com.viewmodel.AlcoholCategoryViewModel
-import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -57,11 +55,11 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .subscribe({
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
-                        info.alcoholTotalCount?.let {total ->
+                        info.alcoholTotalCount?.let { total ->
                             viewModel.totalCountList[position] = total
                             viewModel.currentPosition.value = position
                         }
-                        info.page?.let {pageNumber->
+                        info.page?.let { pageNumber ->
                             pageNum = pageNumber.toInt()
                         }
                     }
@@ -106,19 +104,18 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .getAlcoholCategory(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(), type
-                    , GlobalApplication.PAGINATION_SIZE, sort, (pageNum+1).toString()
+                    , GlobalApplication.PAGINATION_SIZE, sort, (pageNum + 1).toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     it.data?.pagingInfo?.let { info ->
-                        info.page?.let { pageNumber-> pageNum = pageNumber.toInt() }
-                        info.next?.let { next->
-                            if (next) {
-                                it.data?.alcoholList?.toMutableList()?.let { list ->
-                                    view.updateList(list.toMutableList())
-                                    loading = false
-                                }
+                        info.page?.let { pageNumber -> pageNum = pageNumber.toInt() }
+
+                        it.data?.alcoholList?.toMutableList()?.let { list ->
+                            if (list.isNotEmpty()){
+                                loading=false
+                                view.updateList(list.toMutableList())
                             }
                         }
                     }
@@ -139,7 +136,8 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .getAlcoholCategory(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(),
-                    type, GlobalApplication.PAGINATION_SIZE, sort, "1")
+                    type, GlobalApplication.PAGINATION_SIZE, sort, "1"
+                )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -156,8 +154,8 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
         this.sort = sort
     }
 
-     val executeProgressBar: (Boolean) ->Unit =  { execute->
-        if(execute)
+    val executeProgressBar: (Boolean) -> Unit = { execute ->
+        if (execute)
             binding.listProgressBar.root.visibility = View.VISIBLE
         else
             binding.listProgressBar.root.visibility = View.INVISIBLE

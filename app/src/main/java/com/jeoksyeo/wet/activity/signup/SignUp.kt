@@ -1,17 +1,19 @@
 package com.jeoksyeo.wet.activity.signup
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import com.adapter.signup.SignUpViewPagerAdapter
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.adapter.signup.SignUpViewPagerAdapter
 import com.application.GlobalApplication
-import com.fragment.login.Fragment_nickName
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
@@ -24,7 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseView{
+class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseView {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var mutableList: MutableList<String>
     private var idx = 0
@@ -79,7 +81,9 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         binding.viewPager2.isUserInputEnabled = false //viewpager2 스와이프off
         binding.viewPager2.offscreenPageLimit = 1
 
+
     }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -95,6 +99,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         }
     }
 
+    @SuppressLint("HardwareIds")
     override fun nextView() {
         viewModel.buttonState.value = false
         binding.viewPager2.currentItem = ++idx
@@ -104,45 +109,52 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         if (viewModel.checkRequest) {
             startActivity(Intent(this, Login::class.java))
             finish()
-        }
-        else if(viewModel.nickname !=null){
+        } else if (viewModel.nickname != null) {
 
-            viewModel.nickname?.let { nic->
+            viewModel.nickname?.let { nic ->
                 GlobalApplication.userBuilder.setNickName(nic)
             }
-            Log.e("닉네임",viewModel.nickname.toString())
-            viewModel.nickname =null
-        }
-
-        else if (viewModel.lock) {
-            if(viewModel.depth ==1){
+            viewModel.nickname = null
+        } else if (viewModel.lock) {
+            if (viewModel.depth == 1) {
                 GlobalApplication.userBuilder.setAddress(
                     viewModel.countryArea.value?.code!!
                 )
-                Log.e("컨트리코드",viewModel.countryArea.value?.code!!.toString())
-            }
-            else if(viewModel.depth ==2){
+            } else if (viewModel.depth == 2) {
                 GlobalApplication.userBuilder.setAddress(
                     viewModel.townArea.value?.code!!
                 )
-                Log.e("타운코드",viewModel.townArea.value?.code!!.toString())
             }
 
-            GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
-            disposable = ApiGenerator.retrofit.create(ApiService::class.java).signUp(
-                GlobalApplication.userBuilder.createUUID,
-                GlobalApplication.userInfo.getMap()
-            )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    //내장 디비에 토큰 값들 저장
-                    GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken.toString())
-                    GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
-                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
-                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
-                    GlobalApplication.instance.moveActivity(this, MainActivity::class.java, Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                }, { t: Throwable -> t.stackTrace })
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.e("디바이스 토큰 에러", task.exception?.message.toString())
+                } else {
+                    GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
+
+                    val userMap = GlobalApplication.userInfo.getMap()
+                    Log.e("불러온 디바이스토큰", task.result.toString())
+                    userMap["device_platform"] = "AOS"
+                    userMap["device_model"] = Build.MODEL
+                    userMap["device_id"] =Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
+                    userMap["device_token"] = task.result!!
+
+                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                        .signUp(GlobalApplication.userBuilder.createUUID, userMap)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            //내장 디비에 토큰 값들 저장
+                            GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken.toString())
+                            GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
+                            JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
+                            JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
+
+                            GlobalApplication.instance.moveActivity(this, MainActivity::class.java,
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP,null,null,1)
+                        }, { t: Throwable -> t.stackTrace })
+                }
+            }
         }
     }
 
