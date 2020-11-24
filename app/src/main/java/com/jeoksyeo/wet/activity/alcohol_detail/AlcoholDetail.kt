@@ -22,19 +22,16 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
             context=this@AlcoholDetail
             intent =this@AlcoholDetail.intent
         }
-        presenter.init()
+
         binding.AlcoholDetailSelectedByMe.setOnClickListener(this)
         binding.detailExpandableButton.setOnClickListener(this)
         presenter.checkCountLine()
-
     }
 
     override fun onStart() {
         super.onStart()
-        presenter.isLike=false
+        presenter.init()
         presenter.initReview(this)
-
-
     }
 
     override fun getView(): AlcoholDetailBinding {
@@ -43,9 +40,11 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
     override fun setLikeImage(isLike: Boolean) {
         if (isLike) {
+            presenter.isLike = true
             binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_full_heart)
 
         } else {
+            presenter.isLike=false
             binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_empty_heart)
         }
     }
@@ -64,13 +63,11 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         when (v?.id) {
             R.id.AlcoholDetail_selectedByMe -> {
                 if(!presenter.isLike) {
-                    presenter.isLike = true
                     presenter.alcohol?.let {
                         presenter.executeLike()
                     }
                 }
                 else{
-                    presenter.isLike=false
                     presenter.alcohol?.let {
                         presenter.cancelAlcoholLike()
                     }

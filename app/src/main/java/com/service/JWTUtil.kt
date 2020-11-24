@@ -72,10 +72,7 @@ object JWTUtil {
         if (token.equals(ACCESS_TOKEN) && check) {
             GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp"))
             val user = ApiGenerator.retrofit.create(ApiService::class.java)
-                .getUserInfo(
-                    GlobalApplication.userBuilder.createUUID,
-                    "Bearer " + GlobalApplication.userDataBase.getAccessToken()
-                )
+                .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
                 .subscribeOn(Schedulers.io())
                 .blockingGet()
 

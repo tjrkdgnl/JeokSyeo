@@ -13,7 +13,6 @@ object ApiGenerator {
     //http://dev.jeoksyeo.com/
     //"https://api.jeoksyeo.com/"
 
-    
     private const val BASE_URL =  "http://dev.jeoksyeo.com/"
 
     val retrofit :Retrofit = Retrofit.Builder()

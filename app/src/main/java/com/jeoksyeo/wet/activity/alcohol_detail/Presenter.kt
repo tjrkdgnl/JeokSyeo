@@ -79,12 +79,13 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         "SMV",
         "COLOR"
     )
-
     override fun init() {
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
             alcohol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
             alcohol?.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
+
+                refreshIsLike() // 좋아요여부 갱신
 
                 view.getView().alcohol = alcholData
 
@@ -106,6 +107,24 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
     }
 
+    private fun refreshIsLike(){
+        GlobalApplication.userInfo.getProvider()?.let {
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
+                alcohol?.alcoholId!!)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    it.data?.alcohol?.isLiked?.let {like->
+                        isLike = like
+                        view.setLikeImage(like)
+                    }
+                },{ t->
+                    Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())
+                }))
+        }
+    }
+
     override fun checkCountLine() {
         view.getView().textViewAlcoholDescription.post(Runnable {
             val lineCount = view.getView().textViewAlcoholDescription.lineCount
@@ -121,52 +140,73 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         val check = JWTUtil.settingUserInfo(false)
         Log.e("check", check.toString())
         if (check) {
-            compositeDisposable.add(
-                ApiGenerator.retrofit.create(ApiService::class.java)
-                    .alcoholLike(
-                        GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(),
-                        alcohol!!.alcoholId
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        view.setLikeImage(true)
-                        view.getView().alcoholdetailLikeCount.text =
-                            GlobalApplication.instance.checkCount(
-                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1
-                            )
-                    }, { t -> Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
-            )
-        } else
+            if(view.getView().AlcoholDetailSelectedByMe.isEnabled){
+                view.getView().AlcoholDetailSelectedByMe.isEnabled =false
+                compositeDisposable.add(
+                    ApiGenerator.retrofit.create(ApiService::class.java)
+                        .alcoholLike(
+                            GlobalApplication.userBuilder.createUUID,
+                            GlobalApplication.userInfo.getAccessToken(),
+                            alcohol!!.alcoholId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
+                            view.setLikeImage(true)
+                            view.getView().alcoholdetailLikeCount.text =
+                                GlobalApplication.instance.checkCount(
+                                    view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1
+                                )
+                        }, { t ->
+                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
+                            Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
+                )
+            }
+            else{
+                Toast.makeText(context,"처리 중입니다. 잠시 후 다시 시도해주세요.",Toast.LENGTH_LONG).show()
+            }
+
+        } else {
+            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
 
     override fun cancelAlcoholLike() {
         val check = JWTUtil.settingUserInfo(false)
 
         if (check) {
-            compositeDisposable.add(
-                ApiGenerator.retrofit.create(ApiService::class.java)
-                    .cancelAlcoholLike(
-                        GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(), alcohol!!.alcoholId
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        view.setLikeImage(false)
-                        view.getView().alcoholdetailLikeCount.text =
-                            GlobalApplication.instance.checkCount(
-                                view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1
-                            )
-                    }, { t -> Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
-            )
-        } else
+            if(view.getView().AlcoholDetailSelectedByMe.isEnabled){
+                view.getView().AlcoholDetailSelectedByMe.isEnabled =false
+                compositeDisposable.add(
+                    ApiGenerator.retrofit.create(ApiService::class.java)
+                        .cancelAlcoholLike(
+                            GlobalApplication.userBuilder.createUUID,
+                            GlobalApplication.userInfo.getAccessToken(), alcohol!!.alcoholId
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
+                            view.setLikeImage(false)
+                            view.getView().alcoholdetailLikeCount.text =
+                                GlobalApplication.instance.checkCount(
+                                    view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1
+                                )
+                        }, { t ->
+                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
+                            Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
+                )
+            }
+            else{
+                Toast.makeText(context,"처리 중입니다. 잠시 후 다시 시도해주세요.",Toast.LENGTH_LONG).show()
+            }
+
+        } else{
+            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        }
     }
-
-
 
     override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기
