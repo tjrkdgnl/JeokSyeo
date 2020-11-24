@@ -17,9 +17,9 @@ class Alcohol_Component_Default(parent:ViewGroup)
         binding.componentDefaultItem = data
         binding.executePendingBindings()
 
-        if(data.mainTitle_kr == "-1"){
-            binding.compoentTitleKr.visibility = View.GONE
-        }
+//        if(data.mainTitle_kr == "-1"){
+//            binding.compoentTitleKr.visibility = View.GONE
+//        }
 
         data.textSize?.let {
             binding.componentDescription.textSize = it

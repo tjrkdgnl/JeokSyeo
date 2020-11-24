@@ -1,9 +1,7 @@
 package com.adapter.main
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,7 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholRankViewHolder
 import com.application.GlobalApplication
-import com.bumptech.glide.Glide
 import com.custom.OnSingleClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
@@ -19,7 +16,6 @@ import com.model.alcohol_ranking.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
-import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -72,6 +68,6 @@ class AlcoholRankAdapter(
         val onSingleClickListener = OnSingleClickListener{
             onSingleClick(it)
         }
-        setOnClickListener(onSingleClick)
+        setOnClickListener(onSingleClickListener)
     }
 }

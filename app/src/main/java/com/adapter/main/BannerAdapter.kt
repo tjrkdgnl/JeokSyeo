@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.adapter.viewholder.BannerViewHolder
 import com.model.banner.Banner
 

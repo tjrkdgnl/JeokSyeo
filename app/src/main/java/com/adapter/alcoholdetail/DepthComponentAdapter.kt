@@ -1,6 +1,5 @@
 package com.adapter.alcoholdetail
 
-import android.app.ActionBar
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

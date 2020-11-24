@@ -15,6 +15,7 @@ import com.adapter.alcoholdetail.AlcoholReviewAdapter
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
+import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.RadarData
@@ -44,7 +45,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override lateinit var context: Context
     override lateinit var intent: Intent
     var isLike = false
-    var alcohol: Alcohol? = null
+    override lateinit var alcohol: Alcohol
     private var componentAdapter: AlcoholComponentAdapter? = null
     private var toggle = true
     private val typeface by lazy {
@@ -59,174 +60,161 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     private val TEMPERATURE_SIZE = 25f
 
     private val componentList = listOf<String>(
-        "ADJUNCT",
+        "ADJUNCT", //0
         "TEMPERATURE",
         "BARREL AGED",
         "FILTERED",
         "SRM",
-        "BODY",
+        "BODY",//5
         "ACIDIC",
         "MALT",
         "HOP",
         "IBU",
-        "TANNIN",
+        "TANNIN",//10
         "SWEET",
         "POLISHING",
         "CASK",
         "SAKE_TYPE",
-        "GRAPE",
+        "GRAPE",//15
         "RPR",
         "SMV",
-        "COLOR"
+        "COLOR",
+        "AGED_YEAR"
     )
+
     override fun init() {
-        if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
-            val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
-            alcohol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
-            alcohol?.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
-
-                refreshIsLike() // 좋아요여부 갱신
-
-                view.getView().alcohol = alcholData
-
-                initComponent(context) //주류 성분 표시 셋팅
-
-                alcholData.isLiked?.let { like ->   //좋아요 여부 확인하여 셋팅
-                    view.setLikeImage(like)
-                    isLike = like
-                }
+            alcohol.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
+                initComponent(context)
 
                 alcholData.likeCount?.let { //찜한수 체크
                     view.getView().alcoholdetailLikeCount.text = GlobalApplication.instance
                         .checkCount(it)
                 }
+
+                alcholData.isLiked?.let { isLike ->
+                    this.isLike = isLike
+                    view.setLikeImage(isLike)
+                }
+
                 alcholData.viewCount?.let {  //조회수 체크
+                    Log.e("viewCount",it.toString())
                     view.getView().detailEyeCount.text = GlobalApplication.instance.checkCount(it)
                 }
+
+                //seekbar를 손으로 조절하지 못하게 막아야함.
+                view.getView().alcoholDetailScoreSeekbar.score1Seekbar.isEnabled=false
+                view.getView().alcoholDetailScoreSeekbar.score2Seekbar.isEnabled=false
+                view.getView().alcoholDetailScoreSeekbar.score3Seekbar.isEnabled=false
+                view.getView().alcoholDetailScoreSeekbar.score4Seekbar.isEnabled=false
+                view.getView().alcoholDetailScoreSeekbar.score5Seekbar.isEnabled=false
             }
-        }
     }
 
-    private fun refreshIsLike(){
+
+    override fun refreshIsLike() {
         GlobalApplication.userInfo.getProvider()?.let {
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
-                alcohol?.alcoholId!!)
+                .getAlcoholDetail(
+                    GlobalApplication.userBuilder.createUUID,
+                    GlobalApplication.userInfo.getAccessToken(),
+                    alcohol.alcoholId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    it.data?.alcohol?.isLiked?.let {like->
-                        isLike = like
-                        view.setLikeImage(like)
+                    it.data?.alcohol?.isLiked?.let { isLike ->
+                        this.isLike = isLike
+                        view.setLikeImage(isLike)
                     }
-                },{ t->
-                    Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())
-                }))
+                }, { t ->
+                    Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString())
+                })
+            )
         }
     }
 
     override fun checkCountLine() {
         view.getView().textViewAlcoholDescription.post(Runnable {
             val lineCount = view.getView().textViewAlcoholDescription.lineCount
-            Log.e("라인수", view.getView().textViewAlcoholDescription.lineCount.toString())
 
-            if(lineCount <=5){
+            if (lineCount <= 5) {
                 view.settingExpandableText(false)
             }
         })
     }
 
     override fun executeLike() {
-        val check = JWTUtil.settingUserInfo(false)
-        Log.e("check", check.toString())
-        if (check) {
-            if(view.getView().AlcoholDetailSelectedByMe.isEnabled){
-                view.getView().AlcoholDetailSelectedByMe.isEnabled =false
-                compositeDisposable.add(
-                    ApiGenerator.retrofit.create(ApiService::class.java)
-                        .alcoholLike(
-                            GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(),
-                            alcohol!!.alcoholId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
-                            view.setLikeImage(true)
-                            view.getView().alcoholdetailLikeCount.text =
-                                GlobalApplication.instance.checkCount(
-                                    view.getView().alcoholdetailLikeCount.text.toString().toInt(), 1
-                                )
-                        }, { t ->
-                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
-                            Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString()) })
-                )
-            }
-            else{
-                Toast.makeText(context,"처리 중입니다. 잠시 후 다시 시도해주세요.",Toast.LENGTH_LONG).show()
-            }
+        view.getView().AlcoholDetailSelectedByMe.setOneClickListener {
+            val check = JWTUtil.settingUserInfo(false)
+            Log.e("check", check.toString())
 
-        } else {
-            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
-            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
-        }
-    }
-
-    override fun cancelAlcoholLike() {
-        val check = JWTUtil.settingUserInfo(false)
-
-        if (check) {
-            if(view.getView().AlcoholDetailSelectedByMe.isEnabled){
-                view.getView().AlcoholDetailSelectedByMe.isEnabled =false
-                compositeDisposable.add(
-                    ApiGenerator.retrofit.create(ApiService::class.java)
-                        .cancelAlcoholLike(
-                            GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(), alcohol!!.alcoholId
-                        )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
-                            view.setLikeImage(false)
-                            view.getView().alcoholdetailLikeCount.text =
-                                GlobalApplication.instance.checkCount(
-                                    view.getView().alcoholdetailLikeCount.text.toString().toInt(), -1
-                                )
-                        }, { t ->
-                            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
-                            Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString()) })
-                )
+            if (check) {
+                if (!isLike) {
+                    compositeDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .alcoholLike(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(),
+                                alcohol.alcoholId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                view.setLikeImage(true)
+                                view.getView().alcoholdetailLikeCount.text =
+                                    GlobalApplication.instance.checkCount(
+                                        view.getView().alcoholdetailLikeCount.text.toString()
+                                            .toInt(), 1
+                                    )
+                            }, { t ->
+                                Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
+                            })
+                    )
+                }
+                else{
+                    compositeDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .cancelAlcoholLike(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(), alcohol.alcoholId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                view.setLikeImage(false)
+                                view.getView().alcoholdetailLikeCount.text =
+                                    GlobalApplication.instance.checkCount(
+                                        view.getView().alcoholdetailLikeCount.text.toString().toInt(),
+                                        -1
+                                    )
+                            }, { t ->
+                                Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
+                            })
+                    )
+                }
             }
-            else{
-                Toast.makeText(context,"처리 중입니다. 잠시 후 다시 시도해주세요.",Toast.LENGTH_LONG).show()
+            else {
+                CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
             }
-
-        } else{
-            view.getView().AlcoholDetailSelectedByMe.isEnabled =true
-            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
 
     override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기
         //SRM value가 무조건 정수는 아니기 때문에 try/catch로 parsing에러 잡아서 핸들링하기
-        alcohol!!.class_?.firstClass?.code?.let { type ->
+        alcohol.class_?.firstClass?.code?.let { type ->
             when (type) {
                 "TR" -> {
-                    setComponent(alcohol!!, mutableListOf(0, 4, 18,1, 5, 3, 2))
+                    setComponent(alcohol, mutableListOf(0, 4, 18, 1, 5, 3, 2))
                 }
                 "BE" -> {
-                    setComponent(alcohol!!, mutableListOf(9, 4, 8, 1, 7, 0, 3, 2))
+                    setComponent(alcohol, mutableListOf(9, 4, 8, 1, 7, 0, 3, 2))
                 }
                 "WI" -> {
-                    setComponent(alcohol!!, mutableListOf(5, 4, 18,6, 11, 10, 1, 0, 3, 2,15))
+                    setComponent(alcohol, mutableListOf(5, 4, 18, 6, 11, 10, 1, 0, 3, 2, 15))
                 }
                 "SA" -> {
-                    setComponent(alcohol!!, mutableListOf(14, 4,18, 11, 6, 0, 1, 3, 2,16,17))
+                    setComponent(alcohol, mutableListOf(14, 4, 18, 11, 6, 0, 1, 3, 2, 16, 17))
                 }
                 "FO" -> {
-                    setComponent(alcohol!!, mutableListOf(7, 4, 18,0, 1, 2, 13,3))
+                    setComponent(alcohol, mutableListOf(7, 4, 18, 0, 1,19, 5, 2, 13, 3))
                 }
             }
         }
@@ -258,6 +246,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     fun commponentToggle() {
         if (toggle) {//펼쳤을 때,
             toggle = false
+            view.getView().componentArrow.setImageResource(R.mipmap.up_errow_orange)
             view.getView().componentToggleText.text = "주류정보 접기"
             val lst = mutableListOf<AlcoholComponentData>()
 
@@ -269,6 +258,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
         } else {//접을 때
             toggle = true
+            view.getView().componentArrow.setImageResource(R.mipmap.down_errow_orange)
             view.getView().componentToggleText.text = "주류정보 펼치기"
             componentAdapter?.deleteComponent()
         }
@@ -355,14 +345,16 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 alcohol.more?.srm?.let {
                     AlcoholComponentData(
                         "SRM", ""
-                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM)
+                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
+                    )
                 }
             }
             "COLOR" -> {
                 alcohol.more?.color?.let {
                     AlcoholComponentData(
                         "COLOR", ""
-                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM)
+                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
+                    )
                 }
             }
             "BODY" -> {
@@ -397,7 +389,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "IBU" -> {
                 alcohol.more?.ibu?.let {
                     AlcoholComponentData(
-                        "IBU", "-1"
+                        "IBU", ""
                         , R.mipmap.ibu, it.toString(), NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -451,6 +443,14 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     )
                 }
             }
+            "AGED_YEAR" ->{
+                alcohol.more?.aged_year?.let {
+                    AlcoholComponentData(
+                        "AGED_YEAR","숙성기간",
+                         R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
+                    )
+                }
+            }
 
             else -> {
                 AlcoholComponentData(
@@ -467,26 +467,21 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
             val data = compo?.contents
 
-            if(data is Int){
+            if (data is Int) {
                 data.let { settingComponentList.add(compo) }
-            }
-            else if(data is Color){
+            } else if (data is Color) {
                 data.let { settingComponentList.add(compo) }
-            }
-            else if(data is Float){
+            } else if (data is Float) {
                 data.let { settingComponentList.add(compo) }
-            }
-            else if (data is String) { //DEFAULT 형식 셋팅
+            } else if (data is String) { //DEFAULT 형식 셋팅
                 if (data != "")
                     data.let { settingComponentList.add(compo) }
-            }
-            else if (data is List<*>) { //LIST 형식 셋팅
+            } else if (data is List<*>) { //LIST 형식 셋팅
                 if (data.size != 0) {
                     if (data[0] != "")
                         settingComponentList.add(compo)
                 }
-            }
-            else if (data is Srm) {//SRM 형식 셋팅
+            } else if (data is Srm) {//SRM 형식 셋팅
                 settingComponentList.add(compo)
             }
         }
@@ -501,8 +496,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 .getAlcoholReivew(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(),
-                    alcohol!!.alcoholId, 1
-                )
+                    alcohol.alcoholId, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -518,36 +512,38 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                 })
 
                                 view.getView().recyclerViewReviewList.adapter =
-                                    AlcoholReviewAdapter(context, alcohol!!.alcoholId, muLst)
+                                    AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
                             }
                         } else {
                             //차트 여부 표시
-                            result.data?.userAssessment?.let{
+                            result.data?.userAssessment?.let {
                                 initRadarChart(it)
                             }
 
                             view.getView().radarChart.visibility = View.VISIBLE
                             view.getView().userIndicator.visibility = View.INVISIBLE
 
-                            lst.let {
-                                //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
-                                lst.toMutableList().let { muLst ->
+                            //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
+                            lst.toMutableList().let { muLst ->
+                                if(muLst.size >GlobalApplication.PAGE_REVIEW_COUNT){ //"더 보기" 여부 결정
                                     muLst.add(ReviewList().apply {
                                         checkMore = GlobalApplication.DETAIL_MORE_REVIEW
                                     })
-                                    view.getView().recyclerViewReviewList.adapter =
-                                        AlcoholReviewAdapter(context, alcohol!!.alcoholId, muLst)
                                 }
+                                view.getView().recyclerViewReviewList.adapter =
+                                    AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
                             }
                         }
+
+                        view.getView().recyclerViewReviewList.setHasFixedSize(false)
+                        view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
+
                         //리뷰개수
                         view.getView().detailReviewCountTop.text =
                             GlobalApplication.instance.checkCount(result.data?.reviewList?.size!!)
                         view.getView().alcoholReviewSumCountText.text = lst.size.toString() + "개"
+
                     }
-                    view.getView().recyclerViewReviewList.setHasFixedSize(false)
-                    view.getView().recyclerViewReviewList.layoutManager =
-                        LinearLayoutManager(context)
 
                     result.data?.reviewInfo?.let {
                         //점수 분포 및 seekbar
@@ -599,16 +595,18 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         val check = JWTUtil.settingUserInfo(false)
 
         if (check) {
+            view.settingProgressBar(true)
             compositeDisposable.add(
                 ApiGenerator.retrofit.create(ApiService::class.java)
                     .checkReviewDuplicate(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
-                        alcohol!!.alcoholId!!
-                    )
+                        alcohol.alcoholId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
+                        view.settingProgressBar(false)
+
                         result.data?.isExist?.let { exist ->
                             if (exist) {
                                 Toast.makeText(
@@ -626,7 +624,9 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                 )
                             }
                         }
-                    }, { t -> Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })
+                    }, { t ->
+                        view.settingProgressBar(false)
+                        Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })
             )
         } else {
             CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
@@ -732,5 +732,12 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         data.setDrawValues(false)
         view.getView().radarChart.data = data
         view.getView().radarChart.invalidate()
+    }
+
+    private fun View.setOneClickListener(onClick: (View) -> Unit) {
+        val oneClick = OneClickListener {
+            onClick(it)
+        }
+        setOnClickListener(oneClick)
     }
 }

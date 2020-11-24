@@ -3,26 +3,39 @@ package com.jeoksyeo.wet.activity.alcohol_detail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.application.GlobalApplication
+import com.model.alcohol_detail.Alcohol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 
 class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.OnClickListener {
     private lateinit var binding: AlcoholDetailBinding
     private lateinit var presenter: Presenter
+    private var alcohol:Alcohol? =null
+    private var refreshLikeCheck =false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.alcohol_detail)
         binding.lifecycleOwner = this
 
+        if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
+            val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
+            alcohol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
+            binding.alcohol =alcohol
+        }
+
         presenter = Presenter().apply {
             view = this@AlcoholDetail
             context=this@AlcoholDetail
             intent =this@AlcoholDetail.intent
+            alcohol =this@AlcoholDetail.alcohol ?: Alcohol()
         }
 
+        presenter.init()
         binding.AlcoholDetailSelectedByMe.setOnClickListener(this)
         binding.detailExpandableButton.setOnClickListener(this)
         presenter.checkCountLine()
@@ -30,8 +43,16 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
     override fun onStart() {
         super.onStart()
-        presenter.init()
+        if(refreshLikeCheck){
+            refreshLikeCheck=false
+            presenter.refreshIsLike()
+        }
         presenter.initReview(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        refreshLikeCheck = true
     }
 
     override fun getView(): AlcoholDetailBinding {
@@ -49,6 +70,17 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         }
     }
 
+    override fun settingProgressBar(check: Boolean) {
+        if(check){
+            binding.progressbar.root.visibility = View.VISIBLE
+            this.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        else{
+            binding.progressbar.root.visibility = View.INVISIBLE
+            this.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
     override fun settingExpandableText(check: Boolean) {
         if(check){
             binding.detailExpandableButton.visibility =View.VISIBLE
@@ -61,22 +93,9 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.AlcoholDetail_selectedByMe -> {
-                if(!presenter.isLike) {
-                    presenter.alcohol?.let {
-                        presenter.executeLike()
-                    }
-                }
-                else{
-                    presenter.alcohol?.let {
-                        presenter.cancelAlcoholLike()
-                    }
-                }
-            }
+            R.id.AlcoholDetail_selectedByMe -> { presenter.executeLike() }
 
-            R.id.AlcoholDetail_evaluateButton->{
-                presenter.checkReviewDuplicate(this)
-            }
+            R.id.AlcoholDetail_evaluateButton->{ presenter.checkReviewDuplicate(this) }
 
             R.id.detail_expandableButton->{ presenter.expandableText()}
 

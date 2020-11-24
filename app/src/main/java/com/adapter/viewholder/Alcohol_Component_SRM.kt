@@ -25,6 +25,9 @@ class Alcohol_Component_SRM(val parent:ViewGroup)
         else if(data.contents is com.model.alcohol_detail.Color){
             binding.componentTitle.text = "COLOR"
             binding.componentSrm.text = data.contents.name
+            binding.componentTitle.setTextColor(parent.context.getColor(R.color.black))
+            binding.componentBorder.setBackgroundColor(parent.context.getColor(R.color.black))
+            binding.componentSrm.setTextColor(parent.context.getColor(R.color.black))
             binding.componentParentLayout.setBackgroundColor(Color.parseColor(data.contents.rgbHex))
         }
     }

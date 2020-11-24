@@ -74,7 +74,7 @@ interface ApiService {
 
     @GET("v1/alcohols/{alcohol_id}")
     fun getAlcoholDetail(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                          @Path("alcohol_id") alcoholId:String) : Flowable<GetAlcoholDetail>
+                          @Path("alcohol_id") alcoholId:String?) : Flowable<GetAlcoholDetail>
 
     @GET("v1/alcohols/{alcohol_id}/reviews")
     fun getAlcoholReivew(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
@@ -85,7 +85,7 @@ interface ApiService {
 
     @GET("v1/alcohols/{alcohol_id}/reviews/check")
     fun checkReviewDuplicate(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                             @Path("alcohol_id")alcoholId: String) :Single<GetReviewDuplicate>
+                             @Path("alcohol_id")alcoholId: String?) :Single<GetReviewDuplicate>
 
     @GET("v1/users/reviews")
     fun getMyRatedList(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,

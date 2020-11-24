@@ -1,12 +1,14 @@
 package com.adapter.alcoholdetail
 
 import android.content.Context
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholMoreReviewViewHolder
 import com.adapter.viewholder.AlcoholReviewViewHolder
 import com.adapter.viewholder.NoAlcoholReviewViewHolder
 import com.application.GlobalApplication
+import com.custom.OneClickListener
 import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -69,7 +71,7 @@ class AlcoholReviewAdapter(private val context: Context,
             }
 
             //좋아요를 눌렀을 때
-            holder.getViewBinding().imageViewRecommendUpButton.setOnClickListener{
+            holder.getViewBinding().imageViewRecommendUpButton.setUpDownClickListener{
                 if(!likeList[position]){
                     likeList[position] =true
                     holder.setLike(alcoholId,lst[position],disLikeList,position)
@@ -80,7 +82,7 @@ class AlcoholReviewAdapter(private val context: Context,
                 }
             }
             //싫어요를 눌렀을 때
-            holder.getViewBinding().imaveViewRecommendDownButton.setOnClickListener{
+            holder.getViewBinding().imaveViewRecommendDownButton.setUpDownClickListener{
                 if(!disLikeList[position]){
                     disLikeList[position]=true
                     holder.setDislike(alcoholId,lst[position],likeList,position)
@@ -160,4 +162,12 @@ class AlcoholReviewAdapter(private val context: Context,
         super.onDetachedFromRecyclerView(recyclerView)
         compositeDisposable?.dispose()
     }
+
+    private fun View.setUpDownClickListener(onClick:(View)->Unit){
+        val oneClick = OneClickListener{
+            onClick(it)
+        }
+        setOnClickListener(oneClick)
+    }
+
 }

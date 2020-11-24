@@ -3,6 +3,7 @@ package com.adapter.viewholder
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import com.application.GlobalApplication
 import com.base.BaseViewHolder
@@ -11,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.custom.CustomDialog
+import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.model.review.ReviewList
 import com.service.ApiGenerator
@@ -31,6 +33,8 @@ class AlcoholReviewViewHolder(
     override fun bind(data: ReviewList) {
         binding.reivews = data
         binding.executePendingBindings()
+
+        getLineCount()// "더 보기" 유무 판
 
          data.level?.let {
              binding.textViewCommentUserRank.text = "Lv." + it.toString() +" "+ GlobalApplication.instance.getLevelName(it)
@@ -64,6 +68,15 @@ class AlcoholReviewViewHolder(
         }
     }
 
+    private fun getLineCount(){
+        binding.expandableTextViewReviewcomment.post(Runnable {
+            val count = binding.expandableTextViewReviewcomment.lineCount
+            if(count <=2){
+                binding.reviewItemToggleButton.visibility =View.INVISIBLE
+            }
+        })
+    }
+
     fun setLike(alcoholId:String?,review:ReviewList,disLikeList:MutableList<Boolean>,position:Int){
         var check = JWTUtil.settingUserInfo(false)
         if(check){
@@ -77,12 +90,12 @@ class AlcoholReviewViewHolder(
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
                     binding.textViewRecommendUpCount.text =
-                        (binding.textViewRecommendUpCount.text.toString().toInt()+1).toString()
+                        GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),1)
 
                     if(disLikeList[position]){
                         disLikeList[position] =false
                         binding.textViewRecommendDownCount.text =
-                            (binding.textViewRecommendDownCount.text.toString().toInt()-1).toString()
+                            GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),-1)
                     }
 
                 },{
@@ -106,7 +119,7 @@ class AlcoholReviewViewHolder(
                 .subscribe({
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
                     binding.textViewRecommendUpCount.text =
-                        (binding.textViewRecommendUpCount.text.toString().toInt()-1).toString()
+                        GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
 
                 },{
                         t -> Log.e(ErrorManager.REVIEW_UNLIKE,t.message.toString())
@@ -129,13 +142,10 @@ class AlcoholReviewViewHolder(
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_full)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
 
-                    binding.textViewRecommendDownCount.text =
-                        (binding.textViewRecommendDownCount.text.toString().toInt()+1).toString()
+                    binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),1)
 
                     if(likeList[position]){
-                        likeList[position] =false
-                        binding.textViewRecommendUpCount.text =
-                            (binding.textViewRecommendUpCount.text.toString().toInt()-1).toString()
+                        binding.textViewRecommendUpCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
                     }
                 },{
                         t -> Log.e(ErrorManager.REVIEW_DISLIKE,t.message.toString())
@@ -157,8 +167,7 @@ class AlcoholReviewViewHolder(
                 .subscribe({
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
-                    binding.textViewRecommendDownCount.text =
-                        (binding.textViewRecommendDownCount.text.toString().toInt()-1).toString()
+                    binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),-1)
 
                 },{ t -> Log.e(ErrorManager.REVIEW_UNDISLIKE,t.message.toString())
                 }))

@@ -161,7 +161,7 @@
                 android:layout_marginTop="5dp"
                 android:lineSpacingExtra="5sp"
                 android:textStyle="normal"
-                android:text="저온숙성을 거친 프리미엄 막걸리"
+                android:text="@{alcoholRank.review.reviews.get(0).contents}"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:gravity="end"

@@ -5,12 +5,13 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class Review {
-    @SerializedName("score")
+class ReviewInfo{
+    @SerializedName("review_id")
     @Expose
-    var score: Float? = null
+    var reviewId: String? = null
 
-    @SerializedName("reviews")
+    @SerializedName("contents")
     @Expose
-    var reviews: List<ReviewInfo>? = null
+    var contents: String? = null
+
 }

@@ -11,6 +11,10 @@ class More() :Parcelable {
     @Expose
     var hop: List<String>? = null
 
+    @SerializedName("aged_year")
+    @Expose
+    var aged_year: String? = null
+
     @SerializedName("ibu")
     @Expose
     var ibu: Float? = null
@@ -73,6 +77,7 @@ class More() :Parcelable {
 
     constructor(parcel: Parcel) : this() {
         hop = parcel.createStringArrayList()
+        aged_year = parcel.readString()
         ibu = parcel.readValue(Float::class.java.classLoader) as? Float
         srm = parcel.readParcelable(Srm::class.java.classLoader)
         color = parcel.readParcelable(Color::class.java.classLoader)
@@ -92,6 +97,7 @@ class More() :Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeStringList(hop)
+        parcel.writeString(aged_year)
         parcel.writeValue(ibu)
         parcel.writeParcelable(srm, flags)
         parcel.writeParcelable(color, flags)
