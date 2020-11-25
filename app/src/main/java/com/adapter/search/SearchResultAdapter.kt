@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholCategoryListViewHolder
 import com.adapter.viewholder.SearchListViewholder
 import com.application.GlobalApplication
-import com.custom.OnSingleClickListener
+import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.model.alcohol_category.AlcoholList
@@ -113,7 +113,7 @@ class SearchResultAdapter(private val context: Context,
 
     //중복 클릭을 방지하기 위해서 확장함수 선언
     fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
-        val onSingleClickListener =OnSingleClickListener{
+        val onSingleClickListener =OneClickListener{
             onSingleClick(it)
         }
         setOnClickListener(onSingleClickListener)

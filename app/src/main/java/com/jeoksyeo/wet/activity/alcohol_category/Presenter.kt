@@ -33,6 +33,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.alcohol_category.view.*
+import kotlinx.android.synthetic.main.drawer_navigation.view.*
 import kotlinx.android.synthetic.main.main.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 
@@ -53,6 +54,8 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                     textView.setTextColor(context.resources.getColor(R.color.tabColor,null))
                     textView.gravity = Gravity.CENTER_HORIZONTAL
                 }).attach()
+
+            view.getView().viewPager2Container.offscreenPageLimit=5
         }
     }
 
@@ -89,11 +92,14 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
         JWTUtil.settingUserInfo(false)
 
         val lst = mutableListOf<NavigationItem>()
+        lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
+        lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
         lst.add(NavigationItem(R.mipmap.nv_profile, "내 프로필"))
         lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
+        lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
         lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
             ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 
@@ -110,10 +116,8 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
 
         GlobalApplication.userInfo.getProvider()?.let {
             //유저 프로필 설정하는 화면 필요함
-            view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text=
-                GlobalApplication.userInfo.nickName + "님 안녕하세요" +"\n Lv."+
-                        GlobalApplication.userInfo.getLevel()+" "+
-                        GlobalApplication.instance.getLevelName(GlobalApplication.userInfo.getLevel())
+            view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text= GlobalApplication.userInfo.nickName + "님,"
+            view.getView().categoryDrawerLayout.category_navigation.navigation_header_hello.text = "안녕하세요"
         }
         GlobalApplication.userInfo.getProfile()?.let {lst->
             Log.e("프로필 변경","변경")

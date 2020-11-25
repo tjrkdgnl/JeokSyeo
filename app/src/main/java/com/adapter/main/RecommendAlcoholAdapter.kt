@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.RecommendAlcoholViewHolder
 import com.application.GlobalApplication
-import com.custom.OnSingleClickListener
+import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.model.recommend_alcohol.AlcoholList
@@ -61,7 +61,7 @@ private var lst:MutableList<AlcoholList>) : RecyclerView.Adapter<RecommendAlcoho
     }
 
     fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
-        val setOnSingleClickListener = OnSingleClickListener{
+        val setOnSingleClickListener = OneClickListener{
             onSingleClick(it)
         }
         setOnClickListener(setOnSingleClickListener)

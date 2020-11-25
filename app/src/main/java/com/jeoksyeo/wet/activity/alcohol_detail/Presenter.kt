@@ -149,6 +149,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
             if (check) {
                 if (!isLike) {
+                    settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,false)
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .alcoholLike(
@@ -158,6 +159,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
+                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
+
                                 view.setLikeImage(true)
                                 view.getView().alcoholdetailLikeCount.text =
                                     GlobalApplication.instance.checkCount(
@@ -165,11 +168,13 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                             .toInt(), 1
                                     )
                             }, { t ->
+                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
                                 Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
                             })
                     )
                 }
                 else{
+                    settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,false)
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .cancelAlcoholLike(
@@ -178,6 +183,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
+                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
                                 view.setLikeImage(false)
                                 view.getView().alcoholdetailLikeCount.text =
                                     GlobalApplication.instance.checkCount(
@@ -185,6 +191,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                         -1
                                     )
                             }, { t ->
+                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
                                 Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
                             })
                     )
@@ -194,6 +201,9 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                 CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
             }
         }
+    }
+    private fun settingLikeButtonEnabled(view: View,setting:Boolean){
+       view.isEnabled= setting
     }
 
     override fun initComponent(context: Context) {

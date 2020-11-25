@@ -3,6 +3,7 @@ package com.fragment.alcohol_category
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
@@ -18,6 +19,7 @@ import io.reactivex.schedulers.Schedulers
 
 class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     override lateinit var view: Fg_AlcoholCategoryContact.BaseView
+    override lateinit var context: Context
     lateinit var viewModel: AlcoholCategoryViewModel
 
     private val binding by lazy {
@@ -57,7 +59,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                     it.data?.pagingInfo?.let { info ->
                         info.alcoholTotalCount?.let { total ->
                             viewModel.totalCountList[position] = total
-                            viewModel.currentPosition.value = position
+                            viewModel.changePosition.value = position
                         }
                         info.page?.let { pageNumber ->
                             pageNum = pageNumber.toInt()
@@ -116,6 +118,9 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                             if (list.isNotEmpty()){
                                 loading=false
                                 view.updateList(list.toMutableList())
+                            }
+                            else{
+                                Toast.makeText(context,"더 이상 주류가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

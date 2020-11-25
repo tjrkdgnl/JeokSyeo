@@ -67,7 +67,7 @@
                         android:onClick="onClick"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:text="자세히 보기"
+                        android:text="1 / 5"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/autoViewPager_textSize"
                         android:textStyle="bold"

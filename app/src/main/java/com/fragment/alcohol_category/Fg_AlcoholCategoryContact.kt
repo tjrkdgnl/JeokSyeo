@@ -16,6 +16,8 @@ interface Fg_AlcoholCategoryContact {
     }
     interface BasePresenter{
         var view:BaseView
+        var context:Context
+
         fun initRecyclerView(context: Context)
 
         fun initScrollListener()

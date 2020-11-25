@@ -5,14 +5,19 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.adapter.search.SearchAdapter
 import com.adapter.search.SearchResultAdapter
+import com.adapter.viewholder.NoRelativeSearchViewHolder
+import com.adapter.viewholder.NoResentViewholder
 import com.application.GlobalApplication
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
@@ -39,9 +44,10 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         presenter = Presenter().apply {
             view = this@Search
             layoutManager = this@Search.layoutManager
+            activity =this@Search
         }
 
-        binding.searchContentLayout.requestFocus()
+
         binding.editTextSearch.setOnKeyListener(this)
         binding.editTextSearch.addTextChangedListener(this)
         searchAdapter = initSearchAdapter()
@@ -58,7 +64,37 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
             }
         }
 
-       GlobalApplication.instance.removeEditextFocus(binding.editTextSearch,binding.searchContentLayout)
+        binding.recyclerViewSearchlist.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener{
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+            }
+
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                val childView = rv.findChildViewUnder(e.x,e.y) //클릭한 영역으로 아이템 뷰를 리턴
+
+                childView?.let {
+                    val childViewholder = rv.findContainingViewHolder(childView)!!
+
+                    //최근에 검색한 화면이 없을때, 연관검색어가 없는 화면일 때, 키패드 숨기기
+                    return if(childViewholder is NoResentViewholder || childViewholder is NoRelativeSearchViewHolder) {
+                        hideKeyPad()
+                        true
+                    }
+                    else{//아이템을 클릭할 경우, 터치리스너를 가로채면 안됨.
+                        false
+                    }
+                } ?:  hideKeyPad() //아이템 이외의 범위를 클릭했을 경우 키패드 숨기기
+
+                return false
+            }
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+            }
+        })
+    }
+
+    private fun hideKeyPad():Boolean{
+        GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this@Search)
+        return true
     }
 
     override fun onClick(v: View?) {

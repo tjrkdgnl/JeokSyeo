@@ -41,25 +41,34 @@
             </intent-filter>
         </service>
 
-        <activity android:name="com.jeoksyeo.wet.activity.agreement.Agreement"/>
-        <activity android:name="com.jeoksyeo.wet.activity.favorite.FavoriteActivity"/>
+        <activity android:name="com.jeoksyeo.wet.activity.agreement.Agreement"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.jeoksyeo.wet.activity.favorite.FavoriteActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.search.Search"
             android:windowSoftInputMode="stateAlwaysHidden"
-            >
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.level.LevelActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.comment.Comment"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.alcohol_rated.AlcoholRated"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
 
         </activity>
 
@@ -68,20 +77,24 @@
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.setting.SettingActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.editprofile.EditProfile"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
@@ -94,7 +107,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <activity android:name="com.jeoksyeo.wet.activity.splash.Splash">
+        <activity android:name="com.jeoksyeo.wet.activity.splash.Splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,10 +1,6 @@
 package com.fragment.alcohol_category
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adapter.alcohol_category.GridAdapter
-import com.application.GlobalApplication
 import com.model.alcohol_category.AlcoholList
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
@@ -53,13 +48,14 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
         gridPresenter = GridPresenter().apply {
             view =this@Fragment_Grid
-            gridLayoutManager =GridLayoutManager(context, 2)
+            gridLayoutManager =GridLayoutManager(requireActivity(), 2)
             position =this@Fragment_Grid.position
             viewModel = viewmodel
             sort = viewmodel.currentSort // 액티비티에서 변경된 sort로 정렬시키기 위함.
+            context = this@Fragment_Grid.requireActivity()
         }
 
-        gridPresenter.initRecyclerView(requireContext())
+        gridPresenter.initRecyclerView(requireActivity())
 
         return binding.root
     }
@@ -73,7 +69,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     }
 
     override fun setAdapter(list: MutableList<AlcoholList>) {
-        gridAdapter = GridAdapter(requireContext(),list
+        gridAdapter = GridAdapter(requireActivity(),list
             ,executeProgressBar = gridPresenter.executeProgressBar)
         binding.gridRecyclerView.adapter= gridAdapter
     }

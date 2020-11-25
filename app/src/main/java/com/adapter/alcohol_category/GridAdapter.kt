@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholCategoryGridViewHolder
 import com.application.GlobalApplication
-import com.custom.OnSingleClickListener
+import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.model.alcohol_category.AlcoholList
@@ -113,7 +113,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
 
     //확장함수로 중복클릭 방지
     fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
-        val onSingleClickListener = OnSingleClickListener{
+        val onSingleClickListener = OneClickListener{
             onSingleClick(it)
         }
         setOnClickListener(onSingleClickListener)

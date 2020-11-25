@@ -5,7 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
+import com.adapter.viewholder.NavigationEmptyViewHolder
 import com.adapter.viewholder.NavigationViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
@@ -20,6 +22,7 @@ import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.jeoksyeo.wet.activity.setting.SettingActivity
 import com.model.navigation.NavigationItem
+import java.lang.RuntimeException
 
 class NavigationAdpater(
     private val context: Context,
@@ -27,23 +30,31 @@ class NavigationAdpater(
     private val lst: MutableList<NavigationItem>,
     private var provider:String?,
     private val activityNumber:Int
-) : RecyclerView.Adapter<NavigationViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavigationViewHolder {
-        return NavigationViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when(viewType){
+            -1 ->{NavigationEmptyViewHolder(parent)}
+            1 ->{NavigationViewHolder(parent)}
+            else ->{throw RuntimeException("알 수 없는 뷰타입 에러")}
+        }
     }
 
-    override fun onBindViewHolder(holder: NavigationViewHolder, position: Int) {
-        holder.bind(lst[position])
-        holder.getViewBinding().navigationLinearLayout.setOnClickListener {
-        Log.e("네이게이션",activityNumber.toString())
-            when (position) {
-                0 -> { checkProvider(0) }
-                1 -> {checkProvider(1)}
-                2 -> {checkProvider(2) }
-                3 -> {checkProvider(3) }
-                4 -> {checkProvider(4)}
-                5 ->  {checkLoginOut(lst[position].title)}
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        if(holder is NavigationViewHolder){
+            holder.bind(lst[position])
+
+            holder.getViewBinding().navigationLinearLayout.setOnClickListener {
+                Log.e("네이게이션",activityNumber.toString())
+                when (position) {
+                    1 -> { checkProvider(1) }
+                    3 -> {checkProvider(3)}
+                    4 -> {checkProvider(4) }
+                    5 -> {checkProvider(5) }
+                    6 -> {checkProvider(6)}
+                    8 ->  {checkLoginOut(lst[position].title)}
+                }
             }
         }
     }
@@ -77,13 +88,17 @@ class NavigationAdpater(
     private fun checkProvider(position: Int){
         provider?.let {
             when(position){
-                0->{GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)}
-                1 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
-                2 -> { GlobalApplication.instance.moveActivity(context,AlcoholRated::class.java)}
-                3 -> {GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
-                4 -> {GlobalApplication.instance.moveActivity(context,FavoriteActivity::class.java)}
+                1->{GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)}
+                3 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
+                4 -> { GlobalApplication.instance.moveActivity(context,AlcoholRated::class.java)}
+                5 -> {GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
+                6 -> {GlobalApplication.instance.moveActivity(context,FavoriteActivity::class.java)}
             }
             // 프로바이더가 없으면 로그인을 통해 프로바이더를 얻어오기 위해서 로그인화면으로 유도
         } ?: CustomDialog.loginDialog(context,activityNumber)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if(lst[position].title == "-1") -1 else 1
     }
 }

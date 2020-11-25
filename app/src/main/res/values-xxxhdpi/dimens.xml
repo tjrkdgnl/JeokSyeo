@@ -40,7 +40,7 @@
     <dimen name="main_text_defaultSize">23sp</dimen>
     <dimen name="main_text_miniSize">21sp</dimen>
     <dimen name="alcohol_button_textSize">13sp</dimen>
-    <dimen name="autoViewPager_textSize">12sp</dimen>
+    <dimen name="autoViewPager_textSize">10sp</dimen>
     <dimen name="whatIsQuestion_textSize">10sp</dimen>
 
     //myfavoriteActivity

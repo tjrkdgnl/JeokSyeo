@@ -1,8 +1,6 @@
 package com.jeoksyeo.wet.activity.alcohol_category
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -59,26 +57,24 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
-                    viewModel.currentPosition.value = it.position
+                    //탭 클릭시, 뷰페이저의 페이지가 제대로 셋팅되지 않기 때문에 반드시 탭의 포지션을 뷰페이저의 현재 페이지로 셋팅해야한다.
+                    binding.viewPager2Container.currentItem = tab.position
+                    viewModel.changePosition.value = it.position
                     presenter.checkSort(it.position, viewModel.currentSort)
-                    (it.customView as? TextView)?.let {
-                        it.setTextColor(resources.getColor(R.color.orange,null))
-                    }
+                    (it.customView as? TextView)?.setTextColor(resources.getColor(R.color.orange,null))
+
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.let {
-                    (it.customView as? TextView)?.let {
-                        it.setTextColor(resources.getColor(R.color.tabColor,null))
-                    }
+                    (it.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
                 }
             }
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
 
-        viewModel.currentPosition.observe(this, Observer {
-            Log.e("현재 curr",binding.viewPager2Container.currentItem.toString())
+        viewModel.changePosition.observe(this, Observer {
             binding.textViewTotalProduct.text = "총 "+ viewModel.totalCountList[binding.viewPager2Container.currentItem].toString()+
                     "개의 상품이 있습니다."
         })

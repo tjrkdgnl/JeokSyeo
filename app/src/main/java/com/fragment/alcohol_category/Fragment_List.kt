@@ -50,6 +50,7 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
             linearLayoutManager= LinearLayoutManager(requireContext())
             sort=viewmodel.currentSort
             viewModel = this@Fragment_List.viewmodel
+            context =this@Fragment_List.requireActivity()
         }
 
         listPresenter.initRecyclerView(requireContext())

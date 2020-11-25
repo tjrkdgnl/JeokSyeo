@@ -3,10 +3,11 @@ package com.fragment.alcohol_category
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.service.ApiGenerator
@@ -21,6 +22,7 @@ import io.reactivex.schedulers.Schedulers
 
 class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     override lateinit var view: Fg_AlcoholCategoryContact.BaseView
+    override lateinit var context: Context
     lateinit var gridLayoutManager: GridLayoutManager
     lateinit var viewModel: AlcoholCategoryViewModel
     lateinit var sort:String
@@ -41,8 +43,6 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
         GlobalApplication.instance.getAlcoholType(position)
     }
 
-
-
     override fun initRecyclerView(context: Context) {
         JWTUtil.settingUserInfo(false)
 
@@ -54,12 +54,14 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    viewModel.changePosition.value = position
+
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
                         info.alcoholTotalCount?.let {total ->
                             viewModel.totalCountList[position] = total
-                            viewModel.currentPosition.value = position
                         }
+
                         info.page?.let {pageNumber->
                             pageNum = pageNumber.toInt() }
                     }
@@ -115,12 +117,17 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     it.data?.pagingInfo?.let { info ->
-                        info.page?.let { pageNumber-> pageNum = pageNumber.toInt() }
+                        info.page?.let {
+                            pageNumber-> pageNum = pageNumber.toInt()
+                        }
 
                         it.data?.alcoholList?.toMutableList()?.let { list ->
                             if(list.isNotEmpty()){
                                 loading = false
                                 view.updateList(list.toMutableList())
+                            }
+                            else{
+                                Toast.makeText(context,"더 이상 주류가 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

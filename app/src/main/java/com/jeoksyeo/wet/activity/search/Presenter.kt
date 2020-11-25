@@ -1,9 +1,11 @@
 package com.jeoksyeo.wet.activity.search
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import io.reactivex.schedulers.Schedulers
 
 class Presenter : SearchContract.BasePresenter {
 
+    override lateinit var activity: Activity
     override lateinit var view: SearchContract.BaseVIew
 
     override lateinit var layoutManager: LinearLayoutManager
@@ -202,7 +205,10 @@ class Presenter : SearchContract.BasePresenter {
     val exeuteProgressBar: (check: Boolean) -> Unit = { check ->
         if (check) {
             view.getView().progressbar.root.visibility = View.VISIBLE
-        } else
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else{
             view.getView().progressbar.root.visibility = View.INVISIBLE
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
     }
 }

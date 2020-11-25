@@ -283,7 +283,7 @@
                 android:enabled="false"
                 android:onClick="onClick"
                 android:background="@drawable/change_button"
-                android:text="평가하기"
+                android:text="제출하기"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/okbutton_textSize"
                 android:textStyle="bold"

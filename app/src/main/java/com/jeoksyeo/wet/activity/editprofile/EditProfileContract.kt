@@ -1,5 +1,6 @@
 package com.jeoksyeo.wet.activity.editprofile
 
+import android.app.Activity
 import android.content.Context
 import com.vuforia.engine.wet.databinding.EditProfileBinding
 import java.io.File
@@ -20,6 +21,7 @@ interface EditProfileContract {
 
     interface BasePresenter{
         var view:BaseView
+        var activity:Activity
 
         fun executeEditProfile(context:Context,name: String?, gender: String?, birthday: String?)
 

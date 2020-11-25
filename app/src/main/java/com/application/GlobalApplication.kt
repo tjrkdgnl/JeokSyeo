@@ -125,7 +125,6 @@ class GlobalApplication : Application() {
 
     fun removeEditextFocus(editText: EditText, view: View) {
         view.setOnTouchListener { v, event ->
-            Log.e("터치", "터치")
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val outRect = Rect()
                 editText.getGlobalVisibleRect(outRect)

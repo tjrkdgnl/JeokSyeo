@@ -76,16 +76,22 @@ class AlcoholReviewViewHolder(
             }
         })
     }
+    private fun settingEnabledButton(view: View,setting:Boolean){
+        view.isEnabled =setting
+    }
 
     fun setLike(alcoholId:String?,review:ReviewList,disLikeList:MutableList<Boolean>,position:Int){
         var check = JWTUtil.settingUserInfo(false)
         if(check){
+            settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
+
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .setLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
                     alcoholId,review.review_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_full)
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
@@ -98,8 +104,9 @@ class AlcoholReviewViewHolder(
                             GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),-1)
                     }
 
-                },{
-                        t -> Log.e(ErrorManager.REVIEW_LIKE,t.message.toString())
+                },{ t ->
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
+                    Log.e(ErrorManager.REVIEW_LIKE,t.message.toString())
                 }))
         }
         else{
@@ -111,18 +118,21 @@ class AlcoholReviewViewHolder(
         var check = JWTUtil.settingUserInfo(false)
 
         if(check){
+            settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .setUnLike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
                     alcoholId,review.review_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
                     binding.textViewRecommendUpCount.text =
                         GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
 
-                },{
-                        t -> Log.e(ErrorManager.REVIEW_UNLIKE,t.message.toString())
+                },{ t ->
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
+                    Log.e(ErrorManager.REVIEW_UNLIKE,t.message.toString())
                 }))
         }
         else{
@@ -133,12 +143,14 @@ class AlcoholReviewViewHolder(
         var check = JWTUtil.settingUserInfo(false)
 
         if(check){
+            settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .setDislike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
                     alcoholId,review.review_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_full)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
 
@@ -147,8 +159,9 @@ class AlcoholReviewViewHolder(
                     if(likeList[position]){
                         binding.textViewRecommendUpCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
                     }
-                },{
-                        t -> Log.e(ErrorManager.REVIEW_DISLIKE,t.message.toString())
+                },{ t ->
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
+                    Log.e(ErrorManager.REVIEW_DISLIKE,t.message.toString())
                 }))
         }
         else{
@@ -159,17 +172,21 @@ class AlcoholReviewViewHolder(
         var check = JWTUtil.settingUserInfo(false)
 
         if(check){
+            settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .setUnDislike(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
                     alcoholId,review.review_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
                     binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),-1)
 
-                },{ t -> Log.e(ErrorManager.REVIEW_UNDISLIKE,t.message.toString())
+                },{ t ->
+                    settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
+                    Log.e(ErrorManager.REVIEW_UNDISLIKE,t.message.toString())
                 }))
         }
         else{

@@ -47,6 +47,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
         presenter = Presenter().apply {
             view = this@EditProfile
+            activity = this@EditProfile
         }
         presenter.checkLogin(this,GlobalApplication.userInfo.getProvider())
         binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
