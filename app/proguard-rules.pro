@@ -19,3 +19,23 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+##-dontwarn 패키지명.** : 지정해서 경고 무시
+##-dontwarn 패키지명.** : 난독화가 필요하지 않은 경우
+##-ignorewarnings : 경고 무시
+##-dontoptimize : 최적화 하지 않기
+##-dontshrink : 사용하지 않는 메소드 유지
+##-keepclassmembers : 특정 클래스 멤버 원상태 유지
+## -keepattributes : 내부 클래스 원상태 유지 적용
+
+
+-keep public class * extends java.lang.Exception
+
+-keepattributes SourceFile,LineNumberTable ##소스파일, 라인 정보 유지
+-keepattributes Signature
+-keepnames class org.apache.http.* { *; }
+
+# Most of volatile fields are updated with AFU and should not be mangled
+-keepclassmembernames class kotlinx.* {
+    volatile <fields>;
+}

@@ -23,6 +23,9 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
             context = this@LevelActivity.baseContext
         }
 
+        binding.myLevelBasicHeader.basicHeaderWindowName.text = "나의 주류 레벨"
+
+
         presenter.initMiniImageArray()
         presenter.getMyLevel()
 
@@ -60,8 +63,8 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
     override fun settingExperience(reviewCount: Int,level: Int) {
         val rest = reviewCount % 10
 
-        binding.textViewEvaluationText2.text = GlobalApplication.instance.getLevelName(level) //현재 레벨
-        binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level+1) //다음레벨
+        binding.textViewCurrentLevel.text = GlobalApplication.instance.getLevelName(level-1) //현재 레벨
+        binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level) //다음레벨
         binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-reviewCount}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
 
         for(i in 0 until rest){

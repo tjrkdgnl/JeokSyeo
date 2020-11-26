@@ -9,21 +9,18 @@ import com.model.favorite.GetFavoriteData
 import com.model.image_upload.GetImageUploadData
 import com.model.level.GetLevelData
 import com.model.my_comment.GetCommentData
-import com.model.my_review_summary.GetMyReviewSum
-import com.model.rated.GetRatedList
 import com.model.nickname_check.GetResult
+import com.model.rated.GetRatedList
 import com.model.recommend_alcohol.GetRecomendItem
 import com.model.review.GetReviewData
 import com.model.review_duplicate.GetReviewDuplicate
 import com.model.search.GetRelavieKeyword
-import io.reactivex.Single
 import com.model.token.GetUserData
 import com.model.user.GetUserInfo
 import io.reactivex.Flowable
+import io.reactivex.Single
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.*
-import java.io.File
 
 interface ApiService {
 

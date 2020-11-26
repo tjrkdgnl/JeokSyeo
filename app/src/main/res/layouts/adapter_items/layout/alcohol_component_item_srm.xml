@@ -4,14 +4,13 @@
     tools:ignore="MissingConstraints">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
         android:layout_width="match_parent"
         android:layout_height="151dp"
-        android:background="@drawable/alcohol_component_srm"
         android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/component_parentLayout"
             android:layout_width="match_parent"
+            android:background="@drawable/alcohol_component_srm"
             android:layout_height="match_parent">
 
             <TextView

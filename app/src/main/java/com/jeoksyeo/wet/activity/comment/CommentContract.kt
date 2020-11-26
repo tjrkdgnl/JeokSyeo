@@ -1,5 +1,6 @@
 package com.jeoksyeo.wet.activity.comment
 
+import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.model.my_comment.Comment
@@ -10,10 +11,12 @@ interface CommentContract {
 
     interface BaseView{
         fun getView():CommentWindowBinding
+
     }
 
     interface BasePresenter{
         var view:BaseView
+        var activity:Activity
         var lifecycleOwner: LifecycleOwner
         fun confirmCheck():Boolean
         fun getScore(): Float

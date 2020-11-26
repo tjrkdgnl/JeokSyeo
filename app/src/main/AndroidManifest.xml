@@ -22,7 +22,7 @@
         android:fullBackupContent="false"
         android:fullBackupOnly="false"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/main_logo"
+        android:icon="@mipmap/app_icon"
         android:label="@string/appName"
         android:largeHeap="true"
         android:roundIcon="@mipmap/main_logo"

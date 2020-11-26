@@ -2,6 +2,7 @@ package com.fragment.alcohol_rated
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,12 +52,11 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
         binding.lifecycleOwner =this
 
         viewmodel = ViewModelProvider(requireActivity()).get(RatedViewModel::class.java)
-
         //아이템 클릭 시, 해당 아이템으로 스크롤 이동
         smoothScrollListener = object : SmoothScrollListener {
             override fun moveScroll(position: Int) {
-                with(Handler()){
-                    this.postDelayed(Runnable {
+                with(Handler(Looper.getMainLooper())){
+                    this.postDelayed( {
                         binding.ratedRecyclerView.smoothScrollToPosition(position)
                     },300L)
                 }
@@ -65,6 +65,7 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
 
         presenter = Presenter().apply {
             view =this@Fragment_alcoholRated
+            activity = requireActivity()
             position =this@Fragment_alcoholRated.position
             smoothScrollListener = this@Fragment_alcoholRated.smoothScrollListener
             viewmodel = this@Fragment_alcoholRated.viewmodel

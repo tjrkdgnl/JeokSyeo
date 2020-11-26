@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_window_top">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout_commentSeekBar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -33,20 +33,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
-                android:src="@mipmap/journal_img" />
+                android:src="@mipmap/journal_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="2sp"
                 android:text="테이스트 저널"
                 android:textColor="#ffffff"
-                android:textSize="15sp"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:fontFamily="@font/apple_sd_gothic_neo_b"
                />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <TextView
@@ -56,9 +63,10 @@
             android:textColor="#3CFFB248"
             android:lineSpacingExtra="6sp"
             android:text="AROMA"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/comment_window_aromaText"
-            app:layout_constraintStart_toStartOf="@id/comment_window_aromaText"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
+            app:layout_constraintTop_toTopOf="@id/compoent_aroma"
+            app:layout_constraintBottom_toBottomOf="@id/compoent_aroma"
+            app:layout_constraintEnd_toEndOf="@id/compoent_aroma"
             />
 
         <TextView
@@ -69,9 +77,9 @@
             android:layout_marginTop="45dp"
             android:lineSpacingExtra="1sp"
             android:text="아로마"
-            android:textColor="#000000"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+            android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/linearLayout_commentSeekBar" />
 
@@ -81,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/componentMarginEnd"
             android:onClick="onClick"
-            android:src="@mipmap/componet_question"
+            android:src="@mipmap/component_question"
             app:layout_constraintBottom_toBottomOf="@id/comment_window_aromaText"
             app:layout_constraintEnd_toEndOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_aromaText" />
@@ -123,9 +131,10 @@
             android:textColor="#3CFFB248"
             android:lineSpacingExtra="21sp"
             android:text="MOUTHFEEL"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/comment_window_mouthfeelText"
-            app:layout_constraintStart_toStartOf="@id/comment_window_mouthfeelText"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
+            app:layout_constraintTop_toTopOf="@id/compoent_mouthfeel"
+            app:layout_constraintBottom_toBottomOf="@id/compoent_mouthfeel"
+            app:layout_constraintEnd_toEndOf="@id/compoent_mouthfeel"
             />
 
 
@@ -137,9 +146,9 @@
             android:layout_marginTop="30dp"
             android:lineSpacingExtra="1sp"
             android:text="마우스필"
-            android:textColor="#000000"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+            android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_aromaSeekbar" />
 
@@ -177,7 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/componentMarginEnd"
             android:onClick="onClick"
-            android:src="@mipmap/componet_question"
+            android:src="@mipmap/component_question"
             app:layout_constraintBottom_toBottomOf="@id/comment_window_mouthfeelText"
             app:layout_constraintEnd_toEndOf="@id/comment_window_mourhfeelSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_mouthfeelText" />
@@ -190,9 +199,10 @@
             android:lineSpacingExtra="21sp"
             android:text="TASTE"
             android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/comment_window_tasteText"
-            app:layout_constraintTop_toTopOf="@id/comment_window_tasteText"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
+            app:layout_constraintTop_toTopOf="@id/compoent_taste"
+            app:layout_constraintEnd_toEndOf="@id/compoent_taste"
+            app:layout_constraintBottom_toBottomOf="@id/compoent_taste"
             />
 
         <TextView
@@ -203,9 +213,9 @@
             android:layout_marginTop="30dp"
             android:lineSpacingExtra="1sp"
             android:text="테이스트"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:textStyle="bold"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_mourhfeelSeekbar" />
 
@@ -244,7 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/componentMarginEnd"
             android:onClick="onClick"
-            android:src="@mipmap/componet_question"
+            android:src="@mipmap/component_question"
             app:layout_constraintBottom_toBottomOf="@id/comment_window_tasteText"
             app:layout_constraintEnd_toEndOf="@id/comment_window_tasteSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_tasteText" />
@@ -257,9 +267,10 @@
             android:textColor="#3CFFB248"
             android:lineSpacingExtra="21sp"
             android:text="APPEARANCE"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/comment_window_appearanceText"
-            app:layout_constraintTop_toTopOf="@id/comment_window_appearanceText"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
+            app:layout_constraintTop_toTopOf="@id/compoent_appearance"
+            app:layout_constraintEnd_toEndOf="@id/compoent_appearance"
+            app:layout_constraintBottom_toBottomOf="@id/compoent_appearance"
             />
 
         <TextView
@@ -270,9 +281,9 @@
             android:layout_marginTop="30dp"
             android:lineSpacingExtra="1sp"
             android:text="시각적특징"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:textStyle="bold"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_tasteSeekbar" />
 
@@ -311,7 +322,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/componentMarginEnd"
             android:onClick="onClick"
-            android:src="@mipmap/componet_question"
+            android:src="@mipmap/component_question"
             app:layout_constraintBottom_toBottomOf="@id/comment_window_appearanceText"
             app:layout_constraintEnd_toEndOf="@id/comment_window_appearanceSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_appearanceText" />
@@ -323,9 +334,10 @@
             android:textColor="#3CFFB248"
             android:lineSpacingExtra="21sp"
             android:text="OVERALL"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/comment_window_overallText"
-            app:layout_constraintTop_toTopOf="@id/comment_window_overallText"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
+            app:layout_constraintTop_toTopOf="@id/compoent_overall"
+            app:layout_constraintBottom_toBottomOf="@id/compoent_overall"
+            app:layout_constraintEnd_toEndOf="@id/compoent_overall"
             />
         <TextView
             android:id="@+id/comment_window_overallText"
@@ -335,9 +347,9 @@
             android:layout_marginTop="30dp"
             android:lineSpacingExtra="1sp"
             android:text="어울림"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:textStyle="bold"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_appearanceSeekbar" />
 
@@ -376,7 +388,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/componentMarginEnd"
             android:onClick="onClick"
-            android:src="@mipmap/componet_question"
+            android:src="@mipmap/component_question"
             app:layout_constraintBottom_toBottomOf="@id/comment_window_overallText"
             app:layout_constraintEnd_toEndOf="@id/comment_window_overallSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_overallText" />

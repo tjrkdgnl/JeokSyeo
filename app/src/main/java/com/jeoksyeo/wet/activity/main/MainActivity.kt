@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
-                binding.bannerCount.text = "${position % 5 + 1} / 5"
+                binding.bannerCount.text = "${position % presenter.bannerItem + 1} / ${presenter.bannerItem}"
 
             }
         })

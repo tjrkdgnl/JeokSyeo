@@ -9,6 +9,9 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -55,6 +58,8 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         binding.recyclerViewSearchlist.setHasFixedSize(false)
         binding.recyclerViewSearchlist.layoutManager = layoutManager
 
+
+        //포커싱에 따른 힌트 출력여부 결정
         binding.editTextSearch.setOnFocusChangeListener { v, hasFocus ->
             if(hasFocus){
                 binding.editTextSearch.hint = ""
@@ -63,6 +68,22 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
                     binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
             }
         }
+
+        //imeOption 설정하여 키보드에서 바로 검색되도록 핸들링
+        binding.editTextSearch.setOnEditorActionListener { v, actionId, event ->
+            when(actionId){
+                EditorInfo.IME_ACTION_GO ->{
+                    if(binding.editTextSearch.text.isNotEmpty()){
+                        binding.initEditText.visibility =View.VISIBLE
+                        changeAdapter(binding.editTextSearch.text.toString(),false)
+                        GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this@Search)
+                    }
+                    true
+                }
+                else ->{false}
+            }
+        }
+
 
         binding.recyclerViewSearchlist.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener{
             override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {

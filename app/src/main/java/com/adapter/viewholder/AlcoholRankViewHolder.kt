@@ -10,5 +10,15 @@ class AlcoholRankViewHolder(parent:ViewGroup) :BaseViewHolder<AlcoholList,Alcoho
     override fun bind(data: AlcoholList) {
         binding.alcoholRank = data
         binding.executePendingBindings()
+
+
+        data.review?.reviews?.let { lst->
+            if(lst.isNotEmpty()){
+                lst[0].contents?.let { comment->
+                    getViewBinding().monthlyBestComment.text = comment
+                }
+            }
+        }
+
     }
 }

@@ -46,7 +46,7 @@ class Presenter :FavoriteContract.BasePresenter {
 
                 it.data?.pagingInfo?.alcoholTotalCount?.let { total->
                     viewModel.alcoholTypeList[position] = total
-                    viewModel.currentPosition.value = position
+                    viewModel.setPosition(position)
                 }
 
                 it.data?.summary?.alcoholLikeCount?.let {total->

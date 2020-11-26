@@ -34,6 +34,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         commentPresenter = CommentPresenter().apply {
             view=this@Comment
             lifecycleOwner =this@Comment
+            activity = this@Comment
         }
 
         if(intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)){
@@ -59,12 +60,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         binding.commentWindowBottomInclude.commentWindowOverallSeekbar.onProgressChangedListener = this
 
         binding.commentWindowCommentEditText.addTextChangedListener(this)
-        binding.commentWindowCommentEditText.setOnKeyListener { v, keycode, event ->
-            if (keycode == KeyEvent.KEYCODE_ENTER) {
-                GlobalApplication.instance.keyPadSetting(binding.commentWindowCommentEditText,this)
-                return@setOnKeyListener true
-            } else return@setOnKeyListener false
-        }
+
     }
 
     override fun onBackPressed() {
@@ -118,7 +114,8 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.comment_window_evaluateButton->{
-                myComment?.let { commentPresenter.editMyComment(this,alcohol?.alcoholId!!,myComment?.reviewId!!) }
+                myComment?.let { //이미 평가한 화면을 재 수정할 때
+                    commentPresenter.editMyComment(this,alcohol?.alcoholId!!,myComment?.reviewId!!) }
                     ?: commentPresenter.setComment(this,alcohol?.alcoholId,alcohol?.name?.kr)}
 
             R.id.compoent_aroma -> {
@@ -173,6 +170,8 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
     override fun getView(): CommentWindowBinding {
        return binding
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

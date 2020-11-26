@@ -19,7 +19,6 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val compositeDisposable = CompositeDisposable()
     private var likeCheckList = mutableListOf<Boolean>()
-
     init {
         for (i in lst.indices) {
             likeCheckList.add(true)
@@ -50,6 +49,8 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
 
             holder.getViewBinding().imageViewFavoriteHeart.setOnClickListener {
                 if (likeCheckList[position]) {
+                    likeCheckList[position] = false
+
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .cancelAlcoholLike(
@@ -59,6 +60,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
+
                                 holder.getViewBinding().imageViewFavoriteHeart.setImageResource(
                                     R.mipmap.small_heart_empty)
                                 likeCheckList[position] = false
@@ -67,6 +69,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                             })
                     )
                 } else {
+                    holder.getViewBinding().imageViewFavoriteHeart.isEnabled =false
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .alcoholLike(
@@ -76,10 +79,12 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
+                                holder.getViewBinding().imageViewFavoriteHeart.isEnabled =true
                                 holder.getViewBinding().imageViewFavoriteHeart.setImageResource(
                                     R.mipmap.small_heart_full)
                                 likeCheckList[position] = true
                             }, { t ->
+                                holder.getViewBinding().imageViewFavoriteHeart.isEnabled =true
                                 Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
                             })
                     )

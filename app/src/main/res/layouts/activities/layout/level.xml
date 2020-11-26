@@ -65,12 +65,13 @@
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="2sp"
                         android:text="현재 레벨은"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         />
 
                     <TextView
-                        android:id="@+id/textView_evaluation_text2"
+                        android:id="@+id/textView_current_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
@@ -79,7 +80,7 @@
                         android:text="마시는 척 하는 사람"
                         android:textColor="@color/orange"
                         android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_text1"
                         app:layout_constraintEnd_toStartOf="@id/textView_evaluation_text3"
                         app:layout_constraintStart_toEndOf="@id/textView_evaluation_text1"
@@ -89,16 +90,17 @@
                         android:id="@+id/textView_evaluation_text3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
+                        android:layout_marginStart="6dp"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="2sp"
                         android:text="입니다."
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_text2"
+                        app:layout_constraintBottom_toBottomOf="@id/textView_current_level"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/textView_evaluation_text2"
-                        app:layout_constraintTop_toTopOf="@id/textView_evaluation_text2" />
+                        app:layout_constraintStart_toEndOf="@id/textView_current_level"
+                        app:layout_constraintTop_toTopOf="@id/textView_current_level" />
 
 
                 </LinearLayout>
@@ -122,15 +124,16 @@
                     android:id="@+id/imageView_evaluationByMe_mainBottle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="27dp"
                     android:layout_marginTop="35dp"
-                    android:src="@mipmap/bottle_level0"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/bottle_level0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginBottom="27dp"
-                    app:layout_constraintVertical_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@id/myLevel_currentLevel" />
+                    app:layout_constraintTop_toBottomOf="@id/myLevel_currentLevel"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -149,10 +152,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="2sp"
-                    android:text="술을마시는 척하는 사람"
-                    android:textColor="#f7d57b"
+                    android:text="마시는 척하는 사람"
+                    android:textColor="@color/orange"
                     android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:layout_marginTop="17dp"
                     app:layout_constraintStart_toStartOf="@id/imageView_evaluationByMe_bottleLv1"
                     app:layout_constraintTop_toTopOf="parent"
@@ -169,6 +172,7 @@
                     android:text="까지 0병 남았습니다."
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_noticeNextLevelText"
                     app:layout_constraintStart_toEndOf="@id/textView_evaluation_noticeNextLevelText" />
 

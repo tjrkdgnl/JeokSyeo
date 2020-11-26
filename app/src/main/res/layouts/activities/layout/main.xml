@@ -28,16 +28,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.45dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#9f9f9f"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/basic_header" />
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/banner_constrainLayout"
@@ -45,7 +36,7 @@
                     android:layout_height="224dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view">
+                    app:layout_constraintTop_toBottomOf="@id/basic_header">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/main_banner"

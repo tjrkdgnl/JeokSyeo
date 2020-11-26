@@ -16,7 +16,7 @@
             android:id="@+id/favorite_profile"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:src="@mipmap/im_profile"
+            android:src="@mipmap/favorite_profile"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toTopOf="parent"

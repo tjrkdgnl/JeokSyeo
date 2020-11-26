@@ -27,33 +27,33 @@ import java.text.FieldPosition
 
 @SuppressLint("SetTextI18n")
 class AlcoholReviewViewHolder(
-    val context:Context,val parent:ViewGroup) :BaseViewHolder<ReviewList,ReviewItemBinding>(R.layout.review_item,parent) {
+    val context:Context, val parent:ViewGroup, val likeList: MutableList<Boolean>
+    ,val disLikeList: MutableList<Boolean>,val alcoholId: String?) :BaseViewHolder<ReviewList,ReviewItemBinding>(R.layout.review_item,parent) {
     private val compositeDisposable = CompositeDisposable()
 
     override fun bind(data: ReviewList) {
         binding.reivews = data
         binding.executePendingBindings()
 
-        getLineCount()// "더 보기" 유무 판
+        //리뷰 날짜 설정
+        data.updatedAt?.let {updateUtc->
+            if(updateUtc !=0){
+                getViewBinding().textViewDate.text = GlobalApplication.instance.getDate(updateUtc*1000L)
+            }
+            else{
+                data.createdAt?.let { createUtc->
+                    getViewBinding().textViewDate.text = GlobalApplication.instance.getDate(createUtc*1000L)
+                }
+            }
+        }
 
+        //유저 정보 셋팅
          data.level?.let {
              binding.textViewCommentUserRank.text = "Lv." + it.toString() +" "+ GlobalApplication.instance.getLevelName(it)
          }
         data.score?.let {
             binding.ratingBarReviewRatingbar.rating = it.toFloat()
         }
-
-        binding.reviewItemToggleButton.setOnClickListener{
-            if(binding.expandableTextViewReviewcomment.isExpanded){
-                binding.expandableTextViewReviewcomment.collapse()
-                binding.reviewItemToggleButton.text="더보기"
-            }
-            else{
-                binding.expandableTextViewReviewcomment.expand()
-                binding.reviewItemToggleButton.text="접기"
-            }
-        }
-
         if(data.profile?.size !=0){
             data.profile?.get(0)?.mediaResource?.small?.let {
                 Glide.with(parent.context)
@@ -66,21 +66,34 @@ class AlcoholReviewViewHolder(
                     .into(binding.imageViewCommentProfileImg)
             }
         }
+
+        // "더 보기" 유무 판단
+        getLineCount()
+        binding.reviewItemToggleButton.setOnClickListener{
+            if(binding.expandableTextViewReviewcomment.isExpanded){
+                binding.expandableTextViewReviewcomment.collapse()
+                binding.reviewItemToggleButton.text="더보기"
+            }
+            else{
+                binding.expandableTextViewReviewcomment.expand()
+                binding.reviewItemToggleButton.text="접기"
+            }
+        }
     }
 
     private fun getLineCount(){
-        binding.expandableTextViewReviewcomment.post(Runnable {
+        binding.expandableTextViewReviewcomment.post {
             val count = binding.expandableTextViewReviewcomment.lineCount
             if(count <=2){
                 binding.reviewItemToggleButton.visibility =View.INVISIBLE
             }
-        })
+        }
     }
     private fun settingEnabledButton(view: View,setting:Boolean){
         view.isEnabled =setting
     }
 
-    fun setLike(alcoholId:String?,review:ReviewList,disLikeList:MutableList<Boolean>,position:Int){
+    fun setLike(review:ReviewList,position:Int){
         var check = JWTUtil.settingUserInfo(false)
         if(check){
             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
@@ -91,6 +104,7 @@ class AlcoholReviewViewHolder(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    likeList[position] =true
                     settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_full)
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
@@ -114,7 +128,7 @@ class AlcoholReviewViewHolder(
         }
 
     }
-    fun setUnlike(alcoholId:String?,review:ReviewList){
+    fun setUnlike(review:ReviewList,position: Int){
         var check = JWTUtil.settingUserInfo(false)
 
         if(check){
@@ -125,6 +139,7 @@ class AlcoholReviewViewHolder(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    likeList[position] =false
                     settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
                     binding.textViewRecommendUpCount.text =
@@ -139,7 +154,7 @@ class AlcoholReviewViewHolder(
             CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
-    fun setDislike(alcoholId:String?,review:ReviewList,likeList:MutableList<Boolean>,position: Int){
+    fun setDislike(review:ReviewList,position: Int){
         var check = JWTUtil.settingUserInfo(false)
 
         if(check){
@@ -150,6 +165,8 @@ class AlcoholReviewViewHolder(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    disLikeList[position] =true
+
                     settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_full)
                     binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
@@ -157,6 +174,7 @@ class AlcoholReviewViewHolder(
                     binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),1)
 
                     if(likeList[position]){
+                        likeList[position]=false
                         binding.textViewRecommendUpCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
                     }
                 },{ t ->
@@ -168,7 +186,7 @@ class AlcoholReviewViewHolder(
             CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
-    fun setUnDislike(alcoholId:String?,review:ReviewList){
+    fun setUnDislike(review:ReviewList,position: Int){
         var check = JWTUtil.settingUserInfo(false)
 
         if(check){
@@ -179,9 +197,10 @@ class AlcoholReviewViewHolder(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    disLikeList[position] = false
+
                     settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                     binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
-
                     binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),-1)
 
                 },{ t ->

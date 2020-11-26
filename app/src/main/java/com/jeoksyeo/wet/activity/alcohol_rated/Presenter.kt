@@ -43,6 +43,7 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
                     textView.setTextColor(context.resources.getColor(R.color.tabColor,null))
                     textView.gravity = Gravity.CENTER_HORIZONTAL
                 }).attach()
+
         }
     }
 }

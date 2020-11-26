@@ -686,7 +686,6 @@
                 android:layout_marginTop="45dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/nuggi"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_380_guideLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

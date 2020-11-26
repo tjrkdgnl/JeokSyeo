@@ -12,6 +12,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.crashlytics.BuildConfig
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kakao.sdk.common.KakaoSdk
 import com.model.user.UserInfo
 import com.sharedpreference.UserDB
@@ -19,6 +21,7 @@ import com.vuforia.engine.wet.R
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class GlobalApplication : Application() {
@@ -36,6 +39,9 @@ class GlobalApplication : Application() {
         userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)
         RxjavaErrorHandling()
+
+        //오류보고 툴
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     companion object {
@@ -94,11 +100,24 @@ class GlobalApplication : Application() {
         const val PAGE_REVIEW_COUNT =3
     }
 
+
+
+    fun getDate(utc:Long):String{
+        val date = Date(utc)
+
+        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        Log.e("utc",utc.toString())
+
+        Log.e("date",simpleDateFormat.format(date))
+        return simpleDateFormat.format(date)
+    }
+
     fun getAlcoholType(positon: Int) = typeList[positon]
 
     fun getRatedType(positon: Int) = ratedList[positon]
 
     fun getLevelName(positon: Int) = levelList[positon]
+
 
     fun checkCount(value: Int, count: Int = 0): String {
         return if (value >= 10000) "9999+"
@@ -183,6 +202,8 @@ class GlobalApplication : Application() {
         }
 
     }
+
+
 
 
     private fun RxjavaErrorHandling() {

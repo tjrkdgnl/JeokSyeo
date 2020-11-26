@@ -24,7 +24,7 @@
 
 
     //comment window
-    <dimen name="aromaTextSize">20sp</dimen>
+    <dimen name="aromaTextSize">17sp</dimen>
     <dimen name="aromaBackgroundTextSize">45sp</dimen>
     <dimen name="componentMarginEnd">15dp</dimen>
     <dimen name="comment_scoreTextSize">36sp</dimen>

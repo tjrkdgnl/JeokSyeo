@@ -14,9 +14,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="@dimen/basic_backbutton_marginBottom"
+            android:layout_marginBottom="@dimen/basic_backbutton_marginBottom"
+
             android:background="@null"
             android:onClick="onClick"
             android:src="@mipmap/main_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />

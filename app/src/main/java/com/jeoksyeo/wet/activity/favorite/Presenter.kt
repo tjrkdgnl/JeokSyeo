@@ -42,6 +42,8 @@ class Presenter : FavoriteContract.BasePresenter {
                 textView.gravity = Gravity.CENTER_HORIZONTAL
 
             }).attach()
+
+            view.getBinding().favoriteViewPager2.offscreenPageLimit =5
     }
 
     override fun initProfile() {

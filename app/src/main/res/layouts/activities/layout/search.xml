@@ -42,6 +42,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:hint="찾으시는 주류가 있으신가요?"
+                android:imeOptions="actionGo"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColorHint="@color/orange"

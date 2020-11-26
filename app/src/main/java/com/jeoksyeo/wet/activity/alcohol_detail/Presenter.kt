@@ -206,6 +206,27 @@ class Presenter : AlcoholDetailContract.BasePresenter {
        view.isEnabled= setting
     }
 
+//    "ADJUNCT", //0
+//    "TEMPERATURE",
+//    "BARREL AGED",
+//    "FILTERED",
+//    "SRM",
+//    "BODY",//5
+//    "ACIDIC",
+//    "MALT",
+//    "HOP",
+//    "IBU",
+//    "TANNIN",//10
+//    "SWEET",
+//    "POLISHING",
+//    "CASK",
+//    "SAKE_TYPE",
+//    "GRAPE",//15
+//    "RPR",
+//    "SMV",
+//    "COLOR",
+//    "AGED_YEAR"
+
     override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기
         //SRM value가 무조건 정수는 아니기 때문에 try/catch로 parsing에러 잡아서 핸들링하기
@@ -291,7 +312,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     )
                 }
             }
-
 
             "ADJUNCT" -> {
                 alcohol.adjunct?.let {
@@ -535,10 +555,12 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
                             //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
                             lst.toMutableList().let { muLst ->
-                                if(muLst.size >GlobalApplication.PAGE_REVIEW_COUNT){ //"더 보기" 여부 결정
-                                    muLst.add(ReviewList().apply {
-                                        checkMore = GlobalApplication.DETAIL_MORE_REVIEW
-                                    })
+                                result.data?.pageInfo?.next?.let { next->
+                                    if(next){
+                                        muLst.add(ReviewList().apply {
+                                            checkMore = GlobalApplication.DETAIL_MORE_REVIEW
+                                        })
+                                    }
                                 }
                                 view.getView().recyclerViewReviewList.adapter =
                                     AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)

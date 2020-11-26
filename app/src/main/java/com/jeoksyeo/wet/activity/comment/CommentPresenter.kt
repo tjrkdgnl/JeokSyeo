@@ -4,11 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.Gravity
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.application.GlobalApplication
 import com.custom.CustomDialog
+import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.model.my_comment.Comment
 import com.service.ApiGenerator
@@ -25,6 +28,7 @@ import io.reactivex.schedulers.Schedulers
 
 class CommentPresenter : CommentContract.BasePresenter {
     override lateinit var view: CommentContract.BaseView
+    override lateinit var activity: Activity
     override lateinit var lifecycleOwner: LifecycleOwner
     private  var disposable: Disposable? =null
 
@@ -98,8 +102,11 @@ class CommentPresenter : CommentContract.BasePresenter {
             view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
         )
 
+
         var check =JWTUtil.settingUserInfo(false)
+
         if(check){
+            settingProgressbar(true)
             disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                 .setComment(
                     GlobalApplication.userBuilder.createUUID,
@@ -110,18 +117,21 @@ class CommentPresenter : CommentContract.BasePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    settingProgressbar(false)
                     it.data?.let { result ->
                         result.result?.let {
                             if (it.equals("SUCCESS")) {
                                 Toast.makeText(context, alcoholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
                                 (context as Activity).finish()
                             } else
-                                Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
                         }
                     }
 
-                }, { t -> Log.e(ErrorManager.COMMENT, t.message.toString()) })
+                }, { t ->
+                    settingProgressbar(false)
+                    Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                    Log.e(ErrorManager.COMMENT, t.message.toString()) })
         }
        else{
             CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
@@ -163,6 +173,7 @@ class CommentPresenter : CommentContract.BasePresenter {
         Log.e("아로마", map["aroma"].toString())
         val check =JWTUtil.settingUserInfo(false)
         if(check){
+            settingProgressbar(true)
             disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                 .editMyRatedReview(
                     GlobalApplication.userBuilder.createUUID,
@@ -170,6 +181,8 @@ class CommentPresenter : CommentContract.BasePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    settingProgressbar(false)
+
                     it.data?.let { result ->
                         result.result?.let {
                             if (it == "SUCCESS") {
@@ -180,10 +193,26 @@ class CommentPresenter : CommentContract.BasePresenter {
                                     .show()
                         }
                     }
-                }, { t -> Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
+                }, { t ->
+                    settingProgressbar(false)
+                    Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                    Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
         }
         else{
             CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
         }
     }
+
+    private fun settingProgressbar(check:Boolean){
+        if(check){
+            view.getView().progressbar.root.visibility = View.VISIBLE
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        else{
+            view.getView().progressbar.root.visibility = View.INVISIBLE
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
+        }
+    }
+
 }

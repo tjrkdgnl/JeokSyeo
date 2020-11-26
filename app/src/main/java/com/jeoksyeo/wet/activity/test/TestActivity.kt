@@ -18,20 +18,6 @@ class TestActivity : AppCompatActivity() {
         val binding: TestActivityBinding =
             DataBindingUtil.setContentView(this, R.layout.test_activity)
 
-        val calendar = Calendar.getInstance()
-
-        val currentUTC = calendar.time
-        val simpleDateFormat = SimpleDateFormat("yyyyMMdd HH:mm:ss", Locale.getDefault())
-        simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
-
-        val utc = simpleDateFormat.parse(simpleDateFormat.format(currentUTC))
-
-        calendar.add(Calendar.DATE,-5)
-
-        val fiveDay = simpleDateFormat.parse(simpleDateFormat.format(calendar.time))
-
-        Log.e("fiveDay", fiveDay?.time.toString())
-        Log.e("utc", utc?.time.toString())
 
     }
 }

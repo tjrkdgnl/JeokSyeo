@@ -1,5 +1,6 @@
 package com.fragment.alcohol_rated
 
+import android.app.Activity
 import android.content.Context
 import com.adapter.alcohol_rated.AlcoholRatedAdapter
 import com.custom.CenterSmoothScroller
@@ -15,6 +16,7 @@ interface FragmentRated_Contract {
     interface BasePresenter{
         var position:Int
         var view:BaseView
+        var activity:Activity
         var viewmodel : RatedViewModel
         var smoothScrollListener:Fragment_alcoholRated.SmoothScrollListener
         fun initRatedList(context: Context)

@@ -38,6 +38,7 @@ class Presenter : MainContract.BasePresenter {
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private lateinit var bannerAdapter: BannerAdapter
+    var bannerItem:Int =0
 
     override fun initBanner(context: Context) {
        JWTUtil.settingUserInfo(false)
@@ -48,6 +49,7 @@ class Presenter : MainContract.BasePresenter {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 it.data?.banner?.let {lst->
+                    bannerItem = lst.size
                     val infiniteLst = mutableListOf<Banner>()
                     var i = 0
                     while(i !=200){
@@ -57,7 +59,7 @@ class Presenter : MainContract.BasePresenter {
                     bannerAdapter =  BannerAdapter(context,infiniteLst)
 
                     view.getView().mainBanner.adapter =bannerAdapter
-                    view.getView().mainBanner.currentItem = 500
+                    view.getView().mainBanner.currentItem = bannerItem *100
 
                 }
             },{ t->Log.e(ErrorManager.BANNER,t.message.toString()) }))
@@ -68,13 +70,13 @@ class Presenter : MainContract.BasePresenter {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view.getView().mainBanner.currentItem = view.getView().mainBanner.currentItem +1
-                view.getView().bannerCount.text = "${view.getView().mainBanner.currentItem % 5 +1} / 5"
+                view.getView().bannerCount.text = "${view.getView().mainBanner.currentItem % bannerItem +1} / $bannerItem"
             },{t ->Log.e("banner auto slide",t.message.toString())
 
             }))
     }
 
-    fun getPosition() = bannerAdapter.currentPosition()
+
 
     override fun initRecommendViewPager(context: Context)  {
         JWTUtil.settingUserInfo(false)

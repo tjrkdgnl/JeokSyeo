@@ -1,7 +1,10 @@
 package com.fragment.alcohol_rated
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.alcohol_rated.AlcoholRatedAdapter
 import com.application.GlobalApplication
@@ -19,6 +22,7 @@ import java.lang.RuntimeException
 
 class Presenter :FragmentRated_Contract.BasePresenter {
     override var position: Int =0
+    override lateinit var activity: Activity
     override lateinit var view: FragmentRated_Contract.BaseView
     override lateinit var smoothScrollListener: Fragment_alcoholRated.SmoothScrollListener
     override lateinit var viewmodel: RatedViewModel
@@ -54,12 +58,12 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                         if(lst.isEmpty()){
                             lst.toMutableList().let { mlst->
                                 mlst.add(ReviewList())
-                                alcoholRatedAdapter = AlcoholRatedAdapter(context,mlst,smoothScrollListener)
+                                alcoholRatedAdapter = AlcoholRatedAdapter(context,mlst,smoothScrollListener,progressbar = settingProgressbar)
                                 view.getBinding().ratedRecyclerView.adapter =alcoholRatedAdapter
                             }
                         }
                         else {
-                            alcoholRatedAdapter = AlcoholRatedAdapter(context,lst.toMutableList(),smoothScrollListener)
+                            alcoholRatedAdapter = AlcoholRatedAdapter(context,lst.toMutableList(),smoothScrollListener,progressbar = settingProgressbar)
                             view.getBinding().ratedRecyclerView.adapter =alcoholRatedAdapter
                             initScrollListener()
                         }
@@ -108,5 +112,16 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                     }
                 }
             }, { t-> Log.e(ErrorManager.MY_RATED_LIST,t.message.toString())}))
+    }
+
+    val settingProgressbar :(Boolean)->Unit = {bool->
+        if(bool){
+            view.getBinding().progressbar.root.visibility = View.VISIBLE
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        else{
+            view.getBinding().progressbar.root.visibility = View.INVISIBLE
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
     }
 }

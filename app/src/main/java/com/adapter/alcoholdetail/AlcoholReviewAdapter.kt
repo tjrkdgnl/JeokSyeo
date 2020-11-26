@@ -44,7 +44,7 @@ class AlcoholReviewAdapter(private val context: Context,
                 NoAlcoholReviewViewHolder(parent)
             }
             GlobalApplication.DETAIL_REVIEW -> {
-                AlcoholReviewViewHolder(context,parent)
+                AlcoholReviewViewHolder(context,parent,likeList,disLikeList,alcoholId)
             }
             GlobalApplication.DETAIL_MORE_REVIEW ->{
                 AlcoholMoreReviewViewHolder(parent)
@@ -73,11 +73,11 @@ class AlcoholReviewAdapter(private val context: Context,
             //좋아요를 눌렀을 때
             holder.getViewBinding().imageViewRecommendUpButton.setUpDownClickListener{
                 if(!likeList[position]){
-                    likeList[position] =true
-                    holder.setLike(alcoholId,lst[position],disLikeList,position)
+
+                    holder.setLike(lst[position],position)
                 }
                 else{
-                    holder.setUnlike(alcoholId,lst[position])
+                    holder.setUnlike(lst[position],position)
                     likeList[position] =false
                 }
             }
@@ -85,10 +85,10 @@ class AlcoholReviewAdapter(private val context: Context,
             holder.getViewBinding().imaveViewRecommendDownButton.setUpDownClickListener{
                 if(!disLikeList[position]){
                     disLikeList[position]=true
-                    holder.setDislike(alcoholId,lst[position],likeList,position)
+                    holder.setDislike(lst[position],position)
                 }
                 else{
-                    holder.setUnDislike(alcoholId,lst[position])
+                    holder.setUnDislike(lst[position],position)
                     disLikeList[position]=false
                 }
             }

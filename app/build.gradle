@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
@@ -33,9 +34,35 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
+
+            debuggable true
+
+            proguardFile getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            )
+
+            proguardFile 'proguard-rules.pro'
+            proguardFile 'proguard-debug.pro'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFile 'proguard-common.pro'
+            proguardFile 'proguard-firebase.pro'
+            proguardFile 'proguard-okhttp3.pro'
+            proguardFile 'proguard-retrofit2.pro'
+            proguardFile 'proguard-glide.pro'
+            proguardFile 'proguard-gson.pro'
+            proguardFile 'proguard-coroutine.pro'
+            proguardFile 'proguard-rules.pro'
+
+
         }
     }
 
@@ -51,6 +78,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 
@@ -147,6 +175,12 @@ dependencies {
 
     //chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
+    //크래시리틱스- 오류 보고
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 }
 
