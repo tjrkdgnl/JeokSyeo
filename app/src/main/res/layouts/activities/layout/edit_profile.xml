@@ -20,15 +20,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/orange"
+                app:layout_constraintTop_toBottomOf="@id/edit_basic_header"/>
 
             <ImageView
                 android:id="@+id/editProfile_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_marginTop="@dimen/userInfo_imageView_myProfile_marginTop"
-                android:background="@mipmap/user_profile"
                 android:onClick="onClick"
-                android:src="@mipmap/review_profile"
+                android:src="@mipmap/big_profile"
                 app:layout_constraintBottom_toTopOf="@id/textView_writeNickname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +58,7 @@
                 android:text="닉네임"
                 android:textColor="@color/black"
                 android:textSize="@dimen/edit_Profile_nickNameSize"
-                android:textStyle="bold"
+                android:fontFamily="@font/apple_sd_gothic_neo_m"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editProfile_img" />
 
@@ -77,9 +81,9 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:hint="닉네임을 입력하세요"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:maxLength="8"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:theme="@style/cursorColor"
                     android:textCursorDrawable="@color/orange"
                     android:backgroundTint="@color/transparent"
@@ -92,6 +96,7 @@
                     android:hint="사용 불가능한 닉네임입니다."
                     android:visibility="invisible"
                     android:maxLines="1"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:textSize="12sp"
                     android:layout_weight="1.2"
                     android:gravity="right"
@@ -104,12 +109,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:lineSpacingExtra="4sp"
-                android:text="나이"
+                android:text="생년월일"
                 android:textColor="#000000"
                 android:textSize="@dimen/edit_Profile_nickNameSize"
-                android:textStyle="bold"
+                android:fontFamily="@font/apple_sd_gothic_neo_m"
                 app:layout_constraintStart_toStartOf="@id/textView_writeNickname"
-                app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
+                app:layout_constraintTop_toBottomOf="@id/editProfile_G_imageButton_gender_man" />
 
             <LinearLayout
                 android:id="@+id/birthdayLinearLayout"
@@ -131,12 +136,13 @@
                     android:id="@+id/birthday_year"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1.7"
                     android:background="@drawable/bottom_line"
                     android:gravity="center_horizontal|center_vertical"
                     android:hint="1994"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -145,16 +151,18 @@
                     android:layout_weight="0.5"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="년"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:textColor="@color/black"
-                    android:textSize="23sp" />
+                    android:textSize="17sp" />
 
                 <TextView
                     android:id="@+id/birthday_month"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1.7"
                     android:hint="08"
-                    android:textSize="20sp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:gravity="center_horizontal|center_vertical"
                     android:background="@drawable/bottom_line" />
@@ -166,16 +174,18 @@
                     android:layout_weight="0.5"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="월"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:textColor="@color/black"
-                    android:textSize="23sp" />
+                    android:textSize="17sp" />
 
                 <TextView
                     android:id="@+id/birthday_day"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1.7"
                     android:hint="18"
-                    android:textSize="20sp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     android:gravity="center_horizontal|center_vertical"
                     android:background="@drawable/bottom_line" />
@@ -187,8 +197,9 @@
                     android:layout_weight="0.5"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="일"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:textColor="@color/black"
-                    android:textSize="23sp" />
+                    android:textSize="17sp" />
 
             </LinearLayout>
 
@@ -213,9 +224,9 @@
                 android:text="성별"
                 android:textColor="@color/black"
                 android:textSize="@dimen/edit_Profile_nickNameSize"
-                android:textStyle="bold"
+                android:fontFamily="@font/apple_sd_gothic_neo_m"
                 app:layout_constraintStart_toStartOf="@id/textView_writeNickname"
-                app:layout_constraintTop_toBottomOf="@id/editProfile_basicDatePicker" />
+                app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
 
 
             <ImageView
@@ -272,7 +283,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/ok_button_size"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/evalution_button_shape"
@@ -280,11 +291,11 @@
                 android:text="확인"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_gender_man" />
+                app:layout_constraintTop_toBottomOf="@id/editProfile_basicDatePicker" />
 
             <ProgressBar
                 android:id="@+id/progressBar_loading"

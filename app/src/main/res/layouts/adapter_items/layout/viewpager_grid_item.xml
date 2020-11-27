@@ -47,11 +47,11 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/rounded_corner_degree"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:fontFamily="@font/apple_sd_gothic_neo_m"
                 android:gravity="center"
                 android:text="@{alcohol.abv.toString()}"
                 android:textColor="@color/orange"
-                android:textSize="11sp"
+                android:textSize="8sp"
                 tools:text="19%" />
         </androidx.cardview.widget.CardView>
 

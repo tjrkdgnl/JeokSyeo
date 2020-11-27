@@ -19,19 +19,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:layout_width="match_parent"
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="start|top"
-                android:hint="입력해주세요"
-                android:inputType="textMultiLine"
-                android:maxLength="500"
-                android:maxLines="12"
-                android:minLines="2"
-                android:scrollbars="none"
-                android:scrollHorizontally="false"
-                android:singleLine="false" />
+                android:layout_gravity="center"
+                android:text="오류"/>
+
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,9 +44,6 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
            binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
         })
-        viewmodel.level.observe(this, Observer {
-            binding.profileHeader.ratedLevelName.text ="LV ${it}. " + GlobalApplication.instance.getLevelName(it)
-        })
     }
 
     override fun getView(): AlcoholRatedBinding {

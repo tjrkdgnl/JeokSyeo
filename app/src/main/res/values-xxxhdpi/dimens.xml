@@ -37,8 +37,8 @@
     //ActivityMainWindow
     <dimen name="categoryButtonSize">70dp</dimen>
     <dimen name="autoViewPager_height">245dp</dimen>
-    <dimen name="main_text_defaultSize">23sp</dimen>
-    <dimen name="main_text_miniSize">21sp</dimen>
+    <dimen name="main_text_defaultSize">25sp</dimen>
+    <dimen name="main_text_miniSize">23sp</dimen>
     <dimen name="alcohol_button_textSize">13sp</dimen>
     <dimen name="autoViewPager_textSize">10sp</dimen>
     <dimen name="whatIsQuestion_textSize">10sp</dimen>
@@ -64,15 +64,15 @@
     <dimen name="AlcoholDetail_ImageViewSize">50dp</dimen>
     <dimen name="detail_alcohol_Name_k">23sp</dimen>
     <dimen name="detail_alcohol_Name_E">18sp</dimen>
-    <dimen name="detail_default_textSize">14sp</dimen>
-    <dimen name="detail_review_Score">31sp</dimen>
+    <dimen name="detail_default_textSize">12sp</dimen>
+    <dimen name="detail_review_Score">48sp</dimen>
     <dimen name="detail_review_progress_height">20dp</dimen>
     <dimen name="detail_alcohol_score">26sp</dimen>
     <dimen name="detail_my_score">21sp</dimen>
 
     //basic
     <dimen name="basic_backbutton_marginBottom">15dp</dimen>
-    <dimen name="basic_title_textSize">18sp</dimen>
+    <dimen name="basic_title_textSize">16sp</dimen>
 
     //basicProfile
     <dimen name="basic_profileSize">51dp</dimen>
@@ -83,8 +83,8 @@
     <dimen name="AlcoholMainWindow_searchButton_size">30dp</dimen>
     <dimen name="AlcoholMainWindow_LinearLayout_height">38dp</dimen>
     <dimen name="AlchileMainWindow_ArrowToggle_height">16dp</dimen>
-    <dimen name="AlcoholMainWindow_textView_totalProduct_textsize">14sp</dimen>
-    <dimen name="AlcoholMainWindow_default_textsize">15sp</dimen>
+    <dimen name="AlcoholMainWindow_textView_totalProduct_textsize">11sp</dimen>
+    <dimen name="AlcoholMainWindow_default_textsize">12sp</dimen>
     <dimen name="AlcoholMainWindow_expandable_height">36dp</dimen>
 
     //viewPager_list_item
@@ -92,13 +92,13 @@
     <dimen name="list_item_listAlcoholName_K_textsize">16sp</dimen>
     <dimen name="list_item_listAlcoholName_E_textsize">13sp</dimen>
     <dimen name="listItem_default_Imagesize">16dp</dimen>
-    <dimen name="listitem_heartImg_marginTop">9dp</dimen>
+    <dimen name="listitem_heartImg_marginTop">14dp</dimen>
 
     //viewPager_grid_item
     <dimen name="gridItem_GridAhchol_img_height">190dp</dimen>
-    <dimen name="gridItem_GridAlcoholName_K_textSize">15sp</dimen>
-    <dimen name="gridItem_origin_textSize">12sp</dimen>
-    <dimen name="gridItem_default_textsize">11sp</dimen>
+    <dimen name="gridItem_GridAlcoholName_K_textSize">14sp</dimen>
+    <dimen name="gridItem_origin_textSize">13sp</dimen>
+    <dimen name="gridItem_default_textsize">12sp</dimen>
     <dimen name="gridItem_gridHeart_marginTop">2dp</dimen>
     <dimen name="gridItem_gridHeart_marginBottom">16dp</dimen>
 

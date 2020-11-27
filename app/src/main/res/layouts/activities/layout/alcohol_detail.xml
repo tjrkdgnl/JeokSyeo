@@ -588,41 +588,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/alcohol_reviewSumCountText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
-                    android:gravity="center_horizontal"
-                    android:hint="0개"
-                    android:lineSpacingExtra="1sp"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/title_Size"
-                    app:layout_constraintBottom_toBottomOf="@id/textView_juryuReview"
-                    app:layout_constraintStart_toEndOf="@id/textView_juryuReview"
-                    app:layout_constraintTop_toTopOf="@id/textView_juryuReview" />
+
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.45dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="20dp"
                     android:background="@color/orange"
-                    app:layout_constraintBottom_toBottomOf="@id/alcohol_reviewSumCountText"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_juryuReview"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/alcohol_reviewSumCountText" />
+                    app:layout_constraintStart_toEndOf="@id/textView_juryuReview" />
 
                 <TextView
                     android:id="@+id/alcoholDetail_reviewTotalscore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="51dp"
                     android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center_horizontal"
                     android:hint="0"
                     android:lineSpacingExtra="4sp"
                     android:textColor="#000000"
                     android:textSize="@dimen/detail_review_Score"
+                    app:layout_constraintVertical_bias="0.4"
+                    app:layout_constraintBottom_toTopOf="@id/recyclerView_reviewList"
                     app:layout_constraintEnd_toStartOf="@id/alcoholDetail_scoreSeekbar"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
@@ -653,17 +641,16 @@
                     layout="@layout/alcohol_score_seekbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    app:layout_constraintBottom_toBottomOf="@id/alcoholDetail_reviewTotalscore"
+                    app:layout_constraintBottom_toBottomOf="@id/alcoholDetail_reviewRatingbar"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/alcoholDetail_reviewTotalscore"
+                    app:layout_constraintStart_toEndOf="@+id/alcoholDetail_reviewRatingbar"
                     app:layout_constraintTop_toTopOf="@id/alcoholDetail_reviewTotalscore" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_reviewList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="37dp"
                     android:background="@drawable/default_outline"
                     android:nestedScrollingEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"

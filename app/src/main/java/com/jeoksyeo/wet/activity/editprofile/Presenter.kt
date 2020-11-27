@@ -147,7 +147,7 @@ class Presenter : EditProfileContract.BasePresenter {
         }
     }
 
-    override fun checkLogin(context: Context, provider: String?) {
+    override fun settingUserInfo(context: Context, provider: String?) {
         provider?.let {
             view.getView().insertInfoEditText.setText(GlobalApplication.userInfo.nickName)
 

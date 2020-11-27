@@ -84,7 +84,7 @@
                 android:id="@+id/ratingBar_listRatingbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
                 app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholOrigin"
                 app:srb_clearRatingEnabled="true"

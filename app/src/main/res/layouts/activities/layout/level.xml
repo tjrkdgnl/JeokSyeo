@@ -8,8 +8,8 @@
         android:id="@+id/mylevel_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,7 +22,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,48 +38,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="@color/orange"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-                
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:id="@+id/myLevel_currentLevel"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/recommenditem_shadow"
                     android:layout_marginStart="15dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:layout_marginEnd="15dp"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/recommenditem_shadow"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    >
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/textView_evaluation_text1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="2sp"
                         android:text="현재 레벨은"
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView_current_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="3sp"
                         android:text="마시는 척 하는 사람"
                         android:textColor="@color/orange"
                         android:textSize="18sp"
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_text1"
                         app:layout_constraintEnd_toStartOf="@id/textView_evaluation_text3"
                         app:layout_constraintStart_toEndOf="@id/textView_evaluation_text1"
@@ -91,10 +88,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="2sp"
                         android:text="입니다."
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="@id/textView_current_level"
@@ -124,10 +121,10 @@
                     android:id="@+id/imageView_evaluationByMe_mainBottle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="27dp"
                     android:layout_marginTop="35dp"
+                    android:layout_marginBottom="27dp"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/bottle_level0"
+                    android:src="@mipmap/main_bottle_0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -141,38 +138,45 @@
                 android:id="@+id/constrainLayout_levelBottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/myLevel_mainWindow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:background="@color/white"
-                >
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myLevel_mainWindow">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.4dp"
+                    android:background="@color/ligthGrey2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
                     android:id="@+id/textView_evaluation_noticeNextLevelText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:lineSpacingExtra="2sp"
                     android:text="마시는 척하는 사람"
                     android:textColor="@color/orange"
                     android:textSize="18sp"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:layout_marginTop="17dp"
                     app:layout_constraintStart_toStartOf="@id/imageView_evaluationByMe_bottleLv1"
                     app:layout_constraintTop_toTopOf="parent"
 
-                   />
+                    />
 
                 <TextView
                     android:id="@+id/textView_evaluation_noticeNextLevelCountText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:gravity="bottom"
                     android:lineSpacingExtra="2sp"
                     android:text="까지 0병 남았습니다."
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_noticeNextLevelText"
                     app:layout_constraintStart_toEndOf="@id/textView_evaluation_noticeNextLevelText" />
 
@@ -182,8 +186,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv2"
                     app:layout_constraintHorizontal_chainStyle="spread"
@@ -194,8 +198,8 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv3"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv1"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv1" />
@@ -224,8 +228,8 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv6"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv4"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv4" />
@@ -234,8 +238,8 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv7"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv5"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv5" />
@@ -244,8 +248,8 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv8"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv6"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv6" />
@@ -254,8 +258,8 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv9"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv7"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv7" />
@@ -264,8 +268,8 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/mini_bottle_empty"
                     android:scaleType="fitCenter"
+                    android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv10"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv8"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv8" />
@@ -274,9 +278,9 @@
                     android:id="@+id/imageView_evaluationByMe_bottleLv10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
                     android:src="@mipmap/mini_bottle_empty"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:scaleType="fitCenter"
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv9"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv9" />
 
@@ -287,22 +291,21 @@
                 android:id="@+id/waveLoadingView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:wlv_shapeType="rectangle"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myLevel_mainWindow"
+                app:layout_constraintVertical_bias="1"
                 app:wlv_round_rectangle="true"
-                app:wlv_triangle_direction="north"
-                app:wlv_titleCenterStrokeColor="@color/white"
+                app:wlv_shapeType="rectangle"
                 app:wlv_titleCenter="Center Title"
                 app:wlv_titleCenterColor="@android:color/white"
                 app:wlv_titleCenterSize="24sp"
+                app:wlv_titleCenterStrokeColor="@color/white"
+                app:wlv_triangle_direction="north"
                 app:wlv_waveAmplitude="60"
-                app:wlv_waveColor="@color/orange"
-                android:visibility="invisible"
-                app:layout_constraintVertical_bias="1"
-                app:layout_constraintTop_toBottomOf="@id/myLevel_mainWindow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:wlv_waveColor="@color/orange" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

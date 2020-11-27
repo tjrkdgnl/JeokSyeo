@@ -10,6 +10,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/component_parentLayout"
             android:layout_width="match_parent"
+
             android:background="@drawable/alcohol_component_srm"
             android:layout_height="match_parent">
 
@@ -35,10 +36,9 @@
                 android:layout_height="wrap_content"
                 android:textStyle="normal"
                 android:textSize="14sp"
-                android:textColor="#676767"
+                android:textColor="@color/white"
                 android:lineSpacingExtra="5sp"
-                tools:text="음용 온도"
-                android:visibility="invisible"
+                android:text="색"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 app:layout_constraintTop_toBottomOf="@id/component_title"
                 app:layout_constraintBottom_toTopOf="@id/component_border"

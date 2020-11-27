@@ -40,7 +40,7 @@
             <TextView
                 android:id="@+id/activityMain_recommend_alcoholName"
                 android:layout_width="0dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"

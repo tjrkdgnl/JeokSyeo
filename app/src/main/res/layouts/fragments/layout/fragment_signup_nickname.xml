@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/plz_nickNameText"
-            android:layout_marginTop="78dp">
+            android:layout_marginTop="48dp">
 
             <EditText
                 android:id="@+id/insertInfo_editText"
@@ -40,12 +40,13 @@
                 android:id="@+id/checkNickNameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_m"
                 android:hint="사용 불가능한 닉네임입니다."
                 android:visibility="invisible"
                 android:maxLines="1"
                 android:textSize="12sp"
                 android:layout_weight="1.2"
-                android:gravity="right"
+                android:gravity="end"
                 />
         </LinearLayout>
 
@@ -56,11 +57,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="78dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_bias="0.25"
             app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
 
         <TextView
@@ -70,6 +70,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="51dp"
             android:lineSpacingExtra="11sp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:text="안녕하세요! \n닉네임을 입력해 주세요."
             android:textColor="#000000"
             android:textSize="25sp"

@@ -302,7 +302,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "MALT" -> {
                 alcohol.more?.malt?.let {
                     AlcoholComponentData(
-                        "MALT",
+                        "Malt",
                         "몰트"
                         ,
                         R.mipmap.malt,
@@ -316,7 +316,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "ADJUNCT" -> {
                 alcohol.adjunct?.let {
                     AlcoholComponentData(
-                        "ADJUNCT",
+                        "Adjunct",
                         "첨가물"
                         ,
                         R.mipmap.adjunct,
@@ -329,7 +329,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "TEMPERATURE" -> {
                 alcohol.more?.temperature?.let {
                     AlcoholComponentData(
-                        "TEMPERATURE",
+                        "Temperature",
                         "음용 온도",
                         R.mipmap.temperature,
                         it.toMutableList(),
@@ -341,7 +341,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "GRAPE" -> {
                 alcohol.more?.grape?.let {
                     AlcoholComponentData(
-                        "GRAPE",
+                        "Grape",
                         "포도",
                         R.mipmap.adjunct,
                         it.toMutableList(),
@@ -353,7 +353,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "BARREL AGED" -> {
                 alcohol.barrelAged?.let {
                     AlcoholComponentData(
-                        "BARREL",
+                        "Barrel",
                         "오크 숙성",
                         R.mipmap.barrel,
                         it.toString(),
@@ -365,7 +365,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "FILTERED" -> {
                 alcohol.more?.filtered?.let {
                     AlcoholComponentData(
-                        "FILTERED", "여과 여부"
+                        "Filtered", "여과 여부"
                         , R.mipmap.filtered, it.toString(),
                         CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
@@ -374,23 +374,30 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "SRM" -> {
                 alcohol.more?.srm?.let {
                     AlcoholComponentData(
-                        "SRM", ""
+                        "SRM", "색"
                         , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
                     )
                 }
             }
             "COLOR" -> {
                 alcohol.more?.color?.let {
-                    AlcoholComponentData(
-                        "COLOR", ""
-                        , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
-                    )
+                    if(it.name !=""){
+                        AlcoholComponentData(
+                            "Color", "색"
+                            , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
+                        )
+                    }
+                    else{ //텅 빈값으로 필터링할 때 걸러짐
+                        AlcoholComponentData("", ""
+                            , 0, "", 0f, GlobalApplication.COMPONENT_DEFAULT
+                        )
+                    }
                 }
             }
             "BODY" -> {
                 alcohol.more?.body?.let {
                     AlcoholComponentData(
-                        "BODY", "바디"
+                        "Body", "바디"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -398,7 +405,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "ACIDIC" -> {
                 alcohol.more?.acidity?.let {
                     AlcoholComponentData(
-                        "ACIDIC", "산도"
+                        "Acidic", "산도"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -406,7 +413,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "HOP" -> {
                 alcohol.more?.hop?.let {
                     AlcoholComponentData(
-                        "HOP",
+                        "Hop",
                         "홉"
                         ,
                         R.mipmap.hop,
@@ -419,7 +426,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "IBU" -> {
                 alcohol.more?.ibu?.let {
                     AlcoholComponentData(
-                        "IBU", ""
+                        "IBU", "쓴맛 지표"
                         , R.mipmap.ibu, it.toString(), NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -427,7 +434,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "TANNIN" -> {
                 alcohol.more?.tannin?.let {
                     AlcoholComponentData(
-                        "TANNIN", "타닌"
+                        "Tannin", "타닌"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -435,7 +442,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "SWEET" -> {
                 alcohol.more?.sweet?.let {
                     AlcoholComponentData(
-                        "DRY TO SWEET", "당도"
+                        "Sweet", "당도"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -443,7 +450,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "CASK" -> {
                 alcohol.more?.cask_type?.let {
                     AlcoholComponentData(
-                        "CASK TYPE", "캐스트 종류"
+                        "Cask Type", "캐스트 종류"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -452,7 +459,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "SAKE_TYPE" -> {
                 alcohol.more?.sake_type?.let {
                     AlcoholComponentData(
-                        "SAKE TYPE", "사케 종류"
+                        "Sake Type", "사케 종류"
                         , R.mipmap.adjunct, it, CHAR_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -468,7 +475,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "SMV" -> {
                 alcohol.more?.smv?.let {
                     AlcoholComponentData(
-                        "SMV", ""
+                        "SMV", "당도"
                         , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -476,7 +483,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             "AGED_YEAR" ->{
                 alcohol.more?.aged_year?.let {
                     AlcoholComponentData(
-                        "AGED_YEAR","숙성기간",
+                        "Aged Year","숙성기간",
                          R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
@@ -570,11 +577,12 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.getView().recyclerViewReviewList.setHasFixedSize(false)
                         view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
 
-                        //리뷰개수
-                        view.getView().detailReviewCountTop.text =
-                            GlobalApplication.instance.checkCount(result.data?.reviewList?.size!!)
-                        view.getView().alcoholReviewSumCountText.text = lst.size.toString() + "개"
 
+                        //리뷰개수
+                        result.data?.reviewList?.let {re->
+                            view.getView().detailReviewCountTop.text =
+                                GlobalApplication.instance.checkCount(re.size)
+                        }
                     }
 
                     result.data?.reviewInfo?.let {

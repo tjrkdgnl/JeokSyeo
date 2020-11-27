@@ -151,16 +151,15 @@ class UserInfo {
             this.birthDay?.let { userInfo.infoMap.put(GlobalApplication.BIRTHDAY, it) }
             this.address?.let { userInfo.infoMap.put(GlobalApplication.ADDRESS, it) }
 
-
-            Log.e("oauth_provider", userInfo.provider.toString())
-            Log.e("oauth_token", userInfo.oauth_token.toString())
-            Log.e("user_id", userInfo.user_id.toString())
-            Log.e("nickname", userInfo.nickName.toString())
-            Log.e("birth", userInfo.birthDay.toString())
-            Log.e("gender", userInfo.gender.toString())
-            Log.e("address", this.address.toString())
-
-            Log.e("map개수", userInfo.infoMap.size.toString())
+//
+//            Log.e("oauth_provider", userInfo.provider.toString())
+//            Log.e("oauth_token", userInfo.oauth_token.toString())
+//            Log.e("user_id", userInfo.user_id.toString())
+//            Log.e("nickname", userInfo.nickName.toString())
+//            Log.e("birth", userInfo.birthDay.toString())
+//            Log.e("gender", userInfo.gender.toString())
+//            Log.e("address", this.address.toString())
+//            Log.e("map개수", userInfo.infoMap.size.toString())
 
             return userInfo
         }

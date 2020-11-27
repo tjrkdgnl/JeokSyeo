@@ -42,7 +42,6 @@ object JWTUtil {
     ) {
         try {
             val split = refreshToken?.split(".")
-            Log.e("Decode refreshToken", getJson(split?.get(1)))
             jsonParsing(getJson(split?.get(1)), REFRESH_TOKEN, splashCheck, loginCheck)
         } catch (e: UnsupportedEncodingException) {
             e.stackTrace

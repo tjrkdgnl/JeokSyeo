@@ -85,12 +85,14 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             //result=true면 닉네임 중복을 의미
-                            if(!it.data?.result!!){// 중복이 아닌경우
-                                checkNickname = true
-                                setGreen()
-                            } else{ //중복인 경우
-                                setRed()
-                                checkNickname = false
+                            it.data?.result?.let { result->
+                                if(!result){// 중복이 아닌경우
+                                    checkNickname = true
+                                    setGreen()
+                                } else{ //중복인 경우
+                                    setRed()
+                                    checkNickname = false
+                                }
                             }
                             //버튼 활성화 여부 확인
                             checkEnable()

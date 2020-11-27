@@ -14,6 +14,7 @@ import com.jeoksyeo.wet.activity.search.Search
 import com.kakao.util.helper.Utility
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
+import java.lang.RuntimeException
 
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickListener {
@@ -44,11 +45,14 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         binding.mainBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-
                 binding.bannerCount.text = "${position % presenter.bannerItem + 1} / ${presenter.bannerItem}"
 
             }
         })
+
+        binding.error.setOnClickListener {
+            throw RuntimeException("비정상적인 에러 호출!!")
+        }
     }
 
     override fun onStart() {

@@ -41,9 +41,14 @@ android {
             debuggable true
 
             proguardFile getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            )
-
+                    'proguard-android-optimize.txt')
+            proguardFile 'proguard-common.pro'
+            proguardFile 'proguard-firebase.pro'
+            proguardFile 'proguard-okhttp3.pro'
+            proguardFile 'proguard-retrofit2.pro'
+            proguardFile 'proguard-glide.pro'
+            proguardFile 'proguard-gson.pro'
+            proguardFile 'proguard-coroutine.pro'
             proguardFile 'proguard-rules.pro'
             proguardFile 'proguard-debug.pro'
         }
@@ -129,6 +134,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.6.2"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.5'
     implementation "com.squareup.okhttp3:okhttp:4.2.1"
+    implementation("com.squareup.okio:okio:2.9.0")
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.8.1"
 
 
@@ -175,7 +181,6 @@ dependencies {
 
     //chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
 
     //크래시리틱스- 오류 보고
     implementation platform('com.google.firebase:firebase-bom:26.1.0')

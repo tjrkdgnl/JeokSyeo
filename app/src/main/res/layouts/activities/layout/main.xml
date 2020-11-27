@@ -119,7 +119,6 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="10dp"
-                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/btn_takju"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +144,6 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="12dp"
-                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/btn_beer"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlcohol"
@@ -173,7 +171,6 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="15dp"
-                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/wine"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_beer"
@@ -199,7 +196,6 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="15dp"
-                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/whisky"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_wine"
@@ -225,7 +221,6 @@
                                 android:layout_width="@dimen/categoryButtonSize"
                                 android:layout_height="@dimen/categoryButtonSize"
                                 android:layout_marginStart="15dp"
-                                android:background="@drawable/alcohol_button_shadow"
                                 android:onClick="onClick"
                                 android:src="@mipmap/sake"
                                 app:layout_constraintBottom_toBottomOf="@id/activityMain_whisky"
@@ -358,6 +353,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/monthly_recylcerView"
                     app:layout_constraintVertical_bias="0" />
+
+                <Button
+                    android:id="@+id/error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.35"
+                    android:text="에러 버튼"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

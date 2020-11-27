@@ -39,3 +39,7 @@
 -keepclassmembernames class kotlinx.* {
     volatile <fields>;
 }
+
+
+-keep class com.example.module1.DataBinderMapperImpl { *; }
+-keep class com.example.module2.DataBinderMapperImpl { *; }
