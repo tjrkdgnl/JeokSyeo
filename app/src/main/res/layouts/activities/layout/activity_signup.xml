@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +26,7 @@
             android:id="@+id/viewPager2"
             android:layout_width="match_parent"
             tools:layout="@layout/fragment_signup_nickname"
-            android:layout_height="0dp"
+            android:layout_height="520dp"
             tool:layout_constraintStart_toStartOf="parent"
             tool:layout_constraintEnd_toEndOf="parent"
             tool:layout_constraintTop_toBottomOf="@id/signup_header"
@@ -34,20 +39,21 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ok_button_size"
-            tool:layout_constraintBottom_toBottomOf="parent"
+            tool:layout_constraintTop_toBottomOf="@id/viewPager2"
             tool:layout_constraintStart_toStartOf="parent"
             tool:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="50dp"
             android:background="@drawable/change_button"
             android:text="확인"
             android:fontFamily="@font/apple_sd_gothic_neo_b"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:layout_marginTop="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

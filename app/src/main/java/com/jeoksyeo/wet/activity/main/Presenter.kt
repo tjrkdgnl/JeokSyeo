@@ -20,6 +20,7 @@ import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
 import com.model.banner.Banner
 import com.model.navigation.NavigationItem
+import com.model.recommend_alcohol.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
@@ -39,6 +40,7 @@ class Presenter : MainContract.BasePresenter {
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private lateinit var bannerAdapter: BannerAdapter
     var bannerItem:Int =0
+
 
     override fun initBanner(context: Context) {
        JWTUtil.settingUserInfo(false)
@@ -81,21 +83,7 @@ class Presenter : MainContract.BasePresenter {
     override fun initRecommendViewPager(context: Context)  {
         JWTUtil.settingUserInfo(false)
 
-        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .getRecommendAlcohol(
-                GlobalApplication.userBuilder.createUUID,
-                GlobalApplication.userInfo.getAccessToken()
-            )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(
-                    context,
-                    it.data?.alcoholList?.toMutableList()!!
-
-                )
-            }, { t -> Log.e(ErrorManager.ALCHOL_RECOMMEND,t.message.toString()) }))
-
+        //뷰페이저 슬라이딩 애니메이션 셋팅
         view.getView().activityMainRecommendViewPager2.setPageTransformer(
             ViewPagerTransformer(
                 context
@@ -104,6 +92,32 @@ class Presenter : MainContract.BasePresenter {
         view.getView().activityMainRecommendViewPager2.offscreenPageLimit =3
         view.getView().activityMainRecommendViewPager2.clipToPadding =false
         view.getView().activityMainRecommendViewPager2.clipChildren =false
+
+        //default 이미지 셋팅
+        val lst = mutableListOf<AlcoholList>()
+        for(i in 0 until 5){
+            lst.add(AlcoholList().apply {
+                type = -1
+            })
+        }
+        view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst)
+
+        //추천 주류 불러오기
+        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+            .getRecommendAlcohol(
+                GlobalApplication.userBuilder.createUUID,
+                GlobalApplication.userInfo.getAccessToken()
+            )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it.data?.alcoholList?.let { lst->
+                    //어댑터 자체에서 갱신하면 아이템 사이즈가 커지는 문제가 발생하여
+                    //새로운 어댑터를 셋팅하는 방법으로 일시 대체
+                    view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst.toMutableList())
+
+                }
+            }, { t -> Log.e(ErrorManager.ALCHOL_RECOMMEND,t.message.toString()) }))
     }
 
     fun initNavigationItemSet(context: Context,activity:Activity) {

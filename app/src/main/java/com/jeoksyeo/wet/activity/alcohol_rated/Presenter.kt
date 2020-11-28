@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
@@ -33,16 +34,19 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
         if(context is FragmentActivity){
             view.getView().ratedViewPager2.adapter = RatedViewPagerAdapter(context)
             val lst = listOf<String>("전체","전통주","맥주","와인","양주","사케")
-            TabLayoutMediator(view.getView().ratedTablayout,view.getView().ratedViewPager2,
-                TabLayoutMediator.TabConfigurationStrategy{ tab, position ->
-                    val textView = TextView(context)
-                    tab.customView =textView
-                    textView.text = lst[position]
-                    textView.textSize =15f
-                    textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                    textView.setTextColor(context.resources.getColor(R.color.tabColor,null))
-                    textView.gravity = Gravity.CENTER_HORIZONTAL
-                }).attach()
+            TabLayoutMediator(view.getView().ratedTablayout,view.getView().ratedViewPager2
+            ) { tab, position ->
+                val textView = TextView(context)
+                tab.customView = textView
+                textView.text = lst[position]
+                textView.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    context.resources.getDimension(R.dimen.tab_text_size)
+                )
+                textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+                textView.gravity = Gravity.CENTER_HORIZONTAL
+            }.attach()
 
         }
     }

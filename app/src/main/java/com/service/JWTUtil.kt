@@ -77,11 +77,12 @@ object JWTUtil {
 
             GlobalApplication.userInfo = UserInfo.Builder("")
                 .setProvider(jsonObject.getString("oauth_provider"))// //provider를 통해서 모든 로그인 체크 여부를 결정하기 때문에 setting해야함
-                .setNickName(user.data?.userInfo?.nickname)
-                .setBirthDay(user.data?.userInfo?.birth)
+                .setNickName(user.data?.userInfo?.nickname ?: "")
+                .setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
                 .setProfile(user.data?.userInfo?.profile)
-                .setGender(user.data?.userInfo?.gender)
-                .setLevel(user.data?.userInfo?.level!!)
+                .setGender(user.data?.userInfo?.gender ?: "M")
+                .setAddress("") //추후에 셋팅하기
+                .setLevel(user.data?.userInfo?.level ?: 0)
                 .setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                 .build()
 

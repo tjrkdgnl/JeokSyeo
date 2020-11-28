@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.favorite
 
 import android.content.Context
 import android.graphics.Typeface
+import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
 import androidx.core.view.GravityCompat
@@ -32,16 +33,19 @@ class Presenter : FavoriteContract.BasePresenter {
         }
 
         TabLayoutMediator(view.getBinding().favoriteTablayout,view.getBinding().favoriteViewPager2
-            ,TabLayoutMediator.TabConfigurationStrategy{ tab, position ->
-                var textView =TextView(context)
-                tab.customView = textView
-                textView.text = tabList[position]
-                textView.textSize = 15f
-                textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                textView.setTextColor(context.resources.getColor(R.color.tabColor,null))
-                textView.gravity = Gravity.CENTER_HORIZONTAL
+        ) { tab, position ->
+            var textView = TextView(context)
+            tab.customView = textView
+            textView.text = tabList[position]
+            textView.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                context.resources.getDimension(R.dimen.tab_text_size)
+            )
+            textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+            textView.gravity = Gravity.CENTER_HORIZONTAL
 
-            }).attach()
+        }.attach()
 
             view.getBinding().favoriteViewPager2.offscreenPageLimit =5
     }

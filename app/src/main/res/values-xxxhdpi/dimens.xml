@@ -21,6 +21,7 @@
     <dimen name="comment_alcohol_width">150dp</dimen>
     <dimen name="comment_alcohol_height">225dp</dimen>
     <dimen name="component_recyclerview_height">65dp</dimen>
+    <dimen name="tab_text_size">15sp</dimen>
 
 
     //comment window
@@ -84,7 +85,7 @@
     <dimen name="AlcoholMainWindow_LinearLayout_height">38dp</dimen>
     <dimen name="AlchileMainWindow_ArrowToggle_height">16dp</dimen>
     <dimen name="AlcoholMainWindow_textView_totalProduct_textsize">11sp</dimen>
-    <dimen name="AlcoholMainWindow_default_textsize">12sp</dimen>
+    <dimen name="AlcoholMainWindow_default_textsize">14sp</dimen>
     <dimen name="AlcoholMainWindow_expandable_height">36dp</dimen>
 
     //viewPager_list_item

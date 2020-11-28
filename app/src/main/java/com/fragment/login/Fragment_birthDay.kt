@@ -70,11 +70,11 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         var birthDay: String = year.toString()
         binding.birthdayYear.text = year.toString()
 
-        if (monthOfYear + 1 < 10) binding.birthdayMonth.setText("0" + (monthOfYear + 1).toString())
-        else binding.birthdayMonth.setText((monthOfYear + 1).toString())
+        if (monthOfYear + 1 < 10) binding.birthdayMonth.text = "0" + (monthOfYear + 1).toString()
+        else binding.birthdayMonth.text = (monthOfYear + 1).toString()
 
         if (dayOfMonth < 10) binding.birthdayDay.setText("0$dayOfMonth")
-        else binding.birthdayDay.setText(dayOfMonth.toString())
+        else binding.birthdayDay.text = dayOfMonth.toString()
 
         birthDay += "-" + binding.birthdayMonth.text + "-" + binding.birthdayDay.text
 

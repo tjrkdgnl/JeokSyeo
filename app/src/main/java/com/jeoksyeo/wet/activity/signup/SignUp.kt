@@ -118,11 +118,11 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         } else if (viewModel.lock) {
             if (viewModel.depth == 1) {
                 GlobalApplication.userBuilder.setAddress(
-                    viewModel.countryArea.value?.code!!
+                    viewModel.countryArea.value?.code ?: ""
                 )
             } else if (viewModel.depth == 2) {
                 GlobalApplication.userBuilder.setAddress(
-                    viewModel.townArea.value?.code!!
+                    viewModel.townArea.value?.code ?: ""
                 )
             }
 

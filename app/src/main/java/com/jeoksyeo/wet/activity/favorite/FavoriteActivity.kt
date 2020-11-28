@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -43,10 +44,12 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
+                (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 viewmodel.currentPosition.value = tab?.position
+                (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.orange,null))
             }
         })
 

@@ -44,4 +44,7 @@ class AlcoholList {
     @SerializedName("capacity")
     @Expose
     var capacity: String? = null
+
+
+    var type =1
 }
