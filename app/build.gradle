@@ -187,6 +187,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
+
+    implementation 'com.ssomai:android.scalablelayout:2.1.6'
 }
 
 apply plugin: 'com.google.gms.google-services'
