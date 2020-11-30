@@ -40,9 +40,9 @@ class NaverLogin(private val mContext: Context) {
     init {
         instance.init(
             mContext,
-            "DJjATgFQSG8oIDsiCZ5i",
-            "ZHwdISpL_X",
-            "JeokSyeo"
+            "j9Wy3_RT3u8uP_9nJJ_U",
+            "KwEVgBIcv2",
+            "적셔"
         )
 
         @SuppressLint("HandlerLeak")

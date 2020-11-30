@@ -32,8 +32,11 @@ class GlobalApplication : Application() {
         , "술독에 빠진 사람", "주도를 수련하는 사람", "술로 해탈한 사람"
     )
 
+    lateinit var context:Context
     override fun onCreate() {
         super.onCreate()
+        instance = this
+
         userBuilder = UserInfo.Builder("")
         KakaoSdk.init(this, getString(R.string.kakaoNativeKey))
         userInfo = UserInfo()
@@ -46,10 +49,7 @@ class GlobalApplication : Application() {
 
     companion object {
         //싱글턴 객체 생성
-        var instance = GlobalApplication()
-            private set
-
-        val context = this
+       lateinit var instance : GlobalApplication
 
         //유저 정보
         lateinit var userInfo: UserInfo

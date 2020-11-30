@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="tab_text_size">11sp</dimen> //1
+    <dimen name="component_text_size">11sp</dimen> //1
+    <dimen name="navigation_name_size">12sp</dimen> //3
+    <dimen name="navigation_name_hello">4sp</dimen> //3
+    <dimen name="comment_alcohol_name_size">18sp</dimen> //1
+    <dimen name="detail_more_text_size">8sp</dimen> //1
+    <dimen name="gridItem_default_textsize">8sp</dimen> //1
+    <dimen name="rated_name_size">18sp</dimen> //1
+    <dimen name="rated_count_size">10sp</dimen> //1
+
+</resources>

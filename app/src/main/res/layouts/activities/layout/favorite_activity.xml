@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/favorite_alcoholTypeText"
-                android:layout_width="35dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:textStyle="normal"

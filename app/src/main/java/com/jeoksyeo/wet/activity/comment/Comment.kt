@@ -69,7 +69,7 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
         val content = dialog.findViewById<TextView>(R.id.dialog_contents)
-        content.text = "현재 작성중인 페이지를 떠나시겠습니까?"
+        content.text = "리뷰 작성을 취소하시겠습니까?\n작성한 내용이 사라집니다."
 
         okButton.setOnClickListener {
             super.onBackPressed()

@@ -52,16 +52,18 @@ class Presenter : FavoriteContract.BasePresenter {
 
     override fun initProfile() {
         GlobalApplication.userInfo.getProfile()?.let { lst->
-            Glide.with(context)
-                .load(lst[lst.size-1].mediaResource?.small?.src.toString())
-                .apply(
-                    RequestOptions()
-                        .signature(ObjectKey("signature"))
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .circleCrop()
-                )
-                .into(view.getBinding().profileHeader.favoriteProfile)
+            if(lst.isNotEmpty()){
+                Glide.with(context)
+                    .load(lst[lst.size].mediaResource?.small?.src.toString())
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey("signature"))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .circleCrop()
+                    )
+                    .into(view.getBinding().profileHeader.favoriteProfile)
+            }
         }
         view.getBinding().profileHeader.alcoholRatedName.text = GlobalApplication.userInfo.nickName
     }

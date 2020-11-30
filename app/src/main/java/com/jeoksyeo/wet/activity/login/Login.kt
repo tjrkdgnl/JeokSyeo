@@ -60,7 +60,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
 
-        Log.e("액티비티넘버",intent.getIntExtra(GlobalApplication.ACTIVITY_HANDLING,0).toString())
         if(intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)){
             val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
             handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING,0)!!
@@ -108,10 +107,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private fun progressbarStatus(activity: Activity,setting:Boolean){
         if(setting){
             binding.loginProgressBar.root.visibility = View.VISIBLE
+            binding.loginScrollView.isFillViewport=true
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
         }
         else{
             binding.loginProgressBar.root.visibility = View.INVISIBLE
+            binding.loginScrollView.isFillViewport=false
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }

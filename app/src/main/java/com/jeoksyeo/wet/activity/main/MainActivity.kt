@@ -2,14 +2,17 @@ package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
+import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
+import com.kakao.util.helper.Utility
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -24,15 +27,23 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         binding = DataBindingUtil.setContentView(this, R.layout.main)
         binding.basicHeader.windowHeaderListCategory.setOnClickListener(this)
         binding.mainNavigation.imageViewCancel.setOnClickListener(this)
-//      Log.e("키해쉬",Utility.getKeyHash(this ))
+
+
         presenter = Presenter().apply {
             view = this@MainActivity
         }
+
+//        val con = GlobalApplication.instance.context
+
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
         binding.activityMainWine.setOnClickListener(this)
         binding.activityMainWhisky.setOnClickListener(this)
         binding.activityMainSake.setOnClickListener(this)
+
+        binding.businessInfo.activityMainTermsOfService.setOnClickListener(this)
+        binding.businessInfo.activityMainPrivacyPolicyText.setOnClickListener(this)
+
 
         presenter.initBanner(this)
         presenter.initRecommendViewPager(this)
@@ -113,8 +124,23 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                     0, postionBundle, GlobalApplication.CATEGORY_BUNDLE
                 )
             }
+
+            R.id.activityMain_termsOfService ->{
+                val  bundle =Bundle()
+                bundle.putInt(GlobalApplication.AGREEMENT_INFO,0)
+                GlobalApplication.instance.moveActivity(this,
+                    Agreement::class.java,0,bundle,GlobalApplication.AGREEMENT,1)
+            }
+
+            R.id.activityMain_PrivacyPolicyText->{
+                val  bundle =Bundle()
+                bundle.putInt(GlobalApplication.AGREEMENT_INFO,1)
+                GlobalApplication.instance.moveActivity(this,Agreement::class.java,0,bundle,GlobalApplication.AGREEMENT,1)
+            }
+
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -20,7 +20,7 @@
             android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="9sp"
             android:textColor="#222222"
-            android:textSize="22sp"
+            android:textSize="@dimen/rated_name_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="김현주님," />
@@ -36,7 +36,7 @@
             android:lineSpacingExtra="6sp"
             android:maxLines="1"
             android:textColor="#7a7a7a"
-            android:textSize="14sp"
+            android:textSize="@dimen/rated_count_size"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

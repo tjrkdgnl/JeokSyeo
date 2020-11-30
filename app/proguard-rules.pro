@@ -43,3 +43,12 @@
 
 -keep class com.example.module1.DataBinderMapperImpl { *; }
 -keep class com.example.module2.DataBinderMapperImpl { *; }
+
+-assumenosideeffects class android.util.Log {
+
+    public static int e (...);
+
+}
+
+
+

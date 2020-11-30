@@ -5,13 +5,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.vuforia.engine.wet"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -30,6 +30,16 @@ android {
                     'src/main/res/layouts',
                     'src/main/res'
             ]
+        }
+    }
+
+    //릴리즈버전으로 빌드하기
+    signingConfigs{
+        release {
+            storeFile file('/Users/seoganghwi/apk_password.jks')
+            storePassword "tjrkdgnl@818"
+            keyAlias "android_secret"
+            keyPassword "tjrkdgnl@818"
         }
     }
 
@@ -58,6 +68,7 @@ android {
             shrinkResources true
 
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFile 'proguard-login.pro'
             proguardFile 'proguard-common.pro'
             proguardFile 'proguard-firebase.pro'
             proguardFile 'proguard-okhttp3.pro'
@@ -67,6 +78,9 @@ android {
             proguardFile 'proguard-coroutine.pro'
             proguardFile 'proguard-rules.pro'
 
+            //릴리즈버전으로 빌드
+            signingConfig signingConfigs.release
+            debuggable = false //true로 하면 앱 올릴때 문제가 생김
 
         }
     }

@@ -48,7 +48,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:lineSpacingExtra="6sp"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="@{review.alcohol.name.toString()}"
                 android:textColor="#333333"
                 android:textSize="18sp"
@@ -168,7 +168,7 @@
                     android:lineSpacingExtra="5sp"
                     android:text="더보기"
                     android:textColor="#7b7b7b"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/detail_more_text_size"
                     android:textStyle="normal" />
             </LinearLayout>
 
