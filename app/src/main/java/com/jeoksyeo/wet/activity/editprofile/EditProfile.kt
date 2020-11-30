@@ -37,9 +37,8 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     private val PICK_FROM_ALBUM = 1
     private var tempFile: File? = null
     private lateinit var presenter: Presenter
-    private var gender: String? = null
-    private var name: String? = null
-    private var birthday: String? = null
+    private lateinit var gender: String
+    private lateinit var birthday: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +48,21 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             view = this@EditProfile
             activity = this@EditProfile
         }
+
+        //최대 날짜 지정
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR,-15)
+        binding.editProfileBasicDatePicker.datePicker.maxDate = calendar.time.time
+
+        //datePicker 유저가 설정한 날짜로 지정
+        val date = GlobalApplication.userInfo.birthDay.split("-")
+        binding.editProfileBasicDatePicker.datePicker.init(
+            date[0].toInt()
+            ,date[1].toInt(),
+            date[2].toInt(),
+            this
+        )
+
         presenter.settingUserInfo(this,GlobalApplication.userInfo.getProvider())
         binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
 
@@ -208,16 +222,30 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         }
     }
 
+    override fun checkOkButton(nicknameDuplicate:Boolean,profileCheck:Boolean) {
+        if(!profileCheck){ //프로필 여부와 상관없을때
+            binding.editProfileGOkButton.isEnabled = (!nicknameDuplicate &&
+                    GlobalApplication.userInfo.nickName !=binding.insertInfoEditText.text.toString()) ||
+                    GlobalApplication.userInfo.birthDay != birthday ||
+                    GlobalApplication.userInfo.gender != gender
+        }
+        else{// 프로필을 셋팅했을 때
+            binding.editProfileGOkButton.isEnabled =true
+        }
+    }
+
     override fun setGender_Man() {
         binding.editProfileGImageButtonGenderWoman.setImageResource(R.mipmap.gender_checkbox_empty)
         binding.editProfileGImageButtonGenderMan.setImageResource(R.mipmap.gender_checkbox_full)
         gender = "M"
+        checkOkButton()
     }
 
     override fun setGender_Woman() {
         binding.editProfileGImageButtonGenderMan.setImageResource(R.mipmap.gender_checkbox_empty)
         binding.editProfileGImageButtonGenderWoman.setImageResource(R.mipmap.gender_checkbox_full)
         gender = "F"
+        checkOkButton()
     }
 
     override fun setBirthDay() {
@@ -262,7 +290,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        presenter.checkNickName(this,s.toString())
+        presenter.checkNickName(this)
     }
 
     override fun afterTextChanged(s: Editable?) {
@@ -270,18 +298,20 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         birthday = year.toString()
 
         binding.birthdayYear.text = year.toString()
 
-        if (monthOfYear + 1 < 10) binding.birthdayMonth.setText("0" + (monthOfYear + 1).toString())
-        else binding.birthdayMonth.setText((monthOfYear + 1).toString())
+        if (monthOfYear + 1 < 10) binding.birthdayMonth.text = "0${monthOfYear + 1}"
+        else binding.birthdayMonth.text = (monthOfYear + 1).toString()
 
         if (dayOfMonth < 10) binding.birthdayDay.setText("0$dayOfMonth")
-        else binding.birthdayDay.setText(dayOfMonth.toString())
+        else binding.birthdayDay.text = dayOfMonth.toString()
 
         birthday += "-" + binding.birthdayMonth.text + "-" + binding.birthdayDay.text
+        checkOkButton()
     }
 
     override fun onBackPressed() {

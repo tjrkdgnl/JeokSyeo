@@ -222,12 +222,17 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     result.data?.user?.hasBirth?.let {
                         bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
                         Log.e("생일체크", it.toString())
-                        GlobalApplication.userBuilder.setBirthDay(result.data?.user?.birth)
+                        result.data?.user?.birth?.let { birth->
+                            GlobalApplication.userBuilder.setBirthDay(birth)
+                        }
+
                     }
                     result.data?.user?.hasGender?.let {
                         bundle.putBoolean(GlobalApplication.GENDER, it)
                         Log.e("성별체크", it.toString())
-                        GlobalApplication.userBuilder.setGender(result.data?.user?.gender)
+                        result.data?.user?.gender?.let { gender->
+                            GlobalApplication.userBuilder.setGender(gender)
+                        }
                     }
                     GlobalApplication.instance.moveActivity(this,SignUp::class.java
                         ,0,bundle,GlobalApplication.USER_BUNDLE)

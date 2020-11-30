@@ -2,7 +2,6 @@ package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -11,10 +10,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
-import com.kakao.util.helper.Utility
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
-import java.lang.RuntimeException
 
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickListener {

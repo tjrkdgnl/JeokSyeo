@@ -49,8 +49,6 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
             layoutManager = this@Search.layoutManager
             activity =this@Search
         }
-
-
         binding.editTextSearch.setOnKeyListener(this)
         binding.editTextSearch.addTextChangedListener(this)
         searchAdapter = initSearchAdapter()
@@ -151,7 +149,8 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         s ?: return handler.removeCallbacksAndMessages(null)
 
         if(relativeCheck){
-            handler.postDelayed(Runnable {
+            handler.removeCallbacksAndMessages(null)
+            handler.postDelayed({
                 if(!binding.initEditText.isVisible && s.isNotEmpty())
                     binding.initEditText.visibility = View.VISIBLE
                 else if(binding.initEditText.isVisible && s.isEmpty()){

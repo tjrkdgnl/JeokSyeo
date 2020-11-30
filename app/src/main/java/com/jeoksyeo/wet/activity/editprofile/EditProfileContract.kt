@@ -8,14 +8,12 @@ import java.io.File
 interface EditProfileContract {
 
     interface BaseView{
-
         fun setGender_Man()
         fun setGender_Woman()
         fun setBirthDay()
-
         fun resultNickNameCheck(result:Boolean)
-
         fun getView(): EditProfileBinding
+        fun checkOkButton(nicknameDuplicate:Boolean =false,profileCheck:Boolean =false)
     }
 
 
@@ -23,9 +21,9 @@ interface EditProfileContract {
         var view:BaseView
         var activity:Activity
 
-        fun executeEditProfile(context:Context,name: String?, gender: String?, birthday: String?)
+        fun executeEditProfile(context:Context,name: String, gender: String, birthday: String)
 
-        fun checkNickName(context: Context,name:String)
+        fun checkNickName(context: Context)
 
         fun settingUserInfo(context: Context, provider:String?)
 

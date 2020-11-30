@@ -6,8 +6,10 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
+import androidx.core.graphics.TypefaceCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,16 +46,19 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
         if(context is FragmentActivity){
             view.getView().viewPager2Container.adapter = GridViewPagerAdapter(context)
             val lst = listOf<String>("전통주","맥주","와인","양주","사케")
-            TabLayoutMediator(view.getView().tabLayoutAlcoholList,view.getView().viewPager2Container,
-                TabLayoutMediator.TabConfigurationStrategy{ tab, position ->
-                    val textView = TextView(context)
-                    tab.customView =textView
-                    textView.text = lst[position]
-                    textView.textSize =16f
-                    textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
-                    textView.setTextColor(context.resources.getColor(R.color.tabColor,null))
-                    textView.gravity = Gravity.CENTER_HORIZONTAL
-                }).attach()
+            TabLayoutMediator(view.getView().tabLayoutAlcoholList,view.getView().viewPager2Container
+            ) { tab, position ->
+                val textView = TextView(context)
+                tab.customView = textView
+                textView.text = lst[position]
+                textView.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    context.resources.getDimension(R.dimen.tab_text_size)
+                )
+                textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+                textView.gravity = Gravity.CENTER_HORIZONTAL
+            }.attach()
 
             view.getView().viewPager2Container.offscreenPageLimit=5
         }
