@@ -50,9 +50,6 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
             }
         })
 
-        binding.error.setOnClickListener {
-            throw RuntimeException("비정상적인 에러 호출!!")
-        }
     }
 
     override fun onStart() {

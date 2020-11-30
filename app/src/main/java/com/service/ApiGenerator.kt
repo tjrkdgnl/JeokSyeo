@@ -13,7 +13,7 @@ object ApiGenerator {
     //http://dev.jeoksyeo.com/
     //"https://api.jeoksyeo.com/"
 
-    private const val BASE_URL =  "http://dev.jeoksyeo.com/"
+    private const val BASE_URL =  "https://api.jeoksyeo.com/"
 
     val retrofit :Retrofit = Retrofit.Builder()
         .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
