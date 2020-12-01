@@ -1,8 +1,8 @@
 package com.service
 
 import android.webkit.WebView
+import androidx.databinding.library.BuildConfig
 import com.application.GlobalApplication
-import com.vuforia.engine.wet.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

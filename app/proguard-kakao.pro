@@ -1,3 +1,4 @@
+#noinspection ShrinkerUnresolvedReference
 -keep class com.kakao.** { *; }
 -keepattributes Signature
 -keepclassmembers class * {

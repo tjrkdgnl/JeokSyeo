@@ -1,3 +1,4 @@
+#noinspection ShrinkerUnresolvedReference
 # Begin: Common Proguard rules
 
 # Don't note duplicate definition (Legacy Apche Http Client)

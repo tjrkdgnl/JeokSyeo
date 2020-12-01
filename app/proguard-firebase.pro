@@ -1,3 +1,4 @@
+#noinspection ShrinkerUnresolvedReference
 # Begin: Proguard rules for Firebase
 
 # Authentication
