@@ -8,6 +8,14 @@ class User {
     @Expose
     var userId: String? = null
 
+    @SerializedName("email")
+    @Expose
+    var email: String? = null
+
+    @SerializedName("has_email")
+    @Expose
+    var hasEmail: Boolean? = false
+
     @SerializedName("gender")
     @Expose
     var gender: String? = null

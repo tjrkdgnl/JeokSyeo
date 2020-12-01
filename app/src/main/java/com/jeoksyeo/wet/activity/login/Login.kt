@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -220,23 +223,37 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     GlobalApplication.userBuilder.setOAuthId(result.data?.user?.userId)
                     val bundle = Bundle()
 
-                    result.data?.user?.hasBirth?.let {
-                        bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
-                        Log.e("생일체크", it.toString())
-                        result.data?.user?.birth?.let { birth->
-                            GlobalApplication.userBuilder.setBirthDay(birth)
-                        }
+                    result.data?.user?.hasEmail?.let { hasEmail->
+                        if(hasEmail){ //이메일을 제공 받는 경우
+                            result.data?.user?.hasBirth?.let {
+                                bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
+                                Log.e("생일체크", it.toString())
+                                result.data?.user?.birth?.let { birth->
+                                    GlobalApplication.userBuilder.setBirthDay(birth)
+                                }
 
-                    }
-                    result.data?.user?.hasGender?.let {
-                        bundle.putBoolean(GlobalApplication.GENDER, it)
-                        Log.e("성별체크", it.toString())
-                        result.data?.user?.gender?.let { gender->
-                            GlobalApplication.userBuilder.setGender(gender)
+                            }
+                            result.data?.user?.hasGender?.let {
+                                bundle.putBoolean(GlobalApplication.GENDER, it)
+                                Log.e("성별체크", it.toString())
+                                result.data?.user?.gender?.let { gender->
+                                    GlobalApplication.userBuilder.setGender(gender)
+                                }
+                            }
+                            GlobalApplication.instance.moveActivity(this,SignUp::class.java
+                                ,0,bundle,GlobalApplication.USER_BUNDLE)
+                        }
+                        else{ //이메일을 제공받지 않는 경우
+                            Log.e("이메일 없음","없음")
+                            val dialog = CustomDialog.createCustomDialog(this)
+                            val content = dialog.findViewById<TextView>(R.id.dialog_contents)
+                            val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+                            val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+                            content.text = "이메일 수집 및 이용에\n 동의해주세요!"
+                            okButton.setOnClickListener{dialog.dismiss()}
+                            cancelButton.setOnClickListener { dialog.dismiss() }
                         }
                     }
-                    GlobalApplication.instance.moveActivity(this,SignUp::class.java
-                        ,0,bundle,GlobalApplication.USER_BUNDLE)
                 }
             }, { t: Throwable? ->
                 t?.stackTrace

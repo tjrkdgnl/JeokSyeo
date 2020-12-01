@@ -11,11 +11,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiGenerator {
-    //"http://192.168.1.3:9090/" //개발서버
-    //http://dev.jeoksyeo.com/
+    //"http://192.168.1.3:9090/"    //로컬서버
+    //http://dev.jeoksyeo.com/     //개발서버
     //"https://api.jeoksyeo.com/" //운영서버
 
-    private const val BASE_URL =  "https://api.jeoksyeo.com/"
+    private const val BASE_URL =  "http://dev.jeoksyeo.com/"
 
 
     val retrofit :Retrofit = Retrofit.Builder()
