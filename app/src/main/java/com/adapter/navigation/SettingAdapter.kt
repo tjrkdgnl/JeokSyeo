@@ -9,6 +9,7 @@ import com.adapter.viewholder.SettingAgreementViewHolder
 import com.adapter.viewholder.SettingViewHolder
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.agreement.Agreement
+import com.jeoksyeo.wet.activity.editprofile.EditProfile
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
 import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
@@ -39,7 +40,7 @@ class SettingAdapter(
             holder.bind(lst[position])
 
             when(position){
-                3->{  //회원탈퇴를 눌렀을 때
+                4->{  //회원탈퇴를 눌렀을 때
                     holder.getViewBinding().settingVersionText.text =""
                     holder.getViewBinding().settingLinearLayout.setOnClickListener{
                         checkDelete()
@@ -51,6 +52,10 @@ class SettingAdapter(
             holder.bind(lst[position])
 
             when(position){
+                0 ->{
+                    holder.getViewBinding().agreementSettingLayout.setOnClickListener{
+                        GlobalApplication.instance.moveActivity(context, EditProfile::class.java)}
+                    }
                 1->{
                     holder.getViewBinding().agreementSettingLayout.setOnClickListener{
                         val  bundle = Bundle()

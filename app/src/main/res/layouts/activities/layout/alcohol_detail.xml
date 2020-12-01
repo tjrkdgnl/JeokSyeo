@@ -81,7 +81,7 @@
                     android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:gravity="center"
                     android:lineSpacingExtra="2sp"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="@{alcohol.name.kr.toString()}"
                     android:textColor="#000000"
                     android:textSize="@dimen/detail_alcohol_Name_k"

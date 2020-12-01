@@ -53,7 +53,7 @@ class Presenter : FavoriteContract.BasePresenter {
         GlobalApplication.userInfo.getProfile()?.let { lst->
             if(lst.isNotEmpty()){
                 Glide.with(context)
-                    .load(lst[lst.size].mediaResource?.small?.src.toString())
+                    .load(lst[lst.size-1].mediaResource?.small?.src.toString())
                     .apply(
                         RequestOptions()
                             .signature(ObjectKey("signature"))

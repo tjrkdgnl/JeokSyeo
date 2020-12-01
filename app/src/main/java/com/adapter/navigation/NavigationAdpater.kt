@@ -44,14 +44,12 @@ class NavigationAdpater(
             holder.bind(lst[position])
 
             holder.getViewBinding().navigationLinearLayout.setOnClickListener {
-                Log.e("네이게이션",activityNumber.toString())
                 when (position) {
                     1 -> { checkProvider(1) }
                     3 -> {checkProvider(3)}
                     4 -> {checkProvider(4) }
                     5 -> {checkProvider(5) }
-                    6 -> {checkProvider(6)}
-                    8 ->  {checkLoginOut(lst[position].title)}
+                    7 ->  {checkLoginOut(lst[position].title)}
                 }
             }
         }
@@ -87,10 +85,9 @@ class NavigationAdpater(
         provider?.let {
             when(position){
                 1->{GlobalApplication.instance.moveActivity(context,SettingActivity::class.java,0)}
-                3 -> { GlobalApplication.instance.moveActivity(context,EditProfile::class.java) }
-                4 -> { GlobalApplication.instance.moveActivity(context,AlcoholRated::class.java)}
-                5 -> {GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
-                6 -> {GlobalApplication.instance.moveActivity(context,FavoriteActivity::class.java)}
+                3 -> { GlobalApplication.instance.moveActivity(context,AlcoholRated::class.java) }
+                4 -> { GlobalApplication.instance.moveActivity(context,LevelActivity::class.java)}
+                5 -> {GlobalApplication.instance.moveActivity(context,FavoriteActivity::class.java)}
             }
             // 프로바이더가 없으면 로그인을 통해 프로바이더를 얻어오기 위해서 로그인화면으로 유도
         } ?: CustomDialog.loginDialog(context,activityNumber)
