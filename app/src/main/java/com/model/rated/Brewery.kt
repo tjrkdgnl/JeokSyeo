@@ -2,7 +2,6 @@ package com.model.rated
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.model.common.Name
 
 class Brewery {
     @SerializedName("_id")

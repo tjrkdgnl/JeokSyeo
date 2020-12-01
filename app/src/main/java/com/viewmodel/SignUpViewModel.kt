@@ -1,9 +1,7 @@
 package com.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fragment.login.Fragment_nickName
 import com.model.area.AreaList
 
 class SignUpViewModel : ViewModel() {

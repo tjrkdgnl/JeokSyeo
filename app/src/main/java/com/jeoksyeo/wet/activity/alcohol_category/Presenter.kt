@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
-import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
-import androidx.core.graphics.TypefaceCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,22 +19,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import com.error.ErrorManager
 import com.fragment.alcohol_category.Fragment_Grid
 import com.fragment.alcohol_category.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
-import com.model.alcohol_category.AlcoholList
 import com.model.navigation.NavigationItem
-import com.service.ApiGenerator
-import com.service.ApiService
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.alcohol_category.view.*
-import kotlinx.android.synthetic.main.drawer_navigation.view.*
-import kotlinx.android.synthetic.main.main.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 
 class Presenter:AlcoholCategoryContact.BasePresenter {

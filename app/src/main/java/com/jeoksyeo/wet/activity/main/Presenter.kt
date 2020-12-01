@@ -3,10 +3,8 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.adapter.main.AlcoholRankAdapter
 import com.adapter.main.BannerAdapter
 import com.adapter.main.RecommendAlcoholAdapter
@@ -29,7 +27,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.alcohol_category.view.*
 import kotlinx.android.synthetic.main.main.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 import java.util.concurrent.TimeUnit

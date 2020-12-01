@@ -44,9 +44,22 @@
 -keep class com.example.module1.DataBinderMapperImpl { *; }
 -keep class com.example.module2.DataBinderMapperImpl { *; }
 
+#-assumenosideeffects class android.util.Log { *; } //로그 모두 막아버리면 api 통신 안됨
+
+
 -assumenosideeffects class android.util.Log {
 
+    public static int v (...);
+
+    public static int d (...);
+
+    public static int i (...);
+
+    public static int w (...);
+
     public static int e (...);
+
+    public static int wtf (...);
 
 }
 

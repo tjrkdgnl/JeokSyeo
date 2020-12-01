@@ -8,7 +8,6 @@ import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
-import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

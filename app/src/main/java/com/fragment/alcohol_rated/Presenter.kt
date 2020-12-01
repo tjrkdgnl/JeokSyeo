@@ -18,7 +18,6 @@ import com.viewmodel.RatedViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.RuntimeException
 
 class Presenter :FragmentRated_Contract.BasePresenter {
     override var position: Int =0

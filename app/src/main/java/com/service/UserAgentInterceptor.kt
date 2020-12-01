@@ -10,7 +10,7 @@ class UserAgentInterceptor(val userAgent:String) : Interceptor {
         val originalRequest = chain.request()
         val requestWithUserAgent =originalRequest.newBuilder()
             .removeHeader("User-Agent")
-            .addHeader("User-Agent",userAgent)
+            .addHeader("Android",userAgent)
             .build()
         return chain.proceed(requestWithUserAgent)
     }

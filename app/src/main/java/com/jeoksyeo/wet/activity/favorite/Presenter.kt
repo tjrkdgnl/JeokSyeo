@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentActivity
 import com.adapter.favorite.FavoriteViewPagerAdapter
 import com.application.GlobalApplication

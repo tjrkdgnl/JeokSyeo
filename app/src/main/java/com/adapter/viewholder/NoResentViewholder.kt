@@ -1,9 +1,6 @@
 package com.adapter.viewholder
 
-import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import com.base.BaseViewHolder
 import com.jeoksyeo.wet.activity.search.SearchContract
 import com.vuforia.engine.wet.R

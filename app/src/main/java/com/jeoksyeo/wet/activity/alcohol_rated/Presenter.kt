@@ -3,7 +3,6 @@ package com.jeoksyeo.wet.activity.alcohol_rated
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
@@ -11,13 +10,8 @@ import androidx.fragment.app.FragmentActivity
 import com.adapter.alcohol_rated.RatedViewPagerAdapter
 import com.application.GlobalApplication
 import com.google.android.material.tabs.TabLayoutMediator
-import com.service.ApiGenerator
-import com.service.ApiService
-import com.service.JWTUtil
 import com.vuforia.engine.wet.R
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class Presenter :AlcoholRatedContact.BasesPresenter {
     override lateinit var view: AlcoholRatedContact.BaseView

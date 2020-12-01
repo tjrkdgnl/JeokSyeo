@@ -30,4 +30,5 @@
 
 
 #레트로핏 통신에 사용되는 pojo model 예외처리
+#이거 안하면 api 통신이 안됨
 -keep class com.vuforia.engine.wet.java.com.model.** { *; }

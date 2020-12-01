@@ -1,7 +1,6 @@
 package com.adapter.viewholder
 
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import com.base.BaseViewHolder
 import com.model.navigation.NavigationItem
 import com.vuforia.engine.wet.R

@@ -19,7 +19,6 @@ import com.service.JWTUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.RuntimeException
 
 class RecommendAlcoholAdapter(private val context: Context,
 private var lst:MutableList<AlcoholList>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

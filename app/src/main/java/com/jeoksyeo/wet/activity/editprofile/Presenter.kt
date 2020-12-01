@@ -102,20 +102,18 @@ class Presenter : EditProfileContract.BasePresenter {
 
                                         }, { t ->
                                             settingProgressBar(false)
+                                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
                                             Log.e(ErrorManager.USERINFO, t.message.toString())
                                         }
                                         ))
                                 } else {
                                     settingProgressBar(false)
-                                    Toast.makeText(
-                                        context,
-                                        "수정이 제대로 이뤄지지 않았습니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }, { t ->
                             settingProgressBar(false)
+                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
                             Log.e(ErrorManager.EDIT_PROFILE, t.message.toString())
                         })
                 )

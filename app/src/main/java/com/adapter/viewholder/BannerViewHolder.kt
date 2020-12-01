@@ -2,9 +2,7 @@ package com.adapter.viewholder
 
 import android.view.ViewGroup
 import com.base.BaseViewHolder
-import com.bumptech.glide.Glide
 import com.model.banner.Banner
-import com.vuforia.engine.wet.BR
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.BannerItemBinding
 

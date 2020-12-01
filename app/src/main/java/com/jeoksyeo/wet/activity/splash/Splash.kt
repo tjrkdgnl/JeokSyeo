@@ -10,16 +10,11 @@ import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.error.ErrorManager
-import com.jeoksyeo.wet.activity.login.Login
 import com.jeoksyeo.wet.activity.main.MainActivity
-import com.jeoksyeo.wet.activity.test.TestActivity
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SplashBinding
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 
 class Splash : AppCompatActivity() {
     private val compositeDisposable = CompositeDisposable()

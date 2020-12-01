@@ -2,18 +2,15 @@ package com.fragment.favorite
 
 import android.content.Context
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.favorite.FavoriteAdapter
 import com.application.GlobalApplication
-import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.model.favorite.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.FavoriteViewModel
-import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

@@ -1,7 +1,6 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.content.Context
-import com.base.DefaultPresenter
 import com.vuforia.engine.wet.databinding.MainBinding
 
 interface MainContract {

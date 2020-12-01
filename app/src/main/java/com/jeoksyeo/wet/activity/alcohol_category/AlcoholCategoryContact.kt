@@ -2,12 +2,7 @@ package com.jeoksyeo.wet.activity.alcohol_category
 
 import android.app.Activity
 import android.content.Context
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.google.android.material.tabs.TabLayoutMediator
-import com.model.alcohol_category.AlcoholList
-import com.model.alcohol_detail.Alcohol
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
 
 interface AlcoholCategoryContact {

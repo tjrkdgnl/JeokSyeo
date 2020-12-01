@@ -7,7 +7,6 @@ import com.model.user.UserInfo
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
-import java.lang.Exception
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*

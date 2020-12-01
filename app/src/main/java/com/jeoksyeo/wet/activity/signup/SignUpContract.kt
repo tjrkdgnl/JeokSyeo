@@ -1,9 +1,7 @@
 package com.jeoksyeo.wet.activity.signup
 
 import android.app.Activity
-import android.content.Context
 import android.widget.Button
-import com.viewmodel.SignUpViewModel
 
 interface SignUpContract {
 

@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.application.GlobalApplication
 import com.custom.CustomDialog
-import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.model.my_comment.Comment
 import com.service.ApiGenerator

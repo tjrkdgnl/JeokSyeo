@@ -8,14 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.SettingAgreementViewHolder
 import com.adapter.viewholder.SettingViewHolder
 import com.application.GlobalApplication
-import com.base.BaseViewHolder
 import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
 import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.model.setting.SettingItem
-import com.vuforia.engine.wet.R
 
 class SettingAdapter(
     private val context: Context,

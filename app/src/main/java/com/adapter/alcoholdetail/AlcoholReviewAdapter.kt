@@ -16,7 +16,6 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.RuntimeException
 
 class AlcoholReviewAdapter(private val context: Context,
                           private val alcoholId: String?,

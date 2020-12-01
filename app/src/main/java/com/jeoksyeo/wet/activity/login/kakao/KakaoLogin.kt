@@ -13,12 +13,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.login.Login
+import com.jeoksyeo.wet.activity.main.MainActivity
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.error.ErrorManager
-import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.vuforia.engine.wet.R

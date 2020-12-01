@@ -6,7 +6,6 @@ import com.base.BaseViewHolder
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SearchListItemBinding
-import com.vuforia.engine.wet.databinding.ViewpagerListItemBinding
 
 class SearchListViewholder(parent:ViewGroup)
     : BaseViewHolder<AlcoholList,SearchListItemBinding>(R.layout.search_list_item,parent) {

@@ -9,13 +9,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcohol_rated.AlcoholRatedAdapter
-import com.custom.CenterLayoutManager
 import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
-import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBindingImpl
 
 class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
     private var position =0

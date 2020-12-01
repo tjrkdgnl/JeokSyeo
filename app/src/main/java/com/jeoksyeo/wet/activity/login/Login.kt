@@ -9,30 +9,29 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.signup.SignUp
+import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
 import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
-import com.vuforia.engine.wet.R
-import com.vuforia.engine.wet.databinding.LoginBinding
-import com.error.ErrorManager
-import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
-import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
-import com.jeoksyeo.wet.activity.comment.Comment
 import com.jeoksyeo.wet.activity.main.MainActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.jeoksyeo.wet.activity.signup.SignUp
 import com.model.token.GetUserData
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.vuforia.engine.wet.R
+import com.vuforia.engine.wet.databinding.LoginBinding
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: LoginBinding

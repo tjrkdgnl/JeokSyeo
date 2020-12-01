@@ -2,7 +2,6 @@ package com.jeoksyeo.wet.activity.alcohol_category
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu

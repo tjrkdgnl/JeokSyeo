@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.custom.CustomDialog
-import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.model.review.ReviewList
 import com.service.ApiGenerator
@@ -23,7 +22,6 @@ import com.vuforia.engine.wet.databinding.ReviewItemBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.text.FieldPosition
 
 @SuppressLint("SetTextI18n")
 class AlcoholReviewViewHolder(

@@ -1,13 +1,11 @@
 package com.adapter.viewholder
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.view.ViewGroup
 import com.base.BaseViewHolder
 import com.model.alcohol_detail.AlcoholComponentData
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholComponentItemDefaultBinding
-import com.vuforia.engine.wet.databinding.AlcoholComponentItemRecyclerviewBinding
 
 class Alcohol_Component_Default(parent:ViewGroup)
     : BaseViewHolder<AlcoholComponentData,AlcoholComponentItemDefaultBinding>(R.layout.alcohol_component_item_default,parent) {

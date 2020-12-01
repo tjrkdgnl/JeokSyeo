@@ -1,7 +1,6 @@
 package com.adapter.viewholder
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.base.BaseViewHolder
 import com.model.area.AreaList
 import com.vuforia.engine.wet.R

@@ -2,7 +2,6 @@ package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -12,7 +11,6 @@ import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
-import com.kakao.util.helper.Utility
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -32,8 +30,6 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         presenter = Presenter().apply {
             view = this@MainActivity
         }
-
-//        val con = GlobalApplication.instance.context
 
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)

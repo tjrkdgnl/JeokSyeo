@@ -3,11 +3,10 @@ package com.adapter.alcoholdetail
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.Alcohol_Component_Default
-import com.adapter.viewholder.Alcohol_Component_SRM
 import com.adapter.viewholder.Alcohol_Component_RecyclerView
+import com.adapter.viewholder.Alcohol_Component_SRM
 import com.application.GlobalApplication
 import com.model.alcohol_detail.AlcoholComponentData
-import java.lang.RuntimeException
 
 class AlcoholComponentAdapter(val lst:MutableList<AlcoholComponentData>)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>() {

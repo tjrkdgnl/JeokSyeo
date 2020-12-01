@@ -2,16 +2,13 @@ package com.jeoksyeo.wet.activity.alcohol_rated
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.google.android.material.tabs.TabLayout
 import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.R

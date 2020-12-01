@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.NavigationEmptyViewHolder
 import com.adapter.viewholder.NavigationViewHolder
@@ -22,7 +21,6 @@ import com.jeoksyeo.wet.activity.login.kakao.KakaoLogin
 import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.jeoksyeo.wet.activity.setting.SettingActivity
 import com.model.navigation.NavigationItem
-import java.lang.RuntimeException
 
 class NavigationAdpater(
     private val context: Context,

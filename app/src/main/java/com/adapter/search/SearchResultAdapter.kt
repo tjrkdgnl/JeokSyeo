@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.adapter.viewholder.AlcoholCategoryListViewHolder
 import com.adapter.viewholder.SearchListViewholder
 import com.application.GlobalApplication
 import com.custom.OneClickListener
