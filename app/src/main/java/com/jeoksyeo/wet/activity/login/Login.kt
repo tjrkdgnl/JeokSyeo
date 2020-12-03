@@ -1,5 +1,6 @@
 package com.jeoksyeo.wet.activity.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -189,6 +190,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         handlingActivity()
     }
 
+    @SuppressLint("SetTextI18n")
     fun handlingActivity() {
         val map = HashMap<String,Any>()
         GlobalApplication.userBuilder.getProvider()?.let { map.put("oauth_provider",it) }
@@ -223,37 +225,60 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     GlobalApplication.userBuilder.setOAuthId(result.data?.user?.userId)
                     val bundle = Bundle()
 
-                    result.data?.user?.hasEmail?.let { hasEmail->
-                        if(hasEmail){ //이메일을 제공 받는 경우
-                            result.data?.user?.hasBirth?.let {
-                                bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
-                                Log.e("생일체크", it.toString())
-                                result.data?.user?.birth?.let { birth->
-                                    GlobalApplication.userBuilder.setBirthDay(birth)
-                                }
-
-                            }
-                            result.data?.user?.hasGender?.let {
-                                bundle.putBoolean(GlobalApplication.GENDER, it)
-                                Log.e("성별체크", it.toString())
-                                result.data?.user?.gender?.let { gender->
-                                    GlobalApplication.userBuilder.setGender(gender)
-                                }
-                            }
-                            GlobalApplication.instance.moveActivity(this,SignUp::class.java
-                                ,0,bundle,GlobalApplication.USER_BUNDLE)
+                    result.data?.user?.hasBirth?.let {
+                        bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
+                        Log.e("생일체크", it.toString())
+                        result.data?.user?.birth?.let { birth->
+                            GlobalApplication.userBuilder.setBirthDay(birth)
                         }
-                        else{ //이메일을 제공받지 않는 경우
-                            Log.e("이메일 없음","없음")
-                            val dialog = CustomDialog.createCustomDialog(this)
-                            val content = dialog.findViewById<TextView>(R.id.dialog_contents)
-                            val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
-                            val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
-                            content.text = "이메일 수집 및 이용에\n 동의해주세요!"
-                            okButton.setOnClickListener{dialog.dismiss()}
-                            cancelButton.setOnClickListener { dialog.dismiss() }
+
+                    }
+                    result.data?.user?.hasGender?.let {
+                        bundle.putBoolean(GlobalApplication.GENDER, it)
+                        Log.e("성별체크", it.toString())
+                        result.data?.user?.gender?.let { gender->
+                            GlobalApplication.userBuilder.setGender(gender)
                         }
                     }
+                    GlobalApplication.instance.moveActivity(this,SignUp::class.java
+                        ,0,bundle,GlobalApplication.USER_BUNDLE)
+
+//                    result.data?.user?.hasEmail?.let { hasEmail->
+//                        if(hasEmail){ //이메일을 제공 받는 경우
+//                            result.data?.user?.hasBirth?.let {
+//                                bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
+//                                Log.e("생일체크", it.toString())
+//                                result.data?.user?.birth?.let { birth->
+//                                    GlobalApplication.userBuilder.setBirthDay(birth)
+//                                }
+//
+//                            }
+//                            result.data?.user?.hasGender?.let {
+//                                bundle.putBoolean(GlobalApplication.GENDER, it)
+//                                Log.e("성별체크", it.toString())
+//                                result.data?.user?.gender?.let { gender->
+//                                    GlobalApplication.userBuilder.setGender(gender)
+//                                }
+//                            }
+//                            GlobalApplication.instance.moveActivity(this,SignUp::class.java
+//                                ,0,bundle,GlobalApplication.USER_BUNDLE)
+//                        }
+//                        else{ //이메일을 제공받지 않는 경우
+//
+//                            //연결한 소셜 로그인 링크제거
+//                            GlobalApplication.userBuilder.getProvider()?.let { providerId->
+//                                loginUnlink(providerId)
+//                            }
+//
+//                            val dialog = CustomDialog.createCustomDialog(this)
+//                            val content = dialog.findViewById<TextView>(R.id.dialog_contents)
+//                            val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+//                            val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+//                            content.text = "\'적셔\'는 서비스 이용내역 안내를 위해 이메일 사용 권한 허용이 필요합니다.\n 이메일 제공에 동의 해 주세요."
+//                            okButton.setOnClickListener{dialog.dismiss()}
+//                            cancelButton.setOnClickListener { dialog.dismiss() }
+//                        }
+//                    } ?: Toast.makeText(this,"로그인에 문제가 발생했습니다.\n 앱 종료 후, 다시 이용해 주세요.",Toast.LENGTH_SHORT).show()
                 }
             }, { t: Throwable? ->
                 t?.stackTrace
@@ -273,6 +298,15 @@ class Login : AppCompatActivity(), View.OnClickListener {
             GlobalApplication.ACTIVITY_HANDLING_CATEGORY->{
                 GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
+        }
+    }
+
+    private fun loginUnlink(provider: String){
+        when(provider){
+            "KAKAO" ->{ kakaoLogin.kakaoUnlink()}
+            "NAVER" ->{ naverLogin.naverUnlink()}
+            "GOOGLE" ->{ googleLogin.googleUnlink()}
+            "APPLE" ->{ appleLogin.appleUnlink()}
         }
     }
 

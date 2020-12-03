@@ -39,10 +39,8 @@ class KakaoLogin(private val context: Context) {
             executeProgressBar(false)
             Log.e(ErrorManager.Kakao_TAG, "로그인 실패 ->"+ error.message.toString())
         } else if (token != null) {
-            Log.i(ErrorManager.Kakao_TAG, "로그인 성공 ${token.accessToken}")
+            Log.e(ErrorManager.Kakao_TAG, "로그인 성공 ${token.accessToken}")
 
-            Log.e("refreshToken", token.refreshToken)
-            Log.e("accessToken", token.accessToken)
             Login.loginObj.setUserInfo("KAKAO", token.accessToken)
         }
     }
@@ -74,7 +72,7 @@ class KakaoLogin(private val context: Context) {
                 if (error != null) {
                     Log.e(ErrorManager.Kakao_TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
                 } else {
-                    Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                    Log.e(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                 }
             }
 
@@ -149,5 +147,13 @@ class KakaoLogin(private val context: Context) {
             dialog.dismiss()
         }
         cancelButton.setOnClickListener { dialog.dismiss() }
+    }
+
+    fun kakaoUnlink(){
+        userInfo.unlink { error ->
+            error?.let {
+                Log.e(ErrorManager.Kakao_TAG,error.message.toString())
+            }
+        }
     }
 }

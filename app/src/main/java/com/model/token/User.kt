@@ -14,7 +14,7 @@ class User {
 
     @SerializedName("has_email")
     @Expose
-    var hasEmail: Boolean? = false
+    var hasEmail: Boolean? = null
 
     @SerializedName("gender")
     @Expose

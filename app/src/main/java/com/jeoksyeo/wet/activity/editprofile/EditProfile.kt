@@ -51,19 +51,18 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
         //최대 날짜 지정
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.YEAR,-15)
+        calendar.add(Calendar.YEAR, -15)
         binding.editProfileBasicDatePicker.datePicker.maxDate = calendar.time.time
 
         //datePicker 유저가 설정한 날짜로 지정
         val date = GlobalApplication.userInfo.birthDay.split("-")
         binding.editProfileBasicDatePicker.datePicker.init(
-            date[0].toInt()
-            ,date[1].toInt(),
+            date[0].toInt(), date[1].toInt(),
             date[2].toInt(),
             this
         )
 
-        presenter.settingUserInfo(this,GlobalApplication.userInfo.getProvider())
+        presenter.settingUserInfo(this, GlobalApplication.userInfo.getProvider())
         binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
 
 
@@ -137,7 +136,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     }
 
     private fun setImage() {
-        presenter.imageUpload(this,tempFile)
+        presenter.imageUpload(this, tempFile)
         Glide.with(this)
             .load(tempFile?.absolutePath)
             .apply(
@@ -197,7 +196,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         // 빈 파일 생성
         val image = File.createTempFile(imageFileName, ".jpg", storageDir)
         tempFile = image.absoluteFile
-        Log.e("파일생성",tempFile?.name.toString())
+        Log.e("파일생성", tempFile?.name.toString())
         return image
     }
 
@@ -205,7 +204,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         when (v?.id) {
             R.id.basicHeader_backButton -> {
                 finish()
-                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+                overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
             }
 
             R.id.editProfile_G_album -> CameraPermission()
@@ -214,24 +213,24 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
             R.id.editProfile_G_imageButton_gender_woman -> setGender_Woman()
 
-            R.id.birthdayLinearLayout ->binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
+            R.id.birthdayLinearLayout -> binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
             R.id.button_datePicker_ok -> binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
 
-            R.id.editProfile_G_okButton -> presenter.executeEditProfile(this,
-                binding.insertInfoEditText.text.toString(),gender,birthday)
+            R.id.editProfile_G_okButton -> presenter.executeEditProfile(
+                this,
+                binding.insertInfoEditText.text.toString(), gender, birthday
+            )
         }
     }
 
-    override fun checkOkButton(nicknameDuplicate:Boolean,profileCheck:Boolean) {
-        if(!profileCheck){ //프로필 여부와 상관없을때
-            binding.editProfileGOkButton.isEnabled = (!nicknameDuplicate &&
-                    GlobalApplication.userInfo.nickName !=binding.insertInfoEditText.text.toString()) ||
-                    GlobalApplication.userInfo.birthDay != birthday ||
-                    GlobalApplication.userInfo.gender != gender
-        }
-        else{// 프로필을 셋팅했을 때
-            binding.editProfileGOkButton.isEnabled =true
-        }
+    override fun checkOkButton(nicknameDuplicate: Boolean) {
+        //프로필 여부와 상관없을때
+        binding.editProfileGOkButton.isEnabled = !nicknameDuplicate && (
+                GlobalApplication.userInfo.nickName != binding.insertInfoEditText.text.toString() ||
+                        GlobalApplication.userInfo.birthDay != birthday ||
+                        GlobalApplication.userInfo.gender != gender ||
+                        presenter.profile != null)
+
     }
 
     override fun setGender_Man() {
@@ -259,17 +258,17 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     }
 
     override fun resultNickNameCheck(result: Boolean) {
-        if(result){
+        if (result) {
             binding.checkNickNameText.visibility = View.VISIBLE
             binding.checkNickNameText.text = getString(R.string.dontUseNickName)
             binding.insertNameLinearLayout.background =
                 resources.getDrawable(R.drawable.bottom_line_red, null)
             binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
-        }
-        else{
+        } else {
             binding.checkNickNameText.visibility = View.VISIBLE
             binding.checkNickNameText.text = getString(R.string.useNickName)
-            binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
+            binding.insertNameLinearLayout.background =
+                resources.getDrawable(R.drawable.bottom_line_green, null)
             binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
         }
     }
@@ -280,7 +279,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-            GlobalApplication.instance.keyPadSetting(binding.insertInfoEditText,this)
+            GlobalApplication.instance.keyPadSetting(binding.insertInfoEditText, this)
             return true
         }
         return false
@@ -295,7 +294,6 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun afterTextChanged(s: Editable?) {
     }
-
 
 
     @SuppressLint("SetTextI18n")
@@ -316,6 +314,6 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+        overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
 }

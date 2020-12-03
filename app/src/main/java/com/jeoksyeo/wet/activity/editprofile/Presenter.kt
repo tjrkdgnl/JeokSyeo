@@ -1,5 +1,6 @@
 package com.jeoksyeo.wet.activity.editprofile
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Handler
@@ -17,6 +18,7 @@ import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.model.edit_profile.Profile
+import com.model.user.profileToPojo.ProfileInfo
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
@@ -28,15 +30,17 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-
 import java.util.regex.Pattern
 
 class Presenter : EditProfileContract.BasePresenter {
     override lateinit var view: EditProfileContract.BaseView
     override lateinit var activity: Activity
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private var profile: Profile? = null
+    var profile: Profile? = null
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var changeObject: ProfileInfo
+
+
     override fun executeEditProfile(
         context: Context,
         name: String,
@@ -44,11 +48,21 @@ class Presenter : EditProfileContract.BasePresenter {
         birthday: String
     ) {
         val check = JWTUtil.settingUserInfo(false)
-        val map = HashMap<String, Any>()
-        profile?.let { map.put("profile", it) }
-        name.let { map.put("nickname", it) }
-        birthday.let { map.put("birth", it) }
-        gender.let { map.put("gender", it) }
+
+        changeObject = ProfileInfo()
+
+        if (profile != null) {
+            changeObject.profile = com.model.user.profileToPojo.Profile()
+            changeObject.profile!!.type = profile!!.type
+            changeObject.profile!!.mediaId = profile!!.media_id
+            changeObject.nickname = name
+            changeObject.birth = birthday
+            changeObject.gender = gender
+        } else {
+            changeObject.nickname = name
+            changeObject.birth = birthday
+            changeObject.gender = gender
+        }
 
         view.getView().editProfileGOkButton.setEditButtonClickListener {
             if (check) {
@@ -58,7 +72,7 @@ class Presenter : EditProfileContract.BasePresenter {
                         .editProfile(
                             GlobalApplication.userBuilder.createUUID,
                             GlobalApplication.userInfo.getAccessToken(),
-                            map
+                            changeObject
                         )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -102,18 +116,27 @@ class Presenter : EditProfileContract.BasePresenter {
 
                                         }, { t ->
                                             settingProgressBar(false)
-                                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                context,
+                                                "수정이 제대로 이뤄지지 않았습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                             Log.e(ErrorManager.USERINFO, t.message.toString())
                                         }
                                         ))
                                 } else {
                                     settingProgressBar(false)
-                                    Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "수정이 제대로 이뤄지지 않았습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }, { t ->
                             settingProgressBar(false)
-                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT)
+                                .show()
                             Log.e(ErrorManager.EDIT_PROFILE, t.message.toString())
                         })
                 )
@@ -127,7 +150,8 @@ class Presenter : EditProfileContract.BasePresenter {
         var check = false
         if (GlobalApplication.userInfo.nickName != view.getView().insertInfoEditText.text.toString()) {
             check = Pattern.matches(
-                "^\\w+|[가-힣]+$", view.getView().insertInfoEditText.text.toString())
+                "^\\w+|[가-힣]+$", view.getView().insertInfoEditText.text.toString()
+            )
 
             if (check) {
                 handler.removeCallbacksAndMessages(null)
@@ -151,9 +175,11 @@ class Presenter : EditProfileContract.BasePresenter {
                                         }
                                     }
                                 },
-                                { t -> Log.e(
+                                { t ->
+                                    Log.e(
                                         ErrorManager.NICKNAME_DUPLICATE,
-                                        t.message.toString())
+                                        t.message.toString()
+                                    )
                                 })
                     )
                 }, 300)
@@ -163,13 +189,14 @@ class Presenter : EditProfileContract.BasePresenter {
             }
         } else {
             //닉네임을 바꾸지 않았다면,
-            view.checkOkButton(true)
+            view.checkOkButton(false)
             view.getView().insertNameLinearLayout.background =
                 context.resources.getDrawable(R.drawable.bottom_line, null)
             view.getView().checkNickNameText.visibility = View.INVISIBLE
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkNickname(context: Context, right: Boolean) {
         if (right) {
             view.checkOkButton(false)
@@ -267,8 +294,8 @@ class Presenter : EditProfileContract.BasePresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
                         result.data?.mediaId?.let {
-                            view.checkOkButton(false, true)
                             profile = Profile("image", it)
+                            view.checkOkButton(false)
                         }
                     }, { t ->
                         Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())

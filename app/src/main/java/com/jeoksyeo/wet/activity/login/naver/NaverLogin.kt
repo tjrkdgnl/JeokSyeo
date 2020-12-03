@@ -186,4 +186,11 @@ class NaverLogin(private val mContext: Context) {
         }
         cancelButton.setOnClickListener { dialog.dismiss() }
     }
+
+
+    fun naverUnlink(){
+        CoroutineScope(Dispatchers.IO).launch {
+            instance.logoutAndDeleteToken(mContext)
+        }
+    }
 }

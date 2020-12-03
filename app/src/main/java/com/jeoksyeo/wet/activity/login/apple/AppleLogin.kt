@@ -173,5 +173,20 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
         }
         cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
     }
+
+    fun appleUnlink(){
+        FirebaseAuth.getInstance().currentUser?.let { user ->
+            user.unlink(user.providerId).addOnCompleteListener(activity) {task->
+                if(task.isSuccessful){
+                    Log.e("성공","success google unlink")
+                }
+                else{
+                    Log.e("실","fail google unlink")
+                }
+            }.addOnFailureListener(activity) {fail->
+                Log.e(ErrorManager.Google_TAG,fail.message.toString())
+            }
+        }
+    }
 }
 

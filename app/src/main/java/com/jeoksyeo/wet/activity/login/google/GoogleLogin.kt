@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -128,5 +129,20 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
                 }
         }
         cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+    }
+
+    fun googleUnlink(){
+        FirebaseAuth.getInstance().currentUser?.let { user ->
+            user.unlink(user.providerId).addOnCompleteListener(activity) {task->
+                if(task.isSuccessful){
+                    Log.e("성공","success google unlink")
+                }
+                else{
+                    Log.e("실","fail google unlink")
+                }
+            }.addOnFailureListener(activity) {fail->
+                Log.e(ErrorManager.Google_TAG,fail.message.toString())
+            }
+        }
     }
 }

@@ -29,6 +29,10 @@
 ## -keepattributes : 내부 클래스 원상태 유지 적용
 
 
+#버전 업그레이드 후, 프로가드 에러 제거
+#noinspection ShrinkerUnresolvedReference
+
+
 -keep public class * extends java.lang.Exception
 
 -keepattributes SourceFile,LineNumberTable ##소스파일, 라인 정보 유지
@@ -41,12 +45,7 @@
 }
 
 
--keep class com.example.module1.DataBinderMapperImpl { *; }
--keep class com.example.module2.DataBinderMapperImpl { *; }
-
 #-assumenosideeffects class android.util.Log { *; } //로그 모두 막아버리면 api 통신 안됨
-
-
 -assumenosideeffects class android.util.Log {
 
     public static int v (...);
@@ -60,7 +59,6 @@
     public static int e (...);
 
     public static int wtf (...);
-
 }
 
 
