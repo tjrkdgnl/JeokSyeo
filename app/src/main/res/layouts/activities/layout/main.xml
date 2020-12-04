@@ -25,13 +25,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/banner_constrainLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/banner_constrainLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="224dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/activityMain_alcoholCategory"
+                    app:layout_constraintDimensionRatio="H,1:0.62"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/basic_header">
@@ -39,7 +42,8 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/main_banner"
                         android:layout_width="match_parent"
-                        android:layout_height="224dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -47,13 +51,14 @@
                     <TextView
                         android:id="@+id/banner_count"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/auto_viewpager_pagenum"
                         android:gravity="center"
                         android:lineSpacingExtra="2sp"
                         android:onClick="onClick"
+                        android:padding="5dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:text="1 / 5"
@@ -61,15 +66,21 @@
                         android:textSize="@dimen/autoViewPager_textSize"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/activityMain_alcoholCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:background="#f8f8f8"
+                    app:layout_constraintBottom_toTopOf="@+id/activityMain_howAboutAlcoholsText"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintDimensionRatio="H,1:0.45"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/banner_constrainLayout">
 
@@ -78,168 +89,190 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/apple_sd_gothic_neo_b"
+                        android:gravity="bottom"
                         android:lineSpacingExtra="1sp"
                         android:text="주종을 "
                         android:textColor="@color/black"
                         android:textSize="@dimen/main_text_defaultSize"
-                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="1dp"
-                        android:layout_marginTop="25dp"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="bottom"
                         android:lineSpacingExtra="1sp"
                         android:text="선택해주세요"
                         android:textColor="@color/black"
                         android:textSize="@dimen/main_text_miniSize"
                         app:layout_constraintBottom_toBottomOf="@id/activityMain_selectAlcoholListText"
-                        app:layout_constraintStart_toEndOf="@id/activityMain_selectAlcoholListText" />
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/activityMain_selectAlcoholListText"
-                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcoholListText">
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/activityMain_selectAlcoholListText"
+                        app:layout_constraintTop_toTopOf="@id/activityMain_selectAlcoholListText"
+                        app:layout_constraintVertical_bias="1" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcoholListText"
+                        app:layout_constraintVertical_bias="0">
+
+                        <ImageView
+                            android:id="@+id/activityMain_koreanAlcohol"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="5dp"
+                            android:onClick="onClick"
+                            android:src="@mipmap/btn_takju"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="H,1:1"
+                            app:layout_constraintEnd_toStartOf="@id/activityMain_beer"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.1" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="17dp">
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                            android:lineSpacingExtra="2sp"
+                            android:text="전통주"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/alcohol_button_textSize"
+                            app:layout_constraintVertical_bias="0"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlcohol"
+                            app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlcohol"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol" />
 
-                            <ImageView
-                                android:id="@+id/activityMain_koreanAlcohol"
-                                android:layout_width="@dimen/categoryButtonSize"
-                                android:layout_height="@dimen/categoryButtonSize"
-                                android:layout_marginStart="10dp"
-                                android:onClick="onClick"
-                                android:src="@mipmap/btn_takju"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:id="@+id/activityMain_beer"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="6dp"
+                            android:onClick="onClick"
+                            android:src="@mipmap/btn_beer"
+                            app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlcohol"
+                            app:layout_constraintEnd_toStartOf="@id/activityMain_wine"
+                            app:layout_constraintStart_toEndOf="@id/activityMain_koreanAlcohol"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol"
+                            app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlcohol" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginBottom="16dp"
-                                android:lineSpacingExtra="2sp"
-                                android:text="전통주"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/alcohol_button_textSize"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlcohol"
-                                app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlcohol"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol" />
-
-                            <ImageView
-                                android:id="@+id/activityMain_beer"
-                                android:layout_width="@dimen/categoryButtonSize"
-                                android:layout_height="@dimen/categoryButtonSize"
-                                android:layout_marginStart="12dp"
-                                android:onClick="onClick"
-                                android:src="@mipmap/btn_beer"
-                                app:layout_constraintBottom_toBottomOf="@id/activityMain_koreanAlcohol"
-                                app:layout_constraintStart_toEndOf="@id/activityMain_koreanAlcohol"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol"
-                                app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlcohol"
-                                app:layout_constraintVertical_bias="1.0" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:lineSpacingExtra="2sp"
-                                android:text="맥주"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/alcohol_button_textSize"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="@id/activityMain_beer"
-                                app:layout_constraintStart_toStartOf="@id/activityMain_beer"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_beer" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                            android:lineSpacingExtra="2sp"
+                            android:text="맥주"
+                            app:layout_constraintVertical_bias="0"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/alcohol_button_textSize"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/activityMain_beer"
+                            app:layout_constraintStart_toStartOf="@id/activityMain_beer"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_beer" />
 
 
-                            <ImageView
-                                android:id="@+id/activityMain_wine"
-                                android:layout_width="@dimen/categoryButtonSize"
-                                android:layout_height="@dimen/categoryButtonSize"
-                                android:layout_marginStart="15dp"
-                                android:onClick="onClick"
-                                android:src="@mipmap/wine"
-                                app:layout_constraintBottom_toBottomOf="@id/activityMain_beer"
-                                app:layout_constraintStart_toEndOf="@id/activityMain_beer"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_beer"
-                                app:layout_constraintTop_toTopOf="@id/activityMain_beer" />
+                        <ImageView
+                            android:id="@+id/activityMain_wine"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="6dp"
+                            android:onClick="onClick"
+                            android:src="@mipmap/wine"
+                            app:layout_constraintBottom_toBottomOf="@id/activityMain_beer"
+                            app:layout_constraintEnd_toStartOf="@id/activityMain_whisky"
+                            app:layout_constraintStart_toEndOf="@id/activityMain_beer"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_beer"
+                            app:layout_constraintTop_toTopOf="@id/activityMain_beer" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:lineSpacingExtra="2sp"
-                                android:text="와인"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/alcohol_button_textSize"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="@id/activityMain_wine"
-                                app:layout_constraintStart_toStartOf="@id/activityMain_wine"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_wine" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                            android:lineSpacingExtra="2sp"
+                            android:text="와인"
+                            app:layout_constraintVertical_bias="0"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/alcohol_button_textSize"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/activityMain_wine"
+                            app:layout_constraintStart_toStartOf="@id/activityMain_wine"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_wine" />
 
-                            <ImageView
-                                android:id="@+id/activityMain_whisky"
-                                android:layout_width="@dimen/categoryButtonSize"
-                                android:layout_height="@dimen/categoryButtonSize"
-                                android:layout_marginStart="15dp"
-                                android:onClick="onClick"
-                                android:src="@mipmap/whisky"
-                                app:layout_constraintBottom_toBottomOf="@id/activityMain_wine"
-                                app:layout_constraintStart_toEndOf="@id/activityMain_wine"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_wine"
-                                app:layout_constraintTop_toTopOf="@id/activityMain_wine" />
+                        <ImageView
+                            android:id="@+id/activityMain_whisky"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="6dp"
+                            android:onClick="onClick"
+                            android:src="@mipmap/whisky"
+                            app:layout_constraintBottom_toBottomOf="@id/activityMain_wine"
+                            app:layout_constraintEnd_toStartOf="@id/activityMain_sake"
+                            app:layout_constraintStart_toEndOf="@id/activityMain_wine"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_wine"
+                            app:layout_constraintTop_toTopOf="@id/activityMain_wine" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:lineSpacingExtra="2sp"
-                                android:text="양주"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/alcohol_button_textSize"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="@id/activityMain_whisky"
-                                app:layout_constraintStart_toStartOf="@id/activityMain_whisky"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_whisky" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                            android:lineSpacingExtra="2sp"
+                            android:text="양주"
+                            app:layout_constraintVertical_bias="0"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/alcohol_button_textSize"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/activityMain_whisky"
+                            app:layout_constraintStart_toStartOf="@id/activityMain_whisky"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_whisky" />
 
-                            <ImageView
-                                android:id="@+id/activityMain_sake"
-                                android:layout_width="@dimen/categoryButtonSize"
-                                android:layout_height="@dimen/categoryButtonSize"
-                                android:layout_marginStart="15dp"
-                                android:onClick="onClick"
-                                android:src="@mipmap/sake"
-                                app:layout_constraintBottom_toBottomOf="@id/activityMain_whisky"
-                                app:layout_constraintStart_toEndOf="@id/activityMain_whisky"
-                                app:layout_constraintTop_toTopOf="@id/activityMain_whisky" />
+                        <ImageView
+                            android:id="@+id/activityMain_sake"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="5dp"
+                            android:onClick="onClick"
+                            android:src="@mipmap/sake"
+                            app:layout_constraintBottom_toBottomOf="@id/activityMain_whisky"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/activityMain_whisky"
+                            app:layout_constraintTop_toTopOf="@id/activityMain_whisky" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:lineSpacingExtra="2sp"
-                                android:text="사케"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/alcohol_button_textSize"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="@id/activityMain_sake"
-                                app:layout_constraintStart_toStartOf="@id/activityMain_sake"
-                                app:layout_constraintTop_toBottomOf="@id/activityMain_sake" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                            android:lineSpacingExtra="2sp"
+                            android:text="사케"
+                            app:layout_constraintVertical_bias="0"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/alcohol_button_textSize"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/activityMain_sake"
+                            app:layout_constraintStart_toStartOf="@id/activityMain_sake"
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_sake" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </HorizontalScrollView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
@@ -255,73 +288,95 @@
                     android:id="@+id/activityMain_howAboutAlcoholsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="25dp"
                     android:background="@color/white"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:lineSpacingExtra="1sp"
-                    android:paddingStart="12dp"
-                    android:paddingTop="15dp"
                     android:text="이런 술은 "
                     android:textColor="#000000"
                     android:textSize="@dimen/main_text_defaultSize"
-                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityMain_alcoholCategory" />
+                    app:layout_constraintTop_toBottomOf="@+id/activityMain_alcoholCategory"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:background="@color/white"
-                    android:gravity="start"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="bottom"
                     android:lineSpacingExtra="1sp"
                     android:text="어떤가요?"
                     android:textColor="#000000"
                     android:textSize="@dimen/main_text_miniSize"
                     app:layout_constraintBottom_toBottomOf="@+id/activityMain_howAboutAlcoholsText"
-                    app:layout_constraintStart_toEndOf="@id/activityMain_howAboutAlcoholsText" />
-
-                <LinearLayout
-                    android:id="@+id/recommend_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/recommend_background"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/activityMain_howAboutAlcoholsText"
+                    app:layout_constraintTop_toTopOf="@+id/activityMain_howAboutAlcoholsText"
+                    app:layout_constraintVertical_bias="1" />
+
+                <ImageView
+                    android:id="@+id/recommend_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/recommend_background"
+                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcoholsText">
+                </ImageView>
 
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/activityMain_RecommendViewPager2"
-                        android:layout_width="match_parent"
-                        android:layout_height="410dp" />
-                </LinearLayout>
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/activityMain_RecommendViewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.24"
+                    app:layout_constraintTop_toTopOf="@id/recommend_background"
+                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle"
+                    />
 
                 <TextView
                     android:id="@+id/appMain_monthlyTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     android:background="@color/white"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:lineSpacingExtra="9sp"
-                    android:paddingStart="12dp"
-                    android:paddingBottom="10dp"
                     android:text="이번달 "
                     android:textColor="@color/black"
                     android:textSize="@dimen/main_text_defaultSize"
-                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/monthly_recylcerView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recommend_layout" />
+                    app:layout_constraintTop_toBottomOf="@id/activityMain_RecommendViewPager2"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:background="@color/white"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:lineSpacingExtra="9sp"
-                    android:paddingBottom="9dp"
                     android:text="주장"
                     android:textColor="@color/black"
                     android:textSize="@dimen/main_text_miniSize"
-                    app:layout_constraintBottom_toTopOf="@id/monthly_recylcerView"
-                    app:layout_constraintStart_toEndOf="@id/appMain_monthlyTitle"
-                    app:layout_constraintTop_toBottomOf="@id/recommend_layout" />
+                    app:layout_constraintBottom_toBottomOf="@+id/appMain_monthlyTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@+id/appMain_monthlyTitle"
+                    app:layout_constraintTop_toTopOf="@+id/appMain_monthlyTitle"
+                    app:layout_constraintVertical_bias="1" />
 
                 <View
                     android:layout_width="match_parent"
@@ -336,7 +391,9 @@
                     android:id="@+id/monthly_recylcerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
                     android:nestedScrollingEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@id/business_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle" />
@@ -351,7 +408,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/monthly_recylcerView"
                     app:layout_constraintVertical_bias="0" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

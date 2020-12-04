@@ -21,131 +21,201 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/recommend_parentLayout"
             android:layout_width="match_parent"
-            android:layout_height="410dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/recommenditem_shadow">
-
 
             <ImageView
                 android:id="@+id/activityMain_recommend_img"
-                android:layout_width="match_parent"
-                android:layout_height="322dp"
-                android:scaleType="fitCenter"
                 setting_icon_str="@{recommendItem.media.get(0).mediaResource.medium.src}"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@id/recommend_contentLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.82"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/recommend_contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/activityMain_recommend_alcoholName"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/activityMain_recommend_img">
 
-            <TextView
-                android:id="@+id/activityMain_recommend_alcoholName"
-                android:layout_width="0dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="2sp"
-                android:maxLines="1"
-                android:paddingStart="2dp"
-                android:paddingEnd="10dp"
-                android:text="@{recommendItem.name.kr.toString()}"
-                android:textColor="#333333"
-                android:textSize="@dimen/recommand_alcoholName"
-                app:layout_constraintEnd_toStartOf="@id/activityMain_degree_img"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activityMain_recommend_img"
-                tools:text="백세주" />
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/recommend_nameScalableLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/activityMain_recommend_ratingBar"
+                    app:layout_constraintEnd_toStartOf="@id/activityMain_degree_img"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:scale_base_height="60"
+                    app:scale_base_width="470"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    >
+                    <TextView
+                        android:id="@+id/activityMain_recommend_alcoholName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:gravity="center_vertical"
+                        android:lineSpacingExtra="2sp"
+                        android:maxLines="1"
+                        android:text="@{recommendItem.name.kr.toString()}"
+                        android:textColor="#333333"
+                        app:scale_width="470"
+                        app:scale_height = "60"
+                        app:scale_textsize ="45"
+                        tools:text="백세주" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
-            <TextView
-                android:id="@+id/activityMain_alcoholDegree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:layout_marginEnd="20dp"
-                android:lineSpacingExtra="3sp"
-                android:text="@{recommendItem.abv.toString()}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/recommand_alcoholNumber"
-                app:layout_constraintBottom_toBottomOf="@id/activityMain_degree_img"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/activityMain_degree_img"
-                tools:text="19%" />
+                <ImageView
+                    android:id="@+id/activityMain_degree_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:src="@mipmap/recommend_alcohol"
+                    app:layout_constraintBottom_toBottomOf="@id/recommend_nameScalableLayout"
+                    app:layout_constraintDimensionRatio="H,1:2.5"
+                    app:layout_constraintEnd_toStartOf="@+id/abv_scalableLayout"
+                    app:layout_constraintStart_toEndOf="@id/recommend_nameScalableLayout"
+                    app:layout_constraintTop_toTopOf="@id/recommend_nameScalableLayout" />
 
-            <ImageView
-                android:id="@+id/activityMain_degree_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@mipmap/recommend_alcohol"
-                app:layout_constraintBottom_toBottomOf="@id/activityMain_recommend_alcoholName"
-                app:layout_constraintEnd_toStartOf="@+id/activityMain_alcoholDegree"
-                app:layout_constraintTop_toTopOf="@id/activityMain_recommend_alcoholName" />
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/abv_scalableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:scale_base_width="80"
+                    app:scale_base_height="60"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="@id/activityMain_degree_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/activityMain_degree_img"
+                    app:layout_constraintTop_toTopOf="@id/activityMain_degree_img">
+                    <TextView
+                        android:id="@+id/activityMain_alcoholDegree"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:lineSpacingExtra="3sp"
+                        android:text="@{recommendItem.abv.toString()}"
+                        android:textColor="@color/black"
+                        app:scale_width = "80"
+                        app:scale_height = "60"
+                        app:scale_textsize = "33"
+                        android:gravity="center_vertical|center_horizontal"
+                        tools:text="4.5%" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
-            <com.willy.ratingbar.ScaleRatingBar
-                android:id="@+id/activityMain_recommend_ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="@id/activityMain_recommend_alcoholName"
-                app:layout_constraintTop_toBottomOf="@id/activityMain_recommend_alcoholName"
-                app:srb_clearRatingEnabled="true"
-                app:srb_clickable="false"
-                app:srb_drawableEmpty="@mipmap/recommend_empty_star"
-                app:srb_drawableFilled="@mipmap/recommend_full_star"
-                app:srb_isIndicator="false"
-                app:srb_minimumStars="0"
-                app:srb_numStars="5"
-                app:srb_rating="0"
-                app:srb_scrollable="false"
-                app:srb_starPadding="1.5dp"
-                app:layout_constraintStart_toEndOf="@id/recommendAlcohol_ratingBarScore"
-                app:srb_stepSize="0.5" />
 
-            <TextView
-                android:id="@+id/recommendAlcohol_ratingBarScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="35dp"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textSize="@dimen/recommand_alcoholNumber"
-                android:text="@{recommendItem.review.score.toString()}"
-                app:layout_constraintBottom_toBottomOf="@id/activityMain_recommend_ratingBar"
-                app:layout_constraintStart_toEndOf="@id/activityMain_recommend_ratingBar"
-                app:layout_constraintTop_toTopOf="@id/activityMain_recommend_ratingBar"
-                tools:text="3.7" />
+                <com.willy.ratingbar.ScaleRatingBar
+                    android:id="@+id/activityMain_recommend_ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H,1:0.3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/ratingScore_scalableLayout"
+                    app:layout_constraintStart_toStartOf="@id/recommend_nameScalableLayout"
+                    app:layout_constraintTop_toBottomOf="@id/recommend_nameScalableLayout"
+                    app:layout_constraintVertical_bias="1"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@mipmap/recommend_empty_star"
+                    app:srb_drawableFilled="@mipmap/recommend_full_star"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="0"
+                    app:srb_numStars="5"
+                    app:srb_rating="0"
+                    app:srb_scrollable="false"
+                    app:srb_starPadding="1.5dp"
+                    app:srb_stepSize="0.5" />
 
-            <TextView
-                android:id="@+id/activityMain_likeCount"
-                android:layout_width="wrap_content"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:lineSpacingExtra="3sp"
-                android:text="0"
-                android:textColor="@color/black"
-                android:textSize="@dimen/recommand_alcoholNumber"
-                app:layout_constraintBottom_toBottomOf="@id/activtyMain_like_img"
-                app:layout_constraintEnd_toEndOf="@id/activityMain_alcoholDegree"
-                app:layout_constraintStart_toStartOf="@id/activityMain_alcoholDegree"
-                app:layout_constraintTop_toTopOf="@id/activtyMain_like_img"
-                 />
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/ratingScore_scalableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:scale_base_width="80"
+                    app:scale_base_height="50"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@id/activityMain_recommend_ratingBar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/activityMain_recommend_ratingBar"
+                    app:layout_constraintTop_toTopOf="@id/activityMain_recommend_ratingBar"
+                    app:layout_constraintVertical_bias="0.5">
+                    <TextView
+                        android:id="@+id/recommendAlcohol_ratingBarScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:text="@{recommendItem.review.score.toString()}"
+                        android:textColor="@color/black"
+                        app:scale_width = "80"
+                        app:scale_height = "50"
+                        app:scale_textsize = "30"
+                        android:gravity="center_vertical|center_horizontal"
+                        tools:text="3.7" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
-            <ImageView
-                android:id="@+id/activtyMain_like_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:src="@mipmap/detail_empty_heart"
-                app:layout_constraintBottom_toBottomOf="@id/recommendAlcohol_ratingBarScore"
-                app:layout_constraintEnd_toEndOf="@id/activityMain_degree_img"
-                app:layout_constraintStart_toStartOf="@id/activityMain_degree_img"
-                app:layout_constraintTop_toTopOf="@id/recommendAlcohol_ratingBarScore" />
+                <ImageView
+                    android:id="@+id/activtyMain_like_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/detail_empty_heart"
+                    app:layout_constraintBottom_toBottomOf="@id/ratingScore_scalableLayout"
+                    app:layout_constraintEnd_toEndOf="@id/activityMain_degree_img"
+                    app:layout_constraintStart_toStartOf="@id/activityMain_degree_img"
+                    app:layout_constraintTop_toTopOf="@id/ratingScore_scalableLayout" />
+
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/likeCount_scalableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:scale_base_width="140"
+                    app:scale_base_height="60"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="7dp"
+                    app:layout_constraintBottom_toBottomOf="@id/activtyMain_like_img"
+                    app:layout_constraintEnd_toEndOf="@id/abv_scalableLayout"
+                    app:layout_constraintHorizontal_bias="0.35"
+                    app:layout_constraintStart_toStartOf="@id/abv_scalableLayout"
+                    app:layout_constraintTop_toTopOf="@id/activtyMain_like_img"
+                    >
+                    <TextView
+                        android:id="@+id/activityMain_likeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:lineSpacingExtra="3sp"
+                        android:text="0"
+                        tools:text="9999+"
+                        android:textColor="@color/black"
+                        app:scale_width = "140"
+                        app:scale_height = "60"
+                        app:scale_textsize= "45"
+                        app:textview_wrapcontent_direction="bottom"
+                        app:textview_wrapcontent_resizesurrounded="true"
+                        app:textview_wrapcontent_movesiblings="true"
+                        android:gravity="center_vertical|center_horizontal"
+                        />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

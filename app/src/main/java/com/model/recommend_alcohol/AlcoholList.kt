@@ -40,6 +40,7 @@ class AlcoholList {
     @SerializedName("abv")
     @Expose
     var abv: String? = null
+    get() = "$field%"
 
     @SerializedName("capacity")
     @Expose

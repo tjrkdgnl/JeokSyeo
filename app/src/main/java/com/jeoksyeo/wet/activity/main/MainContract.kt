@@ -6,7 +6,7 @@ import com.vuforia.engine.wet.databinding.MainBinding
 interface MainContract {
 
     interface BaseView{
-        fun getView() :MainBinding
+        fun getView() : MainBinding
 
     }
 

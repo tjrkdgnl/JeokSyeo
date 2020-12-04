@@ -7,7 +7,8 @@
         </shape>
     </item>
 
-    <item android:top="100dp" android:bottom="40dp" android:left="-250dp"
+    <item
+        android:top="100dp" android:bottom="40dp" android:left="-250dp"
         android:right="-250dp">
         <shape android:shape="oval">
             <solid android:color="@color/orange"/>
@@ -20,27 +21,5 @@
             <solid android:color="@color/white"/>
         </shape>
     </item>
-
-<!--    <item-->
-<!--        android:left="-250dp"-->
-<!--        android:right="-250dp"-->
-<!--        android:top="-500dp">-->
-<!--        <shape android:shape="oval">-->
-<!--            <solid android:color="@color/orange" />-->
-<!--        </shape>-->
-<!--    </item>-->
-
-<!--    <item-->
-<!--        android:bottom="200dp"-->
-<!--        android:left="-250dp"-->
-<!--        android:right="-250dp"-->
-<!--        android:top="-650dp">-->
-
-<!--        <shape-->
-<!--            android:shape="oval"-->
-<!--            android:useLevel="false">-->
-<!--            <solid android:color="#f8f8f8" />-->
-<!--        </shape>-->
-<!--    </item>-->
 
 </layer-list>

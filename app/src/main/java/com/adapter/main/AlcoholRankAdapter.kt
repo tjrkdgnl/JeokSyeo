@@ -36,6 +36,11 @@ class AlcoholRankAdapter(
         holder.bind(lst[position])
         holder.getViewBinding().rankingText.text = (position+1).toString()
 
+        if(position == lst.size-1){
+            holder.getViewBinding().monthlyBoundary.visibility = View.INVISIBLE
+        }
+
+
         holder.getViewBinding().alcoholRankParentLayout.setOnSingleClickListener{
             JWTUtil.settingUserInfo(false)
 

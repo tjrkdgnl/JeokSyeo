@@ -588,27 +588,34 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     result.data?.reviewInfo?.let {
                         //점수 분포 및 seekbar
                         view.getView().alcoholDetailReviewRatingbar.rating = it.scoreAvg!!.toFloat()
-                        view.getView().alcoholDetailScoreSeekbar.score1Seekbar.progress =
-                            it.score1Count!!
-                        view.getView().alcoholDetailScoreSeekbar.score2Seekbar.progress =
-                            it.score2Count!!
-                        view.getView().alcoholDetailScoreSeekbar.score3Seekbar.progress =
-                            it.score3Count!!
-                        view.getView().alcoholDetailScoreSeekbar.score4Seekbar.progress =
-                            it.score4Count!!
-                        view.getView().alcoholDetailScoreSeekbar.score5Seekbar.progress =
-                            it.score5Count!!
 
-                        view.getView().alcoholDetailScoreSeekbar.score5.text =
-                            GlobalApplication.instance.checkCount(it.score5Count!!)
-                        view.getView().alcoholDetailScoreSeekbar.score4.text =
-                            GlobalApplication.instance.checkCount(it.score4Count!!)
-                        view.getView().alcoholDetailScoreSeekbar.score3.text =
-                            GlobalApplication.instance.checkCount(it.score3Count!!)
-                        view.getView().alcoholDetailScoreSeekbar.score2.text =
-                            GlobalApplication.instance.checkCount(it.score2Count!!)
-                        view.getView().alcoholDetailScoreSeekbar.score1.text =
-                            GlobalApplication.instance.checkCount(it.score1Count!!)
+                        it.reviewTotalCount?.let { total->
+                            view.getView().alcoholDetailScoreSeekbar.score1Seekbar.max =total
+                            view.getView().alcoholDetailScoreSeekbar.score2Seekbar.max =total
+                            view.getView().alcoholDetailScoreSeekbar.score3Seekbar.max =total
+                            view.getView().alcoholDetailScoreSeekbar.score4Seekbar.max =total
+                            view.getView().alcoholDetailScoreSeekbar.score5Seekbar.max =total
+                        }
+                        it.score1Count?.let { score1->
+                            view.getView().alcoholDetailScoreSeekbar.score1Seekbar.progress =score1
+                            view.getView().alcoholDetailScoreSeekbar.score1.text = score1.toString()
+                        }
+                        it.score2Count?.let { score2->
+                            view.getView().alcoholDetailScoreSeekbar.score2Seekbar.progress =score2
+                            view.getView().alcoholDetailScoreSeekbar.score2.text =score2.toString()
+                        }
+                        it.score3Count?.let { score3->
+                            view.getView().alcoholDetailScoreSeekbar.score3Seekbar.progress =score3
+                            view.getView().alcoholDetailScoreSeekbar.score3.text = score3.toString()
+                        }
+                        it.score4Count?.let { score4->
+                            view.getView().alcoholDetailScoreSeekbar.score4Seekbar.progress =score4
+                            view.getView().alcoholDetailScoreSeekbar.score4.text = score4.toString()
+                        }
+                        it.score5Count?.let { score5->
+                            view.getView().alcoholDetailScoreSeekbar.score5Seekbar.progress =score5
+                            view.getView().alcoholDetailScoreSeekbar.score5.text =score5.toString()
+                        }
 
                         //rating 점수
                         view.getView().alcoholDetailReviewTotalscore.text = it.scoreAvg.toString()
