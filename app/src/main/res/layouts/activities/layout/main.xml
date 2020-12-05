@@ -48,29 +48,37 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/banner_count"
-                        android:layout_width="wrap_content"
+
+                    <com.ssomai.android.scalablelayout.ScalableLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="16dp"
-                        android:background="@drawable/auto_viewpager_pagenum"
-                        android:gravity="center"
-                        android:lineSpacingExtra="2sp"
-                        android:onClick="onClick"
-                        android:padding="5dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="1 / 5"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/autoViewPager_textSize"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1" />
+                        app:layout_constraintVertical_bias="1"
+                        app:scale_base_height="6">
+                        <TextView
+                            android:id="@+id/banner_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/auto_viewpager_pagenum"
+                            android:gravity="center"
+                            android:layout_gravity="bottom|end"
+                            android:lineSpacingExtra="2sp"
+                            android:onClick="onClick"
+                            android:text="1 / 5"
+                            android:textColor="#ffffff"
+                            app:scale_width = "12"
+                            app:scale_height = "6"
+                            app:scale_textsize= "3"
+                            android:fontFamily="@font/apple_sd_gothic_neo_b" />
+                    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,56 +86,63 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="#f8f8f8"
-                    app:layout_constraintBottom_toTopOf="@+id/activityMain_howAboutAlcoholsText"
+                    app:layout_constraintBottom_toTopOf="@+id/activityMain_howAboutAlcoholsText_scalableLayout"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintDimensionRatio="H,1:0.45"
+                    app:layout_constraintDimensionRatio="H,1:0.43"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/banner_constrainLayout">
 
-                    <TextView
-                        android:id="@+id/activityMain_selectAlcoholListText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/apple_sd_gothic_neo_b"
-                        android:gravity="bottom"
-                        android:lineSpacingExtra="1sp"
-                        android:text="주종을 "
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/main_text_defaultSize"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.ssomai.android.scalablelayout.ScalableLayout
+                        android:id="@+id/activityMain_selectAlcoholListText_scalableLayout"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="1dp"
-                        android:fontFamily="@font/apple_sd_gothic_neo_m"
-                        android:gravity="bottom"
-                        android:lineSpacingExtra="1sp"
-                        android:text="선택해주세요"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/main_text_miniSize"
-                        app:layout_constraintBottom_toBottomOf="@id/activityMain_selectAlcoholListText"
+                        app:scale_base_width="1080"
+                        app:scale_base_height="120"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/activityMain_selectAlcoholListText"
-                        app:layout_constraintTop_toTopOf="@id/activityMain_selectAlcoholListText"
-                        app:layout_constraintVertical_bias="1" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintVertical_bias="0">
+                        <TextView
+                            android:id="@+id/activityMain_selectAlcoholListText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/apple_sd_gothic_neo_b"
+                            android:gravity="center|bottom"
+                            android:lineSpacingExtra="1sp"
+                            android:text="주종을 "
+                            android:textColor="@color/black"
+                            app:scale_width = "190"
+                            app:scale_height = "100"
+                            app:scale_top="3"
+                            app:scale_textsize = "70"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="1dp"
+                            android:fontFamily="@font/apple_sd_gothic_neo_m"
+                            android:gravity="bottom"
+                            android:lineSpacingExtra="1sp"
+                            android:text="선택해주세요"
+                            android:textColor="@color/black"
+                            app:scale_width = "500"
+                            app:scale_height = "100"
+                            app:scale_textsize = "60"
+                            app:scale_left = "190"
+                            />
+                    </com.ssomai.android.scalablelayout.ScalableLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcoholListText"
+                        app:layout_constraintTop_toBottomOf="@id/activityMain_selectAlcoholListText_scalableLayout"
                         app:layout_constraintVertical_bias="0">
 
                         <ImageView
@@ -284,52 +299,61 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/activityMain_howAboutAlcoholsText"
-                    android:layout_width="wrap_content"
+
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/activityMain_howAboutAlcoholsText_scalableLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:scale_base_width="1080"
+                    app:scale_base_height="120"
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@color/white"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
-                    android:lineSpacingExtra="1sp"
-                    android:text="이런 술은 "
-                    android:textColor="#000000"
-                    android:textSize="@dimen/main_text_defaultSize"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activityMain_alcoholCategory"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="bottom"
-                    android:lineSpacingExtra="1sp"
-                    android:text="어떤가요?"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/main_text_miniSize"
-                    app:layout_constraintBottom_toBottomOf="@+id/activityMain_howAboutAlcoholsText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/activityMain_howAboutAlcoholsText"
-                    app:layout_constraintTop_toTopOf="@+id/activityMain_howAboutAlcoholsText"
-                    app:layout_constraintVertical_bias="1" />
+                    <TextView
+                        android:id="@+id/activityMain_howAboutAlcoholsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_b"
+                        android:lineSpacingExtra="1sp"
+                        android:gravity="center|bottom"
+                        android:text="이런 술은 "
+                        android:textColor="#000000"
+                        app:scale_width = "270"
+                        app:scale_height = "100"
+                        app:scale_top = "3"
+                        app:scale_textsize = "70"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="bottom"
+                        android:lineSpacingExtra="1sp"
+                        android:text="어떤가요?"
+                        android:textColor="#000000"
+                        app:scale_width = "500"
+                        app:scale_height = "100"
+                        app:scale_textsize = "60"
+                        app:scale_left ="270" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
                 <ImageView
                     android:id="@+id/recommend_background"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/recommend_background"
-                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle"
+                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle_scalableLayout"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.24"
+                    app:layout_constraintHeight_percent="0.3"
+                    app:layout_constraintDimensionRatio="H,1:1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcoholsText">
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcoholsText_scalableLayout">
                 </ImageView>
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -338,45 +362,49 @@
                     android:layout_height="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.24"
                     app:layout_constraintTop_toTopOf="@id/recommend_background"
-                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle"
-                    />
+                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle_scalableLayout" />
 
-                <TextView
-                    android:id="@+id/appMain_monthlyTitle"
-                    android:layout_width="wrap_content"
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/appMain_monthlyTitle_scalableLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:scale_base_width="1080"
+                    app:scale_base_height="120"
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
-                    android:background="@color/white"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
-                    android:lineSpacingExtra="9sp"
-                    android:text="이번달 "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/main_text_defaultSize"
-                    app:layout_constraintBottom_toTopOf="@id/monthly_recylcerView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activityMain_RecommendViewPager2"
-                    app:layout_constraintVertical_bias="0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:background="@color/white"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:lineSpacingExtra="9sp"
-                    android:text="주장"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/main_text_miniSize"
-                    app:layout_constraintBottom_toBottomOf="@+id/appMain_monthlyTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@+id/appMain_monthlyTitle"
-                    app:layout_constraintTop_toTopOf="@+id/appMain_monthlyTitle"
-                    app:layout_constraintVertical_bias="1" />
+                    app:layout_constraintTop_toBottomOf="@id/activityMain_RecommendViewPager2" >
+                    <TextView
+                        android:id="@+id/appMain_monthlyTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:fontFamily="@font/apple_sd_gothic_neo_b"
+                        android:lineSpacingExtra="9sp"
+                        android:gravity="bottom|center"
+                        android:text="이번달 "
+                        app:scale_width = "190"
+                        app:scale_height = "100"
+                        app:scale_textsize = "70"
+                        app:scale_top = "4"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:lineSpacingExtra="9sp"
+                        android:text="주장"
+                        android:gravity="bottom"
+                        app:scale_width = "500"
+                        app:scale_height = "100"
+                        app:scale_textsize = "60"
+                        app:scale_left = "190"
+                        android:textColor="@color/black"/>
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -396,7 +424,7 @@
                     app:layout_constraintBottom_toTopOf="@id/business_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle_scalableLayout" />
 
                 <include
                     android:id="@+id/business_info"
