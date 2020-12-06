@@ -16,7 +16,6 @@ object JWTUtil {
     private const val REFRESH_TOKEN = "refreshToken"
 
     //엑세스토큰 JWT decode
-
     fun decodeAccessToken(
         accessToken: String?
     ) {
@@ -56,7 +55,7 @@ object JWTUtil {
     ) {
         val jsonObject = JSONObject(json)
 
-        if (token == ACCESS_TOKEN) { //엑세스 토큰 안에 존재하는 만료시간을 셋
+        if (token == ACCESS_TOKEN) { //엑세스 토큰 안에 존재하는 만료시간을 내장 디비에 저장
             GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp") * 1000L)
 
         } else {
@@ -108,7 +107,6 @@ object JWTUtil {
                                         token.accessToken?.let { accessToken ->
                                             decodeAccessToken(accessToken)
                                             check = true
-                                            Log.e("엑세스토큰 갱신완료!", "유효함")
                                         }
                                     }
                                 }, { e -> Log.e("리프레쉬 토큰 갱신 에러", e.message.toString()) })

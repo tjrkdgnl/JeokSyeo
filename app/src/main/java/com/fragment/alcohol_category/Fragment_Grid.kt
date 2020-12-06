@@ -79,6 +79,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     }
 
     override fun changeSort(list: MutableList<AlcoholList>) {
+        gridPresenter.pageNum=1
         gridAdapter.changeSort(list)
     }
 

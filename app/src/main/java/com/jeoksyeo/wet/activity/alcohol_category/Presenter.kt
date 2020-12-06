@@ -41,9 +41,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                 tab.customView = textView
                 textView.text = lst[position]
                 textView.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    context.resources.getDimension(R.dimen.tab_text_size)
-                )
+                    TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.tab_text_size))
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
                 textView.gravity = Gravity.CENTER_HORIZONTAL

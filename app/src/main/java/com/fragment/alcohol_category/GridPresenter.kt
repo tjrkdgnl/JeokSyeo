@@ -33,7 +33,7 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     private var totalItemCount = 0
     private var pastVisibleItem = 0
     private var loading = false
-    private var pageNum:Int = 1
+    var pageNum:Int = 1
 
     private val binding by lazy {
         view.getbinding() as FragmentAlcholCategoryGridBinding
@@ -121,8 +121,9 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                         }
 
                         it.data?.alcoholList?.toMutableList()?.let { list ->
+                            loading = false
                             if(list.isNotEmpty()){
-                                loading = false
+
                                 view.updateList(list.toMutableList())
                             }
                             else{

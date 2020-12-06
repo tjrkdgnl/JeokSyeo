@@ -77,6 +77,7 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     }
 
     override fun changeSort(list: MutableList<AlcoholList>) {
+        listPresenter.pageNum=1
         listAdapter.changeSort(list)
     }
 

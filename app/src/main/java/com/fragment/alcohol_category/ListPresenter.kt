@@ -37,7 +37,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     private var totalItemCount = 0
     private var pastVisibleItem = 0
     private var loading = false
-    private var pageNum = 1
+    var pageNum = 1
 
     override fun initRecyclerView(context: Context) {
         JWTUtil.settingUserInfo()
@@ -115,8 +115,9 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                         info.page?.let { pageNumber -> pageNum = pageNumber.toInt() }
 
                         it.data?.alcoholList?.toMutableList()?.let { list ->
+                            loading=false
                             if (list.isNotEmpty()){
-                                loading=false
+
                                 view.updateList(list.toMutableList())
                             }
                             else{

@@ -40,7 +40,6 @@ class Presenter : EditProfileContract.BasePresenter {
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var changeObject: ProfileInfo
 
-
     override fun executeEditProfile(
         context: Context,
         name: String,
@@ -48,7 +47,6 @@ class Presenter : EditProfileContract.BasePresenter {
         birthday: String
     ) {
         val check = JWTUtil.settingUserInfo()
-
         changeObject = ProfileInfo()
 
         if (profile != null) {

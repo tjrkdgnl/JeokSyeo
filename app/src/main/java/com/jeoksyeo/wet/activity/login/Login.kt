@@ -45,8 +45,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private var compositdisposable = CompositeDisposable()
     private var handlingNumber = 0
 
-    private val executeProgressBar:(Boolean)->Unit = {status->
-        progressbarStatus(this,status)
+    private val executeProgressBar: (Boolean) -> Unit = { status ->
+        progressbarStatus(this, status)
     }
 
     init {
@@ -61,15 +61,15 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
 
-        if(intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)){
+        if (intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
-            handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING,0)!!
+            handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING, 0)!!
         }
     }
 
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)
-        kakaoLogin.executeProgressBar =executeProgressBar
+        kakaoLogin.executeProgressBar = executeProgressBar
 
         executeProgressBar(true)
         if (kakaoLogin.instance.isKakaoTalkLoginAvailable(this))
@@ -80,7 +80,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun naverExecute() {
         naverLogin = NaverLogin(this)
-        naverLogin.executeProgressBar=executeProgressBar
+        naverLogin.executeProgressBar = executeProgressBar
 
         executeProgressBar(true)
         naverLogin.instance.startOauthLoginActivity(this, naverLogin.naverLoginHandler)
@@ -94,23 +94,22 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun appleExecute() {
         FirebaseAuth.getInstance().signOut()
-        appleLogin = AppleLogin(this,this)
+        appleLogin = AppleLogin(this, this)
         appleLogin.executeProgressBar = executeProgressBar
 
         appleLogin.loginExecute()
         executeProgressBar(true)
     }
 
-    private fun progressbarStatus(activity: Activity,setting:Boolean){
-        if(setting){
+    private fun progressbarStatus(activity: Activity, setting: Boolean) {
+        if (setting) {
             binding.loginProgressBar.root.visibility = View.VISIBLE
-            binding.loginScrollView.isFillViewport=true
+            binding.loginScrollView.isFillViewport = true
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
-        }
-        else{
+        } else {
             binding.loginProgressBar.root.visibility = View.INVISIBLE
-            binding.loginScrollView.isFillViewport=false
+            binding.loginScrollView.isFillViewport = false
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
@@ -133,7 +132,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode !=Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             executeProgressBar(false)
         }
 
@@ -143,35 +142,34 @@ class Login : AppCompatActivity(), View.OnClickListener {
             try {
                 val account = task.getResult(ApiException::class.java)!!
                 handleSignInResult(account.idToken!!)
-            }
-            catch (e:Exception){
+            } catch (e: Exception) {
                 Log.e(ErrorManager.Google_TAG, e.message.toString())
             }
         }
     }
 
-    private fun handleSignInResult(idToken:String) {
+    private fun handleSignInResult(idToken: String) {
         executeProgressBar(true)
         //구글 소셜 로그인을 파이어베이스에 넘겨줌.
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credential)
-            .addOnCompleteListener(this) {result->
-                if(result.isSuccessful){
-                    FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener(this) {
+            .addOnCompleteListener(this) { result ->
+                if (result.isSuccessful) {
+                    FirebaseAuth.getInstance().currentUser?.getIdToken(true)
+                        ?.addOnCompleteListener(this) {
 
                             setUserInfo("GOOGLE", it.result?.token.toString())
 
-                    }?.addOnFailureListener {
+                        }?.addOnFailureListener {
                         Log.e(ErrorManager.Google_TAG, it.message.toString())
                         executeProgressBar(false)
                     }
-                }
-                else{
+                } else {
                     Log.w(ErrorManager.Google_TAG, result.exception?.message.toString())
                     executeProgressBar(false)
                 }
             }.addOnFailureListener {
-                Log.e(ErrorManager.Google_TAG,it.message.toString())
+                Log.e(ErrorManager.Google_TAG, it.message.toString())
                 executeProgressBar(false)
             }
     }
@@ -186,12 +184,12 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     fun handlingActivity() {
-        val map = HashMap<String,Any>()
-        GlobalApplication.userBuilder.getProvider()?.let { map.put("oauth_provider",it) }
-        GlobalApplication.userBuilder.getOAuthToken()?.let { map.put("oauth_token",it) }
+        val map = HashMap<String, Any>()
+        GlobalApplication.userBuilder.getProvider()?.let { map.put("oauth_provider", it) }
+        GlobalApplication.userBuilder.getOAuthToken()?.let { map.put("oauth_token", it) }
 
         compositdisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-            .signUp(GlobalApplication.userBuilder.createUUID,map)
+            .signUp(GlobalApplication.userBuilder.createUUID, map)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result: GetUserData ->
@@ -209,9 +207,12 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     JWTUtil.decodeRefreshToken(result.data?.token?.refreshToken)
 
                     compositdisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                        .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                        .getUserInfo(
+                            GlobalApplication.userBuilder.createUUID,
+                            "Bearer " + GlobalApplication.userDataBase.getAccessToken()
+                        )
                         .subscribeOn(Schedulers.io())
-                        .subscribe({user->
+                        .subscribe({ user ->
                             GlobalApplication.userInfo = UserInfo.Builder().apply {
                                 setProvider("NAVER")
                                 setNickName(user.data?.userInfo?.nickname ?: "")
@@ -222,13 +223,16 @@ class Login : AppCompatActivity(), View.OnClickListener {
                                 setLevel(user.data?.userInfo?.level ?: 0)
                                 setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                             }.build()
-
-
                             moveActivity()
-                        },{e ->
-                            Log.e("유저정보 셋팅 문제",e.message.toString())
-                            Toast.makeText(this,"재 로그인에 문제가 발생했습니다. 다시 로그인 해주세요.",Toast.LENGTH_SHORT).show()
-                        }))
+                        }, { e ->
+                            Log.e("유저정보 셋팅 문제", e.message.toString())
+                            Toast.makeText(
+                                this,
+                                "재 로그인에 문제가 발생했습니다. 다시 로그인 해주세요.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        })
+                    )
                 }
                 //회원가입
                 else {
@@ -238,19 +242,21 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     result.data?.user?.hasBirth?.let {
                         bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
                         Log.e("생일체크", it.toString())
-                        result.data?.user?.birth?.let { birth->
+                        result.data?.user?.birth?.let { birth ->
                             GlobalApplication.userBuilder.setBirthDay(birth)
                         }
                     }
                     result.data?.user?.hasGender?.let {
                         bundle.putBoolean(GlobalApplication.GENDER, it)
                         Log.e("성별체크", it.toString())
-                        result.data?.user?.gender?.let { gender->
+                        result.data?.user?.gender?.let { gender ->
                             GlobalApplication.userBuilder.setGender(gender)
                         }
                     }
-                    GlobalApplication.instance.moveActivity(this,SignUp::class.java
-                        ,0,bundle,GlobalApplication.USER_BUNDLE)
+                    GlobalApplication.instance.moveActivity(
+                        this, SignUp::class.java
+                        , 0, bundle, GlobalApplication.USER_BUNDLE
+                    )
 
 //                    result.data?.user?.hasEmail?.let { hasEmail->
 //                        if(hasEmail){ //이메일을 제공 받는 경우
@@ -292,36 +298,58 @@ class Login : AppCompatActivity(), View.OnClickListener {
             }, { t: Throwable? ->
                 t?.stackTrace
                 executeProgressBar(false)
-            }))
+            })
+        )
     }
 
-    private fun moveActivity(){
+    private fun moveActivity() {
         finish()
-        when(handlingNumber){
-            GlobalApplication.ACTIVITY_HANDLING_MAIN-> {
-                GlobalApplication.instance.moveActivity(this,MainActivity::class.java,Intent.FLAG_ACTIVITY_CLEAR_TOP) }
-
-            GlobalApplication.ACTIVITY_HANDLING_DETAIL->{
-                GlobalApplication.instance.moveActivity(this,AlcoholDetail::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        when (handlingNumber) {
+            GlobalApplication.ACTIVITY_HANDLING_MAIN -> {
+                GlobalApplication.instance.moveActivity(
+                    this,
+                    MainActivity::class.java,
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+                )
             }
-            GlobalApplication.ACTIVITY_HANDLING_CATEGORY->{
-                GlobalApplication.instance.moveActivity(this,AlcoholCategory::class.java,Intent.FLAG_ACTIVITY_SINGLE_TOP)
+
+            GlobalApplication.ACTIVITY_HANDLING_DETAIL -> {
+                GlobalApplication.instance.moveActivity(
+                    this,
+                    AlcoholDetail::class.java,
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP
+                )
+            }
+            GlobalApplication.ACTIVITY_HANDLING_CATEGORY -> {
+                GlobalApplication.instance.moveActivity(
+                    this,
+                    AlcoholCategory::class.java,
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP
+                )
             }
         }
     }
 
-    private fun loginUnlink(provider: String){
-        when(provider){
-            "KAKAO" ->{ kakaoLogin.kakaoUnlink()}
-            "NAVER" ->{ naverLogin.naverUnlink()}
-            "GOOGLE" ->{ googleLogin.googleUnlink()}
-            "APPLE" ->{ appleLogin.appleUnlink()}
+    private fun loginUnlink(provider: String) {
+        when (provider) {
+            "KAKAO" -> {
+                kakaoLogin.kakaoUnlink()
+            }
+            "NAVER" -> {
+                naverLogin.naverUnlink()
+            }
+            "GOOGLE" -> {
+                googleLogin.googleUnlink()
+            }
+            "APPLE" -> {
+                appleLogin.appleUnlink()
+            }
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+        overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
 
     override fun onDestroy() {

@@ -12,7 +12,7 @@
             android:id="@+id/windowHeader_logo"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
+            android:layout_margin="7dp"
             android:background="@null"
             android:onClick="onClick"
             android:src="@mipmap/main_logo"
