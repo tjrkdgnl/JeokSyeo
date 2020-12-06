@@ -1,5 +1,6 @@
 package com.fragment.login
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -70,6 +71,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         return binding.root
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun rightNickName() {
         val check = Pattern.matches("^\\w+|[가-힣]+$", binding.insertInfoEditText.text.toString())
 
@@ -77,7 +79,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
             if (check) {
                 //api 설정
                 handler.removeCallbacksAndMessages(null)
-                handler.postDelayed(Runnable { //서버 과부화를 막기위해서 300ms 이후에 조회 요청
+                handler.postDelayed({ //서버 과부화를 막기위해서 300ms 이후에 조회 요청
                     nicknameDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
                         .checkNickName(GlobalApplication.userBuilder.createUUID, binding.insertInfoEditText.text.toString())
                         .subscribeOn(Schedulers.io())

@@ -92,7 +92,7 @@ class AlcoholReviewViewHolder(
     }
 
     fun setLike(review:ReviewList,position:Int){
-        var check = JWTUtil.settingUserInfo(false)
+        var check = JWTUtil.settingUserInfo()
         if(check){
             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
 
@@ -127,7 +127,7 @@ class AlcoholReviewViewHolder(
 
     }
     fun setUnlike(review:ReviewList,position: Int){
-        var check = JWTUtil.settingUserInfo(false)
+        var check = JWTUtil.settingUserInfo()
 
         if(check){
             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
@@ -153,7 +153,7 @@ class AlcoholReviewViewHolder(
         }
     }
     fun setDislike(review:ReviewList,position: Int){
-        var check = JWTUtil.settingUserInfo(false)
+        var check = JWTUtil.settingUserInfo()
 
         if(check){
             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
@@ -185,7 +185,7 @@ class AlcoholReviewViewHolder(
         }
     }
     fun setUnDislike(review:ReviewList,position: Int){
-        var check = JWTUtil.settingUserInfo(false)
+        var check = JWTUtil.settingUserInfo()
 
         if(check){
             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)

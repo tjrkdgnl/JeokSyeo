@@ -39,7 +39,7 @@ private var lst:MutableList<AlcoholList>) : RecyclerView.Adapter<RecyclerView.Vi
             holder.bind(lst.get(position))
 
             holder.getViewBinding().recommendParentLayout.setOnSingleClickListener{
-                JWTUtil.settingUserInfo(false)
+                JWTUtil.settingUserInfo()
 
                 lst[position].alcoholId?.let {alcoholId->
                     disposable = ApiGenerator.retrofit.create(ApiService::class.java)

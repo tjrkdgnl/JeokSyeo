@@ -53,12 +53,12 @@ class LocationAdapter(
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
-                            if (it.data?.areaList?.size != 0)
+                            if (it.data?.areaList?.size != 0) //아직 depth가 남았으면
                                 it.data?.areaList?.let { list ->
                                     changeList(list.toMutableList())
                                     depth +=1
                                 }
-                            else {
+                            else { //더 이상의 depth가 없다면
                                 viewmodel.lock=true
                             }
                         }, { t -> Log.e(ErrorManager.LOCATION,t.message.toString())})

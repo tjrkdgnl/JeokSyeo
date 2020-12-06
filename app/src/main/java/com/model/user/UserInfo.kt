@@ -39,7 +39,7 @@ class UserInfo {
         infoMap = HashMap<String, Any>()
     }
 
-    class Builder(private var id: String) {
+    class Builder() {
         private var user_id: String? = null
         private var oauth_token: String? = null
         private var provider: String? = null

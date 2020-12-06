@@ -41,7 +41,7 @@ class Presenter :LevelContract.BasePresenter{
     }
 
     override fun getMyLevel() {
-        val check = JWTUtil.settingUserInfo(false)
+        val check = JWTUtil.settingUserInfo()
 
         if(check){
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)

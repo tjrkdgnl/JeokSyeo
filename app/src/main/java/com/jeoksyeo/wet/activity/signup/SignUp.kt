@@ -106,16 +106,28 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         binding.signupHeader.signUpHeaderProgressbar.progress = idx + 1
         presenter.hideKeypad(this, binding.infoConfirmButton)
 
-        if (viewModel.checkRequest) {
+        if (viewModel.checkRequest) { //에러가 발생하면 핸들링하는 화면
             startActivity(Intent(this, Login::class.java))
             finish()
         } else if (viewModel.nickname != null) {
-
             viewModel.nickname?.let { nic ->
                 GlobalApplication.userBuilder.setNickName(nic)
+                viewModel.nickname = null
             }
-            viewModel.nickname = null
-        } else if (viewModel.lock) {
+        }
+        else if (viewModel.birthDay !=null){
+            viewModel.birthDay?.let { birth->
+                GlobalApplication.userBuilder.setBirthDay(birth)
+                viewModel.birthDay =null
+            }
+        }
+        else if (viewModel.gender !=null){
+            viewModel.gender?.let { gen ->
+                GlobalApplication.userBuilder.setGender(gen)
+                viewModel.gender =null
+            }
+        }
+        else if (viewModel.lock) { //지역선택
             if (viewModel.depth == 1) {
                 GlobalApplication.userBuilder.setAddress(
                     viewModel.countryArea.value?.code ?: ""
@@ -130,10 +142,11 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
                 if (!task.isSuccessful) {
                     Log.e("디바이스 토큰 에러", task.exception?.message.toString())
                 } else {
+                    //회원정보객체 셋팅
                     GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
 
                     val userMap = GlobalApplication.userInfo.getMap()
-                    Log.e("불러온 디바이스토큰", task.result.toString())
+
                     userMap["device_platform"] = "AOS"
                     userMap["device_model"] = Build.MODEL
                     userMap["device_id"] =Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
@@ -145,10 +158,12 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             //내장 디비에 토큰 값들 저장
-                            GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken.toString())
-                            GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken.toString())
-                            JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken())
-                            JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken())
+                            GlobalApplication.userDataBase.setAccessToken(it.data?.token?.accessToken)
+                            GlobalApplication.userDataBase.setRefreshToken(it.data?.token?.refreshToken)
+
+                            //토큰 안에 들어있는 만료시간 구해서 내장디비에 저장
+                            JWTUtil.decodeAccessToken(it.data?.token?.accessToken.toString())
+                            JWTUtil.decodeRefreshToken(it.data?.token?.refreshToken.toString())
 
                             GlobalApplication.instance.moveActivity(this, MainActivity::class.java,
                                 Intent.FLAG_ACTIVITY_CLEAR_TOP,null,null,1)

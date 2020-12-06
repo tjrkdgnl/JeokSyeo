@@ -37,7 +37,7 @@ class GlobalApplication : Application() {
         super.onCreate()
         instance = this
 
-        userBuilder = UserInfo.Builder("")
+        userBuilder = UserInfo.Builder()
         KakaoSdk.init(this, getString(R.string.kakaoNativeKey))
         userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)

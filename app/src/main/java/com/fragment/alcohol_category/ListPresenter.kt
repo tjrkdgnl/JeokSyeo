@@ -40,7 +40,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     private var pageNum = 1
 
     override fun initRecyclerView(context: Context) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -99,7 +99,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     }
 
     override fun pagination(alcoholId: String?) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -132,7 +132,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         setSortValue(sort)
         executeProgressBar(true)

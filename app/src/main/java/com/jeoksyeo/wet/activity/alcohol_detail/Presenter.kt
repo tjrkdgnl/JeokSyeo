@@ -144,7 +144,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
     override fun executeLike() {
         view.getView().AlcoholDetailSelectedByMe.setOneClickListener {
-            val check = JWTUtil.settingUserInfo(false)
+            val check = JWTUtil.settingUserInfo()
             Log.e("check", check.toString())
 
             if (check) {
@@ -526,7 +526,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun initReview(context: Context) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -639,7 +639,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
     override fun checkReviewDuplicate(context: Context) {
-        val check = JWTUtil.settingUserInfo(false)
+        val check = JWTUtil.settingUserInfo()
 
         if (check) {
             view.settingProgressBar(true)

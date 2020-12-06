@@ -31,5 +31,9 @@ class SignUpViewModel : ViewModel() {
 
     var nickname:String? = null
 
+    var birthDay:String? =null
+
+    var gender:String? =null
+
     var depth =0
 }

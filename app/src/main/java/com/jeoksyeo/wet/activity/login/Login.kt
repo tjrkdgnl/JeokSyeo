@@ -7,13 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -28,13 +25,14 @@ import com.jeoksyeo.wet.activity.login.naver.NaverLogin
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.jeoksyeo.wet.activity.signup.SignUp
 import com.model.token.GetUserData
+import com.model.user.UserInfo
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LoginBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class Login : AppCompatActivity(), View.OnClickListener {
@@ -44,7 +42,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var kakaoLogin: KakaoLogin
     private lateinit var naverLogin: NaverLogin
     private lateinit var appleLogin: AppleLogin
-    private lateinit var disposable: Disposable
+    private var compositdisposable = CompositeDisposable()
     private var handlingNumber = 0
 
     private val executeProgressBar:(Boolean)->Unit = {status->
@@ -67,10 +65,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
             val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
             handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING,0)!!
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     private fun kakaoExcute() {
@@ -196,7 +190,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         GlobalApplication.userBuilder.getProvider()?.let { map.put("oauth_provider",it) }
         GlobalApplication.userBuilder.getOAuthToken()?.let { map.put("oauth_token",it) }
 
-        disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+        compositdisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .signUp(GlobalApplication.userBuilder.createUUID,map)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -206,19 +200,35 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
                 //토큰이 있다는 것은 로그인 정보가 있다는 것. 여기서 액티비티 핸들링하기.
                 if (result.data?.token != null) {
+                    //토큰 내장디비에 저장
                     GlobalApplication.userDataBase.setAccessToken(result.data?.token?.accessToken)
                     GlobalApplication.userDataBase.setRefreshToken(result.data?.token?.refreshToken)
-                    JWTUtil.decodeAccessToken(GlobalApplication.userDataBase.getAccessToken(),
-                        splashCheck = false,
-                        loginCheck = true
-                    )
-                    JWTUtil.decodeRefreshToken(GlobalApplication.userDataBase.getRefreshToken(),
-                        splashCheck = false,
-                        loginCheck = true
-                    )
-                    Toast.makeText(this,"로그인 되었습니다.",Toast.LENGTH_SHORT).show()
 
-                    moveActivity()
+                    //토큰 내부에 들어있는 만료시간 내장디비에 저장
+                    JWTUtil.decodeAccessToken(result.data?.token?.accessToken)
+                    JWTUtil.decodeRefreshToken(result.data?.token?.refreshToken)
+
+                    compositdisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                        .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({user->
+                            GlobalApplication.userInfo = UserInfo.Builder().apply {
+                                setProvider("NAVER")
+                                setNickName(user.data?.userInfo?.nickname ?: "")
+                                setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
+                                setProfile(user.data?.userInfo?.profile)
+                                setGender(user.data?.userInfo?.gender ?: "M")
+                                setAddress("") //추후에 셋팅하기
+                                setLevel(user.data?.userInfo?.level ?: 0)
+                                setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                            }.build()
+
+
+                            moveActivity()
+                        },{e ->
+                            Log.e("유저정보 셋팅 문제",e.message.toString())
+                            Toast.makeText(this,"재 로그인에 문제가 발생했습니다. 다시 로그인 해주세요.",Toast.LENGTH_SHORT).show()
+                        }))
                 }
                 //회원가입
                 else {
@@ -231,7 +241,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
                         result.data?.user?.birth?.let { birth->
                             GlobalApplication.userBuilder.setBirthDay(birth)
                         }
-
                     }
                     result.data?.user?.hasGender?.let {
                         bundle.putBoolean(GlobalApplication.GENDER, it)
@@ -283,7 +292,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
             }, { t: Throwable? ->
                 t?.stackTrace
                 executeProgressBar(false)
-            })
+            }))
     }
 
     private fun moveActivity(){
@@ -313,5 +322,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositdisposable.dispose()
     }
 }

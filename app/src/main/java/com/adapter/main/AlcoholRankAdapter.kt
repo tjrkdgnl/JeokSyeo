@@ -42,7 +42,7 @@ class AlcoholRankAdapter(
 
 
         holder.getViewBinding().alcoholRankParentLayout.setOnSingleClickListener{
-            JWTUtil.settingUserInfo(false)
+            JWTUtil.settingUserInfo()
 
             lst[position].alcoholId?.let {alcoholId->
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)

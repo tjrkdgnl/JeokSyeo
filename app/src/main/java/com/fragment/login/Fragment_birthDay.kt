@@ -51,7 +51,6 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
 
         //최대 날짜를 통해 사용자가 생년월일이 지정했는지 판단
         date= simpleDateFormat.format(calendar.time)
-        Log.e("date",date)
         binding.basicDatePicker.datePicker.maxDate = calendar.time.time
         binding.basicDatePicker.datePicker.init(
             calendar.get(Calendar.YEAR),
@@ -78,7 +77,7 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
 
         birthDay += "-" + binding.birthdayMonth.text + "-" + binding.birthdayDay.text
 
-        GlobalApplication.userBuilder.setBirthDay(birthDay)
+        viewmodel.birthDay = birthDay
 
         //생년월일을 변경하지 않으면 버튼 활성화가 되면 안된다.
         viewmodel.buttonState.value = birthDay != date

@@ -102,7 +102,7 @@ class CommentPresenter : CommentContract.BasePresenter {
         )
 
 
-        var check =JWTUtil.settingUserInfo(false)
+        var check =JWTUtil.settingUserInfo()
 
         if(check){
             settingProgressbar(true)
@@ -170,7 +170,7 @@ class CommentPresenter : CommentContract.BasePresenter {
         map["overall"] = view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
 
         Log.e("아로마", map["aroma"].toString())
-        val check =JWTUtil.settingUserInfo(false)
+        val check =JWTUtil.settingUserInfo()
         if(check){
             settingProgressbar(true)
             disposable = ApiGenerator.retrofit.create(ApiService::class.java)

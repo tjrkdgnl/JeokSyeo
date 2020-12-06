@@ -36,7 +36,7 @@ class Presenter :FragmentRated_Contract.BasePresenter {
 
 
     override fun initRatedList(context: Context) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
         try {
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .getMyRatedList(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),

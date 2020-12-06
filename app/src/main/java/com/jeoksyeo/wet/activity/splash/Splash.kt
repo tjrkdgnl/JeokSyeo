@@ -11,13 +11,17 @@ import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.model.user.UserInfo
+import com.service.ApiGenerator
+import com.service.ApiService
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SplashBinding
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class Splash : AppCompatActivity() {
-    private val compositeDisposable = CompositeDisposable()
+    private  var disposable:Disposable? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,23 @@ class Splash : AppCompatActivity() {
             .into(binding.splashImage)
 
         try{
-            JWTUtil.settingUserInfo(true)
+            if(JWTUtil.settingUserInfo()){
+                disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({user->
+                        GlobalApplication.userInfo = UserInfo.Builder().apply {
+                            setProvider("NAVER")
+                            setNickName(user.data?.userInfo?.nickname ?: "")
+                            setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
+                            setProfile(user.data?.userInfo?.profile)
+                            setGender(user.data?.userInfo?.gender ?: "M")
+                            setAddress("") //추후에 셋팅하기
+                            setLevel(user.data?.userInfo?.level ?: 0)
+                            setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                        }.build()
+                    },{})
+            }
         }
         catch (e:Exception){
             Log.e(ErrorManager.JWT_ERROR,"splash-> ${e.message}")
@@ -41,9 +61,14 @@ class Splash : AppCompatActivity() {
         GlobalApplication.device_width = displayMetrics.widthPixels
         GlobalApplication.device_height = displayMetrics.heightPixels
 
-        handler.postDelayed(Runnable {
+        handler.postDelayed( {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, 4000)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }

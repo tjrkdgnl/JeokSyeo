@@ -40,7 +40,7 @@ class Presenter : MainContract.BasePresenter {
 
 
     override fun initBanner(context: Context) {
-       JWTUtil.settingUserInfo(false)
+       JWTUtil.settingUserInfo()
 
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getBannerData(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
@@ -78,7 +78,7 @@ class Presenter : MainContract.BasePresenter {
 
 
     override fun initRecommendViewPager(context: Context)  {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         //뷰페이저 슬라이딩 애니메이션 셋팅
         view.getView().activityMainRecommendViewPager2.setPageTransformer(
@@ -118,7 +118,7 @@ class Presenter : MainContract.BasePresenter {
     }
 
     fun initNavigationItemSet(context: Context,activity:Activity) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         val lst = mutableListOf<NavigationItem>()
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
@@ -138,7 +138,7 @@ class Presenter : MainContract.BasePresenter {
     }
 
     override fun initAlcoholRanking(context: Context) {
-       JWTUtil.settingUserInfo(false)
+       JWTUtil.settingUserInfo()
 
         view.getView().monthlyRecylcerView.setHasFixedSize(true)
         view.getView().monthlyRecylcerView.layoutManager = LinearLayoutManager(context)
@@ -156,7 +156,7 @@ class Presenter : MainContract.BasePresenter {
 
 
     override fun checkLogin(context: Context) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         GlobalApplication.userInfo.getProvider()?.let {
             //유저 프로필 설정하는 화면 필요함

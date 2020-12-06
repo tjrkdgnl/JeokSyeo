@@ -83,13 +83,12 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     }
 
     override fun initNavigationItemSet(context: Context,activity:Activity) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         val lst = mutableListOf<NavigationItem>()
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
         lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-        lst.add(NavigationItem(R.mipmap.nv_profile, "내 프로필"))
         lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
         lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
         lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
@@ -106,7 +105,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun checkLogin(context: Context) {
-        JWTUtil.settingUserInfo(false)
+        JWTUtil.settingUserInfo()
 
         GlobalApplication.userInfo.getProvider()?.let {
             //유저 프로필 설정하는 화면 필요함

@@ -47,7 +47,7 @@ class Presenter : EditProfileContract.BasePresenter {
         gender: String,
         birthday: String
     ) {
-        val check = JWTUtil.settingUserInfo(false)
+        val check = JWTUtil.settingUserInfo()
 
         changeObject = ProfileInfo()
 
@@ -272,7 +272,7 @@ class Presenter : EditProfileContract.BasePresenter {
 
         Log.e("path", imageFile?.name.toString())
 
-        val check = JWTUtil.settingUserInfo(false)
+        val check = JWTUtil.settingUserInfo()
 
         val imageBody = imageFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
 
