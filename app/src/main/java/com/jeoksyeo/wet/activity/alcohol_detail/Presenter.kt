@@ -735,20 +735,20 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             backgroundEntry.add(RadarEntry(5f))
             backgroundEntry.add(RadarEntry(5f))
 
-            info.appearance?.let {
-                Log.e("시각적특징", it.toString())
-                dataEntry.add(RadarEntry(it.toFloat()))
-            }
             info.aroma?.let {
-                dataEntry.add(RadarEntry(it.toFloat()))
-            }
-            info.taste?.let {
                 dataEntry.add(RadarEntry(it.toFloat()))
             }
             info.mouthfeel?.let {
                 dataEntry.add(RadarEntry(it.toFloat()))
             }
             info.overall?.let {
+                dataEntry.add(RadarEntry(it.toFloat()))
+            }
+            info.appearance?.let {
+                dataEntry.add(RadarEntry(it.toFloat()))
+            }
+
+            info.taste?.let {
                 dataEntry.add(RadarEntry(it.toFloat()))
             }
         }

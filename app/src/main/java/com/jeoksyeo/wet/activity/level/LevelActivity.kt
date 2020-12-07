@@ -50,11 +50,11 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
 
     override fun settingMainAlcholGIF(level: Int) {
         when(level){
-            1 ->{binding.imageViewEvaluationByMeMainBottle.setImageResource(R.mipmap.main_bottle_1)}
-            2 ->{binding.imageViewEvaluationByMeMainBottle.setImageResource(R.mipmap.main_bottle_2)}
-            3 ->{binding.imageViewEvaluationByMeMainBottle.setImageResource(R.mipmap.main_bottle_3)}
-            4 ->{binding.imageViewEvaluationByMeMainBottle.setImageResource(R.mipmap.main_bottle_4)}
-            5 ->{binding.imageViewEvaluationByMeMainBottle.setImageResource(R.mipmap.main_bottle_5)}
+            1 ->{binding.imageViewEvaluationByMeMainBottle.setAnimation(R.raw.bottle_level01)}
+            2 ->{binding.imageViewEvaluationByMeMainBottle.setAnimation(R.raw.bottle_level02)}
+            3 ->{binding.imageViewEvaluationByMeMainBottle.setAnimation(R.raw.bottle_level03)}
+            4 ->{binding.imageViewEvaluationByMeMainBottle.setAnimation(R.raw.bottle_level04)}
+            5 ->{binding.imageViewEvaluationByMeMainBottle.setAnimation(R.raw.bottle_level05)}
         }
     }
 

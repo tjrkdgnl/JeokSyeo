@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         super.onStart()
         presenter.initNavigationItemSet(this, this)
         presenter.checkLogin(this)
+
+        if(binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)){
+            binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
+        }
     }
 
     override fun getView(): MainBinding {

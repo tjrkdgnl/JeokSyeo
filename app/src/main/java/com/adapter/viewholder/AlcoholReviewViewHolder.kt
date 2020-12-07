@@ -47,7 +47,7 @@ class AlcoholReviewViewHolder(
 
         //유저 정보 셋팅
          data.level?.let {
-             binding.textViewCommentUserRank.text = "Lv." + it.toString() +" "+ GlobalApplication.instance.getLevelName(it)
+             binding.textViewCommentUserRank.text = "Lv." + it.toString() +" "+ GlobalApplication.instance.getLevelName(it-1)
          }
         data.score?.let {
             binding.ratingBarReviewRatingbar.rating = it.toFloat()

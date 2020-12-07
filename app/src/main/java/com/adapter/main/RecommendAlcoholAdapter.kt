@@ -16,49 +16,135 @@ import com.model.recommend_alcohol.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class RecommendAlcoholAdapter(private val context: Context,
-private var lst:MutableList<AlcoholList>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecommendAlcoholAdapter(
+    private val context: Context,
+    private var lst: MutableList<AlcoholList>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var compositDisposable = CompositeDisposable()
+    private var likeList = mutableListOf<Boolean>()
 
-    private var disposable: Disposable? = null
+    init {
+        for (item in lst) {
+            item.isLiked?.let { like ->
+                likeList.add(like)
+            }
+        }
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return when(viewType){
-            -1 ->{RecommendEmptyAlcoholViewHolder(parent)}
-            1->{RecommendAlcoholViewHolder(parent)}
-            else->{throw RuntimeException("알 수 없는 뷰타입 에러")}
+        return when (viewType) {
+            -1 -> {
+                RecommendEmptyAlcoholViewHolder(parent)
+            }
+            1 -> {
+                RecommendAlcoholViewHolder(parent)
+            }
+            else -> {
+                throw RuntimeException("알 수 없는 뷰타입 에러")
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is RecommendAlcoholViewHolder){
+        if (holder is RecommendAlcoholViewHolder) {
             holder.bind(lst.get(position))
 
-            holder.getViewBinding().recommendParentLayout.setOnSingleClickListener{
+            holder.getViewBinding().activityMainRecommendImg.setOnSingleClickListener {
                 JWTUtil.settingUserInfo()
 
-                lst[position].alcoholId?.let {alcoholId->
-                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                        .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(), alcoholId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            val bundle = Bundle()
-                            bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
-                            GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
-                                ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
-                        },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+                lst[position].alcoholId?.let { alcoholId ->
+                    compositDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .getAlcoholDetail(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(), alcoholId
+                            )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                val bundle = Bundle()
+                                bundle.putParcelable(
+                                    GlobalApplication.MOVE_ALCHOL,
+                                    it.data?.alcohol
+                                )
+                                GlobalApplication.instance.moveActivity(
+                                    context,
+                                    AlcoholDetail::class.java,
+                                    0,
+                                    bundle,
+                                    GlobalApplication.ALCHOL_BUNDLE
+                                )
+                            }, { t -> Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString()) })
+                    )
+                }
+            }
+
+            holder.getViewBinding().activtyMainLikeImg.setOnSingleClickListener {
+                val check = JWTUtil.settingUserInfo()
+
+                if (check) {
+                    if (!likeList[position]) {
+                        lst[position].alcoholId?.let { alcoholId ->
+                            compositDisposable.add(
+                                ApiGenerator.retrofit.create(ApiService::class.java)
+                                    .alcoholLike(
+                                        GlobalApplication.userBuilder.createUUID,
+                                        GlobalApplication.userInfo.getAccessToken(),
+                                        alcoholId
+                                    )
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+                                        likeList[position] = true
+                                        holder.getViewBinding().activityMainLikeCount.text = GlobalApplication.instance.checkCount(
+                                            holder.getViewBinding().activityMainLikeCount.text.toString().toInt(),1
+                                        )
+                                        holder.getViewBinding().activtyMainLikeImg.setImageResource(
+                                            R.mipmap.detail_full_heart
+                                        )
+                                    }, { t ->
+                                        Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
+                                    })
+                            )
+                        }
+
+                    } else {
+                        lst[position].alcoholId?.let { alcoholId ->
+                            compositDisposable.add(
+                                ApiGenerator.retrofit.create(ApiService::class.java)
+                                    .cancelAlcoholLike(
+                                        GlobalApplication.userBuilder.createUUID,
+                                        GlobalApplication.userInfo.getAccessToken(),
+                                        alcoholId
+                                    )
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+                                        likeList[position] = false
+                                        holder.getViewBinding().activityMainLikeCount.text = GlobalApplication.instance.checkCount(
+                                            holder.getViewBinding().activityMainLikeCount.text.toString().toInt(),-1
+                                        )
+                                        holder.getViewBinding().activtyMainLikeImg.setImageResource(
+                                            R.mipmap.detail_empty_heart
+                                        )
+                                    }, { t ->
+                                        Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
+                                    })
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 
-    fun updateList(list:MutableList<AlcoholList>){
+    fun updateList(list: MutableList<AlcoholList>) {
         lst.clear()
         lst.addAll(list)
     }
@@ -69,23 +155,19 @@ private var lst:MutableList<AlcoholList>) : RecyclerView.Adapter<RecyclerView.Vi
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        disposable?.dispose()
+        compositDisposable.dispose()
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(lst[position].type != 1) -1 else 1
+        return if (lst[position].type != 1) -1 else 1
     }
 
-    fun View.setOnSingleClickListener(onSingleClick:(View)->Unit){
-        val setOnSingleClickListener = OneClickListener{
+    fun View.setOnSingleClickListener(onSingleClick: (View) -> Unit) {
+        val setOnSingleClickListener = OneClickListener {
             onSingleClick(it)
         }
         setOnClickListener(setOnSingleClickListener)
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        disposable?.dispose()
-    }
 }

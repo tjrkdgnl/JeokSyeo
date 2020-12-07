@@ -29,9 +29,6 @@ class Splash : AppCompatActivity() {
 
         val handler = Handler()
 
-        Glide.with(this)
-            .load(R.drawable.splash_logo_gif)
-            .into(binding.splashImage)
 
         try{
             if(JWTUtil.settingUserInfo()){
@@ -40,7 +37,7 @@ class Splash : AppCompatActivity() {
                     .subscribeOn(Schedulers.io())
                     .subscribe({user->
                         GlobalApplication.userInfo = UserInfo.Builder().apply {
-                            setProvider("NAVER")
+                            setProvider(user.data?.userInfo?.provider)
                             setNickName(user.data?.userInfo?.nickname ?: "")
                             setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
                             setProfile(user.data?.userInfo?.profile)

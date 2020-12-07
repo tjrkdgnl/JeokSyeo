@@ -203,6 +203,9 @@ dependencies {
 
 
     implementation 'com.ssomai:android.scalablelayout:2.1.6'
+
+    //로티
+    implementation 'com.airbnb.android:lottie:3.0.7'
 }
 
 apply plugin: 'com.google.gms.google-services'

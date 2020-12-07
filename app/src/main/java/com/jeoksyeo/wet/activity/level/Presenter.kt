@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.level
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import com.application.GlobalApplication
 import com.error.ErrorManager
@@ -52,11 +53,15 @@ class Presenter :LevelContract.BasePresenter{
                     it.data?.let {info->
                         view.settingMainAlcholGIF(info.level)
                         view.settingExperience(info.reviewCount,info.level)
-
+                        view.getView().defaultMainBottle.visibility = View.INVISIBLE
                     }
                 },{
                     t -> Log.e(ErrorManager.LEVEL_INFO,t.message.toString())
                 }))
+        }
+        else{
+            view.getView().imageViewEvaluationByMeMainBottle.visibility = View.INVISIBLE
+
         }
 
     }

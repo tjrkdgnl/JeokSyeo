@@ -221,12 +221,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="3dp"
-                app:layout_constraintBottom_toTopOf="@id/move_moreAlcohol_scalableLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/monthly_breweryLocation_scalableLayout"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/monthly_breweryLocation_scalableLayout"
-                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintVertical_bias="0.06"
                 app:scale_base_height="30"
                 app:scale_base_width="200">
                 <TextView
@@ -248,39 +248,6 @@
                     android:textStyle="normal"
                     />
             </com.ssomai.android.scalablelayout.ScalableLayout>
-
-            <com.ssomai.android.scalablelayout.ScalableLayout
-                android:id="@+id/move_moreAlcohol_scalableLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintBottom_toBottomOf="@id/monthly_imageView"
-                app:layout_constraintEnd_toStartOf="@id/monthly_imageView"
-                app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.98"
-                app:scale_base_height="30"
-                app:scale_base_width="200">
-                <TextView
-                    android:id="@+id/move_moreAlcohol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
-                    android:text="주류 정보 보기   \u003e"
-                    android:textColor="#c7c7c7"
-                    android:gravity="end"
-                    app:scale_height="30"
-                    app:scale_textsize="15"
-                    app:scale_width="200"
-                    app:textview_wrapcontent_direction="bottom"
-                    app:textview_wrapcontent_movesiblings="true"
-                    app:textview_wrapcontent_resizesurrounded="true"
-                    />
-            </com.ssomai.android.scalablelayout.ScalableLayout>
-
-
 
             <View
                 android:id="@+id/monthly_boundary"

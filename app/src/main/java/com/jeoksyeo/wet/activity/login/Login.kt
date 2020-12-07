@@ -7,10 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -214,7 +217,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                         .subscribeOn(Schedulers.io())
                         .subscribe({ user ->
                             GlobalApplication.userInfo = UserInfo.Builder().apply {
-                                setProvider("NAVER")
+                                setProvider(user.data?.userInfo?.provider)
                                 setNickName(user.data?.userInfo?.nickname ?: "")
                                 setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
                                 setProfile(user.data?.userInfo?.profile)
@@ -239,61 +242,42 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     GlobalApplication.userBuilder.setOAuthId(result.data?.user?.userId)
                     val bundle = Bundle()
 
-                    result.data?.user?.hasBirth?.let {
-                        bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
-                        Log.e("생일체크", it.toString())
-                        result.data?.user?.birth?.let { birth ->
-                            GlobalApplication.userBuilder.setBirthDay(birth)
-                        }
-                    }
-                    result.data?.user?.hasGender?.let {
-                        bundle.putBoolean(GlobalApplication.GENDER, it)
-                        Log.e("성별체크", it.toString())
-                        result.data?.user?.gender?.let { gender ->
-                            GlobalApplication.userBuilder.setGender(gender)
-                        }
-                    }
-                    GlobalApplication.instance.moveActivity(
-                        this, SignUp::class.java
-                        , 0, bundle, GlobalApplication.USER_BUNDLE
-                    )
+                    result.data?.user?.hasEmail?.let { hasEmail->
+                        if(hasEmail){ //이메일을 제공 받는 경우
+                            result.data?.user?.hasBirth?.let {
+                                bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
+                                Log.e("생일체크", it.toString())
+                                result.data?.user?.birth?.let { birth->
+                                    GlobalApplication.userBuilder.setBirthDay(birth)
+                                }
 
-//                    result.data?.user?.hasEmail?.let { hasEmail->
-//                        if(hasEmail){ //이메일을 제공 받는 경우
-//                            result.data?.user?.hasBirth?.let {
-//                                bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
-//                                Log.e("생일체크", it.toString())
-//                                result.data?.user?.birth?.let { birth->
-//                                    GlobalApplication.userBuilder.setBirthDay(birth)
-//                                }
-//
-//                            }
-//                            result.data?.user?.hasGender?.let {
-//                                bundle.putBoolean(GlobalApplication.GENDER, it)
-//                                Log.e("성별체크", it.toString())
-//                                result.data?.user?.gender?.let { gender->
-//                                    GlobalApplication.userBuilder.setGender(gender)
-//                                }
-//                            }
-//                            GlobalApplication.instance.moveActivity(this,SignUp::class.java
-//                                ,0,bundle,GlobalApplication.USER_BUNDLE)
-//                        }
-//                        else{ //이메일을 제공받지 않는 경우
-//
-//                            //연결한 소셜 로그인 링크제거
-//                            GlobalApplication.userBuilder.getProvider()?.let { providerId->
-//                                loginUnlink(providerId)
-//                            }
-//
-//                            val dialog = CustomDialog.createCustomDialog(this)
-//                            val content = dialog.findViewById<TextView>(R.id.dialog_contents)
-//                            val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
-//                            val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
-//                            content.text = "\'적셔\'는 서비스 이용내역 안내를 위해 이메일 사용 권한 허용이 필요합니다.\n 이메일 제공에 동의 해 주세요."
-//                            okButton.setOnClickListener{dialog.dismiss()}
-//                            cancelButton.setOnClickListener { dialog.dismiss() }
-//                        }
-//                    } ?: Toast.makeText(this,"로그인에 문제가 발생했습니다.\n 앱 종료 후, 다시 이용해 주세요.",Toast.LENGTH_SHORT).show()
+                            }
+                            result.data?.user?.hasGender?.let {
+                                bundle.putBoolean(GlobalApplication.GENDER, it)
+                                Log.e("성별체크", it.toString())
+                                result.data?.user?.gender?.let { gender->
+                                    GlobalApplication.userBuilder.setGender(gender)
+                                }
+                            }
+                            GlobalApplication.instance.moveActivity(this,SignUp::class.java
+                                ,0,bundle,GlobalApplication.USER_BUNDLE)
+                        }
+                        else{ //이메일을 제공받지 않는 경우
+
+                            //연결한 소셜 로그인 링크제거
+                            GlobalApplication.userBuilder.getProvider()?.let { providerId->
+                                loginUnlink(providerId)
+                            }
+
+                            val dialog = CustomDialog.createCustomDialog(this)
+                            val content = dialog.findViewById<TextView>(R.id.dialog_contents)
+                            val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
+                            val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
+                            content.text = "\'적셔\'는 서비스 이용내역 안내를 위해 이메일 사용 권한 허용이 필요합니다.\n 이메일 제공에 동의 해 주세요."
+                            okButton.setOnClickListener{dialog.dismiss()}
+                            cancelButton.setOnClickListener { dialog.dismiss() }
+                        }
+                    } ?: Toast.makeText(this,"로그인에 문제가 발생했습니다.\n 앱 종료 후, 다시 이용해 주세요.",Toast.LENGTH_SHORT).show()
                 }
             }, { t: Throwable? ->
                 t?.stackTrace

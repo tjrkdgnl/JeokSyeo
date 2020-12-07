@@ -4,6 +4,7 @@ import android.util.Base64
 import android.util.Log
 import com.application.GlobalApplication
 import com.model.user.UserInfo
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -14,6 +15,7 @@ import kotlin.collections.HashMap
 object JWTUtil {
     private const val ACCESS_TOKEN = "accessToken"
     private const val REFRESH_TOKEN = "refreshToken"
+    private lateinit var compositeDisposable: CompositeDisposable
 
     //엑세스토큰 JWT decode
     fun decodeAccessToken(
@@ -58,6 +60,7 @@ object JWTUtil {
         if (token == ACCESS_TOKEN) { //엑세스 토큰 안에 존재하는 만료시간을 내장 디비에 저장
             GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp") * 1000L)
 
+
         } else {
             GlobalApplication.userDataBase.setRefreshTokenExpire(jsonObject.getLong("exp") * 1000L)
         }
@@ -99,17 +102,20 @@ object JWTUtil {
                     try {
                         GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
                             map[GlobalApplication.REFRESH_TOKEN] = refreshToken
-                            val userData = ApiGenerator.retrofit.create(ApiService::class.java)
+                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                                 .refreshToken(GlobalApplication.userBuilder.createUUID, map)
                                 .subscribeOn(Schedulers.io())
-                                .subscribe({ userData ->
-                                    userData?.data?.token?.let { token ->
+                                .subscribe { userData ->
+                                    Log.e("셋팅완료", "1")
+                                    userData?.data?.token?.let { token -> Log.e("셋팅완료", "2")
                                         token.accessToken?.let { accessToken ->
+                                            Log.e("셋팅완료", "3")
                                             decodeAccessToken(accessToken)
+                                            setUserInfo()
                                             check = true
                                         }
                                     }
-                                }, { e -> Log.e("리프레쉬 토큰 갱신 에러", e.message.toString()) })
+                                })
                         }
                     } catch (e: Exception) {
 
@@ -126,6 +132,29 @@ object JWTUtil {
             }
             return check
         }
+    }
+
+    private fun setUserInfo() {
+        compositeDisposable.add(
+            ApiGenerator.retrofit.create(ApiService::class.java)
+                .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ user -> GlobalApplication.userInfo =
+                        UserInfo.Builder().apply {
+                            setProvider(user.data?.userInfo?.provider)
+                            setNickName(user.data?.userInfo?.nickname ?: "")
+                            setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
+                            setProfile(user.data?.userInfo?.profile)
+                            setGender(user.data?.userInfo?.gender ?: "M")
+                            setAddress("") //추후에 셋팅하기
+                            setLevel(user.data?.userInfo?.level ?: 0)
+                            setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                        }.build()
+                    Log.e("셋팅완료", "유저정보 셋")
+                    compositeDisposable.dispose()
+                }, { e -> Log.e("리프레쉬 토큰 갱신 에러", e.message.toString()) }
+                )
+        )
     }
 
     //한번 회원가입을 진행하고나서 로그인을 계속 유지시키기 위한 method

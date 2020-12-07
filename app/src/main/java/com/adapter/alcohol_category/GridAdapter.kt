@@ -78,7 +78,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
         val currentItemCount = lst.size
         for(newData in list.withIndex()){
             for(previousData in lst){
-                if(newData.value.equals(previousData.alcoholId)){
+                if(newData.value.alcoholId == previousData.alcoholId){
                     duplicate=true
                     break
                 }

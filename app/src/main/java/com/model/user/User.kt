@@ -18,6 +18,10 @@ class User {
     @Expose
     var profile: List<Profile>? = null
 
+    @SerializedName("oauth_provider")
+    @Expose
+    var provider: String? = null
+
     @SerializedName("role")
     @Expose
     var role: String? = null

@@ -77,9 +77,10 @@ class ListAdapter(private val context: Context,
 
         for(newData in list.withIndex()){
             for(previousData in lst){
-                if(newData.value.equals(previousData.alcoholId)){
+                if(newData.value.alcoholId == previousData.alcoholId){
                     duplicate =true
-                    break }
+                    break
+                }
             }
 
             if(!duplicate){

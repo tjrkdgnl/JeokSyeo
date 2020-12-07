@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.alcohol_category
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -17,6 +18,7 @@ import com.application.GlobalApplication
 import com.fragment.alcohol_category.Fragment_Grid
 import com.fragment.alcohol_category.Fragment_List
 import com.google.android.material.tabs.TabLayout
+import com.jeoksyeo.wet.activity.main.MainActivity
 import com.jeoksyeo.wet.activity.search.Search
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
@@ -83,6 +85,10 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
         super.onStart()
         presenter.initNavigationItemSet(this,this)
         presenter.checkLogin(this)
+
+        if(binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END)){
+            binding.categoryDrawerLayout.closeDrawer(GravityCompat.END)
+        }
     }
 
     override fun getView(): AlcoholCategoryBinding {
@@ -123,6 +129,13 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
         when (v?.id) {
             R.id.windowHeader_SearchButton ->{
                 GlobalApplication.instance.moveActivity(this, Search::class.java) }
+
+            R.id.windowHeader_logo ->{
+                finish()
+                val intent = Intent(this,MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
 
             R.id.imageView_cancel -> {
                 if(binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END))
