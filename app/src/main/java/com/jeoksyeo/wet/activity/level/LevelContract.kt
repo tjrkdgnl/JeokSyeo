@@ -24,5 +24,7 @@ interface LevelContract {
 
         fun detach()
 
+        fun setNetworkUtil()
+
     }
 }

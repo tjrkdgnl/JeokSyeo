@@ -1,7 +1,9 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -26,10 +28,13 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         binding.basicHeader.windowHeaderListCategory.setOnClickListener(this)
         binding.mainNavigation.imageViewCancel.setOnClickListener(this)
 
-
         presenter = Presenter().apply {
             view = this@MainActivity
+            context = this@MainActivity
         }
+
+        //네트워크 상태확인
+        presenter.setNetworkUtil()
 
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
@@ -42,8 +47,6 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
 
         presenter.initBanner(this)
-        presenter.initRecommendViewPager(this)
-        presenter.initAlcoholRanking(this)
         presenter.autoSlide()
 
         binding.mainBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -58,12 +61,21 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
     override fun onStart() {
         super.onStart()
+        GlobalApplication.instance.activityClass = MainActivity::class.java
         presenter.initNavigationItemSet(this, this)
         presenter.checkLogin(this)
 
         if(binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)){
             binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //네트워크가 다시 연결 됐을 때,
+        presenter.initRecommendViewPager(this)
+        presenter.initAlcoholRanking(this)
     }
 
     override fun getView(): MainBinding {

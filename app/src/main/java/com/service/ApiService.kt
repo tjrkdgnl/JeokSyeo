@@ -18,6 +18,7 @@ import com.model.search.GetRelavieKeyword
 import com.model.token.GetUserData
 import com.model.user.GetUserInfo
 import com.model.user.profileToPojo.ProfileInfo
+import com.model.version.GetVersionInfo
 import io.reactivex.Flowable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -54,6 +55,10 @@ interface ApiService {
                     @Part imageBody :MultipartBody.Part?) :Single<GetImageUploadData>
 
     //조회
+    @GET("v1/manage/version/{platform}")
+    fun getVersion(@Header("X-Request-ID")UUID: String, @Header("Authorization") token: String?
+                   , @Path("platform") platform:String ) : Single<GetVersionInfo>
+
     @GET("v1/area")
     fun getArea(@Header("X-Request-ID")UUID: String,@Query("c")code:String? ) : Flowable<GetAreaData>
 
@@ -103,7 +108,6 @@ interface ApiService {
     fun searchAlcohol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                     @Query("k")keyword:String?,@Query("c")count:Int?,@Query("s")sort:String?,@Query("p")pageNum:Int) :Flowable<GetAlcoholCategory>
 
-
     @GET("v1/alcohols/complete")
     fun getRelativeKeyword(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                       @Query("k")keyword:String?) :Flowable<GetRelavieKeyword>
@@ -111,7 +115,6 @@ interface ApiService {
     @GET("v1/users/likes/alcohol")
     fun getMyFavoriteAlcohol(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
                              @Query("f")type:String?,@Query("c")count:Int?,@Query("p")pageNum:Int):Flowable<GetFavoriteData>
-
 
 
     //삭제

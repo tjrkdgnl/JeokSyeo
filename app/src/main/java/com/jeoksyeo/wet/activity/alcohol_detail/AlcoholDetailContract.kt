@@ -42,5 +42,7 @@ interface AlcoholDetailContract {
 
         fun refreshIsLike()
 
+        fun setNetworkUtil()
+
     }
 }

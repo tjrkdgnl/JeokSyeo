@@ -3,7 +3,9 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.main.AlcoholRankAdapter
 import com.adapter.main.BannerAdapter
@@ -14,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
+import com.custom.CustomDialog
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
 import com.model.banner.Banner
@@ -22,6 +25,7 @@ import com.model.recommend_alcohol.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,15 +33,22 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("SetTextI18n")
 class Presenter : MainContract.BasePresenter {
+    override lateinit var context: Context
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private lateinit var bannerAdapter: BannerAdapter
     var bannerItem:Int =0
+    lateinit var networkUtil:NetworkUtil
 
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(context)
+        networkUtil.register()
+    }
 
     override fun initBanner(context: Context) {
        JWTUtil.settingUserInfo()
@@ -181,7 +192,10 @@ class Presenter : MainContract.BasePresenter {
         }
     }
 
+
+
     override fun detachView() {
         compositeDisposable.dispose()
+        networkUtil.unRegister()
     }
 }

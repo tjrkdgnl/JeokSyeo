@@ -33,6 +33,7 @@ import com.model.review.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -45,6 +46,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override lateinit var context: Context
     override lateinit var intent: Intent
     var isLike = false
+    lateinit var networkUtil:NetworkUtil
     override lateinit var alcohol: Alcohol
     private var componentAdapter: AlcoholComponentAdapter? = null
     private var toggle = true
@@ -81,6 +83,11 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         "COLOR",
         "AGED_YEAR"
     )
+
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(context)
+        networkUtil.register()
+    }
 
     override fun init() {
             alcohol.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
@@ -576,13 +583,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
                         view.getView().recyclerViewReviewList.setHasFixedSize(false)
                         view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
-
-
-                        //리뷰개수
-                        result.data?.reviewList?.let {re->
-                            view.getView().detailReviewCountTop.text =
-                                GlobalApplication.instance.checkCount(re.size)
-                        }
                     }
 
                     result.data?.reviewInfo?.let {
@@ -590,6 +590,10 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         view.getView().alcoholDetailReviewRatingbar.rating = it.scoreAvg!!.toFloat()
 
                         it.reviewTotalCount?.let { total->
+                            //리뷰개수
+                            view.getView().detailReviewCountTop.text = GlobalApplication.instance.checkCount(total)
+
+                            //점수 상태 바 셋팅
                             view.getView().alcoholDetailScoreSeekbar.score1Seekbar.max =total
                             view.getView().alcoholDetailScoreSeekbar.score2Seekbar.max =total
                             view.getView().alcoholDetailScoreSeekbar.score3Seekbar.max =total
@@ -786,5 +790,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             onClick(it)
         }
         setOnClickListener(oneClick)
+
     }
 }

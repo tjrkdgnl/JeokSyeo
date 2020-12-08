@@ -16,14 +16,14 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =DataBindingUtil.setContentView(this, R.layout.level)
+        binding.myLevelBasicHeader.basicHeaderWindowName.text = "나의 주류 레벨"
 
         presenter = Presenter().apply {
             view = this@LevelActivity
             context = this@LevelActivity.baseContext
         }
 
-        binding.myLevelBasicHeader.basicHeaderWindowName.text = "나의 주류 레벨"
-
+        presenter.setNetworkUtil()
 
         presenter.initMiniImageArray()
         presenter.getMyLevel()

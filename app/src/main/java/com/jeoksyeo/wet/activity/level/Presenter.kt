@@ -9,6 +9,7 @@ import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -23,8 +24,14 @@ class Presenter :LevelContract.BasePresenter{
 
     val miniAlcoholList = mutableListOf<ImageView>()
 
+    lateinit var networkUtil: NetworkUtil
 
-     override fun initMiniImageArray(){
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(context)
+        networkUtil.register()
+    }
+
+    override fun initMiniImageArray(){
         miniAlcoholList.add(view.getView().imageViewEvaluationByMeBottleLv1)
         miniAlcoholList.add(view.getView().imageViewEvaluationByMeBottleLv2)
         miniAlcoholList.add(view.getView().imageViewEvaluationByMeBottleLv3)

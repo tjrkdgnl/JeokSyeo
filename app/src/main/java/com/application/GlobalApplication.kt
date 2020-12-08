@@ -14,8 +14,10 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.crashlytics.BuildConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.jeoksyeo.wet.activity.main.MainActivity
 import com.kakao.sdk.common.KakaoSdk
 import com.model.user.UserInfo
+import com.service.NetworkUtil
 import com.sharedpreference.UserDB
 import com.vuforia.engine.wet.R
 import io.reactivex.exceptions.UndeliverableException
@@ -25,6 +27,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GlobalApplication : Application() {
+    var activityClass:Class<*>? =null
+
     private val typeList = listOf<String>("TR", "BE", "WI", "FO", "SA")
     private val ratedList = listOf<String>("ALL", "TR", "BE", "WI", "SA", "FO")
     private val levelList = listOf<String>(
@@ -37,19 +41,25 @@ class GlobalApplication : Application() {
         super.onCreate()
         instance = this
 
-        userBuilder = UserInfo.Builder()
+        //카카오톡 로그인 init
         KakaoSdk.init(this, getString(R.string.kakaoNativeKey))
+
+        //유저정보 셋팅
+        userBuilder = UserInfo.Builder()
         userInfo = UserInfo()
         userDataBase = UserDB.getInstance(this)
+
+        //rx에러 핸들링
         RxjavaErrorHandling()
 
         //오류보고 툴
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
+
     companion object {
         //싱글턴 객체 생성
-       lateinit var instance : GlobalApplication
+        lateinit var instance : GlobalApplication
 
         //유저 정보
         lateinit var userInfo: UserInfo

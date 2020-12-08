@@ -24,14 +24,23 @@ import com.fragment.alcohol_category.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
 import com.model.navigation.NavigationItem
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import kotlinx.android.synthetic.main.alcohol_category.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 
 class Presenter:AlcoholCategoryContact.BasePresenter {
+    lateinit var networkUtil: NetworkUtil
     override lateinit var view: AlcoholCategoryContact.BaseView
+    override lateinit var context: Context
 
-    override fun inintTabLayout(context: Context) {
+
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(context)
+        networkUtil.register()
+    }
+
+    override fun inintTabLayout(context: Context,currentItem:Int) {
         if(context is FragmentActivity){
             view.getView().viewPager2Container.adapter = GridViewPagerAdapter(context)
             val lst = listOf<String>("전통주","맥주","와인","양주","사케")
@@ -48,6 +57,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
             }.attach()
 
             view.getView().viewPager2Container.offscreenPageLimit=5
+            view.getView().viewPager2Container.currentItem =currentItem
         }
     }
 
@@ -125,5 +135,9 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                     .into(view.getView().categoryNavigation.navigationHeader.navigationHeaderProfile)
             }
         }
+    }
+
+    override fun detach() {
+        networkUtil.unRegister()
     }
 }

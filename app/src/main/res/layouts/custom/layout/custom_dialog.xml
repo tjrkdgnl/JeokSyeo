@@ -31,10 +31,24 @@
         android:layout_height="0.4dp"
         android:background="@color/light_grey"/>
 
-    <LinearLayout
+
+    <Button
+        android:id="@+id/onebutton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
+        android:visibility="gone"
+        android:onClick="onClick"
+        android:text="확인"
+        android:textSize="17sp"
+        android:textColor="@color/orange"
+        android:fontFamily="@font/apple_sd_gothic_neo_m"
+       />
+
+    <LinearLayout
+        android:id="@+id/buttonLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button

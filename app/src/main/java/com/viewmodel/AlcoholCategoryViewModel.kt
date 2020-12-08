@@ -16,8 +16,6 @@ class AlcoholCategoryViewModel: ViewModel() {
     var changePosition = MutableLiveData(0)
 
 
-
-
     var totalCountList = mutableListOf(0,0,0,0,0)
 
 }

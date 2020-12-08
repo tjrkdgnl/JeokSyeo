@@ -12,6 +12,7 @@ interface MainContract {
 
     interface BasePresenter {
         var view:BaseView
+        var context:Context
 
         fun initBanner(context:Context)
 
@@ -22,5 +23,8 @@ interface MainContract {
         fun detachView()
 
         fun checkLogin(context: Context)
+
+        fun setNetworkUtil()
+
     }
 }

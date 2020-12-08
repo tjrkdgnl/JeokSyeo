@@ -33,6 +33,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
             intent =this@AlcoholDetail.intent
             alcohol =this@AlcoholDetail.alcohol ?: Alcohol()
         }
+        presenter.setNetworkUtil()
 
         presenter.init()
         binding.AlcoholDetailSelectedByMe.setOnClickListener(this)

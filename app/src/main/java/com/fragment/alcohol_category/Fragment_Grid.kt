@@ -1,6 +1,7 @@
 package com.fragment.alcohol_category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
         viewmodel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
 
+
         gridPresenter = GridPresenter().apply {
             view =this@Fragment_Grid
             gridLayoutManager =GridLayoutManager(requireActivity(), 2)
@@ -55,9 +57,18 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
             context = this@Fragment_Grid.requireActivity()
         }
 
-        gridPresenter.initRecyclerView(requireActivity())
-
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("프래그먼트 onPause","pause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        gridPresenter.initRecyclerView(requireActivity())
     }
 
     fun changeSort(sort:String){

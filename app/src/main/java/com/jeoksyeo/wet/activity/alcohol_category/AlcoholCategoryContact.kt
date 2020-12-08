@@ -18,8 +18,9 @@ interface AlcoholCategoryContact {
 
     interface BasePresenter{
         var view:BaseView
+        var context:Context
 
-        fun inintTabLayout(context: Context)
+        fun inintTabLayout(context: Context,currentItem:Int)
 
         fun getFragement(position:Int): Fragment?
 
@@ -29,6 +30,9 @@ interface AlcoholCategoryContact {
 
         fun checkLogin(context: Context)
 
+        fun setNetworkUtil()
+
+        fun detach()
 
     }
 }

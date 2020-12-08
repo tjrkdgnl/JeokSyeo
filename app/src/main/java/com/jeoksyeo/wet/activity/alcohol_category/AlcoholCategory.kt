@@ -3,6 +3,9 @@ package com.jeoksyeo.wet.activity.alcohol_category
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -12,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.adapter.alcohol_category.GridViewPagerAdapter
 import com.adapter.alcohol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
@@ -23,13 +27,16 @@ import com.jeoksyeo.wet.activity.search.Search
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
+import org.w3c.dom.Text
 
 class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, View.OnClickListener,
-    PopupMenu.OnMenuItemClickListener {
+    PopupMenu.OnMenuItemClickListener,TabLayout.OnTabSelectedListener {
     private lateinit var binding: AlcoholCategoryBinding
     private lateinit var presenter: Presenter
     private var popupMenu: PopupMenu? = null
     private lateinit var viewModel: AlcoholCategoryViewModel
+    private var currentItem =0
+    private val handler= Handler(Looper.getMainLooper())
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,37 +48,31 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
 
         presenter = Presenter().apply {
             view = this@AlcoholCategory
+            context = this@AlcoholCategory
         }
-        presenter.inintTabLayout(this)
 
         if(intent.hasExtra(GlobalApplication.CATEGORY_BUNDLE)){
             val bundle = intent.getBundleExtra(GlobalApplication.CATEGORY_BUNDLE)
             val selectPosition = bundle?.getInt(GlobalApplication.MOVE_TYPE)
             selectPosition?.let {
-                binding.viewPager2Container.currentItem = it
+                currentItem = it
             }
         }
+        //뷰페이저 초기화
+        presenter.inintTabLayout(this,currentItem)
 
-        //리스너를 onCreate에서 set한 이유는 implements를 하면 onCreate()를 불러오기도 전에
-        //셋팅하는데 viewmodel은 onCreate 이후부터 호출할 수 있기 때문에 에러가 발생함.
-       binding.tabLayoutAlcoholList.addOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.let {
-                    //탭 클릭시, 뷰페이저의 페이지가 제대로 셋팅되지 않기 때문에 반드시 탭의 포지션을 뷰페이저의 현재 페이지로 셋팅해야한다.
-                    binding.viewPager2Container.currentItem = tab.position
-                    viewModel.changePosition.value = it.position
-                    presenter.checkSort(it.position, viewModel.currentSort)
-                    (it.customView as? TextView)?.setTextColor(resources.getColor(R.color.orange,null))
+        //네트워크 감지 셋팅
+        presenter.setNetworkUtil()
 
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.let {
-                    (it.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
-                }
-            }
-            override fun onTabReselected(tab: TabLayout.Tab?) {
+        binding.tabLayoutAlcoholList.addOnTabSelectedListener(this)
+        binding.viewPager2Container.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentItem = position
+                binding.viewPager2Container.currentItem = position
+                viewModel.changePosition.value = position
+                presenter.checkSort(position, viewModel.currentSort)
+                (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(resources.getColor(R.color.orange,null))
             }
         })
 
@@ -83,12 +84,27 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
 
     override fun onStart() {
         super.onStart()
+        GlobalApplication.instance.activityClass = AlcoholCategory::class.java
+
         presenter.initNavigationItemSet(this,this)
         presenter.checkLogin(this)
 
         if(binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END)){
             binding.categoryDrawerLayout.closeDrawer(GravityCompat.END)
         }
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//
+//        //네트워크가 다시 연결되었을 때
+//        presenter.inintTabLayout(this,currentItem)
+//
+//    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach()
     }
 
     override fun getView(): AlcoholCategoryBinding {
@@ -180,5 +196,15 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+    }
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+        (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
     }
 }
