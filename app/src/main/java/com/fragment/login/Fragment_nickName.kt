@@ -73,13 +73,20 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun rightNickName() {
-        val check = Pattern.matches("^\\w+|[가-힣]+$", binding.insertInfoEditText.text.toString())
+        handler.removeCallbacksAndMessages(null)
+        handler.postDelayed({ //서버 과부화를 막기위해서 300ms 이후에 조회 요청
 
+        var check = Pattern.matches("^\\w+|[가-힣]+$", binding.insertInfoEditText.text.toString())
         if (binding.insertInfoEditText.text.toString().isNotEmpty()) {
+
+            for(word in GlobalApplication.instance.getBanWordList()){
+                if(binding.insertInfoEditText.text.contains(word)){
+                    check = false
+                }
+            }
+
             if (check) {
                 //api 설정
-                handler.removeCallbacksAndMessages(null)
-                handler.postDelayed({ //서버 과부화를 막기위해서 300ms 이후에 조회 요청
                     nicknameDisposable = ApiGenerator.retrofit.create(ApiService::class.java)
                         .checkNickName(GlobalApplication.userBuilder.createUUID, binding.insertInfoEditText.text.toString())
                         .subscribeOn(Schedulers.io())
@@ -99,7 +106,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                             checkEnable()
                         }, {t ->
                             Log.e(ErrorManager.NICKNAME_DUPLICATE,t.message.toString())})
-                },300)
+
             } else { //닉네임 패턴을 위배하는 경우
                 setRed()
                 checkNickname=false
@@ -114,8 +121,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
             checkNickname=false
             //버튼 활성화 여부 확인
             checkEnable()
-        }
-
+        }},300)
     }
 
     private fun setGreen(){

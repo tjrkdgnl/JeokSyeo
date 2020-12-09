@@ -225,9 +225,9 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         }
     }
 
-    override fun checkOkButton(nicknameDuplicate: Boolean) {
+    override fun checkOkButton() {
         //프로필 여부와 상관없을때
-        binding.editProfileGOkButton.isEnabled = !nicknameDuplicate && (
+        binding.editProfileGOkButton.isEnabled = !presenter.checkDuplicate && (
                 GlobalApplication.userInfo.nickName != binding.insertInfoEditText.text.toString() ||
                         GlobalApplication.userInfo.birthDay != birthday ||
                         GlobalApplication.userInfo.gender != gender ||

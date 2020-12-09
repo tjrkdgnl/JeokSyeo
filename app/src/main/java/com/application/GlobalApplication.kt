@@ -28,10 +28,10 @@ import java.util.*
 
 class GlobalApplication : Application() {
     var activityClass:Class<*>? =null
-
-    private val typeList = listOf<String>("TR", "BE", "WI", "FO", "SA")
-    private val ratedList = listOf<String>("ALL", "TR", "BE", "WI", "SA", "FO")
-    private val levelList = listOf<String>(
+    private val banWord =  listOf("개발","운영","관리자","적셔")
+    private val typeList = listOf("TR", "BE", "WI", "FO", "SA")
+    private val ratedList = listOf("ALL", "TR", "BE", "WI", "SA", "FO")
+    private val levelList = listOf(
         "마시는 척 하는 사람", "술을 즐기는 사람"
         , "술독에 빠진 사람", "주도를 수련하는 사람", "술로 해탈한 사람"
     )
@@ -127,6 +127,8 @@ class GlobalApplication : Application() {
     fun getRatedType(positon: Int) = ratedList[positon]
 
     fun getLevelName(positon: Int) = levelList[positon]
+
+    fun getBanWordList() = banWord
 
 
     fun checkCount(value: Int, count: Int = 0): String {

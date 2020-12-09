@@ -3,6 +3,7 @@ package com.service
 import android.util.Base64
 import android.util.Log
 import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.model.user.UserInfo
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -20,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 object JWTUtil {
     private const val ACCESS_TOKEN = "accessToken"
     private const val REFRESH_TOKEN = "refreshToken"
-    private lateinit var compositeDisposable: CompositeDisposable
+    private var compositeDisposable =CompositeDisposable()
 
     //엑세스토큰 JWT decode
     fun decodeAccessToken(
@@ -63,7 +64,7 @@ object JWTUtil {
         val jsonObject = JSONObject(json)
 
         if (token == ACCESS_TOKEN) { //엑세스 토큰 안에 존재하는 만료시간을 내장 디비에 저장
-            GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp") * 1000L)
+            GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp")  * 1000L)
 
 
         } else {
@@ -110,20 +111,20 @@ object JWTUtil {
                                 compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                                     .refreshToken(GlobalApplication.userBuilder.createUUID, map)
                                     .subscribeOn(Schedulers.io())
-                                    .subscribe { userData ->
-                                        Log.e("셋팅완료", "1")
+                                    .subscribe ( { userData ->
                                         userData?.data?.token?.let { token ->
-                                            Log.e("셋팅완료", "2")
                                             token.accessToken?.let { accessToken ->
-                                                Log.e("셋팅완료", "3")
                                                 decodeAccessToken(accessToken)
                                                 setUserInfo()
                                                 coroutineResult.resume(true)
                                             }
                                         }
-                                    })
+                                    },{e ->
+                                        Log.e(ErrorManager.TOKEN_REFRESH,e.message.toString())
+                                    }))
                             }
                         } catch (e: Exception) {
+                            Log.e(ErrorManager.TOKEN_REFRESH +"catch",e.message.toString())
                             coroutineResult.resume(false)
                         }
                     } else {
@@ -159,7 +160,6 @@ object JWTUtil {
                             setLevel(user.data?.userInfo?.level ?: 0)
                             setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                         }.build()
-                    Log.e("셋팅완료", "유저정보 셋")
                     compositeDisposable.dispose()
                 }, { e -> Log.e("리프레쉬 토큰 갱신 에러", e.message.toString()) }
                 )

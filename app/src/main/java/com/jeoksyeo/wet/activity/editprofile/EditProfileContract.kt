@@ -13,7 +13,7 @@ interface EditProfileContract {
         fun setBirthDay()
         fun resultNickNameCheck(result:Boolean)
         fun getView(): EditProfileBinding
-        fun checkOkButton(nicknameDuplicate:Boolean =false)
+        fun checkOkButton()
     }
 
 

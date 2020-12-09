@@ -45,7 +45,7 @@ class Presenter : EditProfileContract.BasePresenter {
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var changeObject: ProfileInfo
     private lateinit var networkUtil: NetworkUtil
-
+    var checkDuplicate = false
 
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(activity)
@@ -82,7 +82,11 @@ class Presenter : EditProfileContract.BasePresenter {
                         settingProgressBar(true)
                         compositeDisposable.add(
                             ApiGenerator.retrofit.create(ApiService::class.java)
-                                .editProfile(GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken(), changeObject)
+                                .editProfile(
+                                    GlobalApplication.userBuilder.createUUID,
+                                    GlobalApplication.userInfo.getAccessToken(),
+                                    changeObject
+                                )
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe({
@@ -92,12 +96,20 @@ class Presenter : EditProfileContract.BasePresenter {
                                             changeUserInfo()
                                         } else {
                                             settingProgressBar(false)
-                                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                context,
+                                                "수정이 제대로 이뤄지지 않았습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }
                                 }, { t ->
                                     settingProgressBar(false)
-                                    Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "수정이 제대로 이뤄지지 않았습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     Log.e(ErrorManager.EDIT_PROFILE, t.message.toString())
                                 })
                         )
@@ -115,10 +127,12 @@ class Presenter : EditProfileContract.BasePresenter {
 
     override fun changeUserInfo() {
         compositeDisposable.add(ApiGenerator.retrofit.create(
-            ApiService::class.java)
+            ApiService::class.java
+        )
             .getUserInfo(
                 GlobalApplication.userBuilder.createUUID,
-                GlobalApplication.userInfo.getAccessToken())
+                GlobalApplication.userInfo.getAccessToken()
+            )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ user ->
@@ -143,31 +157,41 @@ class Presenter : EditProfileContract.BasePresenter {
                 ).show()
 
                 activity.finish()
-                activity.overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+                activity.overridePendingTransition(
+                    R.anim.left_to_current,
+                    R.anim.current_to_right
+                )
 
-            }, { t -> settingProgressBar(false)
+            }, { t ->
+                settingProgressBar(false)
                 Toast.makeText(activity, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
-                Log.e(ErrorManager.USERINFO, t.message.toString()) }
+                Log.e(ErrorManager.USERINFO, t.message.toString())
+            }
             ))
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun checkNickName(context: Context) {
+        handler.removeCallbacksAndMessages(null)
+        handler.postDelayed({
+            CoroutineScope(Dispatchers.IO).launch {
+                val loginCheck = JWTUtil.settingUserInfo()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val loginCheck = JWTUtil.settingUserInfo()
+                withContext(Dispatchers.Main) {
+                    if (loginCheck) {
+                        var check = false
+                        if (GlobalApplication.userInfo.nickName != view.getView().insertInfoEditText.text.toString()) {
+                            check = Pattern.matches(
+                                "^\\w+|[가-힣]+$", view.getView().insertInfoEditText.text.toString()
+                            )
 
-            withContext(Dispatchers.Main){
-                if(loginCheck){
-                    var check = false
-                    if (GlobalApplication.userInfo.nickName != view.getView().insertInfoEditText.text.toString()) {
-                        check = Pattern.matches(
-                            "^\\w+|[가-힣]+$", view.getView().insertInfoEditText.text.toString()
-                        )
+                            for(word in GlobalApplication.instance.getBanWordList()){
+                                if(view.getView().insertInfoEditText.text.contains(word)){
+                                    check = false
+                                }
+                            }
 
-                        if (check) {
-                            handler.removeCallbacksAndMessages(null)
-                            handler.postDelayed({
+                            if (check) {
                                 compositeDisposable.add(
                                     ApiGenerator.retrofit.create(ApiService::class.java)
                                         .checkNickName(
@@ -188,32 +212,38 @@ class Presenter : EditProfileContract.BasePresenter {
                                                 }
                                             },
                                             { t ->
-                                                Log.e(ErrorManager.NICKNAME_DUPLICATE, t.message.toString())
+                                                Log.e(
+                                                    ErrorManager.NICKNAME_DUPLICATE,
+                                                    t.message.toString()
+                                                )
                                             })
                                 )
-                            }, 300)
 
-                        } else {//닉네임 형식을 틀렸다면
-                            checkNickname(context, false)
+
+                            } else {//닉네임 형식을 틀렸다면
+                                checkNickname(context, false)
+                            }
+                        } else {
+                            //닉네임을 바꾸지 않았다면,
+                            checkDuplicate = false
+                            view.checkOkButton()
+                            view.getView().insertNameLinearLayout.background =
+                                context.resources.getDrawable(R.drawable.bottom_line, null)
+                            view.getView().checkNickNameText.visibility = View.INVISIBLE
                         }
-                    } else {
-                        //닉네임을 바꾸지 않았다면,
-                        view.checkOkButton(false)
-                        view.getView().insertNameLinearLayout.background =
-                            context.resources.getDrawable(R.drawable.bottom_line, null)
-                        view.getView().checkNickNameText.visibility = View.INVISIBLE
+                    } else { //세션이 만료되었을 때
+                        CustomDialog.loginDialog(activity, 0, true)
                     }
-                }else{ //세션이 만료되었을 때
-                    CustomDialog.loginDialog(activity,0,true)
                 }
             }
-        }
+        }, 300)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkNickname(context: Context, right: Boolean) {
         if (right) {
-            view.checkOkButton(false)
+            checkDuplicate = false
+            view.checkOkButton()
             view.getView().checkNickNameText.visibility = View.VISIBLE
             view.getView().checkNickNameText.text =
                 context.getString(R.string.useNickName)
@@ -229,7 +259,8 @@ class Presenter : EditProfileContract.BasePresenter {
                 )
             )
         } else {
-            view.checkOkButton(true)
+            checkDuplicate = true
+            view.checkOkButton()
             view.getView().checkNickNameText.visibility = View.VISIBLE
             view.getView().checkNickNameText.text =
                 context.getString(R.string.dontUseNickName)
@@ -308,7 +339,7 @@ class Presenter : EditProfileContract.BasePresenter {
                             .subscribe({ result ->
                                 result.data?.mediaId?.let {
                                     profile = Profile("image", it)
-                                    view.checkOkButton(false)
+                                    view.checkOkButton()
                                 }
                             }, { t ->
                                 Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())
