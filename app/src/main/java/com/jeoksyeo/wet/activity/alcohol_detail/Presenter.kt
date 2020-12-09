@@ -38,6 +38,10 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Presenter : AlcoholDetailContract.BasePresenter {
     //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정
@@ -46,7 +50,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override lateinit var context: Context
     override lateinit var intent: Intent
     var isLike = false
-    lateinit var networkUtil:NetworkUtil
+    lateinit var networkUtil: NetworkUtil
     override lateinit var alcohol: Alcohol
     private var componentAdapter: AlcoholComponentAdapter? = null
     private var toggle = true
@@ -90,51 +94,53 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
     override fun init() {
-            alcohol.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
-                initComponent(context)
+        alcohol.let { alcholData -> //주류 상세화면으로 넘어왔을 때, alchol에 대한 정보를 번들에서 찾음
+            initComponent(context)
 
-                alcholData.likeCount?.let { //찜한수 체크
-                    view.getView().alcoholdetailLikeCount.text = GlobalApplication.instance
-                        .checkCount(it)
-                }
-
-                alcholData.isLiked?.let { isLike ->
-                    this.isLike = isLike
-                    view.setLikeImage(isLike)
-                }
-
-                alcholData.viewCount?.let {  //조회수 체크
-                    Log.e("viewCount",it.toString())
-                    view.getView().detailEyeCount.text = GlobalApplication.instance.checkCount(it)
-                }
-
-                //seekbar를 손으로 조절하지 못하게 막아야함.
-                view.getView().alcoholDetailScoreSeekbar.score1Seekbar.isEnabled=false
-                view.getView().alcoholDetailScoreSeekbar.score2Seekbar.isEnabled=false
-                view.getView().alcoholDetailScoreSeekbar.score3Seekbar.isEnabled=false
-                view.getView().alcoholDetailScoreSeekbar.score4Seekbar.isEnabled=false
-                view.getView().alcoholDetailScoreSeekbar.score5Seekbar.isEnabled=false
+            alcholData.likeCount?.let { //찜한수 체크
+                view.getView().alcoholdetailLikeCount.text = GlobalApplication.instance
+                    .checkCount(it)
             }
+
+            alcholData.isLiked?.let { isLike ->
+                this.isLike = isLike
+                view.setLikeImage(isLike)
+            }
+
+            alcholData.viewCount?.let {  //조회수 체크
+                Log.e("viewCount", it.toString())
+                view.getView().detailEyeCount.text = GlobalApplication.instance.checkCount(it)
+            }
+
+            //seekbar를 손으로 조절하지 못하게 막아야함.
+            view.getView().alcoholDetailScoreSeekbar.score1Seekbar.isEnabled = false
+            view.getView().alcoholDetailScoreSeekbar.score2Seekbar.isEnabled = false
+            view.getView().alcoholDetailScoreSeekbar.score3Seekbar.isEnabled = false
+            view.getView().alcoholDetailScoreSeekbar.score4Seekbar.isEnabled = false
+            view.getView().alcoholDetailScoreSeekbar.score5Seekbar.isEnabled = false
+        }
     }
 
 
     override fun refreshIsLike() {
         GlobalApplication.userInfo.getProvider()?.let {
-            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                .getAlcoholDetail(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    alcohol.alcoholId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    it.data?.alcohol?.isLiked?.let { isLike ->
-                        this.isLike = isLike
-                        view.setLikeImage(isLike)
-                    }
-                }, { t ->
-                    Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString())
-                })
+            compositeDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getAlcoholDetail(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(),
+                        alcohol.alcoholId
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        it.data?.alcohol?.isLiked?.let { isLike ->
+                            this.isLike = isLike
+                            view.setLikeImage(isLike)
+                        }
+                    }, { t ->
+                        Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString())
+                    })
             )
         }
     }
@@ -151,66 +157,95 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
     override fun executeLike() {
         view.getView().AlcoholDetailSelectedByMe.setOneClickListener {
-            val check = JWTUtil.settingUserInfo()
-            Log.e("check", check.toString())
 
-            if (check) {
-                if (!isLike) {
-                    settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,false)
-                    compositeDisposable.add(
-                        ApiGenerator.retrofit.create(ApiService::class.java)
-                            .alcoholLike(
-                                GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(),
-                                alcohol.alcoholId)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
+            CoroutineScope(Dispatchers.IO).launch {
+                val check = JWTUtil.settingUserInfo()
+                Log.e("check", check.toString())
 
-                                view.setLikeImage(true)
-                                view.getView().alcoholdetailLikeCount.text =
-                                    GlobalApplication.instance.checkCount(
-                                        view.getView().alcoholdetailLikeCount.text.toString()
-                                            .toInt(), 1
+                withContext(Dispatchers.Main) {
+                    if (check) {
+                        if (!isLike) {
+                            settingLikeButtonEnabled(
+                                view.getView().AlcoholDetailSelectedByMe,
+                                false
+                            )
+                            compositeDisposable.add(
+                                ApiGenerator.retrofit.create(ApiService::class.java)
+                                    .alcoholLike(
+                                        GlobalApplication.userBuilder.createUUID,
+                                        GlobalApplication.userInfo.getAccessToken(),
+                                        alcohol.alcoholId
                                     )
-                            }, { t ->
-                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
-                                Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
-                            })
-                    )
-                }
-                else{
-                    settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,false)
-                    compositeDisposable.add(
-                        ApiGenerator.retrofit.create(ApiService::class.java)
-                            .cancelAlcoholLike(
-                                GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(), alcohol.alcoholId)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
-                                view.setLikeImage(false)
-                                view.getView().alcoholdetailLikeCount.text =
-                                    GlobalApplication.instance.checkCount(
-                                        view.getView().alcoholdetailLikeCount.text.toString().toInt(),
-                                        -1
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+                                        settingLikeButtonEnabled(
+                                            view.getView().AlcoholDetailSelectedByMe,
+                                            true
+                                        )
+
+                                        view.setLikeImage(true)
+                                        view.getView().alcoholdetailLikeCount.text =
+                                            GlobalApplication.instance.checkCount(
+                                                view.getView().alcoholdetailLikeCount.text.toString()
+                                                    .toInt(), 1
+                                            )
+                                    }, { t ->
+                                        settingLikeButtonEnabled(
+                                            view.getView().AlcoholDetailSelectedByMe,
+                                            true
+                                        )
+                                        Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
+                                    })
+                            )
+                        } else {
+                            settingLikeButtonEnabled(
+                                view.getView().AlcoholDetailSelectedByMe,
+                                false
+                            )
+                            compositeDisposable.add(
+                                ApiGenerator.retrofit.create(ApiService::class.java)
+                                    .cancelAlcoholLike(
+                                        GlobalApplication.userBuilder.createUUID,
+                                        GlobalApplication.userInfo.getAccessToken(),
+                                        alcohol.alcoholId
                                     )
-                            }, { t ->
-                                settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe,true)
-                                Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
-                            })
-                    )
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+                                        settingLikeButtonEnabled(
+                                            view.getView().AlcoholDetailSelectedByMe,
+                                            true
+                                        )
+                                        view.setLikeImage(false)
+                                        view.getView().alcoholdetailLikeCount.text =
+                                            GlobalApplication.instance.checkCount(
+                                                view.getView().alcoholdetailLikeCount.text.toString()
+                                                    .toInt(),
+                                                -1
+                                            )
+                                    }, { t ->
+                                        settingLikeButtonEnabled(
+                                            view.getView().AlcoholDetailSelectedByMe,
+                                            true
+                                        )
+                                        Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
+                                    })
+                            )
+                        }
+                    } else {
+                        CustomDialog.loginDialog(
+                            context,
+                            GlobalApplication.ACTIVITY_HANDLING_DETAIL
+                        )
+                    }
                 }
-            }
-            else {
-                CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
             }
         }
     }
-    private fun settingLikeButtonEnabled(view: View,setting:Boolean){
-       view.isEnabled= setting
+
+    private fun settingLikeButtonEnabled(view: View, setting: Boolean) {
+        view.isEnabled = setting
     }
 
 //    "ADJUNCT", //0
@@ -252,7 +287,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     setComponent(alcohol, mutableListOf(14, 4, 18, 11, 6, 0, 1, 3, 2, 16, 17))
                 }
                 "FO" -> {
-                    setComponent(alcohol, mutableListOf(7, 4, 18, 0, 1,19, 5, 2, 13, 3))
+                    setComponent(alcohol, mutableListOf(7, 4, 18, 0, 1, 19, 5, 2, 13, 3))
                 }
             }
         }
@@ -388,14 +423,14 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             }
             "COLOR" -> {
                 alcohol.more?.color?.let {
-                    if(it.name !=""){
+                    if (it.name != "") {
                         AlcoholComponentData(
                             "Color", "색"
                             , R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_SRM
                         )
-                    }
-                    else{ //텅 빈값으로 필터링할 때 걸러짐
-                        AlcoholComponentData("", ""
+                    } else { //텅 빈값으로 필터링할 때 걸러짐
+                        AlcoholComponentData(
+                            "", ""
                             , 0, "", 0f, GlobalApplication.COMPONENT_DEFAULT
                         )
                     }
@@ -487,11 +522,11 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     )
                 }
             }
-            "AGED_YEAR" ->{
+            "AGED_YEAR" -> {
                 alcohol.more?.aged_year?.let {
                     AlcoholComponentData(
-                        "Aged Year","숙성기간",
-                         R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
+                        "Aged Year", "숙성기간",
+                        R.mipmap.adjunct, it, NUM_SIZE, GlobalApplication.COMPONENT_DEFAULT
                     )
                 }
             }
@@ -533,101 +568,126 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun initReview(context: Context) {
-        JWTUtil.settingUserInfo()
 
-        compositeDisposable.add(
-            ApiGenerator.retrofit.create(ApiService::class.java)
-                .getAlcoholReivew(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    alcohol.alcoholId, 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    result.data?.reviewList?.let { lst ->
-                        //데이터가 없을 때,
-                        if (lst.isEmpty()) {
-                            //차트 여부 표시
-                            view.getView().userIndicator.visibility = View.VISIBLE
+        CoroutineScope(Dispatchers.IO).launch {
+            JWTUtil.settingUserInfo()
 
-                            lst.toMutableList().let { muLst ->
-                                muLst.add(ReviewList().apply {
-                                    checkMore = GlobalApplication.DETAIL_NO_REVIEW
-                                })
+            withContext(Dispatchers.Main) {
+                compositeDisposable.add(
+                    ApiGenerator.retrofit.create(ApiService::class.java)
+                        .getAlcoholReivew(
+                            GlobalApplication.userBuilder.createUUID,
+                            GlobalApplication.userInfo.getAccessToken(),
+                            alcohol.alcoholId, 1
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            result.data?.reviewList?.let { lst ->
+                                //데이터가 없을 때,
+                                if (lst.isEmpty()) {
+                                    //차트 여부 표시
+                                    view.getView().userIndicator.visibility = View.VISIBLE
 
-                                view.getView().recyclerViewReviewList.adapter =
-                                    AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
-                            }
-                        } else {
-                            //차트 여부 표시
-                            result.data?.userAssessment?.let {
-                                initRadarChart(it)
-                            }
-
-                            view.getView().radarChart.visibility = View.VISIBLE
-                            view.getView().userIndicator.visibility = View.INVISIBLE
-
-                            //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
-                            lst.toMutableList().let { muLst ->
-                                result.data?.pageInfo?.next?.let { next->
-                                    if(next){
+                                    lst.toMutableList().let { muLst ->
                                         muLst.add(ReviewList().apply {
-                                            checkMore = GlobalApplication.DETAIL_MORE_REVIEW
+                                            checkMore = GlobalApplication.DETAIL_NO_REVIEW
                                         })
+
+                                        view.getView().recyclerViewReviewList.adapter =
+                                            AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
+                                    }
+                                } else {
+                                    //차트 여부 표시
+                                    result.data?.userAssessment?.let {
+                                        initRadarChart(it)
+                                    }
+
+                                    view.getView().radarChart.visibility = View.VISIBLE
+                                    view.getView().userIndicator.visibility = View.INVISIBLE
+
+                                    //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
+                                    lst.toMutableList().let { muLst ->
+                                        result.data?.pageInfo?.next?.let { next ->
+                                            if (next) {
+                                                muLst.add(ReviewList().apply {
+                                                    checkMore = GlobalApplication.DETAIL_MORE_REVIEW
+                                                })
+                                            }
+                                        }
+                                        view.getView().recyclerViewReviewList.adapter =
+                                            AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
                                     }
                                 }
-                                view.getView().recyclerViewReviewList.adapter =
-                                    AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
+
+                                view.getView().recyclerViewReviewList.setHasFixedSize(false)
+                                view.getView().recyclerViewReviewList.layoutManager =
+                                    LinearLayoutManager(context)
                             }
-                        }
 
-                        view.getView().recyclerViewReviewList.setHasFixedSize(false)
-                        view.getView().recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
-                    }
+                            result.data?.reviewInfo?.let {
+                                //점수 분포 및 seekbar
+                                view.getView().alcoholDetailReviewRatingbar.rating =
+                                    it.scoreAvg!!.toFloat()
 
-                    result.data?.reviewInfo?.let {
-                        //점수 분포 및 seekbar
-                        view.getView().alcoholDetailReviewRatingbar.rating = it.scoreAvg!!.toFloat()
+                                it.reviewTotalCount?.let { total ->
+                                    //리뷰개수
+                                    view.getView().detailReviewCountTop.text =
+                                        GlobalApplication.instance.checkCount(total)
 
-                        it.reviewTotalCount?.let { total->
-                            //리뷰개수
-                            view.getView().detailReviewCountTop.text = GlobalApplication.instance.checkCount(total)
+                                    //점수 상태 바 셋팅
+                                    view.getView().alcoholDetailScoreSeekbar.score1Seekbar.max =
+                                        total
+                                    view.getView().alcoholDetailScoreSeekbar.score2Seekbar.max =
+                                        total
+                                    view.getView().alcoholDetailScoreSeekbar.score3Seekbar.max =
+                                        total
+                                    view.getView().alcoholDetailScoreSeekbar.score4Seekbar.max =
+                                        total
+                                    view.getView().alcoholDetailScoreSeekbar.score5Seekbar.max =
+                                        total
+                                }
+                                it.score1Count?.let { score1 ->
+                                    view.getView().alcoholDetailScoreSeekbar.score1Seekbar.progress =
+                                        score1
+                                    view.getView().alcoholDetailScoreSeekbar.score1.text =
+                                        score1.toString()
+                                }
+                                it.score2Count?.let { score2 ->
+                                    view.getView().alcoholDetailScoreSeekbar.score2Seekbar.progress =
+                                        score2
+                                    view.getView().alcoholDetailScoreSeekbar.score2.text =
+                                        score2.toString()
+                                }
+                                it.score3Count?.let { score3 ->
+                                    view.getView().alcoholDetailScoreSeekbar.score3Seekbar.progress =
+                                        score3
+                                    view.getView().alcoholDetailScoreSeekbar.score3.text =
+                                        score3.toString()
+                                }
+                                it.score4Count?.let { score4 ->
+                                    view.getView().alcoholDetailScoreSeekbar.score4Seekbar.progress =
+                                        score4
+                                    view.getView().alcoholDetailScoreSeekbar.score4.text =
+                                        score4.toString()
+                                }
+                                it.score5Count?.let { score5 ->
+                                    view.getView().alcoholDetailScoreSeekbar.score5Seekbar.progress =
+                                        score5
+                                    view.getView().alcoholDetailScoreSeekbar.score5.text =
+                                        score5.toString()
+                                }
 
-                            //점수 상태 바 셋팅
-                            view.getView().alcoholDetailScoreSeekbar.score1Seekbar.max =total
-                            view.getView().alcoholDetailScoreSeekbar.score2Seekbar.max =total
-                            view.getView().alcoholDetailScoreSeekbar.score3Seekbar.max =total
-                            view.getView().alcoholDetailScoreSeekbar.score4Seekbar.max =total
-                            view.getView().alcoholDetailScoreSeekbar.score5Seekbar.max =total
-                        }
-                        it.score1Count?.let { score1->
-                            view.getView().alcoholDetailScoreSeekbar.score1Seekbar.progress =score1
-                            view.getView().alcoholDetailScoreSeekbar.score1.text = score1.toString()
-                        }
-                        it.score2Count?.let { score2->
-                            view.getView().alcoholDetailScoreSeekbar.score2Seekbar.progress =score2
-                            view.getView().alcoholDetailScoreSeekbar.score2.text =score2.toString()
-                        }
-                        it.score3Count?.let { score3->
-                            view.getView().alcoholDetailScoreSeekbar.score3Seekbar.progress =score3
-                            view.getView().alcoholDetailScoreSeekbar.score3.text = score3.toString()
-                        }
-                        it.score4Count?.let { score4->
-                            view.getView().alcoholDetailScoreSeekbar.score4Seekbar.progress =score4
-                            view.getView().alcoholDetailScoreSeekbar.score4.text = score4.toString()
-                        }
-                        it.score5Count?.let { score5->
-                            view.getView().alcoholDetailScoreSeekbar.score5Seekbar.progress =score5
-                            view.getView().alcoholDetailScoreSeekbar.score5.text =score5.toString()
-                        }
-
-                        //rating 점수
-                        view.getView().alcoholDetailReviewTotalscore.text = it.scoreAvg.toString()
-                        view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
-                        view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
-                    }
-                }, { t -> Log.e(ErrorManager.REVIEW, t.message.toString()) })
-        )
+                                //rating 점수
+                                view.getView().alcoholDetailReviewTotalscore.text =
+                                    it.scoreAvg.toString()
+                                view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
+                                view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
+                            }
+                        }, { t -> Log.e(ErrorManager.REVIEW, t.message.toString()) })
+                )
+            }
+        }
     }
 
     override fun expandableText() {
@@ -643,44 +703,51 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
     override fun checkReviewDuplicate(context: Context) {
-        val check = JWTUtil.settingUserInfo()
 
-        if (check) {
-            view.settingProgressBar(true)
-            compositeDisposable.add(
-                ApiGenerator.retrofit.create(ApiService::class.java)
-                    .checkReviewDuplicate(
-                        GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(),
-                        alcohol.alcoholId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ result ->
-                        view.settingProgressBar(false)
+        CoroutineScope(Dispatchers.IO).launch {
+            val check = JWTUtil.settingUserInfo()
 
-                        result.data?.isExist?.let { exist ->
-                            if (exist) {
-                                Toast.makeText(
-                                    context,
-                                    "해당 주류에 대한 평가를 이미 하셨습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                //주류 코멘트 화면으로 이동
-                                val bundle = Bundle()
-                                bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
-                                GlobalApplication.instance.moveActivity(
-                                    context, Comment::class.java, 0,
-                                    bundle, GlobalApplication.ALCHOL_BUNDLE
-                                )
-                            }
-                        }
-                    }, { t ->
-                        view.settingProgressBar(false)
-                        Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString()) })
-            )
-        } else {
-            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+            withContext(Dispatchers.Main) {
+                if (check) {
+                    view.settingProgressBar(true)
+                    compositeDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .checkReviewDuplicate(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(),
+                                alcohol.alcoholId
+                            )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ result ->
+                                view.settingProgressBar(false)
+
+                                result.data?.isExist?.let { exist ->
+                                    if (exist) {
+                                        Toast.makeText(
+                                            context,
+                                            "해당 주류에 대한 평가를 이미 하셨습니다.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        //주류 코멘트 화면으로 이동
+                                        val bundle = Bundle()
+                                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
+                                        GlobalApplication.instance.moveActivity(
+                                            context, Comment::class.java, 0,
+                                            bundle, GlobalApplication.ALCHOL_BUNDLE
+                                        )
+                                    }
+                                }
+                            }, { t ->
+                                view.settingProgressBar(false)
+                                Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString())
+                            })
+                    )
+                } else {
+                    CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                }
+            }
         }
     }
 

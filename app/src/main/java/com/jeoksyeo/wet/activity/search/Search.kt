@@ -46,6 +46,8 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
             layoutManager = this@Search.layoutManager
             activity =this@Search
         }
+        presenter.setNetworkUtil()
+
         binding.editTextSearch.setOnKeyListener(this)
         binding.editTextSearch.addTextChangedListener(this)
         searchAdapter = initSearchAdapter()

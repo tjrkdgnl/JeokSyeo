@@ -11,6 +11,7 @@ import com.application.GlobalApplication
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -32,6 +33,14 @@ class Presenter : SearchContract.BasePresenter {
     private var visibleItemCount = 0
     private var totalItemCount = 0
     private var pastVisibleItem = 0
+
+    private lateinit var networkUtil: NetworkUtil
+
+
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(activity)
+        networkUtil.register()
+    }
 
     @SuppressLint("SetTextI18n")
     override fun setSearchResult(keyword: String?) {

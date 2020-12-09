@@ -26,6 +26,8 @@ interface CommentContract {
         fun setMyComment(myComment:Comment)
         fun editMyComment(context: Context,alcoholId: String,commentId:String)
 
+        fun setNetworkUtil()
+
     }
 
 }

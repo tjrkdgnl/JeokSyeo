@@ -49,6 +49,8 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             activity = this@EditProfile
         }
 
+        presenter.setNetworkUtil()
+
         //최대 날짜 지정
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.YEAR, -15)

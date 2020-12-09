@@ -28,7 +28,9 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
         presenter = Presenter().apply {
             view=this@AlcoholRated
+            context =this@AlcoholRated
         }
+        presenter.setNetworkUtil()
 
         presenter.initProfile(GlobalApplication.userInfo.getProvider())
         presenter.initTabLayout(this)

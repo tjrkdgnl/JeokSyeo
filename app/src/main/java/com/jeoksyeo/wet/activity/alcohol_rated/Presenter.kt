@@ -10,12 +10,19 @@ import androidx.fragment.app.FragmentActivity
 import com.adapter.alcohol_rated.RatedViewPagerAdapter
 import com.application.GlobalApplication
 import com.google.android.material.tabs.TabLayoutMediator
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.disposables.CompositeDisposable
 
 class Presenter :AlcoholRatedContact.BasesPresenter {
     override lateinit var view: AlcoholRatedContact.BaseView
-    private val compositeDisposable = CompositeDisposable()
+    override lateinit var context: Context
+
+    private lateinit var networkUtil:NetworkUtil
+
+    override fun setNetworkUtil() {
+            networkUtil = NetworkUtil(context)
+    }
 
     @SuppressLint("SetTextI18n")
     override fun initProfile(provider:String?) {

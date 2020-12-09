@@ -16,6 +16,7 @@ import com.model.my_comment.Comment
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import com.skydoves.balloon.ArrowConstraints
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.Balloon
@@ -24,12 +25,22 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CommentPresenter : CommentContract.BasePresenter {
     override lateinit var view: CommentContract.BaseView
     override lateinit var activity: Activity
     override lateinit var lifecycleOwner: LifecycleOwner
     private  var disposable: Disposable? =null
+    private lateinit var networkUtil :NetworkUtil
+
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(activity)
+        networkUtil.register()
+    }
 
     override fun confirmCheck(): Boolean {
         return view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.progressFloat != 0f &&
@@ -101,39 +112,41 @@ class CommentPresenter : CommentContract.BasePresenter {
             view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
         )
 
+        CoroutineScope(Dispatchers.IO).launch {
+            var check =JWTUtil.settingUserInfo()
 
-        var check =JWTUtil.settingUserInfo()
+            withContext(Dispatchers.Main){
+                if(check){
+                    settingProgressbar(true)
+                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                        .setComment(
+                            GlobalApplication.userBuilder.createUUID,
+                            GlobalApplication.userInfo.getAccessToken(),
+                            alcoholId,
+                            map)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            settingProgressbar(false)
+                            it.data?.let { result ->
+                                result.result?.let {
+                                    if (it.equals("SUCCESS")) {
+                                        Toast.makeText(context, alcoholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
+                                        (context as Activity).finish()
+                                    } else
+                                        Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                                }
+                            }
 
-        if(check){
-            settingProgressbar(true)
-            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                .setComment(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),
-                    alcoholId,
-                    map
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    settingProgressbar(false)
-                    it.data?.let { result ->
-                        result.result?.let {
-                            if (it.equals("SUCCESS")) {
-                                Toast.makeText(context, alcoholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
-                                (context as Activity).finish()
-                            } else
-                                Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                }, { t ->
-                    settingProgressbar(false)
-                    Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
-                    Log.e(ErrorManager.COMMENT, t.message.toString()) })
-        }
-       else{
-            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                        }, { t ->
+                            settingProgressbar(false)
+                            Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                            Log.e(ErrorManager.COMMENT, t.message.toString()) })
+                }
+                else{
+                    CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                }
+            }
         }
     }
 
@@ -169,36 +182,41 @@ class CommentPresenter : CommentContract.BasePresenter {
         map["appearance"] = view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.progressFloat
         map["overall"] = view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
 
-        Log.e("아로마", map["aroma"].toString())
-        val check =JWTUtil.settingUserInfo()
-        if(check){
-            settingProgressbar(true)
-            disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                .editMyRatedReview(
-                    GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(),alcoholId,commentId,map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    settingProgressbar(false)
 
-                    it.data?.let { result ->
-                        result.result?.let {
-                            if (it == "SUCCESS") {
-                                Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT).show()
-                                (context as Activity).finish()
-                            } else
-                                Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
-                                    .show()
-                        }
-                    }
-                }, { t ->
-                    settingProgressbar(false)
-                    Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
-                    Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
-        }
-        else{
-            CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+        CoroutineScope(Dispatchers.IO).launch {
+            val check =JWTUtil.settingUserInfo()
+
+            withContext(Dispatchers.Main){
+                if(check){
+                    settingProgressbar(true)
+                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                        .editMyRatedReview(
+                            GlobalApplication.userBuilder.createUUID,
+                            GlobalApplication.userInfo.getAccessToken(),alcoholId,commentId,map)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            settingProgressbar(false)
+
+                            it.data?.let { result ->
+                                result.result?.let {
+                                    if (it == "SUCCESS") {
+                                        Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                                        (context as Activity).finish()
+                                    } else
+                                        Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
+                                            .show()
+                                }
+                            }
+                        }, { t ->
+                            settingProgressbar(false)
+                            Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                            Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
+                }
+                else{
+                    CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                }
+            }
         }
     }
 
@@ -213,5 +231,4 @@ class CommentPresenter : CommentContract.BasePresenter {
 
         }
     }
-
 }

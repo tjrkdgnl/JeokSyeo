@@ -13,6 +13,10 @@ import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Presenter :LevelContract.BasePresenter{
 
@@ -49,27 +53,29 @@ class Presenter :LevelContract.BasePresenter{
     }
 
     override fun getMyLevel() {
-        val check = JWTUtil.settingUserInfo()
+        CoroutineScope(Dispatchers.IO).launch {
+            val check = JWTUtil.settingUserInfo()
 
-        if(check){
-            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                .getLevelData(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    it.data?.let {info->
-                        view.settingMainAlcholGIF(info.level)
-                        view.settingExperience(info.reviewCount,info.level)
-                        view.getView().defaultMainBottle.visibility = View.INVISIBLE
-                    }
-                },{
-                    t -> Log.e(ErrorManager.LEVEL_INFO,t.message.toString())
-                }))
+            withContext(Dispatchers.Main){
+                if(check){
+                    compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                        .getLevelData(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            it.data?.let {info->
+                                view.settingMainAlcholGIF(info.level)
+                                view.settingExperience(info.reviewCount,info.level)
+                                view.getView().defaultMainBottle.visibility = View.INVISIBLE
+                            }
+                        },{
+                                t -> Log.e(ErrorManager.LEVEL_INFO,t.message.toString())
+                        }))
+                }
+                else{
+                    view.getView().imageViewEvaluationByMeMainBottle.visibility = View.INVISIBLE
+                }
+            }
         }
-        else{
-            view.getView().imageViewEvaluationByMeMainBottle.visibility = View.INVISIBLE
-
-        }
-
     }
 }

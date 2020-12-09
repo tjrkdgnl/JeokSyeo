@@ -6,11 +6,16 @@ import com.application.GlobalApplication
 import com.model.user.UserInfo
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object JWTUtil {
     private const val ACCESS_TOKEN = "accessToken"
@@ -77,69 +82,73 @@ object JWTUtil {
     }
 
     //토큰 만료시간을 체크
-    private fun checkExpireOfAccessToken(expire: Long): Boolean {
-        val accessTokenExpire: Long = expire //컴퓨터에서 구한 utc는 1000L이 곱해져 있는 형태이므로 단위 맞춤.
-        val currentUTC = getCurrentUTC()
+    private suspend fun checkExpireOfAccessToken(expire: Long): Boolean =
+        suspendCoroutine { coroutineResult ->
+            val accessTokenExpire: Long = expire //컴퓨터에서 구한 utc는 1000L이 곱해져 있는 형태이므로 단위 맞춤.
+            val currentUTC = getCurrentUTC()
 
-        //엑세스토큰 유효성 검사
-        //스플레쉬 화면 일때는 유저 정보를 set하고 이후는 not set하기 때문에 loginCheck는 false
-        if (accessTokenExpire > currentUTC) {
-            Log.e("엑세스토큰", "유효함")
-            return true
+            //엑세스토큰 유효성 검사
+            //스플레쉬 화면 일때는 유저 정보를 set하고 이후는 not set하기 때문에 loginCheck는 false
+            if (accessTokenExpire > currentUTC) {
+                Log.e("엑세스토큰", "유효함")
+                coroutineResult.resume(true)
 
-        } else {
-            Log.e("엑세스토큰", "만료")
+            } else {
+                Log.e("엑세스토큰", "만료")
 
-            //엑세스토큰이 만료되었음으로 리프레쉬토큰 유효성검사 실시
-            var check = false
-            GlobalApplication.userDataBase.getRefreshTokenExpire().let { refreshTokenExpire ->
+                //엑세스토큰이 만료되었음으로 리프레쉬토큰 유효성검사 실시
+                GlobalApplication.userDataBase.getRefreshTokenExpire().let { refreshTokenExpire ->
 
-                //리프레쉬 토큰이 유효하다면 서버로부터 엑세스 토큰 및 리프레쉬 토큰 재갱신
-                if (refreshTokenExpire > currentUTC) {
-                    Log.e("리프레쉬 토큰", "유효함")
-                    val map = HashMap<String, Any>()
+                    //리프레쉬 토큰이 유효하다면 서버로부터 엑세스 토큰 및 리프레쉬 토큰 재갱신
+                    if (refreshTokenExpire > currentUTC) {
+                        Log.e("리프레쉬 토큰", "유효함")
+                        val map = HashMap<String, Any>()
 
-                    try {
-                        GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
-                            map[GlobalApplication.REFRESH_TOKEN] = refreshToken
-                            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                                .refreshToken(GlobalApplication.userBuilder.createUUID, map)
-                                .subscribeOn(Schedulers.io())
-                                .subscribe { userData ->
-                                    Log.e("셋팅완료", "1")
-                                    userData?.data?.token?.let { token -> Log.e("셋팅완료", "2")
-                                        token.accessToken?.let { accessToken ->
-                                            Log.e("셋팅완료", "3")
-                                            decodeAccessToken(accessToken)
-                                            setUserInfo()
-                                            check = true
+                        try {
+                            GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
+                                map[GlobalApplication.REFRESH_TOKEN] = refreshToken
+                                compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                                    .refreshToken(GlobalApplication.userBuilder.createUUID, map)
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe { userData ->
+                                        Log.e("셋팅완료", "1")
+                                        userData?.data?.token?.let { token ->
+                                            Log.e("셋팅완료", "2")
+                                            token.accessToken?.let { accessToken ->
+                                                Log.e("셋팅완료", "3")
+                                                decodeAccessToken(accessToken)
+                                                setUserInfo()
+                                                coroutineResult.resume(true)
+                                            }
                                         }
-                                    }
-                                })
+                                    })
+                            }
+                        } catch (e: Exception) {
+                            coroutineResult.resume(false)
                         }
-                    } catch (e: Exception) {
-
+                    } else {
+                        Log.e("리프레쉬 토큰 만료 체크", "만료됨")
+                        GlobalApplication.userDataBase.setAccessToken(null)
+                        GlobalApplication.userDataBase.setRefreshToken(null)
+                        GlobalApplication.userDataBase.setAccessTokenExpire(0)
+                        GlobalApplication.userDataBase.setRefreshTokenExpire(0)
+                        GlobalApplication.userInfo = UserInfo()
+                        coroutineResult.resume(false)
                     }
-                } else {
-                    Log.e("리프레쉬 토큰 만료 체크", "만료됨")
-                    GlobalApplication.userDataBase.setAccessToken(null)
-                    GlobalApplication.userDataBase.setRefreshToken(null)
-                    GlobalApplication.userDataBase.setAccessTokenExpire(0)
-                    GlobalApplication.userDataBase.setRefreshTokenExpire(0)
-                    GlobalApplication.userInfo = UserInfo()
-                    check = false
                 }
             }
-            return check
         }
-    }
 
     private fun setUserInfo() {
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
-                .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                .getUserInfo(
+                    GlobalApplication.userBuilder.createUUID,
+                    "Bearer " + GlobalApplication.userDataBase.getAccessToken()
+                )
                 .subscribeOn(Schedulers.io())
-                .subscribe({ user -> GlobalApplication.userInfo =
+                .subscribe({ user ->
+                    GlobalApplication.userInfo =
                         UserInfo.Builder().apply {
                             setProvider(user.data?.userInfo?.provider)
                             setNickName(user.data?.userInfo?.nickname ?: "")
@@ -158,15 +167,15 @@ object JWTUtil {
     }
 
     //한번 회원가입을 진행하고나서 로그인을 계속 유지시키기 위한 method
-    fun settingUserInfo(): Boolean {
+    suspend fun settingUserInfo(): Boolean {
         //엑세스 토큰이 내장 DB에 저장되어져 있다면 로그인을 한 상태.
         var check = false
         GlobalApplication.userDataBase.getAccessToken()?.let { token ->
-            GlobalApplication.userDataBase.getAccessTokenExpire().let { expire ->
-                //0이 포함되는 이유는 만료시간 default 0이기때문에 초기화를 진행하기 위함
-                if (expire >= 0) {
-                    check = checkExpireOfAccessToken(expire)
-                }
+            //0이 포함되는 이유는 만료시간 default 0이기때문에 초기화를 진행하기 위함
+            val expire = GlobalApplication.userDataBase.getAccessTokenExpire()
+
+            if (expire >= 0) {
+                check = checkExpireOfAccessToken(expire)
             }
         }
         return check

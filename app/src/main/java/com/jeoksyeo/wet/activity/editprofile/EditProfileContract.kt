@@ -28,5 +28,11 @@ interface EditProfileContract {
         fun settingUserInfo(context: Context, provider:String?)
 
         fun imageUpload(context: Context,imageFile: File?)
+
+        fun changeUserInfo()
+
+        fun setNetworkUtil()
+
+
     }
 }

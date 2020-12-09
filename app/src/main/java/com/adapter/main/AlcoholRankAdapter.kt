@@ -19,6 +19,10 @@ import com.service.JWTUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AlcoholRankAdapter(
     private val context: Context,
@@ -40,22 +44,25 @@ class AlcoholRankAdapter(
             holder.getViewBinding().monthlyBoundary.visibility = View.INVISIBLE
         }
 
-
         holder.getViewBinding().alcoholRankParentLayout.setOnSingleClickListener{
-            JWTUtil.settingUserInfo()
+            CoroutineScope(Dispatchers.IO).launch {
+                JWTUtil.settingUserInfo()
 
-            lst[position].alcoholId?.let {alcoholId->
-                disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                    .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(), alcoholId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        val bundle = Bundle()
-                        bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
-                        GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
-                            ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
-                    },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+                withContext(Dispatchers.Main){
+                    lst[position].alcoholId?.let {alcoholId->
+                        disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                            .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(), alcoholId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                val bundle = Bundle()
+                                bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
+                                GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
+                                    ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                            },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+                    }
+                }
             }
         }
     }

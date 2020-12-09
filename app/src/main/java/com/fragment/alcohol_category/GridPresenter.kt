@@ -43,7 +43,6 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     }
 
     override fun initRecyclerView(context: Context) {
-        JWTUtil.settingUserInfo()
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -103,8 +102,6 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     }
 
     override fun pagination(alcoholId: String?) {
-        JWTUtil.settingUserInfo()
-
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcoholCategory(
@@ -139,8 +136,6 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
-        JWTUtil.settingUserInfo()
-
         setSortValue(sort)
         executeProgressBar(true)
         compositeDisposable.add(

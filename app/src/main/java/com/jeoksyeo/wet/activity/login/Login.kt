@@ -32,6 +32,7 @@ import com.model.user.UserInfo
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LoginBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -63,6 +64,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
+
+        val networkUtil = NetworkUtil(this)
+        networkUtil.register()
+
 
         if (intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
@@ -210,13 +215,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     JWTUtil.decodeRefreshToken(result.data?.token?.refreshToken)
 
                     compositdisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                        .getUserInfo(
-                            GlobalApplication.userBuilder.createUUID,
-                            "Bearer " + GlobalApplication.userDataBase.getAccessToken()
-                        )
+                        .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
                         .subscribeOn(Schedulers.io())
                         .subscribe({ user ->
-                            GlobalApplication.userInfo = UserInfo.Builder().apply {
+                                GlobalApplication.userInfo = UserInfo.Builder().apply {
                                 setProvider(user.data?.userInfo?.provider)
                                 setNickName(user.data?.userInfo?.nickname ?: "")
                                 setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")

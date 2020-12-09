@@ -11,9 +11,11 @@ interface AlcoholRatedContact {
 
     interface BasesPresenter {
         var view: BaseView
+        var context:Context
         fun initProfile(provider: String?)
 
         fun initTabLayout(context: Context)
 
+        fun setNetworkUtil()
     }
 }

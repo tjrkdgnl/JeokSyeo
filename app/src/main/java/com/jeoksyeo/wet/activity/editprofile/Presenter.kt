@@ -22,10 +22,15 @@ import com.model.user.profileToPojo.ProfileInfo
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -39,6 +44,13 @@ class Presenter : EditProfileContract.BasePresenter {
     var profile: Profile? = null
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var changeObject: ProfileInfo
+    private lateinit var networkUtil: NetworkUtil
+
+
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(activity)
+        networkUtil.register()
+    }
 
     override fun executeEditProfile(
         context: Context,
@@ -46,7 +58,6 @@ class Presenter : EditProfileContract.BasePresenter {
         gender: String,
         birthday: String
     ) {
-        val check = JWTUtil.settingUserInfo()
         changeObject = ProfileInfo()
 
         if (profile != null) {
@@ -63,134 +74,139 @@ class Presenter : EditProfileContract.BasePresenter {
         }
 
         view.getView().editProfileGOkButton.setEditButtonClickListener {
-            if (check) {
-                settingProgressBar(true)
-                compositeDisposable.add(
-                    ApiGenerator.retrofit.create(ApiService::class.java)
-                        .editProfile(
-                            GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(),
-                            changeObject
-                        )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            it.data?.result?.let {
-                                if (it == "SUCCESS") {
-                                    compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                                        .getUserInfo(
-                                            GlobalApplication.userBuilder.createUUID,
-                                            GlobalApplication.userInfo.getAccessToken()
-                                        )
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe({ user ->
-                                            settingProgressBar(false)
-                                            GlobalApplication.userInfo.apply {
-                                                user.data?.userInfo?.nickname?.let { nick ->
-                                                    this.nickName = nick
-                                                }
-                                                user.data?.userInfo?.birth?.let { birth ->
-                                                    this.birthDay = birth
-                                                }
-                                                user.data?.userInfo?.gender?.let { gender ->
-                                                    this.gender = gender
-                                                }
-                                                this.profileImg = user.data?.userInfo?.profile
-                                            }
-                                            Toast.makeText(
-                                                context,
-                                                "수정이 완료되었습니다.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+            CoroutineScope(Dispatchers.IO).launch {
+                val check = JWTUtil.settingUserInfo()
 
-                                            if (context is Activity) {
-                                                context.finish()
-                                                context.overridePendingTransition(
-                                                    R.anim.left_to_current,
-                                                    R.anim.current_to_right
-                                                )
-                                            }
-
-                                        }, { t ->
+                withContext(Dispatchers.Main) {
+                    if (check) {
+                        settingProgressBar(true)
+                        compositeDisposable.add(
+                            ApiGenerator.retrofit.create(ApiService::class.java)
+                                .editProfile(GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken(), changeObject)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({
+                                    it.data?.result?.let {
+                                        if (it == "SUCCESS") {
+                                            //유저 정보 갱신
+                                            changeUserInfo()
+                                        } else {
                                             settingProgressBar(false)
-                                            Toast.makeText(
-                                                context,
-                                                "수정이 제대로 이뤄지지 않았습니다.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            Log.e(ErrorManager.USERINFO, t.message.toString())
+                                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
                                         }
-                                        ))
-                                } else {
+                                    }
+                                }, { t ->
                                     settingProgressBar(false)
-                                    Toast.makeText(
-                                        context,
-                                        "수정이 제대로 이뤄지지 않았습니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        }, { t ->
-                            settingProgressBar(false)
-                            Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT)
-                                .show()
-                            Log.e(ErrorManager.EDIT_PROFILE, t.message.toString())
-                        })
-                )
-            } else {
-                CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_MAIN, true)
+                                    Toast.makeText(context, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                    Log.e(ErrorManager.EDIT_PROFILE, t.message.toString())
+                                })
+                        )
+                    } else {
+                        CustomDialog.loginDialog(
+                            context,
+                            GlobalApplication.ACTIVITY_HANDLING_MAIN,
+                            true
+                        )
+                    }
+                }
             }
         }
     }
 
+    override fun changeUserInfo() {
+        compositeDisposable.add(ApiGenerator.retrofit.create(
+            ApiService::class.java)
+            .getUserInfo(
+                GlobalApplication.userBuilder.createUUID,
+                GlobalApplication.userInfo.getAccessToken())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ user ->
+                settingProgressBar(false)
+                GlobalApplication.userInfo.apply {
+                    user.data?.userInfo?.nickname?.let { nick ->
+                        this.nickName = nick
+                    }
+                    user.data?.userInfo?.birth?.let { birth ->
+                        this.birthDay = birth
+                    }
+                    user.data?.userInfo?.gender?.let { gender ->
+                        this.gender = gender
+                    }
+                    this.profileImg =
+                        user.data?.userInfo?.profile
+                }
+                Toast.makeText(
+                    activity,
+                    "수정이 완료되었습니다.",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                activity.finish()
+                activity.overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
+
+            }, { t -> settingProgressBar(false)
+                Toast.makeText(activity, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
+                Log.e(ErrorManager.USERINFO, t.message.toString()) }
+            ))
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun checkNickName(context: Context) {
-        var check = false
-        if (GlobalApplication.userInfo.nickName != view.getView().insertInfoEditText.text.toString()) {
-            check = Pattern.matches(
-                "^\\w+|[가-힣]+$", view.getView().insertInfoEditText.text.toString()
-            )
 
-            if (check) {
-                handler.removeCallbacksAndMessages(null)
-                handler.postDelayed({
-                    compositeDisposable.add(
-                        ApiGenerator.retrofit.create(ApiService::class.java)
-                            .checkNickName(
-                                GlobalApplication.userBuilder.createUUID,
-                                view.getView().insertInfoEditText.text.toString()
-                            )
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                {
-                                    //result=true면 닉네임 중복을 의미
-                                    it.data?.result?.let { bool ->
-                                        if (!bool) { //닉네임을 사용 할 수 있다면
-                                            checkNickname(context, true)
-                                        } else { //닉네임이 중복이라면
-                                            checkNickname(context, false)
-                                        }
-                                    }
-                                },
-                                { t ->
-                                    Log.e(
-                                        ErrorManager.NICKNAME_DUPLICATE,
-                                        t.message.toString()
-                                    )
-                                })
-                    )
-                }, 300)
+        CoroutineScope(Dispatchers.IO).launch {
+            val loginCheck = JWTUtil.settingUserInfo()
 
-            } else {//닉네임 형식을 틀렸다면
-                checkNickname(context, false)
+            withContext(Dispatchers.Main){
+                if(loginCheck){
+                    var check = false
+                    if (GlobalApplication.userInfo.nickName != view.getView().insertInfoEditText.text.toString()) {
+                        check = Pattern.matches(
+                            "^\\w+|[가-힣]+$", view.getView().insertInfoEditText.text.toString()
+                        )
+
+                        if (check) {
+                            handler.removeCallbacksAndMessages(null)
+                            handler.postDelayed({
+                                compositeDisposable.add(
+                                    ApiGenerator.retrofit.create(ApiService::class.java)
+                                        .checkNickName(
+                                            GlobalApplication.userBuilder.createUUID,
+                                            view.getView().insertInfoEditText.text.toString()
+                                        )
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(
+                                            {
+                                                //result=true면 닉네임 중복을 의미
+                                                it.data?.result?.let { bool ->
+                                                    if (!bool) { //닉네임을 사용 할 수 있다면
+                                                        checkNickname(context, true)
+                                                    } else { //닉네임이 중복이라면
+                                                        checkNickname(context, false)
+                                                    }
+                                                }
+                                            },
+                                            { t ->
+                                                Log.e(ErrorManager.NICKNAME_DUPLICATE, t.message.toString())
+                                            })
+                                )
+                            }, 300)
+
+                        } else {//닉네임 형식을 틀렸다면
+                            checkNickname(context, false)
+                        }
+                    } else {
+                        //닉네임을 바꾸지 않았다면,
+                        view.checkOkButton(false)
+                        view.getView().insertNameLinearLayout.background =
+                            context.resources.getDrawable(R.drawable.bottom_line, null)
+                        view.getView().checkNickNameText.visibility = View.INVISIBLE
+                    }
+                }else{ //세션이 만료되었을 때
+                    CustomDialog.loginDialog(activity,0,true)
+                }
             }
-        } else {
-            //닉네임을 바꾸지 않았다면,
-            view.checkOkButton(false)
-            view.getView().insertNameLinearLayout.background =
-                context.resources.getDrawable(R.drawable.bottom_line, null)
-            view.getView().checkNickNameText.visibility = View.INVISIBLE
         }
     }
 
@@ -267,11 +283,6 @@ class Presenter : EditProfileContract.BasePresenter {
     }
 
     override fun imageUpload(context: Context, imageFile: File?) {
-
-        Log.e("path", imageFile?.name.toString())
-
-        val check = JWTUtil.settingUserInfo()
-
         val imageBody = imageFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
 
         val file = imageFile?.name?.let { name ->
@@ -280,27 +291,37 @@ class Presenter : EditProfileContract.BasePresenter {
             }
         }
 
-        if (check) {
-            compositeDisposable.add(
-                ApiGenerator.retrofit.create(ApiService::class.java)
-                    .imageUpload(
-                        GlobalApplication.userBuilder.createUUID,
-                        GlobalApplication.userInfo.getAccessToken(),
-                        file
+        CoroutineScope(Dispatchers.IO).launch {
+            val check = JWTUtil.settingUserInfo()
+
+            withContext(Dispatchers.Main) {
+                if (check) {
+                    compositeDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .imageUpload(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(),
+                                file
+                            )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ result ->
+                                result.data?.mediaId?.let {
+                                    profile = Profile("image", it)
+                                    view.checkOkButton(false)
+                                }
+                            }, { t ->
+                                Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())
+                            })
                     )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ result ->
-                        result.data?.mediaId?.let {
-                            profile = Profile("image", it)
-                            view.checkOkButton(false)
-                        }
-                    }, { t ->
-                        Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())
-                    })
-            )
-        } else {
-            CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_MAIN, true)
+                } else {
+                    CustomDialog.loginDialog(
+                        context,
+                        GlobalApplication.ACTIVITY_HANDLING_MAIN,
+                        true
+                    )
+                }
+            }
         }
     }
 

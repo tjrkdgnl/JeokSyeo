@@ -36,6 +36,8 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
             activity = this@Comment
         }
 
+        commentPresenter.setNetworkUtil()
+
         if(intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)){
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
 

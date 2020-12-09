@@ -15,6 +15,6 @@ interface FavoriteContract {
         fun detach()
         fun initTabLayout()
         fun initProfile()
-
+        fun setNetworkUtil()
     }
 }

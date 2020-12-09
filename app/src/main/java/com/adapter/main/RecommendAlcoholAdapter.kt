@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.RecommendAlcoholViewHolder
 import com.adapter.viewholder.RecommendEmptyAlcoholViewHolder
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
@@ -20,6 +21,10 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RecommendAlcoholAdapter(
     private val context: Context,
@@ -56,93 +61,135 @@ class RecommendAlcoholAdapter(
             holder.bind(lst.get(position))
 
             holder.getViewBinding().activityMainRecommendImg.setOnSingleClickListener {
-                JWTUtil.settingUserInfo()
 
-                lst[position].alcoholId?.let { alcoholId ->
-                    compositDisposable.add(
-                        ApiGenerator.retrofit.create(ApiService::class.java)
-                            .getAlcoholDetail(
-                                GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(), alcoholId
-                            )
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                val bundle = Bundle()
-                                bundle.putParcelable(
-                                    GlobalApplication.MOVE_ALCHOL,
-                                    it.data?.alcohol
-                                )
-                                GlobalApplication.instance.moveActivity(
-                                    context,
-                                    AlcoholDetail::class.java,
-                                    0,
-                                    bundle,
-                                    GlobalApplication.ALCHOL_BUNDLE
-                                )
-                            }, { t -> Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString()) })
-                    )
+                CoroutineScope(Dispatchers.IO).launch {
+                    JWTUtil.settingUserInfo()
+
+                    withContext(Dispatchers.Main) {
+                        moveActivity(position)
+                    }
                 }
             }
 
             holder.getViewBinding().activtyMainLikeImg.setOnSingleClickListener {
-                val check = JWTUtil.settingUserInfo()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val check = JWTUtil.settingUserInfo()
 
-                if (check) {
-                    if (!likeList[position]) {
-                        lst[position].alcoholId?.let { alcoholId ->
-                            compositDisposable.add(
-                                ApiGenerator.retrofit.create(ApiService::class.java)
-                                    .alcoholLike(
-                                        GlobalApplication.userBuilder.createUUID,
-                                        GlobalApplication.userInfo.getAccessToken(),
-                                        alcoholId
-                                    )
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe({
-                                        likeList[position] = true
-                                        holder.getViewBinding().activityMainLikeCount.text = GlobalApplication.instance.checkCount(
-                                            holder.getViewBinding().activityMainLikeCount.text.toString().toInt(),1
-                                        )
-                                        holder.getViewBinding().activtyMainLikeImg.setImageResource(
-                                            R.mipmap.detail_full_heart
-                                        )
-                                    }, { t ->
-                                        Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
-                                    })
-                            )
+                    withContext(Dispatchers.Main) {
+                        if (check) {
+                            if (!likeList[position]) {
+                                recommendAlcoholLike(holder, position)
+
+                            } else {
+                                recommendAlcoholCancelLike(holder, position)
+                            }
                         }
-
-                    } else {
-                        lst[position].alcoholId?.let { alcoholId ->
-                            compositDisposable.add(
-                                ApiGenerator.retrofit.create(ApiService::class.java)
-                                    .cancelAlcoholLike(
-                                        GlobalApplication.userBuilder.createUUID,
-                                        GlobalApplication.userInfo.getAccessToken(),
-                                        alcoholId
-                                    )
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe({
-                                        likeList[position] = false
-                                        holder.getViewBinding().activityMainLikeCount.text = GlobalApplication.instance.checkCount(
-                                            holder.getViewBinding().activityMainLikeCount.text.toString().toInt(),-1
-                                        )
-                                        holder.getViewBinding().activtyMainLikeImg.setImageResource(
-                                            R.mipmap.detail_empty_heart
-                                        )
-                                    }, { t ->
-                                        Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
-                                    })
-                            )
+                        else{
+                            CustomDialog.loginDialog(context,0,false)
                         }
                     }
                 }
             }
         }
     }
+
+    private fun moveActivity(position: Int){
+        lst[position].alcoholId?.let { alcoholId ->
+            compositDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getAlcoholDetail(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(), alcoholId
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            val bundle = Bundle()
+                            bundle.putParcelable(
+                                GlobalApplication.MOVE_ALCHOL,
+                                it.data?.alcohol
+                            )
+                            GlobalApplication.instance.moveActivity(
+                                context,
+                                AlcoholDetail::class.java,
+                                0,
+                                bundle,
+                                GlobalApplication.ALCHOL_BUNDLE
+                            )
+                        },
+                        { t ->
+                            Log.e(
+                                ErrorManager.ALCHOL_DETAIL,
+                                t.message.toString()
+                            )
+                        })
+            )
+        }
+    }
+
+    private fun recommendAlcoholLike(holder: RecommendAlcoholViewHolder, position: Int) {
+        lst[position].alcoholId.let { alcoholId ->
+            compositDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .alcoholLike(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(),
+                        alcoholId
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        likeList[position] = true
+                        holder.getViewBinding().activityMainLikeCount.text =
+                            GlobalApplication.instance.checkCount(
+                                holder.getViewBinding().activityMainLikeCount.text.toString()
+                                    .toInt(), 1
+                            )
+                        holder.getViewBinding().activtyMainLikeImg.setImageResource(
+                            R.mipmap.detail_full_heart
+                        )
+                    }, { t ->
+                        Log.e(
+                            ErrorManager.ALCHOL_LIKE,
+                            t.message.toString()
+                        )
+                    })
+            )
+        }
+    }
+
+    fun recommendAlcoholCancelLike(holder: RecommendAlcoholViewHolder, position: Int) {
+        lst[position].alcoholId?.let { alcoholId ->
+            compositDisposable.add(
+                ApiGenerator.retrofit.create(ApiService::class.java)
+                    .cancelAlcoholLike(
+                        GlobalApplication.userBuilder.createUUID,
+                        GlobalApplication.userInfo.getAccessToken(),
+                        alcoholId
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        likeList[position] = false
+                        holder.getViewBinding().activityMainLikeCount.text =
+                            GlobalApplication.instance.checkCount(
+                                holder.getViewBinding().activityMainLikeCount.text.toString()
+                                    .toInt(), -1
+                            )
+                        holder.getViewBinding().activtyMainLikeImg.setImageResource(
+                            R.mipmap.detail_empty_heart
+                        )
+                    }, { t ->
+                        Log.e(
+                            ErrorManager.ALCHOL_CANCEL_LIKE,
+                            t.message.toString()
+                        )
+                    })
+            )
+        }
+    }
+
 
     fun updateList(list: MutableList<AlcoholList>) {
         lst.clear()

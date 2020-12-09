@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.tabs.TabLayoutMediator
+import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.disposables.CompositeDisposable
 
@@ -23,6 +24,13 @@ class Presenter : FavoriteContract.BasePresenter {
     override lateinit var view: FavoriteContract.BaseView
 
     private val compositeDisposable = CompositeDisposable()
+
+    private lateinit var networkUtil: NetworkUtil
+
+    override fun setNetworkUtil() {
+        networkUtil = NetworkUtil(context)
+        networkUtil.register()
+    }
 
     override fun initTabLayout() {
         val tabList = listOf("전체","전통주","맥주","와인","양주","사케")

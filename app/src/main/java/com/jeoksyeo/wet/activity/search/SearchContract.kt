@@ -30,5 +30,7 @@ interface SearchContract {
         fun setSearchResult(keyword:String?)
 
         fun setRelativeSearch(keyword:String)
+
+        fun setNetworkUtil()
     }
 }

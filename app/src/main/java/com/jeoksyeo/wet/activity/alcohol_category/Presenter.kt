@@ -28,6 +28,10 @@ import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import kotlinx.android.synthetic.main.alcohol_category.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Presenter:AlcoholCategoryContact.BasePresenter {
     lateinit var networkUtil: NetworkUtil
@@ -91,48 +95,57 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     }
 
     override fun initNavigationItemSet(context: Context,activity:Activity) {
-        JWTUtil.settingUserInfo()
 
-        val lst = mutableListOf<NavigationItem>()
-        lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-        lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
-        lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-        lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
-        lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
-        lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-        lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-        lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
-            ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
+        CoroutineScope(Dispatchers.IO).launch {
+            JWTUtil.settingUserInfo()
 
-        view.getView().categoryNavigation.navigationContainer.setHasFixedSize(true)
-        view.getView().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(context)
-        view.getView().categoryNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst
-            ,GlobalApplication.userInfo.getProvider(),GlobalApplication.ACTIVITY_HANDLING_CATEGORY)
+            withContext(Dispatchers.Main){
+                val lst = mutableListOf<NavigationItem>()
+                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
+                lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
+                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
+                lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
+                lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
+                lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
+                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
+                lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
+                    ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
+
+                view.getView().categoryNavigation.navigationContainer.setHasFixedSize(true)
+                view.getView().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(context)
+                view.getView().categoryNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst
+                    ,GlobalApplication.userInfo.getProvider(),GlobalApplication.ACTIVITY_HANDLING_CATEGORY)
+            }
+        }
     }
 
 
     @SuppressLint("SetTextI18n")
     override fun checkLogin(context: Context) {
-        JWTUtil.settingUserInfo()
+        CoroutineScope(Dispatchers.IO).launch {
+            JWTUtil.settingUserInfo()
 
-        GlobalApplication.userInfo.getProvider()?.let {
-            //유저 프로필 설정하는 화면 필요함
-            view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text= GlobalApplication.userInfo.nickName + "님,"
-            view.getView().categoryDrawerLayout.category_navigation.navigation_header_hello.text = "안녕하세요"
-        }
-        GlobalApplication.userInfo.getProfile()?.let {lst->
-            Log.e("프로필 변경","변경")
-            if(lst.isNotEmpty()){
-                Glide.with(context)
-                    .load(lst[lst.size-1].mediaResource?.small?.src.toString())
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey("signature"))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .circleCrop()
-                    )
-                    .into(view.getView().categoryNavigation.navigationHeader.navigationHeaderProfile)
+            withContext(Dispatchers.Main){
+                GlobalApplication.userInfo.getProvider()?.let {
+                    //유저 프로필 설정하는 화면 필요함
+                    view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text= GlobalApplication.userInfo.nickName + "님,"
+                    view.getView().categoryDrawerLayout.category_navigation.navigation_header_hello.text = "안녕하세요"
+                }
+                GlobalApplication.userInfo.getProfile()?.let {lst->
+                    Log.e("프로필 변경","변경")
+                    if(lst.isNotEmpty()){
+                        Glide.with(context)
+                            .load(lst[lst.size-1].mediaResource?.small?.src.toString())
+                            .apply(
+                                RequestOptions()
+                                    .signature(ObjectKey("signature"))
+                                    .skipMemoryCache(true)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .circleCrop()
+                            )
+                            .into(view.getView().categoryNavigation.navigationHeader.navigationHeaderProfile)
+                    }
+                }
             }
         }
     }
