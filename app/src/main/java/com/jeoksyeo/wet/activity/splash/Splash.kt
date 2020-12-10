@@ -31,10 +31,13 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                if (JWTUtil.settingUserInfo()) {
+                val tokenCheck = JWTUtil.settingUserInfo()
+                if (tokenCheck) {
+                    Log.e("tokenCheck",tokenCheck.toString())
                     presenter.setUserInfo()
                 }
 
+                Log.e("버전체크","버전체크 전")
                 val check = versionCheck()
                 withContext(Dispatchers.Main){
                     if(check){
@@ -43,6 +46,7 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
                     else{
                         CustomDialog.versionDialog(this@Splash)
                     }
+                    Log.e("버전체크","버전체크 후")
                 }
             }
 

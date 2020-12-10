@@ -34,6 +34,8 @@ class SplashPresenter : SplashContract.BasePresenter {
     }
 
     override fun setUserInfo() {
+        Log.e("유저정보 셋팅 엑세스토큰",GlobalApplication.userDataBase.getAccessToken().toString())
+
         compositedisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
             .subscribeOn(Schedulers.io())
@@ -48,7 +50,7 @@ class SplashPresenter : SplashContract.BasePresenter {
                     setLevel(user.data?.userInfo?.level ?: 0)
                     setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                 }.build()
-            }, {})
+            }, {t-> Log.e(ErrorManager.USERINFO,t.message.toString())})
         )
     }
 
@@ -83,6 +85,7 @@ class SplashPresenter : SplashContract.BasePresenter {
                                     }
                                     else -> {
                                         coroutineResult.resume(true)
+                                        Log.e("최신버전","최신버전")
                                     }
                                 }
 
