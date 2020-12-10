@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.alcohol_rated.AlcoholRatedAdapter
 import com.application.GlobalApplication
 import com.custom.CenterLayoutManager
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.rated.ReviewList
 import com.service.ApiGenerator

@@ -119,6 +119,7 @@ class RecommendAlcoholAdapter(
                             )
                         },
                         { t ->
+                            CustomDialog.networkErrorDialog(context)
                             Log.e(
                                 ErrorManager.ALCHOL_DETAIL,
                                 t.message.toString()
@@ -150,6 +151,7 @@ class RecommendAlcoholAdapter(
                             R.mipmap.detail_full_heart
                         )
                     }, { t ->
+                        CustomDialog.networkErrorDialog(context)
                         Log.e(
                             ErrorManager.ALCHOL_LIKE,
                             t.message.toString()
@@ -181,6 +183,7 @@ class RecommendAlcoholAdapter(
                             R.mipmap.detail_empty_heart
                         )
                     }, { t ->
+                        CustomDialog.networkErrorDialog(context)
                         Log.e(
                             ErrorManager.ALCHOL_CANCEL_LIKE,
                             t.message.toString()

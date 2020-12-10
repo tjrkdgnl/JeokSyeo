@@ -1,7 +1,7 @@
 package com.application
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
@@ -12,12 +12,12 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import com.google.firebase.crashlytics.BuildConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.jeoksyeo.wet.activity.main.MainActivity
 import com.kakao.sdk.common.KakaoSdk
 import com.model.user.UserInfo
-import com.service.NetworkUtil
 import com.sharedpreference.UserDB
 import com.vuforia.engine.wet.R
 import io.reactivex.exceptions.UndeliverableException
@@ -26,7 +26,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GlobalApplication : Application() {
+class GlobalApplication : MultiDexApplication() {
     var activityClass:Class<*>? =null
     private val banWord =  listOf("개발","운영","관리자","적셔")
     private val typeList = listOf("TR", "BE", "WI", "FO", "SA")
@@ -37,6 +37,13 @@ class GlobalApplication : Application() {
     )
 
     lateinit var context:Context
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+
+    }
+
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -154,6 +161,7 @@ class GlobalApplication : Application() {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     fun removeEditextFocus(editText: EditText, view: View) {
         view.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -177,8 +185,8 @@ class GlobalApplication : Application() {
         bundleFlag: String? = null,
         animationFlag: Int = 0
     ) {
-        var activity = context as Activity
-        var intent = Intent(context, activityClass)
+        val activity = context as Activity
+        val intent = Intent(context, activityClass)
 
         bundle?.let { bun ->
             bundleFlag?.let { flag ->

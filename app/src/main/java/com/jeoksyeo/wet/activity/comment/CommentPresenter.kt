@@ -2,11 +2,13 @@ package com.jeoksyeo.wet.activity.comment
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.application.GlobalApplication
@@ -37,6 +39,8 @@ class CommentPresenter : CommentContract.BasePresenter {
     private  var disposable: Disposable? =null
     private lateinit var networkUtil :NetworkUtil
 
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(activity)
         networkUtil.register()
@@ -139,8 +143,8 @@ class CommentPresenter : CommentContract.BasePresenter {
                             }
 
                         }, { t ->
+                            CustomDialog.networkErrorDialog(context)
                             settingProgressbar(false)
-                            Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
                             Log.e(ErrorManager.COMMENT, t.message.toString()) })
                 }
                 else{
@@ -209,8 +213,8 @@ class CommentPresenter : CommentContract.BasePresenter {
                                 }
                             }
                         }, { t ->
+                            CustomDialog.networkErrorDialog(context)
                             settingProgressbar(false)
-                            Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
                             Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
                 }
                 else{

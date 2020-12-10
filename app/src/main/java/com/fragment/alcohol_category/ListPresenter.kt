@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -72,7 +73,8 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                         binding.listRecyclerView.layoutManager = linearLayoutManager
                         initScrollListener()
                     }
-                }, { t -> Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString()) })
+                }, { t ->
+                    Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString()) })
         )
     }
 

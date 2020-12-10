@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
@@ -36,27 +37,17 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         //네트워크 상태확인
         presenter.setNetworkUtil()
 
-        binding.activityMainKoreanAlcohol.setOnClickListener(this)
-        binding.activityMainBeer.setOnClickListener(this)
-        binding.activityMainWine.setOnClickListener(this)
-        binding.activityMainWhisky.setOnClickListener(this)
-        binding.activityMainSake.setOnClickListener(this)
-
-        binding.businessInfo.activityMainTermsOfService.setOnClickListener(this)
-        binding.businessInfo.activityMainPrivacyPolicyText.setOnClickListener(this)
-
-
         presenter.initBanner(this)
         presenter.autoSlide()
+
+        binding.mainNavigation.navigationHeader.root.setOnClickListener(this)
 
         binding.mainBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 binding.bannerCount.text = "${position % presenter.bannerItem + 1} / ${presenter.bannerItem}"
-
             }
         })
-
     }
 
     override fun onStart() {
@@ -97,6 +88,13 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                     binding.mainDrawerLayout.openDrawer(GravityCompat.END)
                 }
             }
+
+            R.id.navigation_header ->{
+                if(GlobalApplication.userInfo.getProvider() ==null){
+                    CustomDialog.loginDialog(this,0,false)
+                }
+            }
+
             R.id.activityMain_koreanAlcohol -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 0)
                 GlobalApplication.instance.moveActivity(
@@ -153,6 +151,14 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         }
     }
 
+    override fun onBackPressed() {
+        if(binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)){
+            binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

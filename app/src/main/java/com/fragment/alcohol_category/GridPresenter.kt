@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.service.ApiGenerator
@@ -77,7 +78,8 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
 
                         initScrollListener()
                     }
-                }, { t -> Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString()) })
+                }, { t ->
+                    Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString()) })
         )
     }
 

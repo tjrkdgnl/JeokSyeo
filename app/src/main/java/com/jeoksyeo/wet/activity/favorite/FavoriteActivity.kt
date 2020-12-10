@@ -1,14 +1,18 @@
 package com.jeoksyeo.wet.activity.favorite
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.application.GlobalApplication
 import com.google.android.material.tabs.TabLayout
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.viewmodel.FavoriteViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FavoriteActivityBinding
@@ -44,12 +48,20 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
+                }else{
+                    (tab?.customView as? TextView)?.setTextColor(ContextCompat.getColor(this@FavoriteActivity,R.color.tabColor))
+                }
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 viewmodel.currentPosition.value = tab?.position
-                (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.orange,null))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.orange,null))
+                }else{
+                    (tab?.customView as? TextView)?.setTextColor(ContextCompat.getColor(this@FavoriteActivity,R.color.orange))
+                }
             }
         })
 
@@ -63,6 +75,11 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
         viewmodel.summaryCount.observe(this, Observer {
             binding.profileHeader.ratedCountText.text = "총 ${viewmodel.summaryCount.value}개의 주류를 찜하셨습니다."
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = FavoriteActivity::class.java
     }
 
     override fun getBinding(): FavoriteActivityBinding {

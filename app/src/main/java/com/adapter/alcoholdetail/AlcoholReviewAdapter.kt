@@ -8,6 +8,7 @@ import com.adapter.viewholder.AlcoholMoreReviewViewHolder
 import com.adapter.viewholder.AlcoholReviewViewHolder
 import com.adapter.viewholder.NoAlcoholReviewViewHolder
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.model.review.ReviewList
 import com.service.ApiGenerator
@@ -117,7 +118,10 @@ class AlcoholReviewAdapter(private val context: Context,
                                 notifyItemRemoved(lastIdx)
                             }
                         }
-                    }, {}))
+                    }, { t->
+                        CustomDialog.networkErrorDialog(context)
+
+                    }))
             }
         }
     }

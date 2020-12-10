@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.main.AlcoholRankAdapter
 import com.adapter.main.BannerAdapter
@@ -49,6 +51,7 @@ class Presenter : MainContract.BasePresenter {
     var bannerItem:Int =0
     lateinit var networkUtil:NetworkUtil
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(context)
         networkUtil.register()
@@ -78,7 +81,8 @@ class Presenter : MainContract.BasePresenter {
                             view.getView().mainBanner.currentItem = bannerItem *100
 
                         }
-                    },{ t->Log.e(ErrorManager.BANNER,t.message.toString()) })) }
+                    },{ t->
+                        Log.e(ErrorManager.BANNER,t.message.toString()) })) }
             }
     }
 
@@ -88,7 +92,8 @@ class Presenter : MainContract.BasePresenter {
             .subscribe({
                 view.getView().mainBanner.currentItem = view.getView().mainBanner.currentItem +1
                 view.getView().bannerCount.text = "${view.getView().mainBanner.currentItem % bannerItem +1} / $bannerItem"
-            },{t ->Log.e("banner auto slide",t.message.toString())
+            },{t ->
+                Log.e("banner auto slide",t.message.toString())
 
             }))
     }
@@ -134,7 +139,8 @@ class Presenter : MainContract.BasePresenter {
                             view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst.toMutableList())
 
                         }
-                    }, { t -> Log.e(ErrorManager.ALCHOL_RECOMMEND,t.message.toString()) }))
+                    }, { t ->
+                        Log.e(ErrorManager.ALCHOL_RECOMMEND,t.message.toString()) }))
             }
         }
     }
@@ -183,7 +189,8 @@ class Presenter : MainContract.BasePresenter {
                         view.getView().monthlyRecylcerView.adapter =
                             AlcoholRankAdapter(context, it.data?.alcoholList?.toMutableList()!!)
 
-                    }, { t -> Log.e(ErrorManager.ALCHOL_RANKING, t.message.toString()) })
+                    }, { t ->
+                        Log.e(ErrorManager.ALCHOL_RANKING, t.message.toString()) })
                 )
             }
         }

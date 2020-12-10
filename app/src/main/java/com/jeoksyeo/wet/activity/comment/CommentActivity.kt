@@ -1,12 +1,14 @@
 package com.jeoksyeo.wet.activity.comment
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
@@ -18,7 +20,8 @@ import com.vuforia.engine.wet.databinding.CommentWindowBinding
 import com.xw.repo.BubbleSeekBar
 import com.xw.repo.BubbleSeekBar.OnProgressChangedListener
 
-class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChangeListener,
+@RequiresApi(Build.VERSION_CODES.M)
+class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChangeListener,
     View.OnClickListener, TextWatcher, CommentContract.BaseView {
     private lateinit var binding:CommentWindowBinding
     private var calculateScore:Float =0f
@@ -31,9 +34,9 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         binding = DataBindingUtil.setContentView(this, R.layout.comment_window)
 
         commentPresenter = CommentPresenter().apply {
-            view=this@Comment
-            lifecycleOwner =this@Comment
-            activity = this@Comment
+            view=this@CommentActivity
+            lifecycleOwner =this@CommentActivity
+            activity = this@CommentActivity
         }
 
         commentPresenter.setNetworkUtil()
@@ -53,7 +56,11 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
         if(myComment !=null)
             commentPresenter.setMyComment(myComment!!)
 
-        binding.commentWindowContainer.setOnScrollChangeListener(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.commentWindowContainer.setOnScrollChangeListener(this)
+        }
+
+
         binding.commentWindowBottomInclude.commentWindowAromaSeekbar.onProgressChangedListener = this
         binding.commentWindowBottomInclude.commentWindowMourhfeelSeekbar.onProgressChangedListener = this
         binding.commentWindowBottomInclude.commentWindowTasteSeekbar.onProgressChangedListener = this
@@ -62,6 +69,11 @@ class Comment :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChan
 
         binding.commentWindowCommentEditText.addTextChangedListener(this)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = CommentActivity::class.java
     }
 
     override fun onBackPressed() {

@@ -18,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -43,7 +42,7 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
         val dialog = Dialog(mContext, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_twobutton)
         dialog.show()
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
@@ -75,7 +74,7 @@ class GoogleLogin(private val mContext: Context, private val activity: Activity)
         val dialog = Dialog(mContext, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_twobutton)
         dialog.show()
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val contents = dialog.findViewById<TextView>(R.id.dialog_contents)

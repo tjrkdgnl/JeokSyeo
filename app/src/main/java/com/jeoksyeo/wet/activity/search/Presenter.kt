@@ -2,12 +2,15 @@ package com.jeoksyeo.wet.activity.search
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -36,7 +39,7 @@ class Presenter : SearchContract.BasePresenter {
 
     private lateinit var networkUtil: NetworkUtil
 
-
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(activity)
         networkUtil.register()
@@ -74,17 +77,18 @@ class Presenter : SearchContract.BasePresenter {
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) {
                             view.getView().editTextSearch.setText(keyword)
-                            view.noSearchItem(false)
+                            view.noSearchItem(false,keyword)
 
                             view.setSearchList(lst.toMutableList())
                             setListener(keyword)
                         } else {
-                            view.noSearchItem(true)
+                            view.noSearchItem(true,keyword)
                         }
                     }
                 },
                     { t ->
-                        view.noSearchItem(true)
+                        CustomDialog.networkErrorDialog(activity)
+                        view.noSearchItem(true,keyword)
                         exeuteProgressBar(false)
                         Log.e(ErrorManager.SEARCH, t.message.toString())
                     })

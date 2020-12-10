@@ -44,6 +44,11 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = SignUp::class.java
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.infoConfirmButton -> nextView()

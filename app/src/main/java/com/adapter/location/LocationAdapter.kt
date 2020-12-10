@@ -1,10 +1,12 @@
 package com.adapter.location
 
+import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.LocationViewHolder
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.fragment.login.location.LocationInterface
 import com.model.area.AreaList
@@ -22,9 +24,11 @@ class LocationAdapter(
     private lateinit var disposable: Disposable
     private var viewmodel: SignUpViewModel = locationInterface.getViewModel()
     var depth = 0
+    private lateinit var context:Context
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
+        context =parent.context
         return LocationViewHolder(parent)
     }
 
@@ -61,7 +65,9 @@ class LocationAdapter(
                             else { //더 이상의 depth가 없다면
                                 viewmodel.lock=true
                             }
-                        }, { t -> Log.e(ErrorManager.LOCATION,t.message.toString())})
+                        }, { t ->
+                            CustomDialog.networkErrorDialog(context)
+                            Log.e(ErrorManager.LOCATION,t.message.toString())})
                 }
             }
         }
@@ -91,6 +97,8 @@ class LocationAdapter(
                             changeList(list.toMutableList())
                     }
 
-            }, { t -> t.stackTrace })
+            }, { t ->
+                CustomDialog.networkErrorDialog(context)
+                t.stackTrace })
     }
 }

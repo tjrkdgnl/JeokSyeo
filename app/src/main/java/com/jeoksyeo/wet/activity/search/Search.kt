@@ -1,5 +1,6 @@
 package com.jeoksyeo.wet.activity.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,6 +20,7 @@ import com.adapter.search.SearchResultAdapter
 import com.adapter.viewholder.NoRelativeSearchViewHolder
 import com.adapter.viewholder.NoResentViewholder
 import com.application.GlobalApplication
+import com.jeoksyeo.wet.activity.login.Login
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SearchBinding
@@ -110,6 +112,11 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = Search::class.java
+    }
+
     private fun hideKeyPad():Boolean{
         GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this@Search)
         return true
@@ -156,7 +163,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
                     binding.initEditText.visibility=View.INVISIBLE
                 }
 
-                noSearchItem(false)
+                noSearchItem(false,s.toString())
                 presenter.setRelativeSearch(s.toString())
             }, 300)
         }
@@ -213,14 +220,20 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this) // 키패드는 감추
     }
 
-    override fun noSearchItem(check: Boolean) {
+    @SuppressLint("SetTextI18n")
+    override fun noSearchItem(check: Boolean, keyword: String?) {
         if (check) {
             binding.noSearchItem.root.visibility = View.VISIBLE
             binding.recyclerViewSearchlist.visibility = View.INVISIBLE
-
+            keyword?.let {
+                binding.noSearchItem.textViewAlcoholName.text= "\'${keyword}\'에 대한 검색결과가 없습니다." +
+                        "\n정확한 검색어인지 확인하고 다시 검색해주세요."
+            }
+            binding.textViewRecentSearch.visibility =View.INVISIBLE
         } else {
             binding.noSearchItem.root.visibility = View.INVISIBLE
             binding.recyclerViewSearchlist.visibility = View.VISIBLE
+            binding.textViewRecentSearch.visibility =View.VISIBLE
         }
     }
 

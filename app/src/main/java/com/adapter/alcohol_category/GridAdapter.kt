@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholCategoryGridViewHolder
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
@@ -49,6 +50,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
                             ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
                         executeProgressBar(false)
                     },{t->
+                        CustomDialog.networkErrorDialog(context)
                         executeProgressBar(false)
                         Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
             }

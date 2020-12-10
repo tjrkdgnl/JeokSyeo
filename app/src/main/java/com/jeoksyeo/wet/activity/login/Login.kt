@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.login
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
@@ -61,6 +63,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         lateinit var loginObj: Login
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
@@ -73,6 +76,11 @@ class Login : AppCompatActivity(), View.OnClickListener {
             val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
             handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING, 0)!!
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = Login::class.java
     }
 
     private fun kakaoExcute() {
@@ -177,6 +185,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     executeProgressBar(false)
                 }
             }.addOnFailureListener {
+                CustomDialog.networkErrorDialog(this)
                 Log.e(ErrorManager.Google_TAG, it.message.toString())
                 executeProgressBar(false)
             }
@@ -231,11 +240,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                             moveActivity()
                         }, { e ->
                             Log.e("유저정보 셋팅 문제", e.message.toString())
-                            Toast.makeText(
-                                this,
-                                "재 로그인에 문제가 발생했습니다. 다시 로그인 해주세요.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            CustomDialog.networkErrorDialog(this)
                         })
                     )
                 }
@@ -279,9 +284,10 @@ class Login : AppCompatActivity(), View.OnClickListener {
                             okButton.setOnClickListener{dialog.dismiss()}
                             cancelButton.setOnClickListener { dialog.dismiss() }
                         }
-                    } ?: Toast.makeText(this,"로그인에 문제가 발생했습니다.\n 앱 종료 후, 다시 이용해 주세요.",Toast.LENGTH_SHORT).show()
+                    } ?:   CustomDialog.networkErrorDialog(this)
                 }
             }, { t: Throwable? ->
+                CustomDialog.networkErrorDialog(this)
                 t?.stackTrace
                 executeProgressBar(false)
             })

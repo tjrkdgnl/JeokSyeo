@@ -3,9 +3,12 @@ package com.jeoksyeo.wet.activity.alcohol_rated
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.adapter.alcohol_rated.RatedViewPagerAdapter
 import com.application.GlobalApplication
@@ -20,8 +23,10 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
 
     private lateinit var networkUtil:NetworkUtil
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
-            networkUtil = NetworkUtil(context)
+        networkUtil = NetworkUtil(context)
+        networkUtil.register()
     }
 
     @SuppressLint("SetTextI18n")
@@ -45,8 +50,14 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
                     context.resources.getDimension(R.dimen.tab_text_size)
                 )
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
                 textView.gravity = Gravity.CENTER_HORIZONTAL
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    (tab.customView as? TextView)?.setTextColor(context.resources.getColor(R.color.tabColor,null))
+                } else {
+                    (tab.customView as? TextView)?.setTextColor(ContextCompat.getColor(context,R.color.tabColor))
+                }
+
             }.attach()
 
         }

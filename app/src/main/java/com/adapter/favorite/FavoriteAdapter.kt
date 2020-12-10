@@ -1,11 +1,13 @@
 package com.adapter.favorite
 
+import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.FavoriteViewHolder
 import com.adapter.viewholder.NoFavoriteViewHolder
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.favorite.AlcoholList
 import com.service.ApiGenerator
@@ -19,6 +21,8 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val compositeDisposable = CompositeDisposable()
     private var likeCheckList = mutableListOf<Boolean>()
+    private lateinit var context: Context
+
     init {
         for (i in lst.indices) {
             likeCheckList.add(true)
@@ -26,6 +30,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        context = parent.context
         return when (viewType) {
             1 -> {
                 FavoriteViewHolder(parent)
@@ -65,6 +70,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                                     R.mipmap.small_heart_empty)
                                 likeCheckList[position] = false
                             }, { t ->
+                                CustomDialog.networkErrorDialog(context)
                                 Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
                             })
                     )
@@ -84,6 +90,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                                     R.mipmap.small_heart_full)
                                 likeCheckList[position] = true
                             }, { t ->
+                                CustomDialog.networkErrorDialog(context)
                                 holder.getViewBinding().imageViewFavoriteHeart.isEnabled =true
                                 Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
                             })

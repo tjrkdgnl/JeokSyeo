@@ -62,7 +62,7 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name="com.jeoksyeo.wet.activity.comment.Comment"
+        <activity android:name="com.jeoksyeo.wet.activity.comment.CommentActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
         </activity>

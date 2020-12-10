@@ -26,7 +26,7 @@ object JWTUtil {
     ) {
         try {
             val split = accessToken?.split(".")
-            Log.e("Decode accessToken", getJson(split?.get(1)))
+//            Log.e("Decode accessToken", getJson(split?.get(1)))
             jsonParsing(getJson(split?.get(1)), ACCESS_TOKEN)
         } catch (e: Exception) {
             e.stackTrace
@@ -39,7 +39,7 @@ object JWTUtil {
     ) {
         try {
             val split = refreshToken?.split(".")
-            Log.e("Decode refreshToken", getJson(split?.get(1)))
+//            Log.e("Decode refreshToken", getJson(split?.get(1)))
             jsonParsing(getJson(split?.get(1)), REFRESH_TOKEN)
         } catch (e: Exception) {
             e.stackTrace
@@ -145,7 +145,6 @@ object JWTUtil {
             //0이 포함되는 이유는 만료시간 default 0이기때문에 초기화를 진행하기 위함
             val expire = GlobalApplication.userDataBase.getAccessTokenExpire()
             if (expire >= 0) {
-                Log.e("expire",expire.toString())
                 check = checkExpireOfAccessToken(expire)
             }
         }

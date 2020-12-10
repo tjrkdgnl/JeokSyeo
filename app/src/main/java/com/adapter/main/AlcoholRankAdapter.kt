@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholRankViewHolder
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
@@ -60,7 +61,9 @@ class AlcoholRankAdapter(
                                 bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
                                 GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
                                     ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
-                            },{t->Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
+                            },{t->
+                                CustomDialog.networkErrorDialog(context)
+                                Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})
                     }
                 }
             }

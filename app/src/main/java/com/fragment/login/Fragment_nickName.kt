@@ -1,6 +1,8 @@
 package com.fragment.login
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +13,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +30,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.regex.Pattern
 
+@SuppressLint("UseCompatLoadingForDrawables")
 class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnClickListener {
     private lateinit var viewmodel: SignUpViewModel
     private lateinit var binding: FragmentSignupNicknameBinding
@@ -37,13 +41,13 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
     private lateinit var nicknameDisposable: Disposable
     private val handler = Handler(Looper.getMainLooper())
 
-
     companion object {
         fun newInstance(): Fragment_nickName {
             val fragment = Fragment_nickName()
             return fragment
         }
     }
+
 
 
     override fun onCreateView(
@@ -114,8 +118,14 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                 checkEnable()
             }
         } else {// 사용자가 다 닉네임을 다 지운 경우
-            binding.insertNameLinearLayout.background =
-                resources.getDrawable(R.drawable.bottom_line, null)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.insertNameLinearLayout.background =
+                    resources.getDrawable(R.drawable.bottom_line, null)
+            }else{
+                context?.let {
+                    binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(it,R.drawable.bottom_line) }
+            }
             binding.checkNickNameText.visibility = View.INVISIBLE
 
             checkNickname=false
@@ -124,23 +134,48 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         }},300)
     }
 
+
     private fun setGreen(){
         binding.checkNickNameText.visibility = View.VISIBLE
         binding.checkNickNameText.text = getString(R.string.useNickName)
-        binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
-        binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binding.insertNameLinearLayout.background = resources.getDrawable(R.drawable.bottom_line_green, null)
+        }else{
+            context?.let {
+                binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(it,R.drawable.bottom_line) }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
+        }else{
+            context?.let {
+                binding.checkNickNameText.setTextColor(ContextCompat.getColor(it,R.color.green))
+            }
+        }
     }
 
     private fun setRed(){
         binding.checkNickNameText.visibility = View.VISIBLE
         binding.checkNickNameText.text = getString(R.string.dontUseNickName)
-        binding.insertNameLinearLayout.background =
-            resources.getDrawable(R.drawable.bottom_line_red, null)
-        binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binding.insertNameLinearLayout.background =
+                resources.getDrawable(R.drawable.bottom_line_red, null)
+        }else{
+            context?.let {
+                binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(it,R.drawable.bottom_line_red)
+            }
+
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
+        }else{
+            context?.let {
+                binding.checkNickNameText.setTextColor(ContextCompat.getColor(it, R.color.red))
+            }
+        }
     }
-
-
-
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {

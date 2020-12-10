@@ -17,7 +17,7 @@ interface SearchContract {
         fun setSearchList(list:MutableList<AlcoholList>)
         fun updatePaging(list:MutableList<AlcoholList>)
         fun changeAdapter(keyword: String?,relativeCheck:Boolean =true)
-        fun noSearchItem(check:Boolean)
+        fun noSearchItem(check:Boolean,keyword: String?)
     }
 
 

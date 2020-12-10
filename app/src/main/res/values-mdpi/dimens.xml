@@ -3,8 +3,9 @@
     <dimen name="tab_text_size">12sp</dimen> //1
     <dimen name="component_text_size">12sp</dimen> //1
     <dimen name="navigation_name_size">15sp</dimen> //3
-    <dimen name="navigation_name_hello">7sp</dimen> //3
-    <dimen name="comment_alcohol_name_size">19sp</dimen> //1
+    <dimen name="navigation_name_hello">7sp</dimen>
+    //3
+    //1
     <dimen name="detail_more_text_size">9sp</dimen> //1
     <dimen name="gridItem_default_textsize">9sp</dimen> //1
     <dimen name="rated_name_size">19sp</dimen> //1

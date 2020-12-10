@@ -3,12 +3,15 @@ package com.jeoksyeo.wet.activity.editprofile
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -47,6 +50,8 @@ class Presenter : EditProfileContract.BasePresenter {
     private lateinit var networkUtil: NetworkUtil
     var checkDuplicate = false
 
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(activity)
         networkUtil.register()
@@ -105,11 +110,7 @@ class Presenter : EditProfileContract.BasePresenter {
                                     }
                                 }, { t ->
                                     settingProgressBar(false)
-                                    Toast.makeText(
-                                        context,
-                                        "수정이 제대로 이뤄지지 않았습니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    CustomDialog.networkErrorDialog(context)
                                     Log.e(ErrorManager.EDIT_PROFILE, t.message.toString())
                                 })
                         )
@@ -163,8 +164,8 @@ class Presenter : EditProfileContract.BasePresenter {
                 )
 
             }, { t ->
+                CustomDialog.networkErrorDialog(activity)
                 settingProgressBar(false)
-                Toast.makeText(activity, "수정이 제대로 이뤄지지 않았습니다.", Toast.LENGTH_SHORT).show()
                 Log.e(ErrorManager.USERINFO, t.message.toString())
             }
             ))
@@ -227,8 +228,15 @@ class Presenter : EditProfileContract.BasePresenter {
                             //닉네임을 바꾸지 않았다면,
                             checkDuplicate = false
                             view.checkOkButton()
-                            view.getView().insertNameLinearLayout.background =
-                                context.resources.getDrawable(R.drawable.bottom_line, null)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                view.getView().insertNameLinearLayout.background =
+                                    context.resources.getDrawable(R.drawable.bottom_line, null)
+                            }
+                            else{
+                                view.getView().insertNameLinearLayout.background =
+                                    ContextCompat.getDrawable(context,R.drawable.bottom_line)
+                            }
+
                             view.getView().checkNickNameText.visibility = View.INVISIBLE
                         }
                     } else { //세션이 만료되었을 때
@@ -247,34 +255,43 @@ class Presenter : EditProfileContract.BasePresenter {
             view.getView().checkNickNameText.visibility = View.VISIBLE
             view.getView().checkNickNameText.text =
                 context.getString(R.string.useNickName)
-            view.getView().insertNameLinearLayout.background =
-                context.resources.getDrawable(
-                    R.drawable.bottom_line_green,
-                    null
-                )
-            view.getView().checkNickNameText.setTextColor(
-                context.resources.getColor(
-                    R.color.green,
-                    null
-                )
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.getView().insertNameLinearLayout.background =
+                    context.resources.getDrawable(R.drawable.bottom_line_green, null)
+            } else{
+                view.getView().insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(context, R.drawable.bottom_line_green)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.getView().checkNickNameText.setTextColor(
+                    context.resources.getColor(R.color.green, null))
+            }else{
+                view.getView().checkNickNameText.setTextColor(
+                    ContextCompat.getColor(context,R.color.green))
+            }
+
         } else {
             checkDuplicate = true
             view.checkOkButton()
             view.getView().checkNickNameText.visibility = View.VISIBLE
-            view.getView().checkNickNameText.text =
-                context.getString(R.string.dontUseNickName)
-            view.getView().insertNameLinearLayout.background =
-                context.resources.getDrawable(
-                    R.drawable.bottom_line_red,
-                    null
-                )
-            view.getView().checkNickNameText.setTextColor(
-                context.resources.getColor(
-                    R.color.red,
-                    null
-                )
-            )
+            view.getView().checkNickNameText.text = context.getString(R.string.dontUseNickName)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.getView().insertNameLinearLayout.background =
+                    context.resources.getDrawable(R.drawable.bottom_line_red, null)
+            } else{
+                view.getView().insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(context,R.drawable.bottom_line_red)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.getView().checkNickNameText.setTextColor(
+                    context.resources.getColor(R.color.red, null))
+            }else{
+                view.getView().checkNickNameText.setTextColor(
+                    ContextCompat.getColor(context,R.color.red))
+            }
         }
     }
 
@@ -342,6 +359,7 @@ class Presenter : EditProfileContract.BasePresenter {
                                     view.checkOkButton()
                                 }
                             }, { t ->
+                                CustomDialog.networkErrorDialog(activity)
                                 Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())
                             })
                     )

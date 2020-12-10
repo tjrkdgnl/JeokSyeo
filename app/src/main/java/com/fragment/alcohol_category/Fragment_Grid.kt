@@ -57,6 +57,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
             context = this@Fragment_Grid.requireActivity()
         }
 
+        gridPresenter.initRecyclerView(requireActivity())
         return binding.root
     }
 
@@ -68,7 +69,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     override fun onResume() {
         super.onResume()
 
-        gridPresenter.initRecyclerView(requireActivity())
+
     }
 
     fun changeSort(sort:String){

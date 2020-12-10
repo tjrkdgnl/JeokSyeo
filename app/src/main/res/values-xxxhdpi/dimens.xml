@@ -2,12 +2,6 @@
 <resources>
 
     //공통
-    <dimen name="menu_entries_text">5sp</dimen>
-    <dimen name="menu_entries_title">5sp</dimen>
-    <dimen name="margin_left">21dp</dimen>
-    <dimen name="actionBar_top">17dp</dimen>
-    <dimen name="actionBar_left">11dp</dimen>
-    <dimen name="actionBar_right">21dp</dimen>
     <dimen name="pageMargin">33dp</dimen>
     <dimen name="offset">30dp</dimen>
     <dimen name="grid_layout_margin">1.5px</dimen>
@@ -26,8 +20,9 @@
 
     <dimen name="component_text_size">15sp</dimen> //1
     <dimen name="navigation_name_size">24sp</dimen> //3
-    <dimen name="navigation_name_hello">16sp</dimen> //3
-    <dimen name="comment_alcohol_name_size">22sp</dimen> //1
+    <dimen name="navigation_name_hello">16sp</dimen>
+    //3
+    //1
     <dimen name="detail_more_text_size">12sp</dimen> //1
     <dimen name="rated_name_size">22sp</dimen> //1
     <dimen name="rated_count_size">14sp</dimen> //1
@@ -37,71 +32,47 @@
     <dimen name="aromaTextSize">17sp</dimen>
     <dimen name="aromaBackgroundTextSize">45sp</dimen>
     <dimen name="componentMarginEnd">15dp</dimen>
-    <dimen name="comment_scoreTextSize">36sp</dimen>
 
     //recommand item
-    <dimen name="recommand_alcoholName">20sp</dimen>
-    <dimen name="recommand_alcoholNumber">16sp</dimen>
 
 
     //ActivityMainWindow
-    <dimen name="categoryButtonSize">70dp</dimen>
-    <dimen name="autoViewPager_height">245dp</dimen>
-    <dimen name="main_text_defaultSize">25sp</dimen>
-    <dimen name="main_text_miniSize">23sp</dimen>
     <dimen name="alcohol_button_textSize">13sp</dimen>
     <dimen name="autoViewPager_textSize">10sp</dimen>
     <dimen name="whatIsQuestion_textSize">10sp</dimen>
 
     //myfavoriteActivity
-    <dimen name="favorite_default_textSize">15sp</dimen>
-    <dimen name="favorite_edit_textSize">14sp</dimen>
 
     //searchWindow
-    <dimen name="searchButtonSize">22dp</dimen>
     <dimen name="search_editTextSize">16sp</dimen>
     <dimen name="recentSearch_textSize">15sp</dimen>
     <dimen name="search_default_textSize">17sp</dimen>
 
     //QnAActivity
-    <dimen name="QnA_title">19sp</dimen>
-    <dimen name="QnA_category_textSize">15sp</dimen>
-    <dimen name="Part_textSize">14sp</dimen>
-    <dimen name="QnA_info_height">340dp</dimen>
 
     //AlcoholDetail
     <dimen name="title_Size">18sp</dimen>
-    <dimen name="AlcoholDetail_ImageViewSize">50dp</dimen>
     <dimen name="detail_alcohol_Name_k">23sp</dimen>
     <dimen name="detail_alcohol_Name_E">18sp</dimen>
     <dimen name="detail_default_textSize">12sp</dimen>
     <dimen name="detail_review_Score">48sp</dimen>
     <dimen name="detail_review_progress_height">20dp</dimen>
-    <dimen name="detail_alcohol_score">26sp</dimen>
-    <dimen name="detail_my_score">21sp</dimen>
 
     //basic
     <dimen name="basic_backbutton_marginBottom">15dp</dimen>
     <dimen name="basic_title_textSize">16sp</dimen>
 
     //basicProfile
-    <dimen name="basic_profileSize">51dp</dimen>
-    <dimen name="basic_userName">17sp</dimen>
-    <dimen name="basic_level">14sp</dimen>
 
     //AlcoholListMainWindow
-    <dimen name="AlcoholMainWindow_searchButton_size">30dp</dimen>
     <dimen name="AlcoholMainWindow_LinearLayout_height">38dp</dimen>
-    <dimen name="AlchileMainWindow_ArrowToggle_height">16dp</dimen>
     <dimen name="AlcoholMainWindow_textView_totalProduct_textsize">11sp</dimen>
     <dimen name="AlcoholMainWindow_default_textsize">14sp</dimen>
-    <dimen name="AlcoholMainWindow_expandable_height">36dp</dimen>
 
     //viewPager_list_item
     <dimen name="listItem_listAhchol_img_size">112dp</dimen>
     <dimen name="list_item_listAlcoholName_K_textsize">16sp</dimen>
     <dimen name="list_item_listAlcoholName_E_textsize">13sp</dimen>
-    <dimen name="listItem_default_Imagesize">16dp</dimen>
     <dimen name="listitem_heartImg_marginTop">14dp</dimen>
 
     //viewPager_grid_item
@@ -113,52 +84,13 @@
     <dimen name="gridItem_gridHeart_marginBottom">16dp</dimen>
 
     //all_login
-    <dimen name="marginBottom_default">30dp</dimen>
-    <dimen name="logo_size">66dp</dimen>
-    <dimen name="marginTop_logo">130dp</dimen>
-    <dimen name="alllogin_explain_margintop">30dp</dimen>
-    <dimen name="width_explain">300dp</dimen>
-    <dimen name="alllogin_explain_textsize">17sp</dimen>
-    <dimen name="alllogin_kakaotalklogin_margintop">33dp</dimen>
-    <dimen name="alllogin_kakaotalklogin_height">63dp</dimen>
-    <dimen name="alllogin_kakaotalk_logo_width">66dp</dimen>
-    <dimen name="alllogin_kakaotalk_logo_marginleft">28dp</dimen>
-    <dimen name="alllogin_kakaotalk_text_height">21dp</dimen>
-    <dimen name="alllogin_kakaotalk_text_size">15dp</dimen>
-    <dimen name="alllogin_kakaotalk_text_marginleft">12dp</dimen>
-    <dimen name="alllogin_googleLogin_size">23dp</dimen>
-    <dimen name="alllogin_naverLogin_size">23dp</dimen>
-    <dimen name="alllogin_diffText_textsize">14sp</dimen>
-    <dimen name="alllogin_difftext_marginTop">180dp</dimen>
-    <dimen name="alllogin_difftext_marginLeft">5dp</dimen>
-    <dimen name="alllogin_textBarrier_width">0.5dp</dimen>
-    <dimen name="alllogin_textBarrier_height">22dp</dimen>
-    <dimen name="marginTop_barrier">26dp</dimen>
-    <dimen name="marginBottom_barrier">25dp</dimen>
-    <dimen name="barrier_textsize">16sp</dimen>
 
     //editProfile
     <dimen name="edit_Profile_nickNameSize">16sp</dimen>
-    <dimen name="edit_Profile_imgSize">110dp</dimen>
     <dimen name="userInfo_imageButton_backButton_size">40dp</dimen>
-    <dimen name="userInfo_imageButton_backButton_marginLeft">20dp</dimen>
-    <dimen name="userInfo_imageButton_backButton_marginTop">36dp</dimen>
-    <dimen name="userInfo_textView_enroll_textSize">15sp</dimen>
-    <dimen name="userInfo_imageView_myProfile_size">100dp</dimen>
     <dimen name="userInfo_imageView_myProfile_marginTop">57dp</dimen>
-    <dimen name="userInfo_ImageButton_album_size">30dp</dimen>
-    <dimen name="userInfo_textView_writeNickname_textsize">13sp</dimen>
     <dimen name="userInfo_textView_writeNickname_marginLeft">16dp</dimen>
     <dimen name="userInfo_textView_writeNickname_marginTop">35dp</dimen>
-    <dimen name="userInfo_edit_nickname_height">48dp</dimen>
-    <dimen name="userInfo_edit_nickname_marginTop">68dp</dimen>
-    <dimen name="userInfo_imageButton_totalAgreement_marginLeft">29dp</dimen>
-    <dimen name="userInfo_imageButton_totalAgreement_marginTop">41dp</dimen>
-    <dimen name="userInfo_textSize_default">14sp</dimen>
-    <dimen name="userInfo_imageButton_miniAgreement1_marginTop">23.5dp</dimen>
-    <dimen name="userInfo_textView_agreementForUse_textSize">10sp</dimen>
-    <dimen name="userInfo_TextView_ok_textSize">15sp</dimen>
-    <dimen name="userInfo_TextView_ok_marginLeft">141dp</dimen>
 
 
 </resources>

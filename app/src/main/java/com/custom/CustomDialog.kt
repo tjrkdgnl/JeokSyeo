@@ -9,12 +9,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.login.Login
@@ -28,7 +25,7 @@ object CustomDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_twobutton)
         dialog.show()
         return dialog
     }
@@ -39,8 +36,9 @@ object CustomDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_twobutton)
         dialog.show()
+
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
         val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
@@ -68,20 +66,30 @@ object CustomDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_onebutton)
         dialog.show()
+
         val oneButton = dialog.findViewById<Button>(R.id.onebutton)
-        val buttonLayout = dialog.findViewById<LinearLayout>(R.id.buttonLinearLayout)
-        val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
-
-        oneButton.visibility =View.VISIBLE
-        buttonLayout.visibility =View.GONE
-
-        contents.text = "최신 업데이트가 있습니다."
 
         oneButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.playStore_url)))
             (context as Activity).startActivity(intent)
+            dialog.dismiss()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun networkErrorDialog(context: Context) {
+        val dialog = Dialog(context, R.style.custom_dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.custom_dialog_network)
+        dialog.show()
+
+        val oneButton = dialog.findViewById<Button>(R.id.onebutton)
+
+        oneButton.setOnClickListener {
             dialog.dismiss()
         }
     }
@@ -92,7 +100,7 @@ object CustomDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_twobutton)
         dialog.show()
         val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)

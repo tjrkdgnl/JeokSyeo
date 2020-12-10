@@ -125,6 +125,7 @@ class AlcoholReviewViewHolder(
                             }
 
                         },{ t ->
+                            CustomDialog.networkErrorDialog(context)
                             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                             Log.e(ErrorManager.REVIEW_LIKE,t.message.toString())
                         }))
@@ -157,6 +158,7 @@ class AlcoholReviewViewHolder(
                                 GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
 
                         },{ t ->
+                            CustomDialog.networkErrorDialog(context)
                             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,false)
                             Log.e(ErrorManager.REVIEW_UNLIKE,t.message.toString())
                         }))
@@ -195,6 +197,7 @@ class AlcoholReviewViewHolder(
                                 binding.textViewRecommendUpCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
                             }
                         },{ t ->
+                            CustomDialog.networkErrorDialog(context)
                             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                             Log.e(ErrorManager.REVIEW_DISLIKE,t.message.toString())
                         }))
@@ -226,6 +229,7 @@ class AlcoholReviewViewHolder(
                             binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),-1)
 
                         },{ t ->
+                            CustomDialog.networkErrorDialog(context)
                             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                             Log.e(ErrorManager.REVIEW_UNDISLIKE,t.message.toString())
                         }))

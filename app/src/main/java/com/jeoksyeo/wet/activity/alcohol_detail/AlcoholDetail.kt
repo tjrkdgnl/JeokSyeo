@@ -43,6 +43,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
     override fun onStart() {
         super.onStart()
+        GlobalApplication.instance.activityClass = AlcoholDetail::class.java
         if(refreshLikeCheck){
             refreshLikeCheck=false
             presenter.refreshIsLike()

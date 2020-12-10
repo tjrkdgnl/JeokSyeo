@@ -16,7 +16,7 @@ import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.fragment.alcohol_rated.Fragment_alcoholRated
 import com.jeoksyeo.wet.activity.alcohol_rated.AlcoholRated
-import com.jeoksyeo.wet.activity.comment.Comment
+import com.jeoksyeo.wet.activity.comment.CommentActivity
 import com.model.rated.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -104,8 +104,9 @@ class AlcoholRatedAdapter(private val context: Context,
                             }
 
                            notifyDataSetChanged()
-                        },{
-                            t->Log.e("내가 평가한 리뷰 삭제 에러",t.message.toString())
+                        },{ t->
+                            CustomDialog.networkErrorDialog(context)
+                            Log.e("내가 평가한 리뷰 삭제 에러",t.message.toString())
                         }))
                 }
                 cancelButton.setOnClickListener {  dialog.dismiss() }
@@ -134,12 +135,13 @@ class AlcoholRatedAdapter(private val context: Context,
                                 progressbar(false)
 
                                 bundle.putParcelable(GlobalApplication.MOVE_MY_COMMENT,comment.data?.review)
-                                GlobalApplication.instance.moveActivity(context, Comment::class.java
+                                GlobalApplication.instance.moveActivity(context, CommentActivity::class.java
                                     ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
                             },{t ->
                                 progressbar(false)
                                 Log.e(ErrorManager.MY_COMMENT,t.message.toString()) }))
                     },{ t ->
+                        CustomDialog.networkErrorDialog(context)
                         progressbar(false)
                         Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString()) }))
             }

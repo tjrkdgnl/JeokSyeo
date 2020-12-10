@@ -9,9 +9,11 @@ import android.provider.Settings
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import com.adapter.signup.SignUpViewPagerAdapter
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.service.ApiGenerator
@@ -28,6 +30,7 @@ class SignUpPresenter : SignUpContract.BasePresenter {
     private var disposable:Disposable? =null
     private lateinit var networkUtil: NetworkUtil
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(activity)
         networkUtil.register()
@@ -91,7 +94,9 @@ class SignUpPresenter : SignUpContract.BasePresenter {
 
                         GlobalApplication.instance.moveActivity(activity, MainActivity::class.java,
                             Intent.FLAG_ACTIVITY_CLEAR_TOP,null,null,1)
-                    }, { t: Throwable -> t.stackTrace })
+                    }, { t: Throwable ->
+                        CustomDialog.networkErrorDialog(activity)
+                        t.stackTrace })
             }
         }
     }

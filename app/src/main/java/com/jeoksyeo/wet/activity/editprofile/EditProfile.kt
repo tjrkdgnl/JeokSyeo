@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -15,6 +16,7 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
@@ -23,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.EditProfileBinding
 import com.yalantis.ucrop.UCrop
@@ -73,6 +76,11 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             binding.editProfileBasicDatePicker.datePicker.setOnDateChangedListener(this)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = EditProfile::class.java
     }
 
     private fun CameraPermission() {
@@ -163,9 +171,17 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         }
         //크롭 후 저장할 Uri
         val options = UCrop.Options()
-        options.setStatusBarColor(getColor(R.color.orange)) //상태바 배경색
-        options.setToolbarColor(getColor(R.color.orange)) // toolbar의 배경색상
-        options.setToolbarWidgetColor(getColor(R.color.white)) //toolbar 내에 있는 view들의 색상
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            options.setStatusBarColor(getColor(R.color.orange))//상태바 배경색
+            options.setToolbarColor(getColor(R.color.orange)) // toolbar의 배경색상
+            options.setToolbarWidgetColor(getColor(R.color.white)) //toolbar 내에 있는 view들의 색상
+        }
+        else{
+            options.setStatusBarColor(ContextCompat.getColor(this,R.color.orange))//상태바 배경색
+            options.setToolbarColor(ContextCompat.getColor(this,R.color.orange)) // toolbar의 배경색상
+            options.setToolbarWidgetColor(ContextCompat.getColor(this,R.color.white)) //toolbar 내에 있는 view들의 색상
+        }
+
         options.setCircleDimmedLayer(true) // crop shape
         options.setToolbarTitle("Edit Profile") //title 지정
         options.setShowCropGrid(false) // 격자표시
@@ -259,19 +275,40 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         birthday = GlobalApplication.userInfo.birthDay
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun resultNickNameCheck(result: Boolean) {
         if (result) {
             binding.checkNickNameText.visibility = View.VISIBLE
             binding.checkNickNameText.text = getString(R.string.dontUseNickName)
-            binding.insertNameLinearLayout.background =
-                resources.getDrawable(R.drawable.bottom_line_red, null)
-            binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.insertNameLinearLayout.background =
+                    resources.getDrawable(R.drawable.bottom_line_red, null)
+            } else{
+                binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(this,R.drawable.bottom_line_red)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
+            } else{
+                binding.checkNickNameText.setTextColor(ContextCompat.getColor(this,R.color.red))
+            }
         } else {
             binding.checkNickNameText.visibility = View.VISIBLE
             binding.checkNickNameText.text = getString(R.string.useNickName)
-            binding.insertNameLinearLayout.background =
-                resources.getDrawable(R.drawable.bottom_line_green, null)
-            binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.insertNameLinearLayout.background =
+                    resources.getDrawable(R.drawable.bottom_line_green, null)
+            } else{
+                binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(this,R.drawable.bottom_line_green)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
+            } else{
+                binding.checkNickNameText.setTextColor(ContextCompat.getColor(this,R.color.green))
+            }
         }
     }
 

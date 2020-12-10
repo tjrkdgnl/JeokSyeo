@@ -1,7 +1,9 @@
 package com.jeoksyeo.wet.activity.alcohol_category
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -19,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.adapter.alcohol_category.GridViewPagerAdapter
 import com.adapter.alcohol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.fragment.alcohol_category.Fragment_Grid
 import com.fragment.alcohol_category.Fragment_List
 import com.google.android.material.tabs.TabLayout
@@ -36,7 +40,6 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
     private var popupMenu: PopupMenu? = null
     private lateinit var viewModel: AlcoholCategoryViewModel
     private var currentItem =0
-    private val handler= Handler(Looper.getMainLooper())
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +67,8 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
         //네트워크 감지 셋팅
         presenter.setNetworkUtil()
 
+        binding.categoryNavigation.navigationHeader.root.setOnClickListener(this)
+
         binding.tabLayoutAlcoholList.addOnTabSelectedListener(this)
         binding.viewPager2Container.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
@@ -72,7 +77,12 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
                 binding.viewPager2Container.currentItem = position
                 viewModel.changePosition.value = position
                 presenter.checkSort(position, viewModel.currentSort)
-                (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(resources.getColor(R.color.orange,null))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(resources.getColor(R.color.orange,null))
+                }
+                else{
+                    (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(ContextCompat.getColor(this@AlcoholCategory,R.color.orange))
+                }
             }
         })
 
@@ -93,14 +103,6 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
             binding.categoryDrawerLayout.closeDrawer(GravityCompat.END)
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//
-//        //네트워크가 다시 연결되었을 때
-//        presenter.inintTabLayout(this,currentItem)
-//
-//    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -161,6 +163,12 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
                 if (!binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END))
                     binding.categoryDrawerLayout.openDrawer(GravityCompat.END) }
 
+            R.id.navigation_header->{
+                if(GlobalApplication.userInfo.getProvider() ==null){
+                    CustomDialog.loginDialog(this,2,false)
+                }
+            }
+
             R.id.imageView_listToggle -> { changeToggle(false) }
 
             R.id.imageView_viewToggle -> { changeToggle(true) }
@@ -194,15 +202,25 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+        if(binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END)){
+            binding.categoryDrawerLayout.closeDrawer(GravityCompat.END)
+        }
+        else{
+            super.onBackPressed()
+            overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+        }
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-        (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
+        }
+        else{
+            (tab?.customView as? TextView)?.setTextColor(ContextCompat.getColor(this,R.color.tabColor))
+        }
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {

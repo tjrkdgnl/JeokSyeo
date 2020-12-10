@@ -10,11 +10,12 @@ android {
 
     defaultConfig {
         applicationId "com.vuforia.engine.wet"
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
+        versionCode 2
         versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled =true
     }
 
     sourceSets {
@@ -60,6 +61,7 @@ android {
             proguardFile 'proguard-gson.pro'
             proguardFile 'proguard-coroutine.pro'
             proguardFile 'proguard-rules.pro'
+            proguardFile 'proguard-multidex.pro'
             proguardFile 'proguard-debug.pro'
         }
 
@@ -76,6 +78,7 @@ android {
             proguardFile 'proguard-glide.pro'
             proguardFile 'proguard-gson.pro'
             proguardFile 'proguard-coroutine.pro'
+            proguardFile 'proguard-multidex.pro'
             proguardFile 'proguard-rules.pro'
 
             //릴리즈버전으로 빌드
@@ -97,6 +100,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    dexOptions{
+        preDexLibraries =true
+        javaMaxHeapSize = "4g"
+    }
 
 }
 
@@ -111,6 +118,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     //리사이클러뷰
     implementation "androidx.recyclerview:recyclerview:1.1.0"

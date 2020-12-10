@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.model.user.UserInfo
@@ -50,7 +51,9 @@ class SplashPresenter : SplashContract.BasePresenter {
                     setLevel(user.data?.userInfo?.level ?: 0)
                     setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                 }.build()
-            }, {t-> Log.e(ErrorManager.USERINFO,t.message.toString())})
+            }, {t->
+                CustomDialog.networkErrorDialog(activity)
+                Log.e(ErrorManager.USERINFO,t.message.toString())})
         )
     }
 
@@ -92,13 +95,13 @@ class SplashPresenter : SplashContract.BasePresenter {
                             } catch (e: java.lang.Exception) {
                                 coroutineResult.resume(false)
                                 Log.e(ErrorManager.VERSION, e.message.toString())
-                                Toast.makeText(activity, "버전을 확인하는데 문제가 생겼습니다.", Toast.LENGTH_SHORT)
-                                    .show()
+                                CustomDialog.networkErrorDialog(activity)
                             }
                         }
                     }
                 }
             }, { t ->
+                CustomDialog.networkErrorDialog(activity)
                 Log.e(ErrorManager.VERSION, t.message.toString())
             })
         )

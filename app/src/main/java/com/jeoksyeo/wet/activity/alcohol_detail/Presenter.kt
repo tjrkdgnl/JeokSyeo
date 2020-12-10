@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcoholdetail.AlcoholComponentAdapter
@@ -23,7 +26,7 @@ import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
-import com.jeoksyeo.wet.activity.comment.Comment
+import com.jeoksyeo.wet.activity.comment.CommentActivity
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
 import com.model.alcohol_detail.Color
@@ -88,6 +91,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         "AGED_YEAR"
     )
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(context)
         networkUtil.register()
@@ -139,6 +143,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                             view.setLikeImage(isLike)
                         }
                     }, { t ->
+                        CustomDialog.networkErrorDialog(context)
                         Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString())
                     })
             )
@@ -191,10 +196,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                                     .toInt(), 1
                                             )
                                     }, { t ->
-                                        settingLikeButtonEnabled(
-                                            view.getView().AlcoholDetailSelectedByMe,
-                                            true
-                                        )
+                                        CustomDialog.networkErrorDialog(context)
+                                        settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe, true)
                                         Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
                                     })
                             )
@@ -225,10 +228,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                                 -1
                                             )
                                     }, { t ->
-                                        settingLikeButtonEnabled(
-                                            view.getView().AlcoholDetailSelectedByMe,
-                                            true
-                                        )
+                                        CustomDialog.networkErrorDialog(context)
+                                        settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe, true)
                                         Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
                                     })
                             )
@@ -684,7 +685,9 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                 view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
                                 view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
                             }
-                        }, { t -> Log.e(ErrorManager.REVIEW, t.message.toString()) })
+                        }, { t ->
+                            CustomDialog.networkErrorDialog(context)
+                            Log.e(ErrorManager.REVIEW, t.message.toString()) })
                 )
             }
         }
@@ -734,12 +737,13 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                         val bundle = Bundle()
                                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
                                         GlobalApplication.instance.moveActivity(
-                                            context, Comment::class.java, 0,
+                                            context, CommentActivity::class.java, 0,
                                             bundle, GlobalApplication.ALCHOL_BUNDLE
                                         )
                                     }
                                 }
                             }, { t ->
+                                CustomDialog.networkErrorDialog(context)
                                 view.settingProgressBar(false)
                                 Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString())
                             })
@@ -760,13 +764,23 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         view.getView().radarChart.description.isEnabled = false // 범례 값 설명
         view.getView().radarChart.legend.isEnabled = false //범례 값
         view.getView().radarChart.webLineWidth = 0f //대각선 두께
-        view.getView().radarChart.webColor =
-            context.resources.getColor(R.color.white, null) // 대각선 색
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {// 대각선 색
+            view.getView().radarChart.webColor =
+                context.resources.getColor(R.color.white, null)
+        } else{
+            view.getView().radarChart.webColor =
+                ContextCompat.getColor(context,R.color.white)
+        }
         view.getView().radarChart.webLineWidthInner = 0.75f //내부선 두께
-        view.getView().radarChart.webColorInner =
-            context.resources.getColor(R.color.light_grey4, null) //내부선 색
-        view.getView().radarChart.webAlpha = 200 //내부선 투명도 , 255 - opaque , 0 - transparent
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //내부선 색
+            view.getView().radarChart.webColorInner =
+                context.resources.getColor(R.color.light_grey4, null)
+        }else{
+            view.getView().radarChart.webColorInner =
+                ContextCompat.getColor(context,R.color.light_grey4)
+        }
 
+        view.getView().radarChart.webAlpha = 200 //내부선 투명도 , 255 - opaque , 0 - transparent
 
         val xAxis = view.getView().radarChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -825,18 +839,43 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
 
         val bacgroundSet = RadarDataSet(backgroundEntry, "backgroundColor")
-        bacgroundSet.color =
-            context.resources.getColor(R.color.light_grey3, null) //데이터 셋 바깥 line color
-        bacgroundSet.fillColor =
-            context.resources.getColor(R.color.light_grey3, null) // 데이터 셋 내부 color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//데이터 셋 바깥 line color
+            bacgroundSet.color =
+                context.resources.getColor(R.color.light_grey3, null)
+        } else{
+            bacgroundSet.color =
+                ContextCompat.getColor(context,R.color.light_grey3)
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {// 데이터 셋 내부 color
+            bacgroundSet.fillColor =
+                context.resources.getColor(R.color.light_grey3, null)
+        } else{
+            bacgroundSet.fillColor =
+               ContextCompat.getColor(context,R.color.light_grey3)
+        }
+
         bacgroundSet.setDrawFilled(true)
         bacgroundSet.fillAlpha = 200
         bacgroundSet.isDrawHighlightCircleEnabled = true
         bacgroundSet.setDrawHighlightIndicators(false)
 
         val dataSet = RadarDataSet(dataEntry, "data")
-        dataSet.color = context.resources.getColor(R.color.orange, null)
-        dataSet.fillColor = context.resources.getColor(R.color.orange, null)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            dataSet.color = context.resources.getColor(R.color.orange, null)
+        }else{
+            dataSet.color = ContextCompat.getColor(context,R.color.orange)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            dataSet.fillColor = context.resources.getColor(R.color.orange, null)
+        }else{
+            dataSet.fillColor =ContextCompat.getColor(context,R.color.orange)
+        }
+
         dataSet.setDrawFilled(true)
         dataSet.fillAlpha = 200
         dataSet.isDrawHighlightCircleEnabled = true

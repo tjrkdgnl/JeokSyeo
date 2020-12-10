@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/selected_favorite_item_delete"
-        android:state_selected="true"/>
-
-    <item android:drawable="@drawable/unselected_favorite_item_delete"
-        android:state_selected="false"/>
-</selector>

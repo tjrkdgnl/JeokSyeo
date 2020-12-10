@@ -20,22 +20,24 @@
             android:background="@drawable/bottom_line"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            app:layout_constraintVertical_bias="0.1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/plz_nickNameText"
-            android:layout_marginTop="48dp">
+           >
 
             <EditText
                 android:id="@+id/insertInfo_editText"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:hint="닉네임을 입력하세요"
+                android:hint="한글/영문/숫자 8글자 이하"
                 android:textSize="16sp"
                 android:maxLength="8"
                 android:textStyle="bold"
                 android:backgroundTint="@color/transparent"
                 android:maxLines="1"
-              android:layout_weight="1.8" />
+              android:layout_weight="1.6" />
             <TextView
                 android:id="@+id/checkNickNameText"
                 android:layout_width="0dp"
@@ -43,9 +45,11 @@
                 android:fontFamily="@font/apple_sd_gothic_neo_m"
                 android:hint="사용 불가능한 닉네임입니다."
                 android:visibility="invisible"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 android:maxLines="1"
                 android:textSize="12sp"
-                android:layout_weight="1.2"
+                android:layout_weight="1.4"
                 android:gravity="end"
                 />
         </LinearLayout>
@@ -60,7 +64,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="78dp"
-            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
 
         <TextView
@@ -68,13 +73,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="51dp"
             android:lineSpacingExtra="11sp"
             android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:text="안녕하세요! \n닉네임을 입력해 주세요."
             android:textColor="#000000"
             android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@id/insertNameLinearLayout"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

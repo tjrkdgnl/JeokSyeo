@@ -26,6 +26,6 @@ class Presenter : SettingContract.BasePresenter {
     }
 
     override fun detachView() {
-        TODO("Not yet implemented")
+
     }
 }

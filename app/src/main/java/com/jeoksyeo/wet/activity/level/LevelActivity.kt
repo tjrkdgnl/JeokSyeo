@@ -1,11 +1,18 @@
 package com.jeoksyeo.wet.activity.level
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LevelBinding
 
@@ -28,6 +35,11 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
         presenter.initMiniImageArray()
         presenter.getMyLevel()
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GlobalApplication.instance.activityClass = LevelActivity::class.java
     }
 
     override fun onClick(v: View?) {
@@ -61,8 +73,18 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
     @SuppressLint("SetTextI18n")
     override fun settingExperience(reviewCount: Int,level: Int) {
         val rest = reviewCount % 10
+        val ssb = SpannableStringBuilder("현재 당신은 ${GlobalApplication.instance.getLevelName(level-1)} 입니다")
 
-        binding.textViewCurrentLevel.text = GlobalApplication.instance.getLevelName(level-1) //현재 레벨
+        ssb.setSpan(ForegroundColorSpan(Color.parseColor("#fdb14b")),7,7+(GlobalApplication.instance.getLevelName(level-1).length),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.textViewCurrentLevel.setTextColor(resources.getColor(R.color.black,null))
+        }else{
+            binding.textViewCurrentLevel.setTextColor(ContextCompat.getColor(this,R.color.black))
+        }
+        binding.textViewCurrentLevel.text = ssb
+
         binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level) //다음레벨
         binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-reviewCount}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
 

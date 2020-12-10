@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +42,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     override lateinit var context: Context
 
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(context)
         networkUtil.register()
@@ -56,7 +60,12 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                 textView.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.tab_text_size))
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+                }
+                else{
+                    textView.setTextColor(ContextCompat.getColor(context,R.color.tabColor))
+                }
                 textView.gravity = Gravity.CENTER_HORIZONTAL
             }.attach()
 

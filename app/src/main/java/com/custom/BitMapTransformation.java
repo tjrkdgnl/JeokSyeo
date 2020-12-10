@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 
@@ -79,9 +80,15 @@ public  class BitMapTransformation extends BitmapTransformation {
         float heightMinusCorners = (height - (2 * ry));
 
         path.moveTo(right, top + ry);
-        path.arcTo(right - 2*rx, top, right, top + 2*ry, 0, -90, false); //top-right-corner
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            path.arcTo(right - 2*rx, top, right, top + 2*ry, 0, -90, false); //top-right-corner
+
+        }
         path.rLineTo(-widthMinusCorners, 0);
-        path.arcTo(left, top, left + 2*rx, top + 2*ry, 270, -90, false);//top-left corner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            path.arcTo(left, top, left + 2*rx, top + 2*ry, 270, -90, false);//top-left corner.
+        }
+
         path.rLineTo(0, heightMinusCorners);
         if (conformToOriginalPost) {
             path.rLineTo(0, ry);
@@ -89,9 +96,13 @@ public  class BitMapTransformation extends BitmapTransformation {
             path.rLineTo(0, -ry);
         }
         else {
-            path.arcTo(left, bottom - 2 * ry, left + 2 * rx, bottom, 180, -90, false); //bottom-left corner
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                path.arcTo(left, bottom - 2 * ry, left + 2 * rx, bottom, 180, -90, false); //bottom-left corner
+            }
             path.rLineTo(widthMinusCorners, 0);
-            path.arcTo(right - 2 * rx, bottom - 2 * ry, right, bottom, 90, -90, false); //bottom-right corner
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                path.arcTo(right - 2 * rx, bottom - 2 * ry, right, bottom, 90, -90, false); //bottom-right corner
+            }
         }
 
         path.rLineTo(0, -heightMinusCorners);

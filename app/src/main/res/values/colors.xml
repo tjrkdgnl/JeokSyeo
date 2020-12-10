@@ -2,40 +2,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <color name="tabColor">#8f8f8f</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="grey">#575757</color>
-    <color name="tabText">#7d7d7d</color>
     <color name="light_grey">#c7c7c7</color>
     <color name="light_grey3">#f5f5f5</color>
     <color name="light_grey4">#bbbbbb</color>
     <color name="light_grey2">#29000000</color>
-    <color name="semi_transparent_black">#C8000000</color>
     <color name="transparent">#00000000</color>
-    <color name="dart_transparent">#6A000000</color>
-    <color name="colorPrimary">#fbc02d</color>
     <color name="background">#f8f9fe</color>
-    <color name="cobaltBlue">#347af2</color>
-    <color name="skyBlue">#98beff</color>
-    <color name="skyBlue2">#80347af2</color>
-    <color name="default_textcolor">#3a3a3a</color>
     <color name="light_yellow">#ffd669</color>
-    <color name="light_yellow2">#f7d57b</color>
-    <color name="transparentGrey">#c7c7c7</color>
     <color name="tabTextDefaultColor">#3a3a3a</color>
-    <color name="halfTransparent">#EFffffff</color>
     <color name="orange">#fdb14b</color>
-    <color name="ligthGrey">#efefef</color>
     <color name="ligthGrey2">#fbfbfb</color>
-    <color name="viewColor">#E5E5E5</color>
     <color name="red">#EF1D2F</color>
     <color name="green">#41E635</color>
 
     //UCrop 배경색 override
-    <color name="ucrop_color_widget_active" tools:override="true">#ffb95b</color>
-    <color name="ucrop_color_active_controls_color" tools:override="true">#ffb95b</color>
-    <color name="ucrop_color_widget_rotate_mid_line" tools:override="true">#000000</color>
-    <color name="ucrop_color_widget_background" tools:override="true">#FFFFFF</color>
 </resources>

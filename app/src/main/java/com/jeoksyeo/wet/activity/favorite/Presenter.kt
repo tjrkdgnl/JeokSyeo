@@ -2,9 +2,12 @@ package com.jeoksyeo.wet.activity.favorite
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.adapter.favorite.FavoriteViewPagerAdapter
 import com.application.GlobalApplication
@@ -27,6 +30,7 @@ class Presenter : FavoriteContract.BasePresenter {
 
     private lateinit var networkUtil: NetworkUtil
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
         networkUtil = NetworkUtil(context)
         networkUtil.register()
@@ -49,7 +53,11 @@ class Presenter : FavoriteContract.BasePresenter {
                 context.resources.getDimension(R.dimen.tab_text_size)
             )
             textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-            textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+            } else{
+                textView.setTextColor(ContextCompat.getColor(context,R.color.tabColor))
+            }
             textView.gravity = Gravity.CENTER_HORIZONTAL
 
         }.attach()

@@ -32,6 +32,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/constrainLayout_levelBottom"
                 app:layout_constraintTop_toBottomOf="@id/myLevel_basicHeader">
 
                 <View
@@ -45,84 +46,41 @@
                 <LinearLayout
                     android:id="@+id/myLevel_currentLevel"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="H,1:0.15"
+                    android:layout_marginStart="31dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="31dp"
                     android:background="@drawable/recommenditem_shadow"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/default_mainBottle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textView_evaluation_text1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                        android:gravity="center_horizontal"
-                        android:lineSpacingExtra="2sp"
-                        android:text="현재 레벨은"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
                         android:id="@+id/textView_current_level"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="6dp"
+                        android:maxLines="1"
                         android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                        android:gravity="center_horizontal"
+                        android:gravity="center_horizontal|center_vertical"
                         android:lineSpacingExtra="3sp"
-                        android:text="마시는 척 하는 사람"
-                        android:textColor="@color/orange"
+                        android:text="로그인한 후 이용해보세요!"
+                       android:textColor="@color/orange"
                         android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_text1"
-                        app:layout_constraintEnd_toStartOf="@id/textView_evaluation_text3"
-                        app:layout_constraintStart_toEndOf="@id/textView_evaluation_text1"
-                        app:layout_constraintTop_toTopOf="@id/textView_evaluation_text1" />
-
-                    <TextView
-                        android:id="@+id/textView_evaluation_text3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                        android:gravity="center_horizontal"
-                        android:lineSpacingExtra="2sp"
-                        android:text="입니다."
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_current_level"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/textView_current_level"
-                        app:layout_constraintTop_toTopOf="@id/textView_current_level" />
-
-
+                      />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView_evaluation_plzLoginText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="23dp"
-                    android:lineSpacingExtra="2sp"
-                    android:text="로그인 후 더 재밌는 적셔를 이용해보세요!"
-                    android:textColor="@color/orange"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/imageView_evaluationByMe_mainBottle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginBottom="27dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginBottom="19dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -135,8 +93,8 @@
                     android:id="@+id/default_mainBottle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginBottom="27dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginBottom="19dp"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/main_bottle_0"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -151,7 +109,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constrainLayout_levelBottom"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -169,12 +127,16 @@
                     android:id="@+id/textView_evaluation_noticeNextLevelText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="17dp"
+                    android:layout_marginTop="14dp"
                     android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:lineSpacingExtra="2sp"
                     android:text="마시는 척하는 사람"
                     android:textColor="@color/orange"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/imageView_evaluationByMe_bottleLv1"
                     app:layout_constraintTop_toTopOf="parent"
 
@@ -191,6 +153,10 @@
                     android:text="까지 0병 남았습니다."
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="1"
+                    app:layout_constraintTop_toTopOf="@id/textView_evaluation_noticeNextLevelText"
                     app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_noticeNextLevelText"
                     app:layout_constraintStart_toEndOf="@id/textView_evaluation_noticeNextLevelText" />
 
@@ -202,7 +168,6 @@
                     android:layout_marginBottom="14dp"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/mini_bottle_empty"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv2"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
@@ -298,28 +263,33 @@
                     app:layout_constraintStart_toEndOf="@id/imageView_evaluationByMe_bottleLv9"
                     app:layout_constraintTop_toTopOf="@id/imageView_evaluationByMe_bottleLv9" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:layout_constraintTop_toBottomOf="@id/imageView_evaluationByMe_bottleLv1"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <me.itangqi.waveloadingview.WaveLoadingView
-                android:id="@+id/waveLoadingView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/myLevel_mainWindow"
-                app:layout_constraintVertical_bias="1"
-                app:wlv_round_rectangle="true"
-                app:wlv_shapeType="rectangle"
-                app:wlv_titleCenter="Center Title"
-                app:wlv_titleCenterColor="@android:color/white"
-                app:wlv_titleCenterSize="24sp"
-                app:wlv_titleCenterStrokeColor="@color/white"
-                app:wlv_triangle_direction="north"
-                app:wlv_waveAmplitude="60"
-                app:wlv_waveColor="@color/orange" />
+<!--            <me.itangqi.waveloadingview.WaveLoadingView-->
+<!--                android:id="@+id/waveLoadingView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:visibility="invisible"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/myLevel_mainWindow"-->
+<!--                app:layout_constraintVertical_bias="1"-->
+<!--                app:wlv_round_rectangle="true"-->
+<!--                app:wlv_shapeType="rectangle"-->
+<!--                app:wlv_titleCenter="Center Title"-->
+<!--                app:wlv_titleCenterColor="@android:color/white"-->
+<!--                app:wlv_titleCenterSize="24sp"-->
+<!--                app:wlv_titleCenterStrokeColor="@color/white"-->
+<!--                app:wlv_triangle_direction="north"-->
+<!--                app:wlv_waveAmplitude="60"-->
+<!--                app:wlv_waveColor="@color/orange" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

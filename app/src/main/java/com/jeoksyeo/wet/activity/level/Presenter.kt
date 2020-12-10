@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -68,8 +69,9 @@ class Presenter :LevelContract.BasePresenter{
                                 view.settingExperience(info.reviewCount,info.level)
                                 view.getView().defaultMainBottle.visibility = View.INVISIBLE
                             }
-                        },{
-                                t -> Log.e(ErrorManager.LEVEL_INFO,t.message.toString())
+                        },{ t ->
+                            CustomDialog.networkErrorDialog(context)
+                            Log.e(ErrorManager.LEVEL_INFO,t.message.toString())
                         }))
                 }
                 else{

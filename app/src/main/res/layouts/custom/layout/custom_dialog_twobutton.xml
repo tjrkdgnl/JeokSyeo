@@ -22,28 +22,14 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:lineSpacingExtra="10sp"
-        android:text="로그인 후에 이용할 수 있습니다.\n로그인 하시겠습니까?"
+        android:text="로그인 한 후 적셔를 이용해주세요!"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.4dp"
-        android:background="@color/light_grey"/>
-
-
-    <Button
-        android:id="@+id/onebutton"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:onClick="onClick"
-        android:text="확인"
-        android:textSize="17sp"
-        android:textColor="@color/orange"
-        android:fontFamily="@font/apple_sd_gothic_neo_m"
-       />
+        android:background="@color/orange"/>
 
     <LinearLayout
         android:id="@+id/buttonLinearLayout"
@@ -74,8 +60,6 @@
             android:textColor="@color/orange"
             android:fontFamily="@font/apple_sd_gothic_neo_m"
             android:layout_weight="1" />
-
-
     </LinearLayout>
 </LinearLayout>
 
