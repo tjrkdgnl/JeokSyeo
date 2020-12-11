@@ -63,7 +63,7 @@ class RecommendAlcoholAdapter(
             holder.getViewBinding().activityMainRecommendImg.setOnSingleClickListener {
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    JWTUtil.settingUserInfo()
+                    JWTUtil.checkToken()
 
                     withContext(Dispatchers.Main) {
                         moveActivity(position)
@@ -73,7 +73,7 @@ class RecommendAlcoholAdapter(
 
             holder.getViewBinding().activtyMainLikeImg.setOnSingleClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val check = JWTUtil.settingUserInfo()
+                    val check = JWTUtil.checkToken()
 
                     withContext(Dispatchers.Main) {
                         if (check) {

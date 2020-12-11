@@ -3,8 +3,10 @@ package com.service
 import android.util.Base64
 import android.util.Log
 import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.user.UserInfo
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
@@ -19,7 +21,7 @@ object JWTUtil {
     private const val ACCESS_TOKEN = "accessToken"
     private const val REFRESH_TOKEN = "refreshToken"
     private var compositeDisposable =CompositeDisposable()
-
+    private val retrofit = ApiGenerator.retrofit.create(ApiService::class.java)
     //엑세스토큰 JWT decode
     fun decodeAccessToken(
         accessToken: String?
@@ -99,15 +101,15 @@ object JWTUtil {
                         try {
                             GlobalApplication.userDataBase.getRefreshToken()?.let { refreshToken ->
                                 map[GlobalApplication.REFRESH_TOKEN] = refreshToken
-                                compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                                compositeDisposable.add(retrofit
                                     .refreshToken(GlobalApplication.userBuilder.createUUID, map)
                                     .subscribeOn(Schedulers.io())
                                     .subscribe ( { userData ->
-                                        userData?.data?.token?.let { token ->
-                                            token.accessToken?.let { accessToken ->
+                                        userData?.data?.token?.accessToken?.let { accessToken ->
                                                 decodeAccessToken(accessToken)
+                                                Log.e("토큰 셋팅 완료", "토큰 재 셋팅")
                                                 coroutineResult.resume(true)
-                                            }
+
                                         }
                                     },{e ->
                                         Log.e(ErrorManager.TOKEN_REFRESH,e.message.toString())
@@ -137,10 +139,12 @@ object JWTUtil {
             }
         }
 
+
     //한번 회원가입을 진행하고나서 로그인을 계속 유지시키기 위한 method
-    suspend fun settingUserInfo(): Boolean {
+    suspend fun checkToken(): Boolean {
         //엑세스 토큰이 내장 DB에 저장되어져 있다면 로그인을 한 상태.
         var check = false
+
         GlobalApplication.userDataBase.getAccessToken()?.let {
             //0이 포함되는 이유는 만료시간 default 0이기때문에 초기화를 진행하기 위함
             val expire = GlobalApplication.userDataBase.getAccessTokenExpire()

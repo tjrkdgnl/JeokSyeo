@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="@drawable/toast_background"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/apple_sd_gothic_neo_m"
+        android:textStyle="normal"
+        android:textSize="14sp"
+        android:paddingHorizontal="50dp"
+        android:paddingVertical="10dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="3sp"
+
+        android:gravity="center_horizontal"
+        android:text="네트워크에 접속 할 수 없습니다.\n
+네트워크 연결상태를 확인해 주세요."
+        />
+
+</LinearLayout>

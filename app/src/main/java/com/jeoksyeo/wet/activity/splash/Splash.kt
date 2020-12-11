@@ -31,7 +31,7 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val tokenCheck = JWTUtil.settingUserInfo()
+                val tokenCheck = JWTUtil.checkToken()
                 if (tokenCheck) {
                     Log.e("tokenCheck",tokenCheck.toString())
                     presenter.setUserInfo()

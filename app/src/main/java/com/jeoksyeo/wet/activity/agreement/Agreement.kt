@@ -19,6 +19,9 @@ class Agreement : AppCompatActivity(), View.OnClickListener {
         val binding =
             DataBindingUtil.setContentView<CustomAgreementBinding>(this, R.layout.custom_agreement)
 
+
+
+
         //html파일도 허용
         val setting = binding.webView.settings
         setting.javaScriptEnabled =true

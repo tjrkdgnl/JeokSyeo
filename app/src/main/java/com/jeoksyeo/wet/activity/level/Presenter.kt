@@ -32,8 +32,10 @@ class Presenter :LevelContract.BasePresenter{
     lateinit var networkUtil: NetworkUtil
 
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(context)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(context)
+            networkUtil.register()
+        }
     }
 
     override fun initMiniImageArray(){
@@ -55,7 +57,7 @@ class Presenter :LevelContract.BasePresenter{
 
     override fun getMyLevel() {
         CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
+            val check = JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){

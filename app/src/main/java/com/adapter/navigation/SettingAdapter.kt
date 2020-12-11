@@ -23,12 +23,16 @@ class SettingAdapter(
     private val provider:String?) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
-      return  when(viewType){
-            0 ->{return SettingViewHolder(parent)}
-            1 ->{return SettingAgreementViewHolder(parent)}
+      return when(viewType){
+          0 ->{
+              SettingViewHolder(parent)
+          }
+          1 ->{
+              SettingAgreementViewHolder(parent)
+          }
 
           else-> throw RuntimeException("알 수 없는 뷰 타입 에러")
-        }
+      }
     }
 
     override fun getItemCount(): Int {

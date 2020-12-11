@@ -42,10 +42,11 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     override lateinit var context: Context
 
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(context)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(context)
+            networkUtil.register()
+        }
     }
 
     override fun inintTabLayout(context: Context,currentItem:Int) {
@@ -106,7 +107,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     override fun initNavigationItemSet(context: Context,activity:Activity) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 val lst = mutableListOf<NavigationItem>()
@@ -132,7 +133,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     @SuppressLint("SetTextI18n")
     override fun checkLogin(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 GlobalApplication.userInfo.getProvider()?.let {

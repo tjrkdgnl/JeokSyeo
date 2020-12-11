@@ -3,10 +3,8 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.main.AlcoholRankAdapter
@@ -18,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import com.custom.CustomDialog
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
 import com.model.banner.Banner
@@ -39,7 +36,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("SetTextI18n")
@@ -51,15 +47,18 @@ class Presenter : MainContract.BasePresenter {
     var bannerItem:Int =0
     lateinit var networkUtil:NetworkUtil
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(context)
-        networkUtil.register()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(context)
+            networkUtil.register()
+        }
+
     }
 
     override fun initBanner(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -102,7 +101,7 @@ class Presenter : MainContract.BasePresenter {
 
     override fun initRecommendViewPager(context: Context)  {
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 //뷰페이저 슬라이딩 애니메이션 셋팅
@@ -148,7 +147,7 @@ class Presenter : MainContract.BasePresenter {
     fun initNavigationItemSet(context: Context,activity:Activity) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 val lst = mutableListOf<NavigationItem>()
@@ -172,7 +171,7 @@ class Presenter : MainContract.BasePresenter {
 
     override fun initAlcoholRanking(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 view.getView().monthlyRecylcerView.setHasFixedSize(true)
@@ -199,7 +198,7 @@ class Presenter : MainContract.BasePresenter {
 
     override fun checkLogin(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main) {
                 GlobalApplication.userInfo.getProvider()?.let {

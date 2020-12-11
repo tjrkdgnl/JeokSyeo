@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -91,10 +92,11 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         "AGED_YEAR"
     )
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(context)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(context)
+            networkUtil.register()
+        }
     }
 
     override fun init() {
@@ -164,7 +166,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         view.getView().AlcoholDetailSelectedByMe.setOneClickListener {
 
             CoroutineScope(Dispatchers.IO).launch {
-                val check = JWTUtil.settingUserInfo()
+                val check = JWTUtil.checkToken()
                 Log.e("check", check.toString())
 
                 withContext(Dispatchers.Main) {
@@ -571,7 +573,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override fun initReview(context: Context) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.settingUserInfo()
+            JWTUtil.checkToken()
 
             withContext(Dispatchers.Main) {
                 compositeDisposable.add(
@@ -708,7 +710,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     override fun checkReviewDuplicate(context: Context) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
+            val check = JWTUtil.checkToken()
 
             withContext(Dispatchers.Main) {
                 if (check) {
@@ -733,13 +735,14 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     } else {
+
                                         //주류 코멘트 화면으로 이동
                                         val bundle = Bundle()
+
                                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
                                         GlobalApplication.instance.moveActivity(
                                             context, CommentActivity::class.java, 0,
-                                            bundle, GlobalApplication.ALCHOL_BUNDLE
-                                        )
+                                            bundle, GlobalApplication.ALCHOL_BUNDLE)
                                     }
                                 }
                             }, { t ->

@@ -21,6 +21,5 @@ interface SignUpContract {
         fun initViewpager()
         fun setNetworkUtil()
         fun detachView()
-
     }
 }

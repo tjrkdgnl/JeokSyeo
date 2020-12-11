@@ -1,5 +1,6 @@
 package com.service
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -11,14 +12,21 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.vuforia.engine.wet.R
+import java.util.zip.Inflater
+
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() {
+
     private var networkRequest: NetworkRequest = NetworkRequest.Builder()
         .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -31,7 +39,6 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
 
     private var networkCheck = false
 
-    private val handler = Handler(Looper.getMainLooper())
 
     init {
         taskInfo = activityManager.appTasks
@@ -50,26 +57,31 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
         super.onAvailable(network)
         if (networkCheck) {
             networkCheck = false
-            if (GlobalApplication.instance.activityClass == MainActivity::class.java ||
-                GlobalApplication.instance.activityClass == AlcoholCategory::class.java
-            ) {
-
-                Log.e("화면 갱신", GlobalApplication.instance.activityClass.toString())
+            if (GlobalApplication.instance.activityClass == MainActivity::class.java) {
                 val intent = Intent(context, GlobalApplication.instance.activityClass)
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 context.startActivity(intent)
             }
-
+            else{
+                Toast.makeText(GlobalApplication.instance,"네트워크가 연결되었습니다.",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
+    @SuppressLint("InflateParams")
     override fun onLost(network: Network) {
         super.onLost(network)
 
-        Log.e("연결 끊킴","끊킴")
         if(!networkCheck)
             networkCheck = true
 
-        Toast.makeText(context, "네트워크 연결을 시도해주세요.", Toast.LENGTH_SHORT).show()
+
+        GlobalApplication.instance.getToastView()?.let {
+            val toast = Toast(GlobalApplication.instance)
+            toast.setGravity(Gravity.BOTTOM  ,0,100)
+            toast.view = it
+            toast.duration = Toast.LENGTH_SHORT
+            toast.show()
+        }
     }
 }

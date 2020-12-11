@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -28,6 +29,9 @@ import java.util.*
 
 class GlobalApplication : MultiDexApplication() {
     var activityClass:Class<*>? =null
+
+
+    private var toastView:View? =null
     private val banWord =  listOf("개발","운영","관리자","적셔")
     private val typeList = listOf("TR", "BE", "WI", "FO", "SA")
     private val ratedList = listOf("ALL", "TR", "BE", "WI", "SA", "FO")
@@ -118,6 +122,14 @@ class GlobalApplication : MultiDexApplication() {
     }
 
 
+   fun getToastView() :View?{
+        if(toastView ==null){
+            toastView =  LayoutInflater.from(this).inflate(R.layout.custom_toast,null)
+        }
+
+       return toastView
+    }
+
 
     fun getDate(utc:Long):String{
         val date = Date(utc)
@@ -163,7 +175,7 @@ class GlobalApplication : MultiDexApplication() {
 
     @SuppressLint("ClickableViewAccessibility")
     fun removeEditextFocus(editText: EditText, view: View) {
-        view.setOnTouchListener { v, event ->
+        view.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val outRect = Rect()
                 editText.getGlobalVisibleRect(outRect)
@@ -226,12 +238,12 @@ class GlobalApplication : MultiDexApplication() {
 
 
 
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     private fun RxjavaErrorHandling() {
         RxJavaPlugins.setErrorHandler { e: Throwable? ->
             var error = e
-
             if (e is UndeliverableException) {
-                error = e.cause
+               error= e.cause
             }
             if (e is IOException) {
                 return@setErrorHandler
@@ -240,23 +252,16 @@ class GlobalApplication : MultiDexApplication() {
                 return@setErrorHandler
             }
             if (e is NullPointerException || e is IllegalArgumentException) {
-                Objects.requireNonNull(
-                    Thread.currentThread().uncaughtExceptionHandler
-                ).uncaughtException(Thread.currentThread(), e)
+                Thread.currentThread().uncaughtExceptionHandler
+                    .uncaughtException(Thread.currentThread(), e)
                 return@setErrorHandler
             }
             if (e is IllegalStateException) {
-                Objects.requireNonNull(
-                    Thread.currentThread().uncaughtExceptionHandler
-                ).uncaughtException(Thread.currentThread(), e)
+                Thread.currentThread().uncaughtExceptionHandler
+                    .uncaughtException(Thread.currentThread(), e)
                 return@setErrorHandler
             }
-            if (e != null) {
-                Log.e(
-                    "RxJava_HOOK",
-                    "Undeliverable exception received, not sure what to do" + e.message
-                )
-            }
+            Log.e("RxJava_HOOK", "Undeliverable exception received, not sure what to do" + error?.message)
         }
     }
 }

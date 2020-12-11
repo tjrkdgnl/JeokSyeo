@@ -40,10 +40,11 @@ class CommentPresenter : CommentContract.BasePresenter {
     private lateinit var networkUtil :NetworkUtil
 
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(activity)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(activity)
+            networkUtil.register()
+        }
     }
 
     override fun confirmCheck(): Boolean {
@@ -117,7 +118,7 @@ class CommentPresenter : CommentContract.BasePresenter {
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            var check =JWTUtil.settingUserInfo()
+            var check =JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){
@@ -188,7 +189,7 @@ class CommentPresenter : CommentContract.BasePresenter {
 
 
         CoroutineScope(Dispatchers.IO).launch {
-            val check =JWTUtil.settingUserInfo()
+            val check =JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){

@@ -14,7 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
-import okhttp3.internal.wait
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

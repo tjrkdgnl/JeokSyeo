@@ -34,9 +34,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody
 import java.io.File
 import java.util.regex.Pattern
 
@@ -51,10 +51,13 @@ class Presenter : EditProfileContract.BasePresenter {
     var checkDuplicate = false
 
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(activity)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(activity)
+            networkUtil.register()
+        }
+
     }
 
     override fun executeEditProfile(
@@ -80,7 +83,7 @@ class Presenter : EditProfileContract.BasePresenter {
 
         view.getView().editProfileGOkButton.setEditButtonClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                val check = JWTUtil.settingUserInfo()
+                val check = JWTUtil.checkToken()
 
                 withContext(Dispatchers.Main) {
                     if (check) {
@@ -176,7 +179,7 @@ class Presenter : EditProfileContract.BasePresenter {
         handler.removeCallbacksAndMessages(null)
         handler.postDelayed({
             CoroutineScope(Dispatchers.IO).launch {
-                val loginCheck = JWTUtil.settingUserInfo()
+                val loginCheck = JWTUtil.checkToken()
 
                 withContext(Dispatchers.Main) {
                     if (loginCheck) {
@@ -331,44 +334,41 @@ class Presenter : EditProfileContract.BasePresenter {
     }
 
     override fun imageUpload(context: Context, imageFile: File?) {
-        val imageBody = imageFile?.asRequestBody("image/jpg".toMediaTypeOrNull())
 
-        val file = imageFile?.name?.let { name ->
-            imageBody?.let { body ->
-                MultipartBody.Part.createFormData("file", name, body)
-            }
-        }
+        imageFile?.let { file ->
+            val requestBody = RequestBody.create(MediaType.parse("image/jpg"),file)
+            val body = MultipartBody.Part.createFormData("file","userImage",requestBody)
+            CoroutineScope(Dispatchers.IO).launch {
+                val check = JWTUtil.checkToken()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
-
-            withContext(Dispatchers.Main) {
-                if (check) {
-                    compositeDisposable.add(
-                        ApiGenerator.retrofit.create(ApiService::class.java)
-                            .imageUpload(
-                                GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(),
-                                file
-                            )
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ result ->
-                                result.data?.mediaId?.let {
-                                    profile = Profile("image", it)
-                                    view.checkOkButton()
-                                }
-                            }, { t ->
-                                CustomDialog.networkErrorDialog(activity)
-                                Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())
-                            })
-                    )
-                } else {
-                    CustomDialog.loginDialog(
-                        context,
-                        GlobalApplication.ACTIVITY_HANDLING_MAIN,
-                        true
-                    )
+                withContext(Dispatchers.Main) {
+                    if (check) {
+                        compositeDisposable.add(
+                            ApiGenerator.retrofit.create(ApiService::class.java)
+                                .imageUpload(
+                                    GlobalApplication.userBuilder.createUUID,
+                                    GlobalApplication.userInfo.getAccessToken(),
+                                    body
+                                )
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({ result ->
+                                    result.data?.mediaId?.let {
+                                        profile = Profile("image", it)
+                                        view.checkOkButton()
+                                    }
+                                }, { t ->
+                                    CustomDialog.networkErrorDialog(activity)
+                                    Log.e(ErrorManager.IMAGE_UPLOAD, t.message.toString())
+                                })
+                        )
+                    } else {
+                        CustomDialog.loginDialog(
+                            context,
+                            GlobalApplication.ACTIVITY_HANDLING_MAIN,
+                            true
+                        )
+                    }
                 }
             }
         }

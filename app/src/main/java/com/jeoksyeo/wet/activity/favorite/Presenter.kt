@@ -30,10 +30,12 @@ class Presenter : FavoriteContract.BasePresenter {
 
     private lateinit var networkUtil: NetworkUtil
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(context)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(context)
+            networkUtil.register()
+        }
     }
 
     override fun initTabLayout() {

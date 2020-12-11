@@ -100,7 +100,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
         okButton.text = "로그아웃"
         contents.setText(R.string.logout_msg)
 
-        okButton.setOnClickListener { v: View? ->
+        okButton.setOnClickListener {
             Log.e("애플로그아웃",FirebaseAuth.getInstance().currentUser?.email.toString())
             FirebaseAuth.getInstance().signOut()
             GlobalApplication.userInfo.init()
@@ -132,7 +132,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
         okButton.text = "회원탈퇴"
         contents.setText(R.string.delete_app)
 
-        okButton.setOnClickListener { v: View? ->
+        okButton.setOnClickListener {
             FirebaseAuth.getInstance().currentUser?.delete()
                 ?.addOnCompleteListener(activity, OnCompleteListener {
                     if (it.isSuccessful) {
@@ -171,7 +171,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                     Toast.makeText(mContext, "재 로그인 후, 다시 진행해주세요.", Toast.LENGTH_SHORT).show()
                     dialog.dismiss() }
         }
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        cancelButton.setOnClickListener {  dialog.dismiss() }
     }
 
     fun appleUnlink(){

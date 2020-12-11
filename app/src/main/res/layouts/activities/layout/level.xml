@@ -79,9 +79,8 @@
                     android:id="@+id/imageView_evaluationByMe_mainBottle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="34dp"
-                    android:layout_marginBottom="19dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="49dp"
+                    app:layout_constraintBottom_toTopOf="@id/bottom_space"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -89,20 +88,28 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:layout_constraintVertical_bias="0.0"/>
+
                 <ImageView
                     android:id="@+id/default_mainBottle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="34dp"
-                    android:layout_marginBottom="19dp"
+                    android:layout_marginTop="49dp"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/main_bottle_0"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/bottom_space"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/myLevel_currentLevel"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@id/myLevel_currentLevel" />
+
+                <Space
+                    android:id="@+id/bottom_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#f8f8f8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageView_evaluationByMe_mainBottle"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -127,12 +134,13 @@
                     android:id="@+id/textView_evaluation_noticeNextLevelText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="19dp"
                     android:fontFamily="@font/apple_sd_gothic_neo_b"
                     android:lineSpacingExtra="2sp"
                     android:text="마시는 척하는 사람"
                     android:textColor="@color/orange"
                     android:textSize="20sp"
+
                     app:layout_constraintVertical_bias="0"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -266,6 +274,8 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageView_evaluationByMe_bottleLv1"/>
 
 

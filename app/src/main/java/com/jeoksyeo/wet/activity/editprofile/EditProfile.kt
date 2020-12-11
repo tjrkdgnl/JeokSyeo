@@ -266,7 +266,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     }
 
     override fun setBirthDay() {
-        GlobalApplication.userInfo.birthDay?.let {
+        GlobalApplication.userInfo.birthDay.let {
             val birth = it.split("-")
             binding.birthdayYear.text = birth.get(0)
             binding.birthdayMonth.text = birth.get(1)

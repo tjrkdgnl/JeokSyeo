@@ -39,10 +39,11 @@ class Presenter : SearchContract.BasePresenter {
 
     private lateinit var networkUtil: NetworkUtil
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(activity)
-        networkUtil.register()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(activity)
+            networkUtil.register()
+        }
     }
 
     @SuppressLint("SetTextI18n")

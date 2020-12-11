@@ -9,7 +9,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import com.adapter.signup.SignUpViewPagerAdapter
 import com.application.GlobalApplication
@@ -21,19 +20,21 @@ import com.service.ApiService
 import com.service.JWTUtil
 import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class SignUpPresenter : SignUpContract.BasePresenter {
     override lateinit var view: SignUpContract.BaseView
     override lateinit var activity: FragmentActivity
-    private var disposable:Disposable? =null
+    private var compositDisposable =CompositeDisposable()
     private lateinit var networkUtil: NetworkUtil
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setNetworkUtil() {
-        networkUtil = NetworkUtil(activity)
-        networkUtil.register()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(activity)
+            networkUtil.register()
+        }
     }
 
     override fun initViewpager() {
@@ -79,7 +80,7 @@ class SignUpPresenter : SignUpContract.BasePresenter {
                 userMap["device_id"] =Settings.Secure.getString(activity.contentResolver, Settings.Secure.ANDROID_ID)
                 userMap["device_token"] = task.result!!
 
-                disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                     .signUp(GlobalApplication.userBuilder.createUUID, userMap)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -92,11 +93,16 @@ class SignUpPresenter : SignUpContract.BasePresenter {
                         JWTUtil.decodeAccessToken(it.data?.token?.accessToken.toString())
                         JWTUtil.decodeRefreshToken(it.data?.token?.refreshToken.toString())
 
+                        //토큰을 갖는 user객체 셋팅
+                        GlobalApplication.userBuilder.setAccessToken("Bearer ${GlobalApplication.userDataBase.getAccessToken()}")
+                        GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
+
+
                         GlobalApplication.instance.moveActivity(activity, MainActivity::class.java,
                             Intent.FLAG_ACTIVITY_CLEAR_TOP,null,null,1)
                     }, { t: Throwable ->
                         CustomDialog.networkErrorDialog(activity)
-                        t.stackTrace })
+                        t.stackTrace }))
             }
         }
     }
@@ -108,6 +114,6 @@ class SignUpPresenter : SignUpContract.BasePresenter {
     }
 
     override fun detachView() {
-        disposable?.dispose()
+        compositDisposable.dispose()
     }
 }

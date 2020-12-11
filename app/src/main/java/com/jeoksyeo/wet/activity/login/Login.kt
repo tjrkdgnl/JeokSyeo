@@ -63,13 +63,15 @@ class Login : AppCompatActivity(), View.OnClickListener {
         lateinit var loginObj: Login
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.login)
 
-        val networkUtil = NetworkUtil(this)
-        networkUtil.register()
+
+       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+           val networkUtil = NetworkUtil(this)
+            networkUtil.register()
+        }
 
 
         if (intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)) {

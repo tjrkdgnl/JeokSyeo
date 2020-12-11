@@ -149,6 +149,7 @@ class UserInfo {
             this.birthDay.let { userInfo.infoMap.put(GlobalApplication.BIRTHDAY, it) }
             this.address.let { userInfo.infoMap.put(GlobalApplication.ADDRESS, it) }
 
+
 //
 //            Log.e("oauth_provider", userInfo.provider.toString())
 //            Log.e("oauth_token", userInfo.oauth_token.toString())

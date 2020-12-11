@@ -57,7 +57,7 @@ object CustomDialog {
 
             dialog.dismiss()
         }
-        cancelButton.setOnClickListener { v: View? -> dialog.dismiss() }
+        cancelButton.setOnClickListener { dialog.dismiss() }
     }
 
     @SuppressLint("SetTextI18n")

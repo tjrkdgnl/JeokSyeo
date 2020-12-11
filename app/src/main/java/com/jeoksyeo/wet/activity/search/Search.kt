@@ -229,11 +229,9 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
                 binding.noSearchItem.textViewAlcoholName.text= "\'${keyword}\'에 대한 검색결과가 없습니다." +
                         "\n정확한 검색어인지 확인하고 다시 검색해주세요."
             }
-            binding.textViewRecentSearch.visibility =View.INVISIBLE
         } else {
             binding.noSearchItem.root.visibility = View.INVISIBLE
             binding.recyclerViewSearchlist.visibility = View.VISIBLE
-            binding.textViewRecentSearch.visibility =View.VISIBLE
         }
     }
 

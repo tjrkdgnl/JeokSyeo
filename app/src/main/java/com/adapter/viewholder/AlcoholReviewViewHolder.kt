@@ -98,7 +98,7 @@ class AlcoholReviewViewHolder(
     fun setLike(review:ReviewList,position:Int){
 
         CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
+            val check = JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){
@@ -140,7 +140,7 @@ class AlcoholReviewViewHolder(
 
     fun setUnlike(review:ReviewList,position: Int){
         CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
+            val check = JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){
@@ -173,7 +173,7 @@ class AlcoholReviewViewHolder(
     fun setDislike(review:ReviewList,position: Int){
 
         CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
+            val check = JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){
@@ -211,7 +211,7 @@ class AlcoholReviewViewHolder(
 
     fun setUnDislike(review:ReviewList,position: Int){
         CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.settingUserInfo()
+            val check = JWTUtil.checkToken()
 
             withContext(Dispatchers.Main){
                 if(check){

@@ -31,7 +31,7 @@ class SplashPresenter : SplashContract.BasePresenter {
         handler.postDelayed({
             activity.startActivity(Intent(activity, MainActivity::class.java))
             activity.finish()
-        }, 4000)
+        }, 2000)
     }
 
     override fun setUserInfo() {

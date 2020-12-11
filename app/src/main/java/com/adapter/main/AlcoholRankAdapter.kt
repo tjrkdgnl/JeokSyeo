@@ -47,7 +47,7 @@ class AlcoholRankAdapter(
 
         holder.getViewBinding().alcoholRankParentLayout.setOnSingleClickListener{
             CoroutineScope(Dispatchers.IO).launch {
-                JWTUtil.settingUserInfo()
+                JWTUtil.checkToken()
 
                 withContext(Dispatchers.Main){
                     lst[position].alcoholId?.let {alcoholId->
