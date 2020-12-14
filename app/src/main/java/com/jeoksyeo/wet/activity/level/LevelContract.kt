@@ -12,6 +12,8 @@ interface LevelContract {
 
         fun settingExperience(reviewCount:Int,level: Int)
 
+        fun finalLevel()
+
     }
 
     interface BasePresenter{

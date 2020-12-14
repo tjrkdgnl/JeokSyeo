@@ -25,6 +25,7 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
@@ -36,12 +37,12 @@ class CommentPresenter : CommentContract.BasePresenter {
     override lateinit var view: CommentContract.BaseView
     override lateinit var activity: Activity
     override lateinit var lifecycleOwner: LifecycleOwner
-    private  var disposable: Disposable? =null
-    private lateinit var networkUtil :NetworkUtil
+    private var compositDisposable = CompositeDisposable()
+    private lateinit var networkUtil: NetworkUtil
 
 
     override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(activity)
             networkUtil.register()
         }
@@ -118,17 +119,18 @@ class CommentPresenter : CommentContract.BasePresenter {
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            var check =JWTUtil.checkToken()
+            var check = JWTUtil.checkToken()
 
-            withContext(Dispatchers.Main){
-                if(check){
+            withContext(Dispatchers.Main) {
+                if (check) {
                     settingProgressbar(true)
-                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+                    compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                         .setComment(
                             GlobalApplication.userBuilder.createUUID,
                             GlobalApplication.userInfo.getAccessToken(),
                             alcoholId,
-                            map)
+                            map
+                        )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
@@ -136,68 +138,91 @@ class CommentPresenter : CommentContract.BasePresenter {
                             it.data?.let { result ->
                                 result.result?.let {
                                     if (it.equals("SUCCESS")) {
-                                        Toast.makeText(context, alcoholName + "에 리뷰를 남기셨습니다.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            alcoholName + "에 리뷰를 남기셨습니다.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         (context as Activity).finish()
                                     } else
-                                        Toast.makeText(context, "주류 작성을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            "주류 작성을 실패했습니다. 다시 시도해 주세요",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                 }
                             }
 
                         }, { t ->
                             CustomDialog.networkErrorDialog(context)
                             settingProgressbar(false)
-                            Log.e(ErrorManager.COMMENT, t.message.toString()) })
-                }
-                else{
-                    CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                            Log.e(ErrorManager.COMMENT, t.message.toString())
+                        })
+                    )
+                } else {
+                    CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
                 }
             }
         }
     }
 
     override fun detachView() {
-        disposable?.dispose()
+        compositDisposable.dispose()
     }
 
     //내가 남긴 코멘트 셋팅하는 메서드
     override fun setMyComment(myComment: Comment) {
         view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.setProgress(myComment.aroma?.toFloat()!!)
-        view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.setProgress(myComment.mouthfeel?.toFloat()!!)
-        view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.setProgress(myComment.appearance?.toFloat()!!)
+        view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.setProgress(
+            myComment.mouthfeel?.toFloat()!!
+        )
+        view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.setProgress(
+            myComment.appearance?.toFloat()!!
+        )
         view.getView().commentWindowBottomInclude.commentWindowTasteSeekbar.setProgress(myComment.taste?.toFloat()!!)
         view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.setProgress(myComment.overall?.toFloat()!!)
-        myComment.contents?.let { content->
+        myComment.contents?.let { content ->
             view.getView().commentWindowCommentEditText.setText(content)
         }
 
-        myComment.score?.let { score->
+        myComment.score?.let { score ->
             view.getView().commentWindowRatingBar.rating = score.toFloat()
             view.getView().commentWindowScoreText.text = score.toString()
         }
 
-        view.getView().commentWindowEvaluateButton.isEnabled =true
+        view.getView().commentWindowEvaluateButton.isEnabled = true
     }
 
-    override fun editMyComment(context:Context,alcoholId: String,commentId:String) {
+    override fun editMyComment(context: Context, alcoholId: String, commentId: String) {
         val map = HashMap<String, Any>()
         map["contents"] = view.getView().commentWindowCommentEditText.text.toString()
-        map["aroma"] = view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.progressFloat
-        map["mouthfeel"] = view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.progressFloat
-        map["taste"] = view.getView().commentWindowBottomInclude.commentWindowTasteSeekbar.progressFloat
-        map["appearance"] = view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.progressFloat
-        map["overall"] = view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
+        map["aroma"] =
+            view.getView().commentWindowBottomInclude.commentWindowAromaSeekbar.progressFloat
+        map["mouthfeel"] =
+            view.getView().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.progressFloat
+        map["taste"] =
+            view.getView().commentWindowBottomInclude.commentWindowTasteSeekbar.progressFloat
+        map["appearance"] =
+            view.getView().commentWindowBottomInclude.commentWindowAppearanceSeekbar.progressFloat
+        map["overall"] =
+            view.getView().commentWindowBottomInclude.commentWindowOverallSeekbar.progressFloat
 
 
         CoroutineScope(Dispatchers.IO).launch {
-            val check =JWTUtil.checkToken()
+            val check = JWTUtil.checkToken()
 
-            withContext(Dispatchers.Main){
-                if(check){
+            withContext(Dispatchers.Main) {
+                if (check) {
                     settingProgressbar(true)
-                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+
+                    compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                         .editMyRatedReview(
                             GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(),alcoholId,commentId,map)
+                            GlobalApplication.userInfo.getAccessToken(),
+                            alcoholId,
+                            commentId,
+                            map
+                        )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
@@ -206,34 +231,41 @@ class CommentPresenter : CommentContract.BasePresenter {
                             it.data?.let { result ->
                                 result.result?.let {
                                     if (it == "SUCCESS") {
-                                        Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT)
+                                            .show()
                                         (context as Activity).finish()
                                     } else
-                                        Toast.makeText(context, "리뷰 수정을 실패했습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT)
+                                        Toast.makeText(
+                                            context,
+                                            "리뷰 수정을 실패했습니다. 다시 시도해 주세요",
+                                            Toast.LENGTH_SHORT
+                                        )
                                             .show()
                                 }
                             }
                         }, { t ->
                             CustomDialog.networkErrorDialog(context)
                             settingProgressbar(false)
-                            Log.e(ErrorManager.COMMENT_EDIT, t.message.toString()) })
-                }
-                else{
-                    CustomDialog.loginDialog(context,GlobalApplication.ACTIVITY_HANDLING_DETAIL)
+                            Log.e(ErrorManager.COMMENT_EDIT, t.message.toString())
+                        })
+                    )
+                } else {
+                    CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
                 }
             }
         }
     }
 
-    private fun settingProgressbar(check:Boolean){
-        if(check){
+    private fun settingProgressbar(check: Boolean) {
+        if (check) {
             view.getView().progressbar.root.visibility = View.VISIBLE
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        }
-        else{
+        } else {
             view.getView().progressbar.root.visibility = View.INVISIBLE
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
         }
     }
+
+
 }

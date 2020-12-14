@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <data>
+        <variable
+            name="alcohol"
+            type="com.model.alcohol_detail.Alcohol" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/detail_component"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_alcoholinfo">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.45dp"
+            android:background="@color/light_grey2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/textView_alcoholExplain_scalableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="200"
+            app:scale_base_width="1080">
+
+            <TextView
+                android:id="@+id/textView_alcoholExplain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:lineSpacingExtra="2sp"
+                android:text="주류설명"
+                android:textColor="@color/black"
+                app:scale_height="200"
+                app:scale_textsize="60"
+                app:scale_width="210"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@color/orange"
+                app:scale_height="1"
+                app:scale_width="860" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        <at.blogc.android.views.ExpandableTextView
+            android:id="@+id/textView_alcoholDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+            android:lineSpacingExtra="8sp"
+            android:maxLines="5"
+            android:text="@{alcohol.description}"
+            android:textColor="#333333"
+            android:textSize="@dimen/detail_default_textSize"
+            app:animation_duration="170"
+            app:layout_constraintBottom_toTopOf="@id/detail_expandableButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_alcoholExplain_scalableLayout"
+            tools:text="그랑 크뤼 전통에서 양조 된 장인의 페일 에일. 황금빛 비등과 부드러운 홉 향을 즐겨보세요. 고수풀과 낙원의 곡물이 매운 미각을 둥글게하여 부드럽게 녹아서 호피와 행복의 비단결로 마무리합니다! 어떤 계절이든 축하하세요! 즐겨!" />
+
+
+        <LinearLayout
+            android:id="@+id/detail_expandableButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="end"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_alcoholDescription">
+
+            <ImageView
+                android:id="@+id/detail_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/down_errow" />
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:scale_base_height="50"
+                app:scale_base_width="50">
+
+                <TextView
+                    android:id="@+id/detail_expandableText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="더보기"
+                    android:textColor="#7b7b7b"
+                    app:scale_height="50"
+                    app:scale_textsize="16"
+                    app:scale_width="50" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

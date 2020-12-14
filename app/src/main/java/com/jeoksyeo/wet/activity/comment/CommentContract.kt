@@ -28,6 +28,7 @@ interface CommentContract {
 
         fun setNetworkUtil()
 
+
     }
 
 }

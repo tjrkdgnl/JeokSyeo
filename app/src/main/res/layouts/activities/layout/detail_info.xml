@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_description">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.45dp"
+            android:background="@color/light_grey2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/textView_alcoholinfo_scalableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="200"
+            app:scale_base_width="1080">
+
+            <TextView
+                android:id="@+id/textView_alcoholinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:lineSpacingExtra="2sp"
+                android:text="주류정보"
+                android:textColor="@color/black"
+                app:scale_height="200"
+                app:scale_textsize="60"
+                app:scale_width="210"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@color/orange"
+                app:scale_height="1"
+                app:scale_width="860" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.45dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/orange"
+            app:layout_constraintBottom_toBottomOf="@id/textView_alcoholinfo_scalableLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textView_alcoholinfo_scalableLayout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alcoholComponent_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_alcoholinfo_scalableLayout" />
+
+
+        <LinearLayout
+            android:id="@+id/component_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/alcoholComponent_recyclerView"
+            app:layout_constraintVertical_bias="0">
+
+            <ImageView
+                android:id="@+id/component_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:src="@mipmap/down_errow_orange" />
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:scale_base_height="80"
+                app:scale_base_width="200">
+
+                <TextView
+                    android:id="@+id/component_toggle_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="start|center_vertical"
+                    android:lineSpacingExtra="7sp"
+                    android:text="주류정보 펼치기"
+                    android:textColor="@color/orange"
+                    app:scale_height="80"
+                    app:scale_textsize="26"
+                    app:scale_width="200" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

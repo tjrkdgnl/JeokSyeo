@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +25,12 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
             alcohol = bundle?.getParcelable(GlobalApplication.MOVE_ALCHOL)
-            binding.alcohol =alcohol
+            binding.alcohol =alcohol //주류 이미지
+            binding.detailAlcoholinfo.alcohol =alcohol //주류에 대한 기본정보
+            binding.detailDescription.alcohol =alcohol //주류 설명
+
         }
+
 
         presenter = Presenter().apply {
             view = this@AlcoholDetail
@@ -36,8 +41,6 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         presenter.setNetworkUtil()
 
         presenter.init()
-        binding.AlcoholDetailSelectedByMe.setOnClickListener(this)
-        binding.detailExpandableButton.setOnClickListener(this)
         presenter.checkCountLine()
     }
 
@@ -63,32 +66,32 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
     override fun setLikeImage(isLike: Boolean) {
         if (isLike) {
             presenter.isLike = true
-            binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_full_heart)
+            binding.detailAlcoholinfo.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_full_heart)
 
         } else {
             presenter.isLike=false
-            binding.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_empty_heart)
+            binding.detailAlcoholinfo.AlcoholDetailSelectedByMe.setImageResource(R.mipmap.detail_empty_heart)
         }
     }
 
     override fun settingProgressBar(check: Boolean) {
         if(check){
-            binding.progressbar.root.visibility = View.VISIBLE
+            binding.detailAlcoholinfo.progressbar.root.visibility = View.VISIBLE
             this.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
         else{
-            binding.progressbar.root.visibility = View.INVISIBLE
+            binding.detailAlcoholinfo.progressbar.root.visibility = View.INVISIBLE
             this.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 
     override fun settingExpandableText(check: Boolean) {
         if(check){
-            binding.detailExpandableButton.visibility =View.VISIBLE
+            binding.detailDescription.detailExpandableButton.visibility =View.VISIBLE
 
         }
         else{
-            binding.detailExpandableButton.visibility =View.INVISIBLE
+            binding.detailDescription.detailExpandableButton.visibility =View.INVISIBLE
         }
     }
 

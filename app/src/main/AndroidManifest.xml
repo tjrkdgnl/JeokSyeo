@@ -34,8 +34,6 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
 
-
-
         <service
             android:name="com.service.MyFireBaseMessagingService"
             android:exported="false">

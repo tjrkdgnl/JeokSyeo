@@ -135,9 +135,7 @@ class GlobalApplication : MultiDexApplication() {
         val date = Date(utc)
 
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        Log.e("utc",utc.toString())
 
-        Log.e("date",simpleDateFormat.format(date))
         return simpleDateFormat.format(date)
     }
 

@@ -104,7 +104,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             initComponent(context)
 
             alcholData.likeCount?.let { //찜한수 체크
-                view.getView().alcoholdetailLikeCount.text = GlobalApplication.instance
+                view.getView().detailAlcoholinfo.alcoholdetailLikeCount.text = GlobalApplication.instance
                     .checkCount(it)
             }
 
@@ -115,15 +115,15 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
             alcholData.viewCount?.let {  //조회수 체크
                 Log.e("viewCount", it.toString())
-                view.getView().detailEyeCount.text = GlobalApplication.instance.checkCount(it)
+                view.getView().detailAlcoholinfo.detailEyeCount.text = GlobalApplication.instance.checkCount(it)
             }
 
             //seekbar를 손으로 조절하지 못하게 막아야함.
-            view.getView().alcoholDetailScoreSeekbar.score1Seekbar.isEnabled = false
-            view.getView().alcoholDetailScoreSeekbar.score2Seekbar.isEnabled = false
-            view.getView().alcoholDetailScoreSeekbar.score3Seekbar.isEnabled = false
-            view.getView().alcoholDetailScoreSeekbar.score4Seekbar.isEnabled = false
-            view.getView().alcoholDetailScoreSeekbar.score5Seekbar.isEnabled = false
+            view.getView().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.isEnabled = false
+            view.getView().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.isEnabled = false
+            view.getView().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.isEnabled = false
+            view.getView().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.isEnabled = false
+            view.getView().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.isEnabled = false
         }
     }
 
@@ -153,8 +153,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
     override fun checkCountLine() {
-        view.getView().textViewAlcoholDescription.post(Runnable {
-            val lineCount = view.getView().textViewAlcoholDescription.lineCount
+        view.getView().detailDescription.textViewAlcoholDescription.post(Runnable {
+            val lineCount = view.getView().detailDescription.textViewAlcoholDescription.lineCount
 
             if (lineCount <= 5) {
                 view.settingExpandableText(false)
@@ -163,7 +163,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
     override fun executeLike() {
-        view.getView().AlcoholDetailSelectedByMe.setOneClickListener {
+        view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe.setOneClickListener {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val check = JWTUtil.checkToken()
@@ -173,7 +173,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                     if (check) {
                         if (!isLike) {
                             settingLikeButtonEnabled(
-                                view.getView().AlcoholDetailSelectedByMe,
+                                view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe,
                                 false
                             )
                             compositeDisposable.add(
@@ -187,25 +187,25 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
                                         settingLikeButtonEnabled(
-                                            view.getView().AlcoholDetailSelectedByMe,
+                                            view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe,
                                             true
                                         )
 
                                         view.setLikeImage(true)
-                                        view.getView().alcoholdetailLikeCount.text =
+                                        view.getView().detailAlcoholinfo.alcoholdetailLikeCount.text =
                                             GlobalApplication.instance.checkCount(
-                                                view.getView().alcoholdetailLikeCount.text.toString()
+                                                view.getView().detailAlcoholinfo.alcoholdetailLikeCount.text.toString()
                                                     .toInt(), 1
                                             )
                                     }, { t ->
                                         CustomDialog.networkErrorDialog(context)
-                                        settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe, true)
+                                        settingLikeButtonEnabled(view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe, true)
                                         Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
                                     })
                             )
                         } else {
                             settingLikeButtonEnabled(
-                                view.getView().AlcoholDetailSelectedByMe,
+                                view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe,
                                 false
                             )
                             compositeDisposable.add(
@@ -219,19 +219,19 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
                                         settingLikeButtonEnabled(
-                                            view.getView().AlcoholDetailSelectedByMe,
+                                            view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe,
                                             true
                                         )
                                         view.setLikeImage(false)
-                                        view.getView().alcoholdetailLikeCount.text =
+                                        view.getView().detailAlcoholinfo.alcoholdetailLikeCount.text =
                                             GlobalApplication.instance.checkCount(
-                                                view.getView().alcoholdetailLikeCount.text.toString()
+                                                view.getView().detailAlcoholinfo.alcoholdetailLikeCount.text.toString()
                                                     .toInt(),
                                                 -1
                                             )
                                     }, { t ->
                                         CustomDialog.networkErrorDialog(context)
-                                        settingLikeButtonEnabled(view.getView().AlcoholDetailSelectedByMe, true)
+                                        settingLikeButtonEnabled(view.getView().detailAlcoholinfo.AlcoholDetailSelectedByMe, true)
                                         Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
                                     })
                             )
@@ -305,25 +305,25 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             }
             componentAdapter = AlcoholComponentAdapter(halfLst)
         } else {
-            view.getView().componentToggle.visibility = View.GONE
+            view.getView().detailComponent.componentToggle.visibility = View.GONE
             componentAdapter = AlcoholComponentAdapter(settingComponentList)
         }
 
-        view.getView().alcoholComponentRecyclerView.adapter = componentAdapter
+        view.getView().detailComponent.alcoholComponentRecyclerView.adapter = componentAdapter
 
         //리싸이클러뷰를 접고 펼칠 수 있기 때문에 고정 사이즈 사용하지않음.
-        view.getView().alcoholComponentRecyclerView.setHasFixedSize(false)
-        view.getView().alcoholComponentRecyclerView
+        view.getView().detailComponent.alcoholComponentRecyclerView.setHasFixedSize(false)
+        view.getView().detailComponent.alcoholComponentRecyclerView
             .addItemDecoration(GridSpacingItemDecoration(2, 4, true, 0))
 
-        view.getView().alcoholComponentRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        view.getView().detailComponent.alcoholComponentRecyclerView.layoutManager = GridLayoutManager(context, 2)
     }
 
     fun commponentToggle() {
         if (toggle) {//펼쳤을 때,
             toggle = false
-            view.getView().componentArrow.setImageResource(R.mipmap.up_errow_orange)
-            view.getView().componentToggleText.text = "주류정보 접기"
+            view.getView().detailComponent.componentArrow.setImageResource(R.mipmap.up_errow_orange)
+            view.getView().detailComponent.componentToggleText.text = "주류정보 접기"
             val lst = mutableListOf<AlcoholComponentData>()
 
             for (idx in 4 until settingComponentList.size) {
@@ -334,8 +334,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
         } else {//접을 때
             toggle = true
-            view.getView().componentArrow.setImageResource(R.mipmap.down_errow_orange)
-            view.getView().componentToggleText.text = "주류정보 펼치기"
+            view.getView().detailComponent.componentArrow.setImageResource(R.mipmap.down_errow_orange)
+            view.getView().detailComponent.componentToggleText.text = "주류정보 펼치기"
             componentAdapter?.deleteComponent()
         }
     }
@@ -590,14 +590,14 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                 //데이터가 없을 때,
                                 if (lst.isEmpty()) {
                                     //차트 여부 표시
-                                    view.getView().userIndicator.visibility = View.VISIBLE
+                                    view.getView().detailChart.userIndicator.visibility = View.VISIBLE
 
                                     lst.toMutableList().let { muLst ->
                                         muLst.add(ReviewList().apply {
                                             checkMore = GlobalApplication.DETAIL_NO_REVIEW
                                         })
 
-                                        view.getView().recyclerViewReviewList.adapter =
+                                        view.getView().detailReview.recyclerViewReviewList.adapter =
                                             AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
                                     }
                                 } else {
@@ -606,8 +606,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                         initRadarChart(it)
                                     }
 
-                                    view.getView().radarChart.visibility = View.VISIBLE
-                                    view.getView().userIndicator.visibility = View.INVISIBLE
+                                    view.getView().detailChart.radarChart.visibility = View.VISIBLE
+                                    view.getView().detailChart.userIndicator.visibility = View.INVISIBLE
 
                                     //리뷰 끝에서 더보기가 나오게 하려면 반드시 필요함
                                     lst.toMutableList().let { muLst ->
@@ -618,74 +618,73 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                                 })
                                             }
                                         }
-                                        view.getView().recyclerViewReviewList.adapter =
+                                        view.getView().detailReview.recyclerViewReviewList.adapter =
                                             AlcoholReviewAdapter(context, alcohol.alcoholId, muLst)
                                     }
                                 }
 
-                                view.getView().recyclerViewReviewList.setHasFixedSize(false)
-                                view.getView().recyclerViewReviewList.layoutManager =
+                                view.getView().detailReview.recyclerViewReviewList.setHasFixedSize(false)
+                                view.getView().detailReview.recyclerViewReviewList.layoutManager =
                                     LinearLayoutManager(context)
                             }
 
                             result.data?.reviewInfo?.let {
                                 //점수 분포 및 seekbar
-                                view.getView().alcoholDetailReviewRatingbar.rating =
+                                view.getView().detailReview.alcoholDetailReviewRatingbar.rating =
                                     it.scoreAvg!!.toFloat()
 
                                 it.reviewTotalCount?.let { total ->
                                     //리뷰개수
-                                    view.getView().detailReviewCountTop.text =
+                                    view.getView().detailAlcoholinfo.detailReviewCountTop.text =
                                         GlobalApplication.instance.checkCount(total)
 
                                     //점수 상태 바 셋팅
-                                    view.getView().alcoholDetailScoreSeekbar.score1Seekbar.max =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.max =
                                         total
-                                    view.getView().alcoholDetailScoreSeekbar.score2Seekbar.max =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.max =
                                         total
-                                    view.getView().alcoholDetailScoreSeekbar.score3Seekbar.max =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.max =
                                         total
-                                    view.getView().alcoholDetailScoreSeekbar.score4Seekbar.max =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.max =
                                         total
-                                    view.getView().alcoholDetailScoreSeekbar.score5Seekbar.max =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.max =
                                         total
                                 }
                                 it.score1Count?.let { score1 ->
-                                    view.getView().alcoholDetailScoreSeekbar.score1Seekbar.progress =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.progress =
                                         score1
-                                    view.getView().alcoholDetailScoreSeekbar.score1.text =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score1.text =
                                         score1.toString()
                                 }
                                 it.score2Count?.let { score2 ->
-                                    view.getView().alcoholDetailScoreSeekbar.score2Seekbar.progress =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.progress =
                                         score2
-                                    view.getView().alcoholDetailScoreSeekbar.score2.text =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score2.text =
                                         score2.toString()
                                 }
                                 it.score3Count?.let { score3 ->
-                                    view.getView().alcoholDetailScoreSeekbar.score3Seekbar.progress =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.progress =
                                         score3
-                                    view.getView().alcoholDetailScoreSeekbar.score3.text =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score3.text =
                                         score3.toString()
                                 }
                                 it.score4Count?.let { score4 ->
-                                    view.getView().alcoholDetailScoreSeekbar.score4Seekbar.progress =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.progress =
                                         score4
-                                    view.getView().alcoholDetailScoreSeekbar.score4.text =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score4.text =
                                         score4.toString()
                                 }
                                 it.score5Count?.let { score5 ->
-                                    view.getView().alcoholDetailScoreSeekbar.score5Seekbar.progress =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.progress =
                                         score5
-                                    view.getView().alcoholDetailScoreSeekbar.score5.text =
+                                    view.getView().detailReview.alcoholDetailScoreSeekbar.score5.text =
                                         score5.toString()
                                 }
 
                                 //rating 점수
-                                view.getView().alcoholDetailReviewTotalscore.text =
+                                view.getView().detailReview.alcoholDetailReviewTotalscore.text =
                                     it.scoreAvg.toString()
-                                view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
-                                view.getView().detailIcRatringScore.text = it.scoreAvg.toString()
+                                view.getView().detailAlcoholinfo.detailIcRatringScore.text = it.scoreAvg.toString()
                             }
                         }, { t ->
                             CustomDialog.networkErrorDialog(context)
@@ -696,14 +695,14 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     }
 
     override fun expandableText() {
-        if (view.getView().textViewAlcoholDescription.isExpanded) {
-            view.getView().textViewAlcoholDescription.collapse()
-            view.getView().detailArrow.setImageResource(R.mipmap.down_errow)
-            view.getView().detailExpandableText.text = "더보기"
+        if (view.getView().detailDescription.textViewAlcoholDescription.isExpanded) {
+            view.getView().detailDescription.textViewAlcoholDescription.collapse()
+            view.getView().detailDescription.detailArrow.setImageResource(R.mipmap.down_errow)
+            view.getView().detailDescription.detailExpandableText.text = "더보기"
         } else {
-            view.getView().textViewAlcoholDescription.expand()
-            view.getView().detailArrow.setImageResource(R.mipmap.up_errow)
-            view.getView().detailExpandableText.text = "접기"
+            view.getView().detailDescription.textViewAlcoholDescription.expand()
+            view.getView().detailDescription.detailArrow.setImageResource(R.mipmap.up_errow)
+            view.getView().detailDescription.detailExpandableText.text = "접기"
         }
     }
 
@@ -760,32 +759,32 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
 
     override fun initRadarChart(review: EvaluateIndicator) {
-        view.getView().radarChart.scaleX = 1.27f
-        view.getView().radarChart.scaleY = 1.27f
+        view.getView().detailChart.radarChart.scaleX = 1.27f
+        view.getView().detailChart.radarChart.scaleY = 1.27f
 
-        view.getView().radarChart.isRotationEnabled = false //차트 회전
-        view.getView().radarChart.description.isEnabled = false // 범례 값 설명
-        view.getView().radarChart.legend.isEnabled = false //범례 값
-        view.getView().radarChart.webLineWidth = 0f //대각선 두께
+        view.getView().detailChart.radarChart.isRotationEnabled = false //차트 회전
+        view.getView().detailChart.radarChart.description.isEnabled = false // 범례 값 설명
+        view.getView().detailChart.radarChart.legend.isEnabled = false //범례 값
+        view.getView().detailChart.radarChart.webLineWidth = 0f //대각선 두께
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {// 대각선 색
-            view.getView().radarChart.webColor =
+            view.getView().detailChart.radarChart.webColor =
                 context.resources.getColor(R.color.white, null)
         } else{
-            view.getView().radarChart.webColor =
+            view.getView().detailChart.radarChart.webColor =
                 ContextCompat.getColor(context,R.color.white)
         }
-        view.getView().radarChart.webLineWidthInner = 0.75f //내부선 두께
+        view.getView().detailChart.radarChart.webLineWidthInner = 0.75f //내부선 두께
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //내부선 색
-            view.getView().radarChart.webColorInner =
+            view.getView().detailChart.radarChart.webColorInner =
                 context.resources.getColor(R.color.light_grey4, null)
         }else{
-            view.getView().radarChart.webColorInner =
+            view.getView().detailChart.radarChart.webColorInner =
                 ContextCompat.getColor(context,R.color.light_grey4)
         }
 
-        view.getView().radarChart.webAlpha = 200 //내부선 투명도 , 255 - opaque , 0 - transparent
+        view.getView().detailChart.radarChart.webAlpha = 200 //내부선 투명도 , 255 - opaque , 0 - transparent
 
-        val xAxis = view.getView().radarChart.xAxis
+        val xAxis = view.getView().detailChart.radarChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.granularity = 1f
         xAxis.typeface = typeface
@@ -800,7 +799,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             }
         }
 
-        val yAxis = view.getView().radarChart.yAxis
+        val yAxis = view.getView().detailChart.radarChart.yAxis
         yAxis.setLabelCount(5, false)
         yAxis.xOffset = 0f
         yAxis.yOffset = 0f
@@ -890,8 +889,8 @@ class Presenter : AlcoholDetailContract.BasePresenter {
 
         val data = RadarData(chartDataSetList)
         data.setDrawValues(false)
-        view.getView().radarChart.data = data
-        view.getView().radarChart.invalidate()
+        view.getView().detailChart.radarChart.data = data
+        view.getView().detailChart.radarChart.invalidate()
     }
 
     private fun View.setOneClickListener(onClick: (View) -> Unit) {

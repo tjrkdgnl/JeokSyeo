@@ -68,7 +68,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.login)
 
 
-       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
            val networkUtil = NetworkUtil(this)
             networkUtil.register()
         }

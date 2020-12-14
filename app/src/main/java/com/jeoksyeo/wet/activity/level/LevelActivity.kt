@@ -15,6 +15,7 @@ import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LevelBinding
+import kotlinx.android.synthetic.main.level_bottom_wave.view.*
 
 class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.BaseView {
     private lateinit var binding:LevelBinding
@@ -85,12 +86,25 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
         }
         binding.textViewCurrentLevel.text = ssb
 
-        binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level) //다음레벨
-        binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-reviewCount}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
+        if(level <5){
+            binding.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level) //다음레벨
+        }
+        else{
+            finalLevel()
+        }
+
+
+        binding.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-rest}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
 
         for(i in 0 until rest){
             presenter.miniAlcoholList[i].setImageResource(R.mipmap.mini_bottle_full)
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun finalLevel() {
+        binding.bottomWave.rootView.visibility=View.VISIBLE
+        binding.bottomWave.ranking_5level.text = "${presenter.rankCount} 번째 선주(酒)자가"
     }
 
     override fun onDestroy() {

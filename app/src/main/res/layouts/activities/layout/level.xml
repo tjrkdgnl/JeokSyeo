@@ -281,25 +281,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--            <me.itangqi.waveloadingview.WaveLoadingView-->
-<!--                android:id="@+id/waveLoadingView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:visibility="invisible"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/myLevel_mainWindow"-->
-<!--                app:layout_constraintVertical_bias="1"-->
-<!--                app:wlv_round_rectangle="true"-->
-<!--                app:wlv_shapeType="rectangle"-->
-<!--                app:wlv_titleCenter="Center Title"-->
-<!--                app:wlv_titleCenterColor="@android:color/white"-->
-<!--                app:wlv_titleCenterSize="24sp"-->
-<!--                app:wlv_titleCenterStrokeColor="@color/white"-->
-<!--                app:wlv_triangle_direction="north"-->
-<!--                app:wlv_waveAmplitude="60"-->
-<!--                app:wlv_waveColor="@color/orange" />-->
+
+            <include
+                android:id="@+id/bottomWave"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                layout="@layout/level_bottom_wave"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myLevel_mainWindow"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

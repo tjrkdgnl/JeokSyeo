@@ -27,9 +27,11 @@ class Presenter :LevelContract.BasePresenter{
 
     private val compositeDisposable = CompositeDisposable()
 
-    val miniAlcoholList = mutableListOf<ImageView>()
+     val miniAlcoholList = mutableListOf<ImageView>()
 
     lateinit var networkUtil: NetworkUtil
+
+    var rankCount:Int =0
 
     override fun setNetworkUtil() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -70,6 +72,9 @@ class Presenter :LevelContract.BasePresenter{
                                 view.settingMainAlcholGIF(info.level)
                                 view.settingExperience(info.reviewCount,info.level)
                                 view.getView().defaultMainBottle.visibility = View.INVISIBLE
+
+                                rankCount = info.level5Rank
+
                             }
                         },{ t ->
                             CustomDialog.networkErrorDialog(context)

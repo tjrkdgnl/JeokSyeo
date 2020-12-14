@@ -130,7 +130,7 @@ class AlcoholReviewAdapter(private val context: Context,
         return lst.size
     }
 
-    //리뷰 더 보기 눌렀을 때, 리스트 업데이트
+    //리뷰 더 보기 눌렀을 때, 리스트에 리뷰 추가
     private fun updateList(list:MutableList<ReviewList>){
         lst.removeAt(lst.size-1) // 더보기 칸 지우기
         var duplicateCheck =false
@@ -143,12 +143,30 @@ class AlcoholReviewAdapter(private val context: Context,
                     break
                 }
             }
+            //중복되지 않은 리뷰라면
             if(!duplicateCheck){
+                //새롭게 추가된 리뷰 중, 유저가 좋아요 or 싫어요 누른 리뷰 체크
+
+                if(newData.has_like!!){
+                    likeList.add(true)
+                    disLikeList.add(false)
+
+                }
+                else if(newData.has_dislike!!){
+                    likeList.add(false)
+                    disLikeList.add(true)
+                }
+                else{
+                    likeList.add(false)
+                    disLikeList.add(false)
+                }
+
                 lst.add(newData)
             }
             duplicateCheck=false
         }
         lst.add(ReviewList().apply { checkMore=GlobalApplication.DETAIL_MORE_REVIEW })
+
         notifyItemChanged(size,lst.size)
     }
 
