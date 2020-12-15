@@ -64,4 +64,7 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
 
         }
     }
+
+
+
 }

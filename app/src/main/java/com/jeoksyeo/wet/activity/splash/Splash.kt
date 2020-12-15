@@ -24,40 +24,37 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.splash)
 
+        //디바이스별의 크기 얻기
+        GlobalApplication.instance.getStandardSize(this)
+
         presenter = SplashPresenter().apply {
             view = this@Splash
-            activity =this@Splash
+            activity = this@Splash
         }
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val tokenCheck = JWTUtil.checkToken()
                 if (tokenCheck) {
-                    Log.e("tokenCheck",tokenCheck.toString())
+                    Log.e("tokenCheck", tokenCheck.toString())
                     presenter.setUserInfo()
                 }
 
-                Log.e("버전체크","버전체크 전")
+                Log.e("버전체크", "버전체크 전")
                 val check = versionCheck()
-                withContext(Dispatchers.Main){
-                    if(check){
+                withContext(Dispatchers.Main) {
+                    if (check) {
                         presenter.moveActivity()
-                    }
-                    else{
+                    } else {
                         CustomDialog.versionDialog(this@Splash)
                     }
-                    Log.e("버전체크","버전체크 후")
+                    Log.e("버전체크", "버전체크 후")
                 }
             }
 
         } catch (e: Exception) {
             Log.e(ErrorManager.JWT_ERROR, "splash-> ${e.message}")
         }
-
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        GlobalApplication.device_width = displayMetrics.widthPixels
-        GlobalApplication.device_height = displayMetrics.heightPixels
 
     }
 

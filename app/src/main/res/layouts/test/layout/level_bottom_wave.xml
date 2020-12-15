@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wave_parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/waveLottie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/level_botton_wave"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1"
+            />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/apple_sd_gothic_neo_m"
+            android:textStyle="normal"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:lineSpacingExtra="5sp"
+            android:text="당신은 모든 역사를 경험하셨습니다."
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.4"
+            />
+
+        <TextView
+            android:id="@+id/ranking_5level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#29000000"
+            android:shadowDy="3"
+            android:shadowRadius="2"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_b"
+            android:textStyle="normal"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:lineSpacingExtra="8sp"
+            android:text="00번째 선주(酒)자가"
+            app:layout_constraintTop_toBottomOf="@id/text1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/apple_sd_gothic_neo_m"
+            android:textStyle="normal"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:lineSpacingExtra="5sp"
+            android:text="되신 것을 축하드립니다."
+            app:layout_constraintTop_toBottomOf="@id/ranking_5level"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

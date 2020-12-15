@@ -67,7 +67,7 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                             initScrollListener()
                         }
                     }
-                    view.getBinding().ratedRecyclerView.setHasFixedSize(true)
+                    view.getBinding().ratedRecyclerView.setHasFixedSize(false)
                     view.getBinding().ratedRecyclerView.layoutManager = CenterLayoutManager(context)
                 }, { t->
                     Log.e(ErrorManager.MY_RATED_LIST,t.message.toString())}))
@@ -100,6 +100,7 @@ class Presenter :FragmentRated_Contract.BasePresenter {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+
                 it.data?.pagingInfo?.page?.let {
                     pageNum = it.toInt()+1
 

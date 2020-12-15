@@ -229,6 +229,9 @@ class Presenter : MainContract.BasePresenter {
 
     override fun detachView() {
         compositeDisposable.dispose()
-        networkUtil.unRegister()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
     }
 }

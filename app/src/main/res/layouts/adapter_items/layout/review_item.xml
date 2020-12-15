@@ -5,6 +5,7 @@
     tools:ignore="MissingConstraints">
 
     <data>
+
         <variable
             name="reivews"
             type="com.model.review.ReviewList" />
@@ -25,119 +26,157 @@
 
             <ImageView
                 android:id="@+id/imageView_commentProfile_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="22dp"
                 android:src="@mipmap/review_profile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent="0.106" />
 
-            <TextView
-                android:id="@+id/textView_commentUserName"
-                android:layout_width="wrap_content"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_commentUserName_scalableLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:lineSpacingExtra="2sp"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:text="@{reivews.nickname}"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@id/imageView_recommendUpButton"
                 app:layout_constraintStart_toEndOf="@id/imageView_commentProfile_img"
                 app:layout_constraintTop_toTopOf="@id/imageView_commentProfile_img"
-                tools:text="유저의 이름입니다." />
+                app:scale_base_height="44"
+                app:scale_base_width="200">
 
-            <TextView
-                android:id="@+id/textView_recommendDownCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                android:text="@{reivews.dislikeCount.toString()}"
-                android:lineSpacingExtra="4sp"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:minEms="1"
-                android:maxEms="2"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                tools:text="9999"
-                app:layout_constraintBottom_toBottomOf="@id/textView_commentUserName"
+                <TextView
+                    android:id="@+id/textView_commentUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@{reivews.nickname}"
+                    android:textColor="@color/black"
+                    app:scale_height="20"
+                    app:scale_textsize="16"
+                    app:scale_width="200"
+                    tools:text="유저의 이름입니다." />
+
+                <TextView
+                    android:id="@+id/textView_commentUserRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
+                    android:text="Lv. 1 술을 마시는 척 하는 사람"
+                    android:textColor="#cfcfcf"
+                    android:textSize="12sp"
+                    app:scale_height="20"
+                    app:scale_textsize="12"
+                    app:scale_top="20"
+                    app:scale_width="200" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/imaveView_recommendDown_Button"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toEndOf="@id/imaveView_recommendDown_Button"
+                app:layout_constraintTop_toTopOf="@id/imaveView_recommendDown_Button"
+                app:scale_base_height="60"
+                app:scale_base_width="100">
+
+                <TextView
+                    android:id="@+id/textView_recommendDownCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4sp"
+                    android:text="@{reivews.dislikeCount.toString()}"
+                    android:textColor="@color/black"
+                    app:scale_height="60"
+                    app:scale_textsize="40"
+                    app:scale_width="100"
+                    tools:text="9999" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
             <ImageView
                 android:id="@+id/imaveView_recommendDown_Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginEnd="40dp"
                 android:background="@mipmap/dislike_empty"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_recommendDownCount"
-                app:layout_constraintEnd_toStartOf="@+id/textView_recommendDownCount"
-                app:layout_constraintTop_toTopOf="@+id/textView_recommendDownCount" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView_commentUserName_scalableLayout"
+                app:layout_constraintVertical_bias="0" />
 
-            <TextView
-                android:id="@+id/textView_recommendUpCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                tools:text="1000"
-                android:minEms="1"
-                android:maxEms="2"
-                android:lineSpacingExtra="4sp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:text="@{reivews.likeCount.toString()}"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_recommendUpCount_scalableLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintBottom_toBottomOf="@id/imaveView_recommendDown_Button"
                 app:layout_constraintEnd_toStartOf="@id/imaveView_recommendDown_Button"
-                app:layout_constraintTop_toTopOf="@+id/imaveView_recommendDown_Button" />
+                app:layout_constraintStart_toEndOf="@id/imageView_recommendUpButton"
+                app:layout_constraintTop_toTopOf="@+id/imaveView_recommendDown_Button"
+                app:scale_base_height="60"
+                app:scale_base_width="100">
+
+                <TextView
+                    android:id="@+id/textView_recommendUpCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4sp"
+                    android:text="@{reivews.likeCount.toString()}"
+                    android:textColor="@color/black"
+                    app:scale_height="60"
+                    app:scale_textsize="40"
+                    app:scale_width="100"
+                    tools:text="9999" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/imageView_recommendUpButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginEnd="40dp"
                 android:background="@mipmap/like_empty"
-                app:layout_constraintBottom_toBottomOf="@id/textView_recommendUpCount"
-                app:layout_constraintEnd_toStartOf="@+id/textView_recommendUpCount"
-                app:layout_constraintTop_toTopOf="@id/textView_recommendUpCount" />
-
-            <TextView
-                android:id="@+id/textView_commentUserRank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="2sp"
-                android:layout_marginTop="3dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:text="Lv. 1 술을 마시는 척 하는 사람"
-                android:textColor="#b2b2b2"
-                android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/textView_commentUserName"
-                app:layout_constraintStart_toStartOf="@+id/textView_commentUserName" />
-
-            <TextView
-                android:id="@+id/textView_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="4sp"
-                tools:text="2020.11.26"
-                android:layout_marginStart="10dp"
-                android:textColor="#e5e5e5"
-                android:textSize="12sp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                app:layout_constraintStart_toEndOf="@id/textView_reviewRatingScore"
-                app:layout_constraintTop_toTopOf="@id/textView_reviewRatingScore"
-                app:layout_constraintBottom_toBottomOf="@id/textView_reviewRatingScore"
-                />
+                app:layout_constraintBottom_toBottomOf="@id/textView_recommendUpCount_scalableLayout"
+                app:layout_constraintEnd_toStartOf="@+id/imaveView_recommendDown_Button"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textView_recommendUpCount_scalableLayout" />
 
             <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/ratingBar_reviewRatingbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="@id/textView_commentUserRank"
-                app:layout_constraintTop_toBottomOf="@id/textView_commentUserRank"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/textView_commentUserName_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/textView_commentUserName_scalableLayout"
+                app:layout_constraintVertical_bias="0"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="false"
                 app:srb_drawableEmpty="@mipmap/small_empty_star"
@@ -151,37 +190,64 @@
                 app:srb_stepSize="0.5" />
 
 
-            <at.blogc.android.views.ExpandableTextView
-                android:id="@+id/textView_reviewRatingScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_reviewRatingScore_scalableLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="5.4dp"
-                android:lineSpacingExtra="4sp"
-                android:text="@{reivews.score.toString()}"
-                android:textColor="#000000"
-                android:textSize="12sp"
-                android:maxLines="3"
-                android:ellipsize="end"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                app:animation_duration="170"
-                tools:text="3.5"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar_reviewRatingbar"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ratingBar_reviewRatingbar"
-                app:layout_constraintTop_toTopOf="@id/ratingBar_reviewRatingbar" />
+                app:layout_constraintTop_toTopOf="@id/ratingBar_reviewRatingbar"
+                app:scale_base_height="70"
+                app:scale_base_width="100">
+
+                <TextView
+                    android:id="@+id/textView_reviewRatingScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
+                    android:text="@{reivews.score.toString()}"
+                    android:textColor="#858585"
+                    app:scale_height="70"
+                    app:scale_textsize="55"
+                    app:scale_width="100"
+                    tools:text="3.5" />
+
+
+                <TextView
+                    android:id="@+id/textView_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="4sp"
+                    android:textColor="#e5e5e5"
+                    android:textSize="12sp"
+                    app:scale_height="70"
+                    app:scale_textsize="55"
+                    app:scale_width="300"
+                    app:scale_left="120"
+                    tools:text="2020.11.26" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
 
             <at.blogc.android.views.ExpandableTextView
                 android:id="@+id/expandableTextView_reviewcomment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:maxLines="2"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="13dp"
                 android:layout_marginEnd="20dp"
-                android:textColor="@color/black"
-                android:textSize="12sp"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:maxLines="2"
                 android:text="@{reivews.contents.toString()}"
+                android:textColor="#515151"
+                android:textSize="12sp"
+                android:lineSpacingExtra="5sp"
                 app:animation_duration="170"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
@@ -189,21 +255,35 @@
                 app:layout_constraintTop_toBottomOf="@id/ratingBar_reviewRatingbar"
                 tools:text="이건 쫌 괜찮네" />
 
-            <TextView
-                android:id="@+id/reviewItem_toggleButton"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="더보기"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:gravity="center_vertical"
-                android:textColor="@color/light_grey"
-                android:textSize="12sp"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:scale_base_width="1080"
+                app:scale_base_height="80"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/expandableTextView_reviewcomment" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintTop_toBottomOf="@id/expandableTextView_reviewcomment"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp">
 
+                <TextView
+                    android:id="@+id/reviewItem_toggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_vertical"
+                    android:text="더보기"
+                    android:layout_gravity="end"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp"
+                    app:scale_width="100"
+                    app:scale_height="80"
+                    app:scale_textsize="35"
+                    />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <View
                 android:layout_width="match_parent"

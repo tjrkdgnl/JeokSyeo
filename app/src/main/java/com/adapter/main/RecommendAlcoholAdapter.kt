@@ -148,7 +148,7 @@ class RecommendAlcoholAdapter(
                                     .toInt(), 1
                             )
                         holder.getViewBinding().activtyMainLikeImg.setImageResource(
-                            R.mipmap.detail_full_heart
+                            R.mipmap.recommend_heart_full
                         )
                     }, { t ->
                         CustomDialog.networkErrorDialog(context)
@@ -180,7 +180,7 @@ class RecommendAlcoholAdapter(
                                     .toInt(), -1
                             )
                         holder.getViewBinding().activtyMainLikeImg.setImageResource(
-                            R.mipmap.detail_empty_heart
+                            R.mipmap.recommend_heart_empty
                         )
                     }, { t ->
                         CustomDialog.networkErrorDialog(context)

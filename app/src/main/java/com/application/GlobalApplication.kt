@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Point
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -24,13 +25,14 @@ import com.vuforia.engine.wet.R
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import java.io.IOException
+import java.nio.channels.FileLock
 import java.text.SimpleDateFormat
 import java.util.*
 
 class GlobalApplication : MultiDexApplication() {
     var activityClass:Class<*>? =null
-
-
+    var device_width =0f
+    var device_height = 0f
     private var toastView:View? =null
     private val banWord =  listOf("개발","운영","관리자","적셔")
     private val typeList = listOf("TR", "BE", "WI", "FO", "SA")
@@ -78,8 +80,7 @@ class GlobalApplication : MultiDexApplication() {
         lateinit var userDataBase: UserDB
 
         //디바이스 사이즈
-        var device_width = 0
-        var device_height = 0
+
 
         const val NICKNAME = "nickname"
         const val BIRTHDAY = "birth"
@@ -121,6 +122,26 @@ class GlobalApplication : MultiDexApplication() {
         const val PAGE_REVIEW_COUNT =3
     }
 
+    fun getScreenSize(activity: Activity):Point{
+        val display = activity.windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+
+        return size
+    }
+
+    fun getStandardSize(activity: Activity){
+        val screenSize = getScreenSize(activity)
+        val density = activity.resources.displayMetrics.density
+
+
+        device_width = (screenSize.x / density)
+        device_height = (screenSize.y / density)
+
+        Log.e("width",device_width.toString())
+        Log.e("height",device_height.toString())
+    }
+
 
    fun getToastView() :View?{
         if(toastView ==null){
@@ -135,9 +156,7 @@ class GlobalApplication : MultiDexApplication() {
         val date = Date(utc)
 
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        Log.e("utc",utc.toString())
 
-        Log.e("date",simpleDateFormat.format(date))
         return simpleDateFormat.format(date)
     }
 

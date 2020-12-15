@@ -192,8 +192,8 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             UCrop.of(it, savingUri)
                 .withAspectRatio(1f, 1f)
                 .withMaxResultSize(
-                    GlobalApplication.device_width,
-                    GlobalApplication.device_height
+                    GlobalApplication.instance.device_width.toInt(),
+                    GlobalApplication.instance.device_height.toInt()
                 )
                 .withOptions(options)
                 .start(this)

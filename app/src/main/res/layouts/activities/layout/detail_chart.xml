@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_component">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.45dp"
+            android:background="@color/light_grey2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/textView_evalutionScore_scalableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="200"
+            app:scale_base_width="1080">
+
+            <TextView
+                android:id="@+id/textView_evalutionScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:lineSpacingExtra="2sp"
+                android:text="사용자 평가지표"
+                android:textColor="@color/black"
+                app:scale_height="200"
+                app:scale_textsize="55"
+                app:scale_width="370"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@color/orange"
+                app:scale_height="1"
+                app:scale_width="700" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.45dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/orange"
+            app:layout_constraintBottom_toBottomOf="@id/textView_evalutionScore_scalableLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textView_evalutionScore_scalableLayout" />
+
+        <Space
+            android:id="@+id/detail_space_top"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_evalutionScore_scalableLayout" />
+
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/radarChart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintDimensionRatio="H,1:0.91"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_space_top" />
+
+        <ImageView
+            android:id="@+id/user_indicator"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@mipmap/user_indicator"
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintDimensionRatio="H,1:0.91"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_space_top" />
+
+        <Space
+            android:id="@+id/detail_space"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radarChart" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

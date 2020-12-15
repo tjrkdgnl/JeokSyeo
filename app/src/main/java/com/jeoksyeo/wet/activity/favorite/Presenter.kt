@@ -85,6 +85,10 @@ class Presenter : FavoriteContract.BasePresenter {
         view.getBinding().profileHeader.alcoholRatedName.text = GlobalApplication.userInfo.nickName
     }
 
+
+
+
+
     override fun detach() {
         compositeDisposable.dispose()
     }
