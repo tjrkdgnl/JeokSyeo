@@ -82,6 +82,14 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         super.onStart()
         GlobalApplication.instance.activityClass = EditProfile::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     private fun CameraPermission() {
         val permissionListener = object : PermissionListener {
@@ -201,7 +209,6 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     }
 
     @SuppressLint("SimpleDateFormat")
-    @Throws(IOException::class)
     private fun createImageFile(): File? {
         // 이미지 파일 이름 ( JeokSyeo_{시간}_ )
         val timeStamp = SimpleDateFormat("HHmmss").format(Date())

@@ -36,7 +36,7 @@ class Presenter :FragmentRated_Contract.BasePresenter {
     private lateinit var alcoholRatedAdapter: AlcoholRatedAdapter
 
 
-    override fun initRatedList(context: Context) {
+    override fun initRatedList() {
         try {
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .getMyRatedList(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),
@@ -49,26 +49,27 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                     }
 
                     it.data?.summary?.let {summary->
-                        viewmodel.reviewCount.value = summary.reviewCount
-                        viewmodel.level.value = summary.level
+                        if(viewmodel.reviewCount.value ==0){
+                            viewmodel.reviewCount.value = summary.reviewCount
+                        }
                     }
 
                     it.data?.reviewList?.let { lst->
                         if(lst.isEmpty()){
                             lst.toMutableList().let { mlst->
                                 mlst.add(ReviewList())
-                                alcoholRatedAdapter = AlcoholRatedAdapter(context,mlst,smoothScrollListener,progressbar = settingProgressbar)
+                                alcoholRatedAdapter = AlcoholRatedAdapter(activity,mlst,smoothScrollListener,progressbar = settingProgressbar)
                                 view.getBinding().ratedRecyclerView.adapter =alcoholRatedAdapter
                             }
                         }
                         else {
-                            alcoholRatedAdapter = AlcoholRatedAdapter(context,lst.toMutableList(),smoothScrollListener,progressbar = settingProgressbar)
+                            alcoholRatedAdapter = AlcoholRatedAdapter(activity,lst.toMutableList(),smoothScrollListener,progressbar = settingProgressbar)
                             view.getBinding().ratedRecyclerView.adapter =alcoholRatedAdapter
                             initScrollListener()
                         }
                     }
                     view.getBinding().ratedRecyclerView.setHasFixedSize(false)
-                    view.getBinding().ratedRecyclerView.layoutManager = CenterLayoutManager(context)
+                    view.getBinding().ratedRecyclerView.layoutManager = CenterLayoutManager(activity)
                 }, { t->
                     Log.e(ErrorManager.MY_RATED_LIST,t.message.toString())}))
         }

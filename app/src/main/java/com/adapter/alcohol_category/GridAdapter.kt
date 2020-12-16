@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers
 class GridAdapter(private val context: Context,private val lst:MutableList<AlcoholList>
                   ,private val executeProgressBar:(Boolean)->Unit)
     :RecyclerView.Adapter<AlcoholCategoryGridViewHolder>() {
-
+    private var sum:Int =0
     private var disposable:Disposable? =null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlcoholCategoryGridViewHolder {
@@ -96,9 +96,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
 
     }
 
-
     //정렬이 변경될 때 리스트 내부의 아이템들을 모두 교체
-
     fun changeSort(list:MutableList<AlcoholList>){
         lst.clear()
         lst.addAll(list)

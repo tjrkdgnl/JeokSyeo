@@ -376,10 +376,10 @@ class Presenter : EditProfileContract.BasePresenter {
 
     private fun settingProgressBar(check: Boolean) {
         if (check) {
-            view.getView().progressBarLoading.visibility = View.VISIBLE
+            view.getView().progressBarLoading.root.visibility = View.VISIBLE
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         } else {
-            view.getView().progressBarLoading.visibility = View.INVISIBLE
+            view.getView().progressBarLoading.root.visibility = View.INVISIBLE
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
         }

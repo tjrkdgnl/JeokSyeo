@@ -42,6 +42,14 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
         super.onStart()
         GlobalApplication.instance.activityClass = LevelActivity::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     override fun onClick(v: View?) {
         when(v?.id){

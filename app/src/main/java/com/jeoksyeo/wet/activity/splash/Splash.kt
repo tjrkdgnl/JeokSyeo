@@ -58,6 +58,15 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
+
     private suspend fun versionCheck():Boolean{
        return  presenter.versionCheck()
     }

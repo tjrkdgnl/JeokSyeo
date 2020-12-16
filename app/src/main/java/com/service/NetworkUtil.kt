@@ -56,7 +56,10 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
     override fun onAvailable(network: Network) {
         super.onAvailable(network)
         if (networkCheck) {
-            Toast.makeText(GlobalApplication.instance,"네트워크가 연결되었습니다.",Toast.LENGTH_SHORT).show()
+            if(GlobalApplication.instance.getActivityBackground()){
+                Toast.makeText(GlobalApplication.instance,"네트워크가 연결되었습니다.",Toast.LENGTH_SHORT).show()
+            }
+
             networkCheck = false
             if (GlobalApplication.instance.activityClass == MainActivity::class.java) {
                 val intent = Intent(context, GlobalApplication.instance.activityClass)
@@ -72,12 +75,14 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
 
         if(!networkCheck){
             networkCheck = true
-            GlobalApplication.instance.getToastView()?.let {
-                val toast = Toast(GlobalApplication.instance)
-                toast.setGravity(Gravity.BOTTOM  ,0,100)
-                toast.view = it
-                toast.duration = Toast.LENGTH_SHORT
-                toast.show()
+            if(GlobalApplication.instance.getActivityBackground()){
+                GlobalApplication.instance.getToastView()?.let {
+                    val toast = Toast(GlobalApplication.instance)
+                    toast.setGravity(Gravity.BOTTOM  ,0,100)
+                    toast.view = it
+                    toast.duration = Toast.LENGTH_SHORT
+                    toast.show()
+                }
             }
         }
     }

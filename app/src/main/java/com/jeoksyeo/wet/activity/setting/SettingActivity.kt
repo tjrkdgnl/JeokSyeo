@@ -29,6 +29,14 @@ class SettingActivity: AppCompatActivity(), SettingContract.BaseView, View.OnCli
         super.onStart()
         GlobalApplication.instance.activityClass = SettingActivity::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     override fun getView(): SettingBinding {
         return binding

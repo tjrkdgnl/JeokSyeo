@@ -119,6 +119,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //multiDex
     implementation 'com.android.support:multidex:1.0.3'
 
     //리사이클러뷰

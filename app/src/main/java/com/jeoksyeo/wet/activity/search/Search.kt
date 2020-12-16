@@ -116,6 +116,14 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
         super.onStart()
         GlobalApplication.instance.activityClass = Search::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     private fun hideKeyPad():Boolean{
         GlobalApplication.instance.keyPadSetting(binding.editTextSearch,this@Search)

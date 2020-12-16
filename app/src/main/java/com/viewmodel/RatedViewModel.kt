@@ -5,10 +5,5 @@ import androidx.lifecycle.ViewModel
 
 class RatedViewModel : ViewModel() {
 
-    var reviewCount =MutableLiveData<Int>()
-
-    var level = MutableLiveData<Int>()
-
-
-
+    var reviewCount =MutableLiveData<Int>(0)
 }

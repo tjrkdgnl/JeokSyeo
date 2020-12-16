@@ -48,6 +48,14 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         super.onStart()
         GlobalApplication.instance.activityClass = SignUp::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {

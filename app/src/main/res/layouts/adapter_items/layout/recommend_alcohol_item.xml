@@ -74,7 +74,7 @@
                         android:textColor="#333333"
                         app:scale_width="470"
                         app:scale_height = "60"
-                        app:scale_textsize ="45"
+                        app:scale_textsize ="48"
                         tools:text="백세주" />
                 </com.ssomai.android.scalablelayout.ScalableLayout>
 

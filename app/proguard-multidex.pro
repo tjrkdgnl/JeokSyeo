@@ -1,2 +1,7 @@
 #noinspection ShrinkerUnresolvedReference
--keep class com.vuforia.engine.wet.* { *; }
+# Begin: Debug ProGuard rules
+
+-dontobfuscate
+-keepattributes SoureFile,LineNumberTable
+
+# End: Debug ProGuard rules

@@ -200,7 +200,7 @@
                 android:id="@+id/textView_gridHeartCount_scalableLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                app:scale_base_width="90"
+                app:scale_base_width="100"
                 app:scale_base_height="53"
                 android:layout_marginStart="6dp"
                 android:layout_marginBottom="1dp"
@@ -215,17 +215,14 @@
                     android:id="@+id/textView_gridHeartCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:lineSpacingExtra="3sp"
                     android:text="0"
-                    app:scale_width = "90"
+                    app:scale_width = "100"
                     app:scale_height = "53"
                     android:gravity="center_vertical"
-                    app:textview_wrapcontent_direction="top"
-                    app:textview_wrapcontent_resizesurrounded="true"
-                    app:textview_wrapcontent_movesiblings="true"
-                    app:scale_textsize = "25"
-                    android:textColor="#b2b2b2"
+                    app:scale_textsize = "30"
+                    android:textColor="#333333"
                     tools:text="999+" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
@@ -238,7 +235,7 @@
                 android:src="@mipmap/small_talk"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toBottomOf="@id/textView_gridHeartCount_scalableLayout"
-                app:layout_constraintEnd_toStartOf="@id/category_grid_eye"
+                app:layout_constraintEnd_toStartOf="@id/favorite_temperature"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridHeart"
                 app:layout_constraintTop_toTopOf="@id/textView_gridHeartCount_scalableLayout" />
 
@@ -247,7 +244,7 @@
                 android:id="@+id/textView_gridCommentCount_scalableLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                app:scale_base_width="90"
+                app:scale_base_width="100"
                 app:scale_base_height="53"
                 android:layout_marginStart="6dp"
                 android:layout_marginBottom="1dp"
@@ -262,23 +259,20 @@
                     android:id="@+id/textView_gridCommentCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:lineSpacingExtra="3sp"
                     android:text="0"
-                    app:scale_width = "90"
+                    app:scale_width = "100"
                     app:scale_height = "53"
                     android:gravity="center_vertical"
-                    app:textview_wrapcontent_direction="top"
-                    app:textview_wrapcontent_resizesurrounded="true"
-                    app:textview_wrapcontent_movesiblings="true"
-                    app:scale_textsize = "25"
-                    android:textColor="#b2b2b2"
+                    app:scale_textsize = "30"
+                    android:textColor="#333333"
                     tools:text="999+" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
 
             <ImageView
-                android:id="@+id/category_grid_eye"
+                android:id="@+id/favorite_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -291,36 +285,33 @@
 
 
             <com.ssomai.android.scalablelayout.ScalableLayout
-                android:id="@+id/category_grid_eyeCount_scalableLayout"
+                android:id="@+id/category_Grid_Eye_Count_scalableLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                app:scale_base_width="90"
+                app:scale_base_width="100"
                 app:scale_base_height="53"
                 android:layout_marginStart="6dp"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintBottom_toBottomOf="@id/category_grid_eye"
-                app:layout_constraintStart_toEndOf="@id/category_grid_eye"
-                app:layout_constraintTop_toTopOf="@id/category_grid_eye"
+                app:layout_constraintBottom_toBottomOf="@id/favorite_temperature"
+                app:layout_constraintStart_toEndOf="@id/favorite_temperature"
+                app:layout_constraintTop_toTopOf="@id/favorite_temperature"
                 app:layout_constraintEnd_toEndOf="parent"
                 >
                 <TextView
-                    android:id="@+id/category_grid_eyeCount"
+                    android:id="@+id/category_Grid_Eye_Count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:gravity="center_vertical"
                     android:lineSpacingExtra="3sp"
                     android:maxLines="1"
                     android:text="0"
-                    android:textColor="#b2b2b2"
+                    android:textColor="#333333"
                     app:scale_height="53"
-                    app:scale_textsize="24"
+                    app:scale_textsize="30"
                     app:scale_width="90"
-                    app:textview_wrapcontent_direction="top"
-                    app:textview_wrapcontent_movesiblings="true"
-                    app:textview_wrapcontent_resizesurrounded="true"
                     tools:text="9999+" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
 

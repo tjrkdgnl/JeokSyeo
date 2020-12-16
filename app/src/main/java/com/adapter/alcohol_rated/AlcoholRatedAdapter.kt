@@ -1,6 +1,7 @@
 package com.adapter.alcohol_rated
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AlcoholRatedAdapter(private val context: Context,
+class AlcoholRatedAdapter(private val activity: Activity,
                          private val lst:MutableList<ReviewList>,
                          private val smoothScrollPosition: Fragment_alcoholRated.SmoothScrollListener,
                           private val progressbar:(Boolean) ->Unit
@@ -35,17 +36,17 @@ class AlcoholRatedAdapter(private val context: Context,
     private val ITEM = 1
     private val NO_ITEM=0
     private val compositeDisposable =CompositeDisposable()
-    private lateinit var viewModel : RatedViewModel
+    private val viewModel:RatedViewModel by lazy {
+             ViewModelProvider(activity as AlcoholRated).get(RatedViewModel::class.java)
+    }
     init {
         for(i in lst){
             checkList.add(false)
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if(context is AlcoholRated){
-            viewModel = ViewModelProvider(context).get(RatedViewModel::class.java)
-        }
 
         return when(viewType){
             ITEM ->{ AlcoholRatedViewHolder(parent) }
@@ -79,7 +80,7 @@ class AlcoholRatedAdapter(private val context: Context,
 
             //리뷰 삭제
             holder.getViewBinding().ratedItemDelete.setOnClickListener{
-                val dialog = CustomDialog.createCustomDialog(context)
+                val dialog = CustomDialog.createCustomDialog(activity)
                 val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
                 val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
                 val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
@@ -97,15 +98,16 @@ class AlcoholRatedAdapter(private val context: Context,
                             dialog.dismiss()
                             lst.removeAt(position)
 
-                            viewModel.reviewCount.value = lst.size
+                            viewModel.reviewCount.value?.minus(1)
 
+                            //리뷰를 모두 지웠을 때 default 화면 띄우기
                             if(lst.size ==0){
                                 lst.add(ReviewList())
                             }
 
                            notifyDataSetChanged()
                         },{ t->
-                            CustomDialog.networkErrorDialog(context)
+                            CustomDialog.networkErrorDialog(activity)
                             Log.e("내가 평가한 리뷰 삭제 에러",t.message.toString())
                         }))
                 }
@@ -135,13 +137,13 @@ class AlcoholRatedAdapter(private val context: Context,
                                 progressbar(false)
 
                                 bundle.putParcelable(GlobalApplication.MOVE_MY_COMMENT,comment.data?.review)
-                                GlobalApplication.instance.moveActivity(context, CommentActivity::class.java
+                                GlobalApplication.instance.moveActivity(activity, CommentActivity::class.java
                                     ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
                             },{t ->
                                 progressbar(false)
                                 Log.e(ErrorManager.MY_COMMENT,t.message.toString()) }))
                     },{ t ->
-                        CustomDialog.networkErrorDialog(context)
+                        CustomDialog.networkErrorDialog(activity)
                         progressbar(false)
                         Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString()) }))
             }

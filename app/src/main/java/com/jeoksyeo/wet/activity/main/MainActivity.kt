@@ -63,10 +63,15 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
     override fun onResume() {
         super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
 
         //네트워크가 다시 연결 됐을 때,
         presenter.initRecommendViewPager(this)
         presenter.initAlcoholRanking(this)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
     }
 
     override fun getView(): MainBinding {

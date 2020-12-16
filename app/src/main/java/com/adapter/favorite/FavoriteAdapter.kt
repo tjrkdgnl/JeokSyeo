@@ -67,7 +67,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                             .subscribe({
 
                                 holder.getViewBinding().imageViewFavoriteHeart.setImageResource(
-                                    R.mipmap.small_heart_empty)
+                                    R.mipmap.favorite_heart_empty)
                                 likeCheckList[position] = false
                             }, { t ->
                                 CustomDialog.networkErrorDialog(context)
@@ -87,7 +87,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>) :
                             .subscribe({
                                 holder.getViewBinding().imageViewFavoriteHeart.isEnabled =true
                                 holder.getViewBinding().imageViewFavoriteHeart.setImageResource(
-                                    R.mipmap.small_heart_full)
+                                    R.mipmap.favorite_heart_full)
                                 likeCheckList[position] = true
                             }, { t ->
                                 CustomDialog.networkErrorDialog(context)

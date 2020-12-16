@@ -17,7 +17,7 @@ interface FragmentRated_Contract {
         var activity:Activity
         var viewmodel : RatedViewModel
         var smoothScrollListener:Fragment_alcoholRated.SmoothScrollListener
-        fun initRatedList(context: Context)
+        fun initRatedList()
     }
 
 }

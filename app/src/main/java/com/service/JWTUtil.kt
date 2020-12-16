@@ -146,12 +146,7 @@ object JWTUtil {
         var check = false
 
         GlobalApplication.userDataBase.getAccessToken()?.let {
-            //0이 포함되는 이유는 만료시간 default 0이기때문에 초기화를 진행하기 위함
-
-            val expire = GlobalApplication.userDataBase.getAccessTokenExpire()
-            if (expire >= 0) {
-                check = checkExpireOfAccessToken(expire)
-            }
+            check = checkExpireOfAccessToken( GlobalApplication.userDataBase.getAccessTokenExpire())
         }
         return check
     }

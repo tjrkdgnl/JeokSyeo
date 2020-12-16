@@ -75,6 +75,14 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
         super.onStart()
         GlobalApplication.instance.activityClass = CommentActivity::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     override fun onBackPressed() {
         val dialog = CustomDialog.createCustomDialog(this)

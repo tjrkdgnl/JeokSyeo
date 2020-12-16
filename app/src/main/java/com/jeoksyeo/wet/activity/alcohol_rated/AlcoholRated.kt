@@ -49,7 +49,6 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
 
         viewmodel.reviewCount.observe(this, Observer {
-
            binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
         })
     }
@@ -57,6 +56,14 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = AlcoholRated::class.java
+    }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
     }
 
     override fun getView(): AlcoholRatedBinding {

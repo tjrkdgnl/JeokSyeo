@@ -19,9 +19,6 @@ class Agreement : AppCompatActivity(), View.OnClickListener {
         val binding =
             DataBindingUtil.setContentView<CustomAgreementBinding>(this, R.layout.custom_agreement)
 
-
-
-
         //html파일도 허용
         val setting = binding.webView.settings
         setting.javaScriptEnabled =true
@@ -38,6 +35,16 @@ class Agreement : AppCompatActivity(), View.OnClickListener {
                 binding.webView.loadUrl(resources.getString(R.string.private_agreement))
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
     }
 
     override fun onClick(v: View?) {

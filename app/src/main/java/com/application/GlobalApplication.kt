@@ -25,7 +25,6 @@ import com.vuforia.engine.wet.R
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import java.io.IOException
-import java.nio.channels.FileLock
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +32,7 @@ class GlobalApplication : MultiDexApplication() {
     var activityClass:Class<*>? =null
     var device_width =0f
     var device_height = 0f
+    private var activityBackground = false
     private var toastView:View? =null
     private val banWord =  listOf("개발","운영","관리자","적셔")
     private val typeList = listOf("TR", "BE", "WI", "FO", "SA")
@@ -47,7 +47,6 @@ class GlobalApplication : MultiDexApplication() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
-
     }
 
     override fun onCreate() {
@@ -68,7 +67,6 @@ class GlobalApplication : MultiDexApplication() {
         //오류보고 툴
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
-
 
     companion object {
         //싱글턴 객체 생성
@@ -121,6 +119,12 @@ class GlobalApplication : MultiDexApplication() {
 
         const val PAGE_REVIEW_COUNT =3
     }
+
+    fun setActivityBackground(check:Boolean){
+        activityBackground = check
+    }
+
+    fun getActivityBackground() = activityBackground
 
     fun getScreenSize(activity: Activity):Point{
         val display = activity.windowManager.defaultDisplay

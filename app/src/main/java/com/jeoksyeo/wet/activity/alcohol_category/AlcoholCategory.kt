@@ -103,6 +103,15 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
             binding.categoryDrawerLayout.closeDrawer(GravityCompat.END)
         }
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -11,53 +11,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:id="@+id/favorite_profile"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.135"
             android:src="@mipmap/favorite_profile"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/alcohol_rated_name"
+        <com.ssomai.android.scalablelayout.ScalableLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:scale_base_width="400"
+            app:scale_base_height="100"
             android:layout_marginStart="20dp"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:lineSpacingExtra="9sp"
-            android:textColor="#222222"
-            android:textSize="@dimen/rated_name_size"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/favorite_profile"
             app:layout_constraintTop_toTopOf="@id/favorite_profile"
             app:layout_constraintBottom_toBottomOf="@id/favorite_profile"
-            tools:text="김현주님," />
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/alcohol_rated_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="9sp"
+                android:textColor="#222222"
+                app:scale_width="400"
+                app:scale_height="50"
+                app:scale_textsize="38"
+                tools:text="김현주님," />
 
-        <TextView
-            android:id="@+id/rated_count_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="7dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:lineSpacingExtra="6sp"
-            android:maxLines="1"
-            android:textColor="#7a7a7a"
-            android:textSize="@dimen/rated_count_size"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@id/alcohol_rated_name"
-            app:layout_constraintTop_toBottomOf="@id/alcohol_rated_name"
-            android:text="총 0개의 주류를 평가하셨습니다" />
-
+            <TextView
+                android:id="@+id/rated_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="7dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="6sp"
+                android:maxLines="1"
+                android:textColor="#7a7a7a"
+                android:textStyle="normal"
+                app:scale_width="400"
+                app:scale_height="30"
+                app:scale_textsize="23"
+                app:scale_top="57"
+                android:text="총 0개의 주류를 평가하셨습니다" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

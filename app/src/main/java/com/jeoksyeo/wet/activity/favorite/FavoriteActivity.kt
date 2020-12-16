@@ -81,6 +81,14 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
         super.onStart()
         GlobalApplication.instance.activityClass = FavoriteActivity::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     override fun getBinding(): FavoriteActivityBinding {
         return binding

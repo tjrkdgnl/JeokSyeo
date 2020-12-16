@@ -84,6 +84,14 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onStart()
         GlobalApplication.instance.activityClass = Login::class.java
     }
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
+    }
 
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)

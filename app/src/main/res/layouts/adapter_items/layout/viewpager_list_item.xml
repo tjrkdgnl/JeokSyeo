@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="alcohol"
             type="com.model.alcohol_category.AlcoholList" />
@@ -32,7 +31,7 @@
                 app:cardCornerRadius="5dp"
                 app:cardElevation="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -113,22 +112,22 @@
                 app:srb_starPadding="1.5dp"
                 app:srb_stepSize="0.5" />
 
-                <TextView
-                    android:id="@+id/textView_listRatingBarCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:lineSpacingExtra="3sp"
-                    android:layout_marginStart="6dp"
-                    android:text="@{alcohol.review.score.toString()}"
-                    android:textColor="#b2b2b2"
-                    android:textSize="12sp"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintBottom_toBottomOf="@id/ratingBar_listRatingbar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ratingBar_listRatingbar"
-                    app:layout_constraintTop_toTopOf="@id/ratingBar_listRatingbar"
-                    tools:text="3.7" />
+            <TextView
+                android:id="@+id/textView_listRatingBarCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="3sp"
+                android:text="@{alcohol.review.score.toString()}"
+                android:textColor="#b2b2b2"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar_listRatingbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/ratingBar_listRatingbar"
+                app:layout_constraintTop_toTopOf="@id/ratingBar_listRatingbar"
+                tools:text="3.7" />
 
             <ImageView
                 android:id="@+id/imageView_listHeart"
@@ -143,22 +142,34 @@
                 app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_scalableLayout"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar" />
 
-            <TextView
-                android:id="@+id/textView_listHeartCount"
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginBottom="1dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="0"
-                android:textColor="#b2b2b2"
-                android:textSize="12sp"
+                android:layout_height="0dp"
+                app:scale_base_width="120"
+                app:scale_base_height="70"
+                android:layout_marginHorizontal="1dp"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listHeart"
                 app:layout_constraintStart_toEndOf="@id/imageView_listHeart"
                 app:layout_constraintTop_toTopOf="@id/imageView_listHeart"
-                tools:text="999+" />
+                app:layout_constraintEnd_toStartOf="@id/imageView_listcommnet">
 
+                <TextView
+                    android:id="@+id/textView_listHeartCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="3sp"
+                    android:text="0"
+                    android:textColor="#b2b2b2"
+                    app:scale_width="120"
+                    app:scale_height="70"
+                    app:scale_textsize="42"
+                    android:gravity="center_vertical|center_horizontal"
+                    tools:text="9999+" />
+
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/imageView_listcommnet"
@@ -168,26 +179,40 @@
                 android:src="@mipmap/small_talk"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.17"
+                app:layout_constraintHorizontal_bias="0"
+                android:layout_marginStart="35dp"
                 app:layout_constraintStart_toEndOf="@id/imageView_listHeart"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar" />
 
-            <TextView
-                android:id="@+id/textView_listCommentCount"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginBottom="1dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="0"
-                android:textColor="#b2b2b2"
-                android:textSize="12sp"
+                android:layout_height="0dp"
+                app:scale_base_width="120"
+                app:scale_base_height="70"
+                android:layout_marginHorizontal="1dp"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView_listcommnet"
                 app:layout_constraintStart_toEndOf="@+id/imageView_listcommnet"
-                app:layout_constraintTop_toTopOf="@+id/imageView_listcommnet"
-                tools:text="999+" />
+                app:layout_constraintEnd_toStartOf="@id/list_eye"
+                app:layout_constraintTop_toTopOf="@+id/imageView_listcommnet">
 
+
+                <TextView
+                    android:id="@+id/textView_listCommentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="3sp"
+                    android:text="0"
+                    android:textColor="#b2b2b2"
+                    app:scale_width="120"
+                    app:scale_height="70"
+                    app:scale_textsize="42"
+                    android:gravity="center_vertical|center_horizontal"
+                    tools:text="9999+" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/list_eye"
@@ -195,59 +220,83 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:src="@mipmap/eye"
+                android:layout_marginStart="35dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.23"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/imageView_listcommnet"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar" />
 
-            <TextView
-                android:id="@+id/list_eyeCount"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:textColor="#b2b2b2"
-                android:layout_marginBottom="1dp"
-                android:text="0"
-                android:textSize="12sp"
-                android:layout_marginStart="6dp"
+                android:layout_height="0dp"
+                app:scale_base_width="120"
+                app:scale_base_height="70"
+                android:layout_marginHorizontal="1dp"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toBottomOf="@+id/list_eye"
                 app:layout_constraintStart_toEndOf="@+id/list_eye"
                 app:layout_constraintTop_toTopOf="@+id/list_eye"
-                tools:text="9999+" />
+                app:layout_constraintEnd_toStartOf="@id/imageView_listAlcohol">
 
+                <TextView
+                    android:id="@+id/list_eyeCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="3sp"
+                    android:text="0"
+                    app:scale_width="120"
+                    app:scale_height="70"
+                    app:scale_textsize="42"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="#b2b2b2"
+                    tools:text="9999+" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/imageView_listAlcohol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/small_alcohol"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.34"
-                app:layout_constraintStart_toEndOf="@id/list_eye"
-                app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar"
                 app:layout_constraintBottom_toBottomOf="parent"
-
-                />
-
-            <TextView
-                android:id="@+id/textView_listAlcoholDosu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginBottom="1dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="@{alcohol.abv.toString()}"
-                android:textColor="#b2b2b2"
-                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
+                android:layout_marginStart="35dp"
+                app:layout_constraintStart_toEndOf="@id/list_eye"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar"
+                />
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:scale_base_width="120"
+                app:scale_base_height="70"
+                android:layout_marginHorizontal="1dp"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listAlcohol"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/imageView_listAlcohol"
-                app:layout_constraintTop_toTopOf="@id/imageView_listAlcohol"
-                tools:text="19%" />
+                app:layout_constraintTop_toTopOf="@id/imageView_listAlcohol">
+
+                <TextView
+                    android:id="@+id/textView_listAlcoholDosu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@{alcohol.abv.toString()}"
+                    android:textColor="#b2b2b2"
+                    app:scale_width="120"
+                    app:scale_height="70"
+                    app:scale_textsize="42"
+                    android:gravity="center_vertical|start"
+                    tools:text="19%" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
 
             <View
                 android:id="@+id/monthly_boundary"

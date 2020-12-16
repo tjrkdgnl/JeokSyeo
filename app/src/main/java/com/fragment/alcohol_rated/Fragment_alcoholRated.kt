@@ -17,10 +17,9 @@ import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
     private var position =0
     private lateinit var binding:FragmentAlcholRatedBinding
-    private lateinit var alcoholRatedAdapter: AlcoholRatedAdapter
     private lateinit var smoothScrollListener: SmoothScrollListener
     private lateinit var presenter:Presenter
-    private lateinit var viewmodel:RatedViewModel
+
 
     interface  SmoothScrollListener{
         fun moveScroll(position:Int)
@@ -48,7 +47,7 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_rated,container,false)
         binding.lifecycleOwner =this
 
-        viewmodel = ViewModelProvider(requireActivity()).get(RatedViewModel::class.java)
+
         //아이템 클릭 시, 해당 아이템으로 스크롤 이동
         smoothScrollListener = object : SmoothScrollListener {
             override fun moveScroll(position: Int) {
@@ -65,10 +64,10 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
             activity = requireActivity()
             position =this@Fragment_alcoholRated.position
             smoothScrollListener = this@Fragment_alcoholRated.smoothScrollListener
-            viewmodel = this@Fragment_alcoholRated.viewmodel
+            viewmodel = ViewModelProvider(requireActivity()).get(RatedViewModel::class.java)
         }
 
-        presenter.initRatedList(requireContext())
+        presenter.initRatedList()
 
         return binding.root
     }

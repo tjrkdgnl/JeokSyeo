@@ -1,7 +1,7 @@
 package com.jeoksyeo.wet.activity.alcohol_detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +17,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
     private var alcohol:Alcohol? =null
     private var refreshLikeCheck =false
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.alcohol_detail)
@@ -31,6 +32,9 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
         }
 
+        alcohol?.abv?.let {
+            binding.detailAlcoholinfo.textViewDosu.text ="${it}%"
+        }
 
         presenter = Presenter().apply {
             view = this@AlcoholDetail
@@ -54,9 +58,17 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         presenter.initReview(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        GlobalApplication.instance.setActivityBackground(true)
+    }
     override fun onPause() {
         super.onPause()
         refreshLikeCheck = true
+    }
+    override fun onStop() {
+        super.onStop()
+        GlobalApplication.instance.setActivityBackground(false)
     }
 
     override fun getView(): AlcoholDetailBinding {
