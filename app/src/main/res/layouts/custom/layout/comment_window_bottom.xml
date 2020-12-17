@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingConstraints"
-    >
+    tools:ignore="MissingConstraints">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comment_window_bottom"
@@ -14,60 +13,101 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/comment_window_top">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout_commentSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/comment_guidLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="55dp" />
+
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/linearLayout_commentSeekBar_scalableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/evalution_button_shape"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:scale_base_height="140"
+            app:scale_base_width="1080">
 
-            <ImageView
-                android:id="@+id/comment_window_seekbarImg"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout_commentSeekBar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:src="@mipmap/journal_img"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                android:background="@drawable/evalution_button_shape"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:scale_height="140"
+                app:scale_width="1080">
+
+
+                <ImageView
+                    android:id="@+id/comment_window_seekbarImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:src="@mipmap/journal_img"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:scale_base_height="140"
+                    app:scale_base_width="350">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_b"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:lineSpacingExtra="2sp"
+                        android:text="테이스트 저널"
+                        android:textColor="#ffffff"
+                        app:scale_height="140"
+                        app:scale_textsize="48"
+                        app:scale_width="350" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/compoent_aroma"
+            app:layout_constraintEnd_toEndOf="@id/compoent_aroma"
+            app:layout_constraintStart_toStartOf="@id/comment_guidLine"
+            app:layout_constraintTop_toTopOf="@id/compoent_aroma"
+            app:scale_base_height="60"
+            app:scale_base_width="400">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="2sp"
-                android:text="테이스트 저널"
-                android:textColor="#ffffff"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:fontFamily="@font/apple_sd_gothic_neo_b"
-               />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/aromaBackgroundTextSize"
-            android:textColor="#3CFFB248"
-            android:lineSpacingExtra="6sp"
-            android:text="AROMA"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            app:layout_constraintTop_toTopOf="@id/compoent_aroma"
-            app:layout_constraintBottom_toBottomOf="@id/compoent_aroma"
-            app:layout_constraintEnd_toEndOf="@id/compoent_aroma"
-            />
+                android:gravity="end|center_vertical"
+                android:lineSpacingExtra="6sp"
+                android:text="AROMA"
+                android:textColor="#3CFFB248"
+                app:scale_height="60"
+                app:scale_textsize="59"
+                app:scale_width="400"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <TextView
             android:id="@+id/comment_window_aromaText"
@@ -75,13 +115,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="45dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="1sp"
             android:text="아로마"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
+            app:layout_constraintBottom_toTopOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout_commentSeekBar" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_commentSeekBar_scalableLayout"
+            app:layout_constraintVertical_bias="0" />
 
         <ImageView
             android:id="@+id/compoent_aroma"
@@ -99,9 +141,9 @@
             android:id="@+id/comment_window_aromaSeekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             app:bsb_bubble_color="@color/orange"
             app:bsb_bubble_text_color="@color/white"
             app:bsb_bubble_text_size="@dimen/thumb_text_size"
@@ -124,19 +166,31 @@
             app:layout_constraintTop_toBottomOf="@id/comment_window_aromaText" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/aromaBackgroundTextSize"
-            android:textColor="#3CFFB248"
-            android:lineSpacingExtra="21sp"
-            android:text="MOUTHFEEL"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            app:layout_constraintTop_toTopOf="@id/compoent_mouthfeel"
             app:layout_constraintBottom_toBottomOf="@id/compoent_mouthfeel"
             app:layout_constraintEnd_toEndOf="@id/compoent_mouthfeel"
-            />
+            app:layout_constraintStart_toStartOf="@id/comment_guidLine"
+            app:layout_constraintTop_toTopOf="@id/compoent_mouthfeel"
+            app:scale_base_height="60"
+            app:scale_base_width="400">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:gravity="end|center_vertical"
+                android:lineSpacingExtra="21sp"
+                android:text="MOUTHFEEL"
+                android:textColor="#3CFFB248"
+                app:scale_height="60"
+                app:scale_textsize="59"
+                app:scale_width="400"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <TextView
             android:id="@+id/comment_window_mouthfeelText"
@@ -144,9 +198,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="1sp"
             android:text="마우스필"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
@@ -156,9 +210,9 @@
             android:id="@+id/comment_window_mourhfeelSeekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             app:bsb_bubble_color="@color/orange"
             app:bsb_bubble_text_color="@color/white"
             app:bsb_bubble_text_size="@dimen/thumb_text_size"
@@ -191,19 +245,34 @@
             app:layout_constraintEnd_toEndOf="@id/comment_window_mourhfeelSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_mouthfeelText" />
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/aromaBackgroundTextSize"
-            android:textColor="#3CFFB248"
-            android:lineSpacingExtra="21sp"
-            android:text="TASTE"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            app:layout_constraintTop_toTopOf="@id/compoent_taste"
-            app:layout_constraintEnd_toEndOf="@id/compoent_taste"
             app:layout_constraintBottom_toBottomOf="@id/compoent_taste"
-            />
+            app:layout_constraintEnd_toEndOf="@id/compoent_taste"
+            app:layout_constraintStart_toStartOf="@id/comment_guidLine"
+            app:layout_constraintTop_toTopOf="@id/compoent_taste"
+            app:scale_base_height="60"
+            app:scale_base_width="400">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:gravity="end|center_vertical"
+                android:lineSpacingExtra="21sp"
+                android:text="TASTE"
+                android:textColor="#3CFFB248"
+                app:scale_height="60"
+                app:scale_textsize="59"
+                app:scale_width="400"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
         <TextView
             android:id="@+id/comment_window_tasteText"
@@ -211,11 +280,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="1sp"
             android:text="테이스트"
             android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_mourhfeelSeekbar" />
 
@@ -223,9 +292,9 @@
             android:id="@+id/comment_window_tasteSeekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             app:bsb_bubble_color="@color/orange"
             app:bsb_bubble_text_color="@color/white"
             app:bsb_bubble_text_size="@dimen/thumb_text_size"
@@ -260,18 +329,32 @@
             app:layout_constraintTop_toTopOf="@id/comment_window_tasteText" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="45sp"
-            android:textColor="#3CFFB248"
-            android:lineSpacingExtra="21sp"
-            android:text="APPEARANCE"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            app:layout_constraintTop_toTopOf="@id/compoent_appearance"
-            app:layout_constraintEnd_toEndOf="@id/compoent_appearance"
             app:layout_constraintBottom_toBottomOf="@id/compoent_appearance"
-            />
+            app:layout_constraintEnd_toEndOf="@id/compoent_appearance"
+            app:layout_constraintStart_toStartOf="@id/comment_guidLine"
+            app:layout_constraintTop_toTopOf="@id/compoent_appearance"
+            app:scale_base_height="60"
+            app:scale_base_width="400">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:gravity="end|center_vertical"
+                android:lineSpacingExtra="21sp"
+                android:text="APPEARANCE"
+                android:textColor="#3CFFB248"
+                app:scale_height="60"
+                app:scale_textsize="59"
+                app:scale_width="400"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
         <TextView
             android:id="@+id/comment_window_appearanceText"
@@ -279,11 +362,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="1sp"
             android:text="시각적특징"
             android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_tasteSeekbar" />
 
@@ -291,9 +374,9 @@
             android:id="@+id/comment_window_appearanceSeekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             app:bsb_bubble_color="@color/orange"
             app:bsb_bubble_text_color="@color/white"
             app:bsb_bubble_text_size="@dimen/thumb_text_size"
@@ -327,29 +410,45 @@
             app:layout_constraintEnd_toEndOf="@id/comment_window_appearanceSeekbar"
             app:layout_constraintTop_toTopOf="@id/comment_window_appearanceText" />
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="45sp"
-            android:textColor="#3CFFB248"
-            android:lineSpacingExtra="21sp"
-            android:text="OVERALL"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            app:layout_constraintTop_toTopOf="@id/compoent_overall"
             app:layout_constraintBottom_toBottomOf="@id/compoent_overall"
             app:layout_constraintEnd_toEndOf="@id/compoent_overall"
-            />
+            app:layout_constraintStart_toStartOf="@id/comment_guidLine"
+            app:layout_constraintTop_toTopOf="@id/compoent_overall"
+            app:scale_base_height="60"
+            app:scale_base_width="400">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:gravity="end|center_vertical"
+                android:lineSpacingExtra="21sp"
+                android:text="OVERALL"
+                android:textColor="#3CFFB248"
+                android:textSize="45sp"
+                app:scale_height="60"
+                app:scale_textsize="59"
+                app:scale_width="400"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
         <TextView
             android:id="@+id/comment_window_overallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
+            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             android:lineSpacingExtra="1sp"
             android:text="어울림"
             android:textColor="@color/black"
             android:textSize="@dimen/aromaTextSize"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
             app:layout_constraintStart_toStartOf="@id/comment_window_aromaSeekbar"
             app:layout_constraintTop_toBottomOf="@id/comment_window_appearanceSeekbar" />
 
@@ -357,9 +456,9 @@
             android:id="@+id/comment_window_overallSeekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="17dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             app:bsb_bubble_color="@color/orange"
             app:bsb_bubble_text_color="@color/white"
             app:bsb_bubble_text_size="@dimen/thumb_text_size"

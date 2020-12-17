@@ -9,23 +9,35 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-
-        <TextView
-            android:id="@+id/plz_genderText"
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/plz_genderText_scalableLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="91dp"
-            android:lineSpacingExtra="11sp"
-            android:text="성별을 체크해주세요."
-            android:textColor="#000000"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="110"
+            app:scale_base_width="1080">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="91dp"
+                android:lineSpacingExtra="11sp"
+                android:text="성별을 체크해주세요."
+                android:textColor="#000000"
+                app:scale_height="110"
+                android:gravity="center_vertical"
+                app:scale_width="1080"
+                app:scale_textsize="70"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <LinearLayout
             android:id="@+id/female_LinearLayout"
@@ -34,7 +46,11 @@
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="onClick"
             android:layout_marginStart="25dp"
-            app:layout_constraintTop_toBottomOf="@id/plz_genderText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/plz_genderText_scalableLayout"
             android:layout_marginTop="48dp"
             android:orientation="horizontal">
 
@@ -43,7 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@mipmap/gender_checkbox_empty"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -54,11 +69,8 @@
                 android:textSize="22sp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                app:layout_constraintBottom_toBottomOf="@id/female_checkbox"
-                app:layout_constraintStart_toEndOf="@id/female_checkbox"
-                app:layout_constraintTop_toTopOf="@id/female_checkbox" />
+              />
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/male_LinearLayout"

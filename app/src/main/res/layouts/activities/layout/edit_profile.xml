@@ -7,6 +7,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +18,8 @@
             <include
                 android:id="@+id/edit_basic_header"
                 layout="@layout/activity_basic_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -29,15 +32,17 @@
 
             <ImageView
                 android:id="@+id/editProfile_img"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/userInfo_imageView_myProfile_marginTop"
                 android:onClick="onClick"
                 android:src="@mipmap/big_profile"
-                app:layout_constraintBottom_toTopOf="@id/textView_writeNickname"
+                app:layout_constraintBottom_toTopOf="@id/editProfile_name_scalableLayout"
+                app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_basic_header" />
+                app:layout_constraintTop_toBottomOf="@id/edit_basic_header"
+                app:layout_constraintWidth_percent="0.35" />
 
             <ImageButton
                 android:id="@+id/editProfile_G_album"
@@ -49,157 +54,243 @@
                 app:layout_constraintBottom_toBottomOf="@id/editProfile_img"
                 app:layout_constraintEnd_toEndOf="@id/editProfile_img" />
 
-            <TextView
-                android:id="@+id/textView_writeNickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/userInfo_textView_writeNickname_marginLeft"
-                android:layout_marginTop="@dimen/userInfo_textView_writeNickname_marginTop"
-                android:fontFamily="@font/apple_sd_gothic_neo_m"
-                android:lineSpacingExtra="4sp"
-                android:text="닉네임"
-                android:textColor="@color/black"
-                android:textSize="@dimen/edit_Profile_nickNameSize"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editProfile_img" />
-
-            <LinearLayout
-                android:id="@+id/insertNameLinearLayout"
-                android:layout_width="match_parent"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/editProfile_name_scalableLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/userInfo_textView_writeNickname_marginTop"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/bottom_line"
-                android:orientation="horizontal"
-                android:weightSum="3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_writeNickname">
-
-                <EditText
-                    android:id="@+id/insertInfo_editText"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1.8"
-                    android:backgroundTint="@color/transparent"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:hint="닉네임을 입력하세요"
-                    android:maxLength="8"
-                    android:maxLines="1"
-                    android:textCursorDrawable="@color/orange"
-                    android:textSize="18sp"
-                    android:theme="@style/cursorColor" />
+                app:layout_constraintTop_toBottomOf="@id/editProfile_img"
+                app:scale_base_height="230"
+                app:scale_base_width="1080">
 
                 <TextView
-                    android:id="@+id/checkNickNameText"
-                    android:layout_width="0dp"
+                    android:id="@+id/textView_writeNickname"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
                     android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="right"
-                    android:hint="사용 불가능한 닉네임입니다."
-                    android:maxLines="1"
-                    android:textSize="12sp"
-                    android:visibility="invisible" />
-            </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="4sp"
+                    android:text="닉네임"
+                    android:textColor="@color/black"
+                    app:scale_height="70"
+                    app:scale_textsize="50"
+                    app:scale_width="1080" />
 
-            <TextView
-                android:id="@+id/edit_age"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/insertNameLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_line"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    app:scale_height="120"
+                    app:scale_top="110"
+                    app:scale_width="1080">
+
+                    <com.ssomai.android.scalablelayout.ScalableLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.8"
+                        app:scale_base_height="90"
+                        app:scale_base_width="500">
+
+                        <EditText
+                            android:id="@+id/insertInfo_editText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.8"
+                            android:backgroundTint="@color/transparent"
+                            android:fontFamily="@font/apple_sd_gothic_neo_m"
+                            android:hint="닉네임을 입력하세요"
+                            android:maxLength="8"
+                            android:singleLine="true"
+                            android:textCursorDrawable="@color/orange"
+                            android:theme="@style/cursorColor"
+                            app:scale_height="90"
+                            app:scale_textsize="44"
+                            app:scale_width="500" />
+                    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+                    <com.ssomai.android.scalablelayout.ScalableLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1.2"
+                        app:scale_base_height="90"
+                        app:scale_base_width="500">
+
+                        <TextView
+                            android:id="@+id/checkNickNameText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/apple_sd_gothic_neo_m"
+                            android:gravity="end|center_vertical"
+                            android:hint="사용 불가능한 닉네임입니다."
+                            android:maxLines="1"
+                            android:visibility="invisible"
+                            app:scale_height="90"
+                            app:scale_textsize="40"
+                            app:scale_width="500" />
+                    </com.ssomai.android.scalablelayout.ScalableLayout>
+                </LinearLayout>
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/edit_age_scalableLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_m"
-                android:lineSpacingExtra="4sp"
-                android:text="생년월일"
-                android:textColor="#000000"
-                android:textSize="@dimen/edit_Profile_nickNameSize"
-                app:layout_constraintStart_toStartOf="@id/textView_writeNickname"
-                app:layout_constraintTop_toBottomOf="@id/editProfile_G_imageButton_gender_man" />
+                android:layout_marginTop="33dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/editProfile_name_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/editProfile_G_imageButton_gender_man"
+                app:scale_base_height="70"
+                app:scale_base_width="1080">
+
+                <TextView
+                    android:id="@+id/edit_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:lineSpacingExtra="4sp"
+                    android:text="생년월일"
+                    android:textColor="#000000"
+                    app:scale_height="70"
+                    app:scale_textsize="50"
+                    app:scale_width="1080" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <LinearLayout
                 android:id="@+id/birthdayLinearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="onClick"
                 android:orientation="horizontal"
                 android:weightSum="9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_age"
+                app:layout_constraintTop_toBottomOf="@id/edit_age_scalableLayout"
                 app:layout_constraintVertical_bias="0">
 
-                <TextView
-                    android:id="@+id/birthday_year"
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
-                    android:background="@drawable/bottom_line"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:hint="1994"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_weight="3"
+                    app:scale_base_height="90"
+                    app:scale_base_width="300">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="년"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:id="@+id/birthday_year"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/bottom_line"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:hint="1994"
+                        android:textColor="@color/black"
+                        app:scale_height="90"
+                        app:scale_textsize="47"
+                        app:scale_width="200" />
 
-                <TextView
-                    android:id="@+id/birthday_month"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="년"
+                        android:textColor="@color/black"
+                        app:scale_height="90"
+                        app:scale_textsize="42"
+                        app:scale_width="100" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
-                    android:background="@drawable/bottom_line"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:hint="08"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_weight="3"
+                    app:scale_base_height="90"
+                    app:scale_base_width="300">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="월"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:id="@+id/birthday_month"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/bottom_line"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:hint="08"
+                        android:textColor="@color/black"
+                        app:scale_height="90"
+                        app:scale_textsize="47"
+                        app:scale_width="200" />
 
-                <TextView
-                    android:id="@+id/birthday_day"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="월"
+                        android:textColor="@color/black"
+                        app:scale_height="90"
+                        app:scale_textsize="42"
+                        app:scale_width="100" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
-                    android:background="@drawable/bottom_line"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:hint="18"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_weight="3"
+                    app:scale_base_height="90"
+                    app:scale_base_width="300">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="일"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:id="@+id/birthday_day"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/bottom_line"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:hint="18"
+                        android:textColor="@color/black"
+                        app:scale_height="90"
+                        app:scale_textsize="47"
+                        app:scale_width="200" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/apple_sd_gothic_neo_m"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="일"
+                        android:textColor="@color/black"
+                        app:scale_height="90"
+                        app:scale_textsize="42"
+                        app:scale_width="100" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
             </LinearLayout>
 
@@ -214,96 +305,125 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/birthdayLinearLayout" />
 
-
-            <TextView
-                android:id="@+id/textView_writeGender"
-                android:layout_width="wrap_content"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_writeGender_scalableLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_m"
-                android:lineSpacingExtra="4sp"
-                android:text="성별"
-                android:textColor="@color/black"
-                android:textSize="@dimen/edit_Profile_nickNameSize"
-                app:layout_constraintStart_toStartOf="@id/textView_writeNickname"
-                app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
+                android:layout_marginTop="33dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/editProfile_name_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/editProfile_name_scalableLayout"
+                app:scale_base_height="70"
+                app:scale_base_width="1080">
 
+                <TextView
+                    android:id="@+id/textView_writeGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:lineSpacingExtra="4sp"
+                    android:text="성별"
+                    android:textColor="@color/black"
+                    app:scale_height="70"
+                    app:scale_textsize="50"
+                    app:scale_width="1080" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/editProfile_G_imageButton_gender_man"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="22dp"
                 android:onClick="onClick"
                 android:src="@mipmap/gender_checkbox_empty"
-                app:layout_constraintStart_toStartOf="@id/textView_writeGender"
-                app:layout_constraintTop_toBottomOf="@id/textView_writeGender" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/textView_writeGender_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/textView_writeGender_scalableLayout" />
 
-            <TextView
-                android:id="@+id/textView_gender_man"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:lineSpacingExtra="5sp"
-                android:text="남"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/editProfile_G_imageButton_gender_man"
-                app:layout_constraintStart_toEndOf="@id/editProfile_G_imageButton_gender_man"
-                app:layout_constraintTop_toTopOf="@id/editProfile_G_imageButton_gender_man" />
+                <TextView
+                    android:id="@+id/textView_gender_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:text="남성"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="@id/editProfile_G_imageButton_gender_man"
+                    app:layout_constraintStart_toEndOf="@id/editProfile_G_imageButton_gender_man"
+                    app:layout_constraintTop_toTopOf="@id/editProfile_G_imageButton_gender_man"
+                    app:layout_constraintEnd_toStartOf="@id/editProfile_G_imageButton_gender_woman"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintHorizontal_bias="0"
+                 />
 
             <ImageView
                 android:id="@+id/editProfile_G_imageButton_gender_woman"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginStart="67dp"
+                android:layout_marginTop="22dp"
                 android:onClick="onClick"
                 android:src="@mipmap/gender_checkbox_empty"
-                app:layout_constraintStart_toEndOf="@+id/textView_gender_man"
-                app:layout_constraintTop_toBottomOf="@id/textView_writeGender" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/editProfile_G_imageButton_gender_man"
+                app:layout_constraintTop_toBottomOf="@id/textView_writeGender_scalableLayout" />
 
-            <TextView
-                android:id="@+id/textView_gender_woman"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/textView_gender_woman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:text="여성"
+                    app:scale_width="300"
+                    app:scale_height="40"
+                    android:layout_marginStart="10dp"
+                    app:scale_textsize="100"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="@id/editProfile_G_imageButton_gender_woman"
+                    app:layout_constraintStart_toEndOf="@id/editProfile_G_imageButton_gender_woman"
+                    app:layout_constraintTop_toTopOf="@id/editProfile_G_imageButton_gender_woman"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    />
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/editProfile_G_okButton_scalableLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:lineSpacingExtra="5sp"
-                android:text="여"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/editProfile_G_imageButton_gender_woman"
-                app:layout_constraintStart_toEndOf="@id/editProfile_G_imageButton_gender_woman"
-                app:layout_constraintTop_toTopOf="@id/editProfile_G_imageButton_gender_woman" />
-
-
-            <Button
-                android:id="@+id/editProfile_G_okButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/ok_button_size"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/change_button"
-                android:enabled="false"
-                android:fontFamily="@font/apple_sd_gothic_neo_b"
-                android:onClick="onClick"
-                android:text="확인"
-                android:textColor="@color/white"
-                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editProfile_basicDatePicker" />
+                app:layout_constraintTop_toBottomOf="@id/editProfile_basicDatePicker"
+                app:scale_base_height="180"
+                app:scale_base_width="1080">
 
+                <Button
+                    android:id="@+id/editProfile_G_okButton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/change_button"
+                    android:enabled="false"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
+                    android:onClick="onClick"
+                    android:text="확인"
+                    android:textColor="@color/white"
+                    app:scale_height="180"
+                    app:scale_textsize="64"
+                    app:scale_width="1080" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <include
                 android:id="@+id/progressBar_loading"
                 layout="@layout/progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

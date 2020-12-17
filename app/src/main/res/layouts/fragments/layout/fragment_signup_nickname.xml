@@ -10,48 +10,61 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-
         <LinearLayout
             android:id="@+id/insertNameLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
-            android:orientation="horizontal"
-            android:background="@drawable/bottom_line"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintVertical_bias="0.1"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/bottom_line"
+            android:orientation="horizontal"
+            android:weightSum="3"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plz_nickNameText"
-           >
+            app:layout_constraintTop_toBottomOf="@id/plz_nickNameText_scalableLayout"
+            app:layout_constraintVertical_bias="0.1">
 
-            <EditText
-                android:id="@+id/insertInfo_editText"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:hint="한글/영문/숫자 8글자 이하"
-                android:textSize="16sp"
-                android:maxLength="8"
-                android:textStyle="bold"
-                android:backgroundTint="@color/transparent"
-                android:maxLines="1"
-              android:layout_weight="1.6" />
-            <TextView
-                android:id="@+id/checkNickNameText"
-                android:layout_width="0dp"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/apple_sd_gothic_neo_m"
-                android:hint="사용 불가능한 닉네임입니다."
-                android:visibility="invisible"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:layout_weight="1.4"
-                android:gravity="end"
-                />
+                app:scale_base_height="150"
+                app:scale_base_width="1080">
+
+                <EditText
+                    android:id="@+id/insertInfo_editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/transparent"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:hint="한글 / 영문/ 숫자 8글자 이하"
+                    android:lineSpacingExtra="6sp"
+                    android:maxLength="8"
+                    android:maxLines="1"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    app:scale_height="150"
+                    app:scale_textsize="48"
+                    app:scale_width="700" />
+
+                <TextView
+                    android:id="@+id/checkNickNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1.4"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="end|center_vertical"
+                    android:hint="사용 불가능한 닉네임입니다."
+                    android:maxLines="1"
+                    app:scale_height="150"
+                    app:scale_textsize="33"
+                    app:scale_width="380"
+                    android:layout_gravity="end"
+                    android:visibility="invisible" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
         </LinearLayout>
 
         <include
@@ -60,30 +73,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="78dp"
             android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="78dp"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout" />
+            app:layout_constraintTop_toBottomOf="@id/insertNameLinearLayout"
+            app:layout_constraintVertical_bias="0" />
 
-        <TextView
-            android:id="@+id/plz_nickNameText"
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/plz_nickNameText_scalableLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:lineSpacingExtra="11sp"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:text="안녕하세요! \n닉네임을 입력해 주세요."
-            android:textColor="#000000"
-            android:textSize="25sp"
-            app:layout_constraintVertical_bias="0.1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1"
+            app:scale_base_height="230"
+            app:scale_base_width="1080">
+
+            <TextView
+                android:id="@+id/plz_nickNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="11sp"
+                android:text="안녕하세요! \n닉네임을 입력해 주세요."
+                android:textColor="#000000"
+                app:scale_height="230"
+                app:scale_textsize="68.5"
+                app:scale_width="700" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

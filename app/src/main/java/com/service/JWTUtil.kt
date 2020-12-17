@@ -106,6 +106,10 @@ object JWTUtil {
                                     .subscribeOn(Schedulers.io())
                                     .subscribe ( { userData ->
                                         userData?.data?.token?.accessToken?.let { accessToken ->
+                                                //새로운 토큰으로 갱신
+                                                GlobalApplication.userDataBase.setAccessToken(accessToken)
+
+                                                //새로운 토큰의 만료시간 갱신
                                                 decodeAccessToken(accessToken)
                                                 Log.e("토큰 셋팅 완료", "토큰 재 셋팅")
                                                 coroutineResult.resume(true)

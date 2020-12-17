@@ -9,37 +9,50 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/plz_locationText"
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/plz_locationText_scalableLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="91dp"
-            android:lineSpacingExtra="11sp"
-            android:text="지역을 설정해주세요."
-            android:textColor="#000000"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:textSize="25sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="110"
+            app:scale_base_width="1080">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="11sp"
+                android:text="지역을 설정해주세요."
+                android:textColor="#000000"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                app:scale_height="110"
+                app:scale_width="780"
+                app:scale_textsize="70"
+             />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <LinearLayout
             android:id="@+id/location_linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
             android:weightSum="2"
-            app:layout_constraintTop_toBottomOf="@id/plz_locationText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plz_locationText_scalableLayout"
             tools:ignore="NestedWeights">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.95"
                 android:background="@drawable/bottom_line"
                 android:orientation="horizontal"
@@ -47,23 +60,33 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.15"
                     android:src="@mipmap/location_marker" />
 
-                <TextView
-                    android:id="@+id/state_Text"
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:gravity="center_horizontal"
-                    android:hint="시/도"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:textColor="@color/black"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:layout_weight="0.8"
+                    app:scale_base_width="150"
+                    app:scale_base_height="32.5">
 
+                    <TextView
+                        android:id="@+id/state_Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:gravity="center_horizontal"
+                        android:hint="시/도"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        app:scale_height="32.5"
+                        app:scale_textsize="23"
+                        app:scale_width="150" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+            </LinearLayout>
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -71,7 +94,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.95"
                 android:background="@drawable/bottom_line"
                 android:orientation="horizontal"
@@ -79,21 +102,31 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.15"
                     android:src="@mipmap/location_near_me" />
 
-                <TextView
-                    android:id="@+id/country_text"
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:gravity="center_horizontal"
-                    android:hint="군/구"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:textColor="@color/black"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="0.8"
+                    app:scale_base_width="150"
+                    app:scale_base_height="32.5">
+                    <TextView
+                        android:id="@+id/country_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:hint="군/구"
+                        android:singleLine="true"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:textColor="@color/black"
+                        app:scale_width="150"
+                        app:scale_height="32.5"
+                        app:scale_textsize="23"
+                       />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
             </LinearLayout>
         </LinearLayout>
 

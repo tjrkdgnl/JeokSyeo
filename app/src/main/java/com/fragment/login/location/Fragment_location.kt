@@ -82,7 +82,7 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
         viewmodel.townArea.observe(viewLifecycleOwner, Observer {
             it.let { town ->
                 if(town.name !=""){
-                    binding.countryText.text = viewmodel.countryArea.value?.name  +town.name
+                    binding.countryText.text = "${viewmodel.countryArea.value?.name}/${town.name}"
                 }
             }
         })
@@ -97,7 +97,7 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
                 binding.stateText.text = ""
                 binding.countryText.text = ""
                 locationAdapter?.depth = 0
-                viewmodel.lock = false
+                viewmodel.OkButtonEnabled = false
                 viewmodel.countryArea.value = emptyAreaList
                 viewmodel.stateArea.value = emptyAreaList
                 viewmodel.townArea.value = emptyAreaList
@@ -107,7 +107,7 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
                 locationAdapter?.updateList(viewmodel.stateArea.value?.code!!)
                 binding.countryText.text = ""
                 locationAdapter?.depth = 1
-                viewmodel.lock = false
+                viewmodel.OkButtonEnabled = false
                 viewmodel.countryArea.value =emptyAreaList
                 viewmodel.townArea.value = emptyAreaList
             }

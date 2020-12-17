@@ -21,7 +21,7 @@ class SignUpViewModel : ViewModel() {
 
     var townArea = MutableLiveData(emptyAreaList)
 
-    var lock =false
+    var OkButtonEnabled =false
         set(value){
             buttonState.value=value
             field =value

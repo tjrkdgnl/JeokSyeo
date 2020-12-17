@@ -9,110 +9,155 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/plz_birthdayText"
-            android:layout_width="wrap_content"
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/plz_birthdayText_scalableLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="91dp"
-            android:lineSpacingExtra="11sp"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:text="생년월일을 입력해주세요."
-            android:textColor="#000000"
-            android:textSize="25sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-             />
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="110"
+            app:scale_base_width="1080">
 
+            <TextView
+                android:id="@+id/plz_birthdayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:text="생년월일을 입력해주세요."
+                android:textColor="#000000"
+                app:scale_height="110"
+                app:scale_textsize="70"
+                app:scale_width="880" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <LinearLayout
             android:id="@+id/birthdayLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="52dp"
             android:layout_marginEnd="16dp"
+            android:onClick="onClick"
             android:orientation="horizontal"
             android:weightSum="9"
-            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plz_birthdayText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0"
-            >
+            app:layout_constraintTop_toBottomOf="@id/plz_birthdayText_scalableLayout"
+            app:layout_constraintVertical_bias="0">
 
-            <TextView
-                android:id="@+id/birthday_year"
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:hint="1994"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:background="@drawable/bottom_line" />
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                app:scale_base_height="100"
+                app:scale_base_width="300">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_weight="0.5"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="년"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textColor="@color/black"
-                android:textSize="23sp" />
+                <TextView
+                    android:id="@+id/birthday_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bottom_line"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:hint="1994"
+                    android:lineSpacingExtra="9sp"
+                    android:textColor="@color/black"
+                    app:scale_height="100"
+                    app:scale_textsize="58"
+                    app:scale_width="210" />
 
-            <TextView
-                android:id="@+id/birthday_month"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="년"
+                    android:textColor="@color/black"
+                    app:scale_height="100"
+                    app:scale_left="210"
+                    app:scale_textsize="60"
+                    app:scale_width="90" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:hint="08"
-                android:textSize="20sp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:background="@drawable/bottom_line" />
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                app:scale_base_height="100"
+                app:scale_base_width="300">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_weight="0.5"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="월"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:textColor="@color/black"
-                android:textSize="23sp" />
+                <TextView
+                    android:id="@+id/birthday_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bottom_line"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:hint="08"
+                    android:lineSpacingExtra="9sp"
+                    android:textColor="@color/black"
+                    app:scale_height="100"
+                    app:scale_textsize="58"
+                    app:scale_width="210" />
 
-            <TextView
-                android:id="@+id/birthday_day"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="월"
+                    android:textColor="@color/black"
+                    app:scale_height="100"
+                    app:scale_left="210"
+                    app:scale_textsize="60"
+                    app:scale_width="90" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:hint="18"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:gravity="center_horizontal|center_vertical"
-                android:background="@drawable/bottom_line" />
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                app:scale_base_height="100"
+                app:scale_base_width="300">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="일"
+                <TextView
+                    android:id="@+id/birthday_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bottom_line"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:hint="18"
+                    android:textColor="@color/black"
+                    app:scale_height="100"
+                    app:scale_textsize="58"
+                    app:scale_width="210" />
 
-                android:textColor="@color/black"
-                android:textSize="23sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="일"
+                    android:textColor="@color/black"
+                    android:textSize="23sp"
+                    app:scale_height="100"
+                    app:scale_left="210"
+                    app:scale_textsize="60"
+                    app:scale_width="90" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
         </LinearLayout>
 
@@ -123,7 +168,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/birthdayLinearLayout"/>
+            app:layout_constraintTop_toBottomOf="@id/birthdayLinearLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

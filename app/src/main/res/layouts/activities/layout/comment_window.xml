@@ -79,42 +79,51 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1" />
 
-                <TextView
-                    android:id="@+id/comment_companyName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:lineSpacingExtra="5sp"
-                    android:maxLines="1"
-                    android:text="@{alcohol.brewery.get(0).name.toString()}"
-                    android:textColor="#fbfbfb"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
-                    app:layout_constraintBottom_toTopOf="@id/comment_commentLayout"
-                    app:layout_constraintVertical_bias="0.9"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="오스트리아,프리바트브라우하이 아이쉬바" />
-
-                <TextView
-                    android:id="@+id/comment_alcoholName"
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/apple_sd_gothic_neo_b"
-                    android:lineSpacingExtra="8sp"
-                    android:maxLines="3"
-                    android:text="@{alcohol.name.kr.toString()}"
-                    android:textColor="#f3f3f3"
-                    android:textSize="22sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/comment_companyName"
+                    app:layout_constraintBottom_toTopOf="@id/comment_commentLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/vertical_120_guideLine"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.9"
-                    tools:text="벨텐부르거 클로스터 헤페바이스비어 알코올프" />
+                    app:scale_base_height="200"
+                    app:scale_base_width="400">
+
+                    <TextView
+                        android:id="@+id/comment_alcoholName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/apple_sd_gothic_neo_b"
+                        android:lineSpacingExtra="8sp"
+                        android:maxLines="2"
+                        android:text="@{alcohol.name.kr.toString()}"
+                        android:textColor="#f3f3f3"
+                        app:scale_height="125"
+                        app:scale_textsize="37.5"
+                        app:scale_top="20"
+                        app:scale_width="400"
+                        tools:text="벨텐부르거 클로스터 헤페바이스비어 알코올프" />
+
+                    <TextView
+                        android:id="@+id/comment_companyName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:lineSpacingExtra="5sp"
+                        android:maxLines="1"
+                        android:text="@{alcohol.brewery.get(0).name.toString()}"
+                        android:textColor="#fbfbfb"
+                        app:scale_height="30"
+                        app:scale_textsize="20.5"
+                        app:scale_top="154.5"
+                        app:scale_width="400"
+                        tools:text="오스트리아,프리바트브라우하이 아이쉬바" />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/comment_commentLayout"
@@ -125,44 +134,67 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/horizontal_280_guideLine">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/linearLayout_comment"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
+
+                    <com.ssomai.android.scalablelayout.ScalableLayout
+                        android:id="@+id/linearLayout_comment_scalableLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/evalution_button_shape"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:scale_base_height="140"
+                        app:scale_base_width="1080">
 
-                        <ImageView
-                            android:id="@+id/comment_window_img"
-                            android:layout_width="wrap_content"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/linearLayout_comment"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:src="@mipmap/big_pancel"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:background="@drawable/evalution_button_shape"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:scale_height="140"
+                            app:scale_width="1080"
+                            >
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/apple_sd_gothic_neo_b"
-                            android:gravity="center_horizontal"
-                            android:lineSpacingExtra="2sp"
-                            android:text="코멘트 작성"
-                            android:textColor="#ffffff"
-                            android:textSize="17sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <ImageView
+                                android:id="@+id/comment_window_img"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:src="@mipmap/big_pancel"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                            <com.ssomai.android.scalablelayout.ScalableLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:scale_base_height="140"
+                                app:scale_base_width="350">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/apple_sd_gothic_neo_b"
+                                    android:gravity="center_horizontal|center_vertical"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="코멘트 작성"
+                                    android:textColor="#ffffff"
+                                    app:scale_height="140"
+                                    app:scale_textsize="48"
+                                    app:scale_width="350"
+                                    />
+                            </com.ssomai.android.scalablelayout.ScalableLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.ssomai.android.scalablelayout.ScalableLayout>
 
                     <LinearLayout
                         android:id="@+id/comment_window_commentSpace"
@@ -174,7 +206,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/linearLayout_comment">
+                        app:layout_constraintTop_toBottomOf="@id/linearLayout_comment_scalableLayout">
 
                         <EditText
                             android:id="@+id/comment_window_commentEditText"
@@ -248,41 +280,66 @@
                 app:srb_starWidth="30dp"
                 app:srb_stepSize="0.5" />
 
-            <TextView
-                android:id="@+id/comment_window_scoreText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_b"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="2sp"
-                android:text="0/25"
-                android:textColor="#000000"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/comment_window_RatingBar" />
 
-            <Button
-                android:id="@+id/comment_window_evaluateButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/ok_button_size"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="26dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/change_button"
-                android:enabled="false"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:onClick="onClick"
-                android:text="제출하기"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/okbutton_textSize"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/comment_window_scoreText_scalableLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:scale_base_width="300"
+                app:scale_base_height="40"
+                android:layout_marginTop="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/comment_window_scoreText" />
+                app:layout_constraintBottom_toTopOf="@id/comment_window_evaluateButton_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/comment_window_RatingBar">
+
+                <TextView
+                    android:id="@+id/comment_window_scoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="2sp"
+                    android:text="0/25"
+                    android:textColor="#000000"
+                    app:scale_width="100"
+                    app:scale_height="40"
+                    app:scale_textsize="24"
+                  />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+          <com.ssomai.android.scalablelayout.ScalableLayout
+              android:id="@+id/comment_window_evaluateButton_scalableLayout"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              app:scale_base_width="1080"
+              app:scale_base_height="180"
+              android:layout_marginLeft="20dp"
+              android:layout_marginTop="26dp"
+              android:layout_marginRight="20dp"
+              android:layout_marginBottom="50dp"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/comment_window_scoreText_scalableLayout">
+
+              <Button
+                  android:id="@+id/comment_window_evaluateButton"
+                  style="?android:attr/borderlessButtonStyle"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/change_button"
+                  android:enabled="false"
+                  android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                  android:onClick="onClick"
+                  android:text="제출하기"
+                  android:textColor="#ffffff"
+                  app:scale_width="1080"
+                  app:scale_height="180"
+                  app:scale_textsize ="64"
+                  />
+          </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <include
                 android:id="@+id/progressbar"

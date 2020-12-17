@@ -14,21 +14,21 @@ import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.SignUpViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class LocationAdapter(
     private var lst: MutableList<AreaList>,
     private var locationInterface: LocationInterface
 ) : RecyclerView.Adapter<LocationViewHolder>() {
-    private lateinit var disposable: Disposable
+    private var compositDisposable = CompositeDisposable()
     private var viewmodel: SignUpViewModel = locationInterface.getViewModel()
     var depth = 0
-    private lateinit var context:Context
+    private lateinit var context: Context
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
-        context =parent.context
+        context = parent.context
         return LocationViewHolder(parent)
     }
 
@@ -36,39 +36,46 @@ class LocationAdapter(
         holder.bind(lst[position])
 
         holder.getViewBinding().locationName.setOnClickListener {
-                        var pressedPostion = position
-                    if (pressedPostion != RecyclerView.NO_POSITION) {
-                        when (depth) {
-                            0 -> {viewmodel.stateArea.value = lst[pressedPostion]}
+            viewmodel.OkButtonEnabled = false
 
-                            1 ->{viewmodel.countryArea.value =  lst[pressedPostion]
-                                viewmodel.depth = 1}
+            if (position != RecyclerView.NO_POSITION) {
+                when (depth) {
+                    0 -> {
+                        viewmodel.stateArea.value = lst[position]
+                    }
 
-                            2 -> {viewmodel.townArea.value = lst[pressedPostion]
-                                viewmodel.depth =2}
+                    1 -> {
+                        viewmodel.countryArea.value = lst[position]
+                        viewmodel.depth = 1
+                    }
+
+                    2 -> {
+                        viewmodel.townArea.value = lst[position]
+                        viewmodel.depth = 2
+                    }
                 }
 
-                if (!viewmodel.lock) {
-                    disposable = ApiGenerator.retrofit.create(ApiService::class.java)
-                        .getArea(
-                            GlobalApplication.userBuilder.createUUID,
-                            lst[pressedPostion].code
-                        )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            if (it.data?.areaList?.size != 0) //아직 depth가 남았으면
-                                it.data?.areaList?.let { list ->
-                                    changeList(list.toMutableList())
-                                    depth +=1
-                                }
-                            else { //더 이상의 depth가 없다면
-                                viewmodel.lock=true
+                compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+                    .getArea(
+                        GlobalApplication.userBuilder.createUUID,
+                        lst[position].code
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        if (it.data?.areaList?.size != 0) //아직 depth가 남았으면
+                            it.data?.areaList?.let { list ->
+                                changeList(list.toMutableList())
+                                depth += 1
                             }
-                        }, { t ->
-                            CustomDialog.networkErrorDialog(context)
-                            Log.e(ErrorManager.LOCATION,t.message.toString())})
-                }
+                        else { //더 이상의 depth가 없다면 ok 버튼 활성화
+                            viewmodel.OkButtonEnabled = true
+                        }
+                    }, { t ->
+                        CustomDialog.networkErrorDialog(context)
+                        Log.e(ErrorManager.LOCATION, t.message.toString())
+                    })
+                )
             }
         }
     }
@@ -83,7 +90,7 @@ class LocationAdapter(
     }
 
     fun updateList(code: String?) {
-        disposable = ApiGenerator.retrofit.create(ApiService::class.java)
+        compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getArea(
                 GlobalApplication.userBuilder.createUUID,
                 code
@@ -93,12 +100,14 @@ class LocationAdapter(
             .subscribe({
                 if (it.data?.areaList?.size != 0)
                     it.data?.areaList?.let { list ->
-                        if(list[0].code != lst[0].code)
+                        if (list[0].code != lst[0].code)
                             changeList(list.toMutableList())
                     }
 
             }, { t ->
                 CustomDialog.networkErrorDialog(context)
-                t.stackTrace })
+                t.stackTrace
+            })
+        )
     }
 }

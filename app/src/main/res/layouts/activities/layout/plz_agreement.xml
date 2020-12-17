@@ -8,18 +8,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/plz_agreementText"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/plz_agreementText_scalableLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="11sp"
-            android:text="약관을 동의해주세요."
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:textColor="#000000"
-            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:scale_base_height="100"
+            app:scale_base_width="1080">
 
+            <TextView
+                android:id="@+id/plz_agreementText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="11sp"
+                android:text="약관을 동의해주세요."
+                android:textColor="#000000"
+                app:scale_height="100"
+                app:scale_textsize="66"
+                app:scale_width="580" />
+
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <LinearLayout
             android:id="@+id/all_agreement"
@@ -29,8 +43,10 @@
             android:gravity="center_vertical|center_horizontal"
             android:onClick="onClick"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plz_agreementText">
+            app:layout_constraintTop_toBottomOf="@id/plz_agreementText_scalableLayout">
 
             <ImageView
                 android:id="@+id/all_check"
@@ -38,16 +54,31 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/big_checkbox_empty" />
 
-            <TextView
+            <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="0.7dp"
                 android:layout_marginBottom="2dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:text="전체동의"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                app:scale_base_height="50"
+                app:scale_base_width="300">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:text="전체동의"
+                    app:scale_height="50"
+                    app:scale_width="100"
+                    app:scale_textsize="16"
+                    app:textview_wrapcontent_direction="bottom"
+                    app:textview_wrapcontent_resizesurrounded="true"
+                    app:textview_wrapcontent_movesiblings="true"
+                    android:textColor="#000000" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
         </LinearLayout>
 
 
@@ -63,30 +94,42 @@
 
         <LinearLayout
             android:id="@+id/app_agreement"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:orientation="horizontal"
             android:onClick="onClick"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/app_agreement_webView"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintTop_toBottomOf="@id/all_check_border">
 
             <ImageView
                 android:id="@+id/app_agreemnt_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-
                 android:src="@mipmap/mini_checkbox_empty" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:scale_base_width="300"
                 android:layout_marginStart="15dp"
-                android:layout_weight="3"
-                android:fontFamily="@font/apple_sd_gothic_neo_m"
-                android:text="이용약관 동의 (필수)"
-                android:textColor="#808080"
-                android:textSize="14sp" />
+                app:scale_base_height="50">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:text="이용약관 동의 (필수)"
+                    android:textColor="#808080"
+                    app:scale_height="50"
+                    app:scale_width="180"
+                    app:scale_textsize="14.8"
+                    app:textview_wrapcontent_direction="bottom"
+                    app:textview_wrapcontent_resizesurrounded="true"
+                    app:textview_wrapcontent_movesiblings="true" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
         </LinearLayout>
 
 
@@ -106,11 +149,12 @@
 
         <LinearLayout
             android:id="@+id/private_agreement"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:orientation="horizontal"
             android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/private_agreement_webView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/app_agreement">
 
@@ -120,17 +164,28 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/mini_checkbox_empty" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:scale_base_width="300"
                 android:layout_marginStart="15dp"
-                android:layout_marginBottom="4dp"
-                android:layout_weight="3"
-                android:fontFamily="@font/apple_sd_gothic_neo_m"
-                android:lineSpacingExtra="4sp"
-                android:text="개인정보 취급방침 (필수)"
-                android:textColor="#808080"
-                android:textSize="14sp" />
+                app:scale_base_height="50">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:lineSpacingExtra="4sp"
+                    android:text="개인정보 취급방침 (필수)"
+                    android:textColor="#808080"
+                    app:scale_height="50"
+                    app:scale_width="180"
+                    app:scale_textsize="14.8"
+                    app:textview_wrapcontent_direction="bottom"
+                    app:textview_wrapcontent_resizesurrounded="true"
+                    app:textview_wrapcontent_movesiblings="true"
+                    />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
         </LinearLayout>
 
         <ImageView
@@ -140,8 +195,8 @@
             android:layout_gravity="center"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:src="@mipmap/right_arrow"
             android:onClick="onClick"
+            android:src="@mipmap/right_arrow"
             app:layout_constraintBottom_toBottomOf="@id/private_agreement"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/private_agreement" />

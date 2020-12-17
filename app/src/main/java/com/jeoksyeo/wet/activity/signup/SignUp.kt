@@ -102,7 +102,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
                 viewModel.gender =null
             }
         }
-        else if (viewModel.lock) { //지역선택
+        else if (viewModel.OkButtonEnabled) { //지역선택
             if (viewModel.depth == 1) {
                 GlobalApplication.userBuilder.setAddress(
                     viewModel.countryArea.value?.code ?: ""
