@@ -31,33 +31,31 @@
         <com.ssomai.android.scalablelayout.ScalableLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:scale_base_width="1080"
-            app:scale_base_height="70"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:scale_base_height="70"
+            app:scale_base_width="1080">
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:gravity="center_vertical|center_horizontal"
                 android:lineSpacingExtra="6sp"
                 android:text="내가 평가한 주류"
                 android:textColor="#ffffff"
+                android:textStyle="normal"
+                app:scale_height="70"
+                app:scale_textsize="44"
                 app:scale_width="470"
                 app:textview_wrapcontent_direction="bottom"
-                app:textview_wrapcontent_resizesurrounded="true"
                 app:textview_wrapcontent_movesiblings="true"
-                app:scale_height="70"
-                android:layout_gravity="center_horizontal"
-                app:scale_textsize="44"
-                android:textStyle="normal"
-              />
+                app:textview_wrapcontent_resizesurrounded="true" />
         </com.ssomai.android.scalablelayout.ScalableLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

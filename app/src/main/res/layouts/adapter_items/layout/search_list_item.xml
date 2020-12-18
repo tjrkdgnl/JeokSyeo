@@ -28,54 +28,66 @@
                 setting_icon_str="@{alcohol.media.get(0).mediaResource.small.src.toString()}"
                 android:layout_width="@dimen/listItem_listAhchol_img_size"
                 android:layout_height="@dimen/listItem_listAhchol_img_size"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="13dp"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:scaleType="fitCenter" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView_listAlcoholName_K"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_listAlcoholName_scalableLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="12dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/apple_sd_gothic_neo_b"
-                android:lineSpacingExtra="4sp"
-                android:maxLines="1"
-                android:text="@{alcohol.name.kr.toString()}"
-                android:textColor="#333333"
-                android:textSize="@dimen/list_item_listAlcoholName_K_textsize"
+                android:layout_marginTop="15dp"
+                app:layout_constraintBottom_toTopOf="@id/ratingBar_listRatingbar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/imageView_listAhchol_img"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="천비향" />
+                app:scale_base_height="85"
+                app:scale_base_width="500">
 
-            <TextView
-                android:id="@+id/textView_listAlcoholOrigin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="2sp"
-                android:maxLines="1"
-                android:text="@{alcohol.brewery.get(0).location.toString()}"
-                android:textSize="@dimen/list_item_listAlcoholName_E_textsize"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
-                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholName_K"
-                tools:text="한국 경기도 평택" />
+                <TextView
+                    android:id="@+id/textView_listAlcoholName_K"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/apple_sd_gothic_neo_b"
+                    android:lineSpacingExtra="4sp"
+                    android:maxLines="1"
+                    android:text="@{alcohol.name.kr.toString()}"
+                    android:textColor="#333333"
+                    app:scale_height="42"
+                    app:scale_textsize="32"
+                    app:scale_width="500"
+                    tools:text="천비향" />
+
+                <TextView
+                    android:id="@+id/textView_listAlcoholOrigin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="2sp"
+                    android:maxLines="1"
+                    android:text="@{alcohol.brewery.get(0).location.toString()}"
+                    app:scale_height="40"
+                    app:scale_textsize="23"
+                    app:scale_top="44"
+                    app:scale_width="500"
+                    tools:text="한국 경기도 평택" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/ratingBar_listRatingbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
-                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholOrigin"
+                android:layout_marginTop="2dp"
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/textView_listAlcoholName_scalableLayout"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="false"
                 app:srb_drawableEmpty="@mipmap/category_empty_star"
@@ -89,132 +101,206 @@
                 app:srb_stepSize="0.5" />
 
 
-            <TextView
-                android:id="@+id/textView_listRatingBarCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_listRatingBarCount_scalableLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="6dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="@{alcohol.review.score.toString()}"
-                android:textColor="#b2b2b2"
-                android:textSize="@dimen/gridItem_default_textsize"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar_listRatingbar"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ratingBar_listRatingbar"
                 app:layout_constraintTop_toTopOf="@id/ratingBar_listRatingbar"
-                tools:text="3.7" />
+                app:scale_base_height="37"
+                app:scale_base_width="500">
+
+                <TextView
+                    android:id="@+id/textView_listRatingBarCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@{alcohol.review.score.toString()}"
+                    android:textColor="#b2b2b2"
+                    app:scale_height="37"
+                    app:scale_textsize="30"
+                    app:scale_width="100"
+                    app:textview_wrapcontent_direction="top"
+                    app:textview_wrapcontent_movesiblings="true"
+                    app:textview_wrapcontent_resizesurrounded="true"
+                    tools:text="3.7" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
             <ImageView
                 android:id="@+id/imageView_listHeart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/listitem_heartImg_marginTop"
                 android:background="@null"
-                android:src="@mipmap/small_heart_empty"
+                android:src="@mipmap/list_heart_empty"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_K"
-                app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar" />
+                app:layout_constraintStart_toStartOf="@id/textView_listAlcoholName_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar_listRatingbar"
+                app:layout_constraintVertical_bias="0.3" />
 
-            <TextView
-                android:id="@+id/textView_listHeartCount"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_listHeartCount_scalableLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="0"
-
-                android:textColor="#b2b2b2"
-                android:textSize="@dimen/gridItem_default_textsize"
+                android:layout_height="0dp"
+                android:layout_marginStart="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listHeart"
+                app:layout_constraintEnd_toStartOf="@id/imageView_listcommnet"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/imageView_listHeart"
                 app:layout_constraintTop_toTopOf="@id/imageView_listHeart"
-                tools:text="999+" />
+                app:scale_base_height="70"
+                app:scale_base_width="124">
+
+                <TextView
+                    android:id="@+id/textView_listHeartCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="center_vertical|start"
+                    android:lineSpacingExtra="3sp"
+                    android:text="0"
+                    android:textColor="#333333"
+                    app:scale_height="70"
+                    app:scale_textsize="45"
+                    app:scale_width="124"
+                    tools:text="9999+" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/imageView_listcommnet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12.1dp"
+                android:layout_marginStart="39dp"
                 android:background="@null"
-                android:src="@mipmap/small_talk"
+                android:src="@mipmap/list_talk"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.13"
-                app:layout_constraintBottom_toBottomOf="@id/textView_listHeartCount"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/imageView_listHeart"
-                app:layout_constraintTop_toTopOf="@id/textView_listHeartCount" />
+                app:layout_constraintTop_toTopOf="@id/imageView_listHeart"
+                app:layout_constraintVertical_bias="0" />
 
-            <TextView
-                android:id="@+id/textView_listCommentCount"
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_listCommentCount_scalableLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="0"
-                android:textColor="#b2b2b2"
-                android:textSize="@dimen/gridItem_default_textsize"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listcommnet"
+                app:layout_constraintEnd_toStartOf="@id/list_eye"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/imageView_listcommnet"
                 app:layout_constraintTop_toTopOf="@id/imageView_listcommnet"
-                tools:text="999+" />
+                app:scale_base_height="70"
+                app:scale_base_width="124">
+
+                <TextView
+                    android:id="@+id/textView_listCommentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="center_vertical|start"
+                    android:lineSpacingExtra="3sp"
+                    android:text="0"
+                    android:textColor="#333333"
+                    app:scale_height="70"
+                    app:scale_textsize="45"
+                    app:scale_width="124"
+                    tools:text="9999+" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
             <ImageView
                 android:id="@+id/imageView_listAlcohol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12.1dp"
-                android:background="@mipmap/small_alcohol"
-                app:layout_constraintBottom_toBottomOf="@id/list_eyeCount"
-                app:layout_constraintStart_toEndOf="@id/list_eye"
+                android:layout_marginStart="39dp"
+                android:src="@mipmap/list_temperature"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.28"
-                app:layout_constraintTop_toTopOf="@id/list_eyeCount" />
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/list_eye"
+                app:layout_constraintTop_toTopOf="@id/imageView_listHeart"
+                app:layout_constraintVertical_bias="0" />
 
-            <TextView
-                android:id="@+id/textView_listAlcoholDosu"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/textView_listAlcoholDosu_scalableLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="@{alcohol.abv.toString()}"
-                android:textColor="#b2b2b2"
-                android:textSize="@dimen/gridItem_default_textsize"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_listAlcohol"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/imageView_listAlcohol"
                 app:layout_constraintTop_toTopOf="@id/imageView_listAlcohol"
-                tools:text="19%" />
+                app:scale_base_height="70"
+                app:scale_base_width="124">
+
+                <TextView
+                    android:id="@+id/textView_listAlcoholDosu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="center_vertical|start"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@{alcohol.abv.toString()}"
+                    android:textColor="#333333"
+                    app:scale_height="70"
+                    app:scale_textsize="45"
+                    app:scale_width="124"
+                    tools:text="19%" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/list_eye"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="1dp"
+                android:layout_marginStart="39dp"
                 android:background="@null"
-                android:src="@mipmap/eye"
-                app:layout_constraintHorizontal_bias="0.17"
+                android:src="@mipmap/list_eye"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/textView_listCommentCount"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/imageView_listcommnet"
-                app:layout_constraintTop_toTopOf="@id/textView_listCommentCount" />
+                app:layout_constraintTop_toTopOf="@id/imageView_listHeart"
+                app:layout_constraintVertical_bias="0" />
 
-            <TextView
-                android:id="@+id/list_eyeCount"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:id="@+id/list_eyeCount_scalableLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="3sp"
-                android:text="0"
-                android:textColor="#b2b2b2"
-                android:textSize="@dimen/gridItem_default_textsize"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/list_eye"
+                app:layout_constraintEnd_toStartOf="@id/imageView_listAlcohol"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/list_eye"
                 app:layout_constraintTop_toTopOf="@id/list_eye"
-                tools:text="9999+" />
+                app:scale_base_height="70"
+                app:scale_base_width="124">
+
+                <TextView
+                    android:id="@+id/list_eyeCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:lineSpacingExtra="3sp"
+                    android:text="0"
+                    android:textColor="#333333"
+                    app:scale_height="70"
+                    app:scale_textsize="45"
+                    app:scale_width="124"
+                    tools:text="9999+" />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
             <View
                 android:id="@+id/monthly_boundary"

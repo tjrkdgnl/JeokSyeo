@@ -6,13 +6,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/search_contentsLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageView_searchIem_icon"
@@ -21,28 +21,38 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:background="@null"
-                    app:layout_constraintVertical_bias="0"
                     android:src="@mipmap/relative_search_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView_listElements"
+                <com.ssomai.android.scalablelayout.ScalableLayout
+                    android:id="@+id/textView_listElements_scalableLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    app:scale_base_width="500"
+                    app:scale_base_height="30"
                     android:layout_marginStart="24dp"
-                    android:ellipsize="end"
-                    android:lineSpacingExtra="1sp"
-                    android:maxLines="1"
-                    android:text="연관된 상품이 없습니다."
-                    android:textColor="#424242"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@id/imageView_searchIem_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imageView_searchIem_icon"
-                    app:layout_constraintTop_toTopOf="@id/imageView_searchIem_icon"
-                    />
+                    app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:id="@+id/textView_listElements"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="1sp"
+                        android:maxLines="1"
+                        android:text="연관된 상품이 없습니다."
+                        android:textColor="#424242"
+                        app:scale_width="500"
+                        app:scale_height="30"
+                        app:scale_textsize="17"
+                        />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -52,8 +62,8 @@
                     android:layout_marginStart="53.5dp"
                     android:background="@color/light_grey"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/textView_listElements"
-                    app:layout_constraintTop_toBottomOf="@id/textView_listElements" />
+                    app:layout_constraintStart_toStartOf="@id/textView_listElements_scalableLayout"
+                    app:layout_constraintTop_toBottomOf="@id/textView_listElements_scalableLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

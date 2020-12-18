@@ -159,20 +159,31 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.1" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <com.ssomai.android.scalablelayout.ScalableLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            app:scale_base_width="300"
+                            app:scale_base_height="80"
                             android:layout_marginTop="7dp"
-                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                            android:lineSpacingExtra="2sp"
-                            android:text="전통주"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alcohol_button_textSize"
                             app:layout_constraintVertical_bias="0"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/activityMain_koreanAlcohol"
                             app:layout_constraintStart_toStartOf="@id/activityMain_koreanAlcohol"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol" />
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                                android:lineSpacingExtra="2sp"
+                                android:text="전통주"
+                                app:scale_width="300"
+                                app:scale_height="80"
+                                app:scale_textsize="52"
+                                android:gravity="center_horizontal|center_vertical"
+                                android:textColor="#333333" />
+                        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
                         <ImageView
                             android:id="@+id/activityMain_beer"
@@ -187,21 +198,32 @@
                             app:layout_constraintTop_toBottomOf="@id/activityMain_koreanAlcohol"
                             app:layout_constraintTop_toTopOf="@id/activityMain_koreanAlcohol" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <com.ssomai.android.scalablelayout.ScalableLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            app:scale_base_width="300"
+                            app:scale_base_height="80"
                             android:layout_marginTop="7dp"
-                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                            android:lineSpacingExtra="2sp"
-                            android:text="맥주"
                             app:layout_constraintVertical_bias="0"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alcohol_button_textSize"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/activityMain_beer"
                             app:layout_constraintStart_toStartOf="@id/activityMain_beer"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_beer" />
-
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_beer">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                                android:lineSpacingExtra="2sp"
+                                android:text="맥주"
+                                app:layout_constraintVertical_bias="0"
+                                android:textColor="#333333"
+                                app:scale_width="300"
+                                app:scale_height="80"
+                                app:scale_textsize="52"
+                                android:gravity="center_horizontal|center_vertical"
+                                />
+                        </com.ssomai.android.scalablelayout.ScalableLayout>
 
                         <ImageView
                             android:id="@+id/activityMain_wine"
@@ -216,20 +238,34 @@
                             app:layout_constraintTop_toBottomOf="@id/activityMain_beer"
                             app:layout_constraintTop_toTopOf="@id/activityMain_beer" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <com.ssomai.android.scalablelayout.ScalableLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            app:scale_base_width="300"
+                            app:scale_base_height="80"
                             android:layout_marginTop="7dp"
-                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                            android:lineSpacingExtra="2sp"
-                            android:text="와인"
                             app:layout_constraintVertical_bias="0"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alcohol_button_textSize"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/activityMain_wine"
                             app:layout_constraintStart_toStartOf="@id/activityMain_wine"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_wine" />
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_wine">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                                android:lineSpacingExtra="2sp"
+                                android:text="와인"
+                                app:scale_width="300"
+                                app:scale_height="80"
+                                app:scale_textsize="52"
+                                android:gravity="center_horizontal|center_vertical"
+                                app:layout_constraintVertical_bias="0"
+                                android:textColor="#333333"
+
+                                 />
+                        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
                         <ImageView
                             android:id="@+id/activityMain_whisky"
@@ -244,20 +280,32 @@
                             app:layout_constraintTop_toBottomOf="@id/activityMain_wine"
                             app:layout_constraintTop_toTopOf="@id/activityMain_wine" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <com.ssomai.android.scalablelayout.ScalableLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            app:scale_base_width="300"
+                            app:scale_base_height="80"
                             android:layout_marginTop="7dp"
-                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                            android:lineSpacingExtra="2sp"
-                            android:text="양주"
                             app:layout_constraintVertical_bias="0"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alcohol_button_textSize"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/activityMain_whisky"
                             app:layout_constraintStart_toStartOf="@id/activityMain_whisky"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_whisky" />
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_whisky">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                                android:lineSpacingExtra="2sp"
+                                android:text="양주"
+                                app:scale_width="300"
+                                app:scale_height="80"
+                                app:scale_textsize="52"
+                                android:gravity="center_horizontal|center_vertical"
+                                app:layout_constraintVertical_bias="0"
+                                android:textColor="#333333"
+                                />
+                        </com.ssomai.android.scalablelayout.ScalableLayout>
 
                         <ImageView
                             android:id="@+id/activityMain_sake"
@@ -272,20 +320,33 @@
                             app:layout_constraintStart_toEndOf="@id/activityMain_whisky"
                             app:layout_constraintTop_toTopOf="@id/activityMain_whisky" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <com.ssomai.android.scalablelayout.ScalableLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            app:scale_base_width="300"
+                            app:scale_base_height="80"
                             android:layout_marginTop="7dp"
-                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                            android:lineSpacingExtra="2sp"
-                            android:text="사케"
                             app:layout_constraintVertical_bias="0"
-                            android:textColor="#333333"
-                            android:textSize="@dimen/alcohol_button_textSize"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/activityMain_sake"
                             app:layout_constraintStart_toStartOf="@id/activityMain_sake"
-                            app:layout_constraintTop_toBottomOf="@id/activityMain_sake" />
+                            app:layout_constraintTop_toBottomOf="@id/activityMain_sake">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                                android:lineSpacingExtra="2sp"
+                                android:text="사케"
+                                app:scale_width="300"
+                                app:scale_height="80"
+                                app:scale_textsize="52"
+                                android:gravity="center_horizontal|center_vertical"
+                                app:layout_constraintVertical_bias="0"
+                                android:textColor="#333333"
+                                 />
+                        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

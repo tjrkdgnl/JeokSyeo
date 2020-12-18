@@ -33,6 +33,7 @@ interface EditProfileContract {
 
         fun setNetworkUtil()
 
+        fun detach()
 
     }
 }

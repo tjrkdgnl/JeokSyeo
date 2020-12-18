@@ -18,21 +18,34 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="normal"
-            android:textSize="16sp"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:textColor="#676767"
-            android:lineSpacingExtra="6sp"
-            android:gravity="center_horizontal"
-            android:text="작성된 주류 리뷰가 없습니다."
+            app:scale_base_width="1080"
+            app:scale_base_height="70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:textColor="#676767"
+                android:lineSpacingExtra="6sp"
+                android:gravity="center_horizontal"
+                android:text="작성된 주류 리뷰가 없습니다."
+                app:scale_width="700"
+                app:scale_height="70"
+                android:layout_gravity="center_horizontal"
+                app:scale_textsize="46"
+                />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>    
 </layout>

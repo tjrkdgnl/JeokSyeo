@@ -91,6 +91,11 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         GlobalApplication.instance.setActivityBackground(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach()
+    }
+
     private fun CameraPermission() {
         val permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
@@ -362,4 +367,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
+
+
+
 }

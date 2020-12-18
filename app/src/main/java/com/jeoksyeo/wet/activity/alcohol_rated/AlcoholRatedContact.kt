@@ -17,5 +17,8 @@ interface AlcoholRatedContact {
         fun initTabLayout(context: Context)
 
         fun setNetworkUtil()
+
+        fun detach()
+
     }
 }
