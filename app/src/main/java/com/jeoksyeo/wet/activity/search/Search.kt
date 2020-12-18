@@ -259,6 +259,7 @@ class Search : AppCompatActivity(), View.OnClickListener, TextWatcher, SearchCon
 
     override fun onDestroy() {
         super.onDestroy()
+        presenter.detach()
         compositeDisposable.dispose()
     }
 }

@@ -29,7 +29,7 @@
             android:id="@+id/tabLayout_alcoholList"
             style="@style/TabLayoutSelectedTextStyle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tabLayout_height"
+            android:layout_height="wrap_content"
             android:background="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
         <LinearLayout
             android:id="@+id/linearLayout_order"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/AlcoholMainWindow_LinearLayout_height"
+            android:layout_height="38dp"
             android:layout_marginTop="2dp"
             android:background="@drawable/default_outline"
             android:orientation="horizontal"
@@ -79,23 +79,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView_currentOrdering"
+
+                <com.ssomai.android.scalablelayout.ScalableLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="0dp"
+                    app:scale_base_width="240"
+                    app:scale_base_height="70"
                     android:layout_marginStart="12dp"
-                    android:layout_weight="2"
-                    android:lineSpacingExtra="4sp"
-                    android:text="리뷰순"
-                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/AlcoholMainWindow_default_textsize"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imageView_ArrowToggle"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
+                    app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:id="@+id/textView_currentOrdering"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:lineSpacingExtra="4sp"
+                        android:text="리뷰순"
+                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                        android:textColor="#000000"
+                        app:scale_width="240"
+                        app:scale_height="70"
+                        app:scale_textsize="27"
+                        android:gravity="center_vertical"
+                        />
+                </com.ssomai.android.scalablelayout.ScalableLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -168,7 +177,7 @@
                     android:layout_marginStart="5dp"
                     android:text="총 OO개의 상품이 있습니다."
                     android:textColor="@color/white"
-                    android:textSize="@dimen/AlcoholMainWindow_textView_totalProduct_textsize" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <androidx.viewpager2.widget.ViewPager2
@@ -183,6 +192,7 @@
 
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
         <include
             android:id="@+id/category_navigation"
             layout="@layout/drawer_navigation"

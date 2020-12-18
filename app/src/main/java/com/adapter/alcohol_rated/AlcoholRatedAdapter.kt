@@ -166,4 +166,9 @@ class AlcoholRatedAdapter(private val activity: Activity,
         lst.addAll(list)
         notifyItemChanged(currentPosition-1,list.size)
     }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        compositeDisposable.dispose()
+    }
 }

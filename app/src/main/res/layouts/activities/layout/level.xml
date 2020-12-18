@@ -46,7 +46,7 @@
                 <LinearLayout
                     android:id="@+id/myLevel_currentLevel"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="31dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="31dp"
@@ -59,19 +59,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/textView_current_level"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <com.ssomai.android.scalablelayout.ScalableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:lineSpacingExtra="3sp"
-                        android:maxLines="1"
-                        android:text="로그인한 후 이용해보세요!"
-                        android:textColor="@color/orange"
-                        android:textSize="18sp" />
+                        app:scale_base_width="800"
+                        app:scale_base_height="100">
+                        <TextView
+                            android:id="@+id/textView_current_level"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:lineSpacingExtra="3sp"
+                            android:maxLines="1"
+                            android:text="로그인한 후 이용해보세요!"
+                            android:textColor="@color/orange"
+                            app:scale_width="800"
+                            app:scale_height="100"
+                            app:scale_textsize="45" />
+                    </com.ssomai.android.scalablelayout.ScalableLayout>
                 </LinearLayout>
 
                 <com.airbnb.lottie.LottieAnimationView

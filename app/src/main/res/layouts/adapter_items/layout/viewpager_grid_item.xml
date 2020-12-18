@@ -156,7 +156,6 @@
                 android:layout_marginStart="6dp"
                 app:scale_base_width="100"
                 app:scale_base_height="37"
-                android:layout_marginBottom="1dp"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar_gridRatingbar"
                 app:layout_constraintStart_toEndOf="@id/ratingBar_gridRatingbar"
@@ -185,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/gridItem_gridHeart_marginBottom"
+                android:layout_marginBottom="16dp"
                 android:background="@null"
                 android:src="@mipmap/small_heart_empty"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -230,7 +229,6 @@
                 android:id="@+id/imageView_gridcommnet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gridItem_gridHeart_marginTop"
                 android:background="@null"
                 android:src="@mipmap/small_talk"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -277,7 +275,6 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:src="@mipmap/eye"
-                android:layout_marginTop="1dp"
                 app:layout_constraintBottom_toBottomOf="@id/textView_gridCommentCount_scalableLayout"
                 app:layout_constraintStart_toEndOf="@id/imageView_gridcommnet"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -311,7 +308,7 @@
                     android:textColor="#333333"
                     app:scale_height="53"
                     app:scale_textsize="30"
-                    app:scale_width="90"
+                    app:scale_width="100"
                     tools:text="9999+" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
 

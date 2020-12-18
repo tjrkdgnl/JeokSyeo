@@ -32,7 +32,7 @@ class Presenter : FavoriteContract.BasePresenter {
 
 
     override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(context)
             networkUtil.register()
         }
@@ -50,10 +50,8 @@ class Presenter : FavoriteContract.BasePresenter {
             var textView = TextView(context)
             tab.customView = textView
             textView.text = tabList[position]
-            textView.setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                context.resources.getDimension(R.dimen.tab_text_size)
-            )
+            textView.textSize = (15f/90f)*(GlobalApplication.instance.device_width/5)
+
             textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
@@ -90,6 +88,10 @@ class Presenter : FavoriteContract.BasePresenter {
 
 
     override fun detach() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
+
         compositeDisposable.dispose()
     }
 }

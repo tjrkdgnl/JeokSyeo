@@ -8,133 +8,140 @@
         android:background="#f8f8f8"
         >
 
-
-
-        <TextView
-            android:id="@+id/activityMain_termsOfService"
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/activityMain_service_scalableLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="2sp"
-            android:text="이용약관"
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/autoViewPager_textSize"
-            android:onClick="onClick"
+            app:scale_base_width="1080"
+            android:layout_marginStart="16dp"
             app:layout_constraintHorizontal_bias="0.04"
             app:layout_constraintVertical_bias="0.15"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:scale_base_height="50">
+            <TextView
+                android:id="@+id/activityMain_termsOfService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2sp"
+                android:text="이용약관"
+                android:textColor="#7d7d7d"
+                android:onClick="onClick"
+                app:scale_width = "200"
+                app:scale_height = "40"
+                app:scale_textsize = "26.7"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical|start"
+               />
 
-        <View
-            android:id="@+id/activityMain_barrier2"
-            android:layout_width="0.5dp"
-            android:layout_height="9dp"
-            android:background="#7d7d7d"
-            android:orientation="horizontal"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintBottom_toBottomOf="@+id/activityMain_termsOfService"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/activityMain_termsOfService"
-            app:layout_constraintTop_toTopOf="@+id/activityMain_termsOfService" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#7d7d7d"
+                android:orientation="horizontal"
+                app:scale_width = "1"
+                app:scale_height = "40"
+                app:scale_left= "230"
+                android:layout_gravity="center_vertical"
+                />
 
 
-        <TextView
-            android:id="@+id/activityMain_PrivacyPolicyText"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/activityMain_PrivacyPolicyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2sp"
+                android:text="개인정보 처리방침"
+                android:textColor="#7d7d7d"
+                android:onClick="onClick"
+                app:scale_width = "250"
+                app:scale_height = "40"
+                app:scale_textsize = "26.7"
+                android:layout_gravity="center_vertical"
+                app:scale_left= "326"
+                android:gravity="center_vertical|start"
+                />
+
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="2sp"
-            android:text="개인정보 처리방침"
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/autoViewPager_textSize"
-            android:onClick="onClick"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintBottom_toBottomOf="@id/activityMain_barrier2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/activityMain_barrier2"
-            app:layout_constraintTop_toTopOf="@id/activityMain_barrier2" />
-
-        <TextView
-            android:id="@+id/activityMain_question1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:scale_base_width="1080"
+            app:scale_base_height="380"
             android:layout_marginTop="20dp"
-            android:lineSpacingExtra="2sp"
-            android:text="적셔 제휴 문의 혹은 서비스 이용관련 문의가 있으신가요?\n 아래의 방법으로 언제든지 문의해주세요."
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/whatIsQuestion_textSize"
-            app:layout_constraintStart_toStartOf="@id/activityMain_termsOfService"
-            app:layout_constraintTop_toBottomOf="@id/activityMain_termsOfService" />
+            app:layout_constraintStart_toStartOf="@id/activityMain_service_scalableLayout"
+            app:layout_constraintTop_toBottomOf="@id/activityMain_service_scalableLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2sp"
+                android:text="적셔 제휴 문의 혹은 서비스 이용관련 문의가 있으신가요? \n 아래의 방법으로 언제든지 문의해주세요."
+                android:textColor="#7d7d7d"
+                app:scale_width="740"
+                app:scale_height="100"
+                app:scale_textsize="28" />
+
+            <TextView
+                android:id="@+id/activityMain_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2sp"
+                android:text="이메일          help@jeoksyeo.com"
+                android:textColor="#7d7d7d"
+                app:scale_width="440"
+                app:scale_height="40"
+                app:scale_textsize="28"
+                app:scale_top="112"
+                 />
 
 
+            <TextView
+                android:id="@+id/activityMain_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2sp"
+                android:text="대표전화      010-5892-2348"
+                android:textColor="#7d7d7d"
+                app:scale_width="440"
+                app:scale_height="40"
+                app:scale_textsize="28"
+                app:scale_top="162"
+                />
 
-        <TextView
-            android:id="@+id/activityMain_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:lineSpacingExtra="2sp"
-            android:text="이메일          skh08188@gmail.com"
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/whatIsQuestion_textSize"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/activityMain_question1"
-            app:layout_constraintTop_toBottomOf="@id/activityMain_question1" />
+            <TextView
+                android:id="@+id/activityMain_representative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1sp"
+                android:text="(주) 적셔 대표 김혁준 "
+                android:textColor="#7d7d7d"
+                app:scale_width="440"
+                app:scale_height="40"
+                app:scale_textsize="28"
+                app:scale_top="256"
+                 />
 
-        <TextView
-            android:id="@+id/activityMain_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:lineSpacingExtra="2sp"
-            android:text="대표전화      010-5892-2348"
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/whatIsQuestion_textSize"
-            app:layout_constraintStart_toStartOf="@id/activityMain_email"
-            app:layout_constraintTop_toBottomOf="@id/activityMain_email" />
-
-        <TextView
-            android:id="@+id/activityMain_representative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:lineSpacingExtra="1sp"
-            android:text="(주) 적셔 대표 김혁준 "
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/whatIsQuestion_textSize"
-            app:layout_constraintStart_toStartOf="@id/activityMain_phone"
-            app:layout_constraintTop_toBottomOf="@id/activityMain_phone" />
-
-        <TextView
-            android:id="@+id/activityMain_buisnessNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:lineSpacingExtra="1sp"
-            android:text="사업자등록번호:      439-03-01815"
-            android:textColor="#7d7d7d"
-            android:textSize="@dimen/whatIsQuestion_textSize"
-            app:layout_constraintStart_toStartOf="@id/activityMain_representative"
-            app:layout_constraintTop_toBottomOf="@id/activityMain_representative" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activityMain_buisnessNumber"/>
-
-        <View
-            android:background="#9f9f9f"
-            android:id="@+id/view2"
-            android:layout_height="0.45dp"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/activityMain_useTerms" />
-
+            <TextView
+                android:id="@+id/activityMain_buisnessNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:lineSpacingExtra="1sp"
+                android:text="사업자등록번호:      439-03-01815"
+                android:textColor="#7d7d7d"
+                app:scale_width="440"
+                app:scale_height="40"
+                app:scale_textsize="28"
+                app:scale_top="306"
+              />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

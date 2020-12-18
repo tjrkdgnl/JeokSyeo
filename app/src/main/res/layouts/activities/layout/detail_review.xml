@@ -93,7 +93,7 @@
                 app:textview_wrapcontent_resizesurrounded="true"
                 app:textview_wrapcontent_movesiblings="true"
                 app:scale_textsize = "70"
-                android:textSize="@dimen/detail_review_Score" />
+                android:textSize="48sp" />
 
         </com.ssomai.android.scalablelayout.ScalableLayout>
 

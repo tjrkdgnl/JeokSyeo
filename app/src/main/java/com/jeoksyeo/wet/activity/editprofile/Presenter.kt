@@ -391,4 +391,10 @@ class Presenter : EditProfileContract.BasePresenter {
         }
         setOnClickListener(oneClick)
     }
+
+    override fun detach() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
+    }
 }

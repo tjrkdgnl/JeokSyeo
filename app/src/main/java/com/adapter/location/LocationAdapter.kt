@@ -110,4 +110,9 @@ class LocationAdapter(
             })
         )
     }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        compositDisposable.dispose()
+    }
 }

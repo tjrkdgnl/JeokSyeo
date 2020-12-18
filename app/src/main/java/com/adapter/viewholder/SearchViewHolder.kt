@@ -17,6 +17,7 @@ class SearchViewHolder(parent: ViewGroup, val searchInterface: SearchContract.Ba
 
 
 
+
         getViewBinding().searchContentsLayout.setOnClickListener {
             searchInterface.changeAdapter(data,false) //연관 검색어 클릭 시, 검색 결과가 나오게끔 핸들링
             GlobalApplication.userDataBase.setKeyword(data)

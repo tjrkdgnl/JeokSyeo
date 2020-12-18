@@ -50,7 +50,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var appleLogin: AppleLogin
     private var compositdisposable = CompositeDisposable()
     private var handlingNumber = 0
-
+    private lateinit var networkUtil: NetworkUtil
     private val executeProgressBar: (Boolean) -> Unit = { status ->
         progressbarStatus(this, status)
     }
@@ -69,7 +69,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
 
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-           val networkUtil = NetworkUtil(this)
+            networkUtil = NetworkUtil(this)
             networkUtil.register()
         }
 
@@ -357,5 +357,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         compositdisposable.dispose()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
     }
 }

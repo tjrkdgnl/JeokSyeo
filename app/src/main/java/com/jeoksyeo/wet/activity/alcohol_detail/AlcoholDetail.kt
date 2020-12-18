@@ -71,6 +71,11 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         GlobalApplication.instance.setActivityBackground(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach()
+    }
+
     override fun getView(): AlcoholDetailBinding {
         return binding
     }
