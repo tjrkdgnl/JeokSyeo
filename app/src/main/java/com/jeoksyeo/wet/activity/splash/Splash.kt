@@ -40,6 +40,7 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
                     presenter.setUserInfo()
                 }
 
+
                 Log.e("버전체크", "버전체크 전")
                 val check = versionCheck()
                 withContext(Dispatchers.Main) {

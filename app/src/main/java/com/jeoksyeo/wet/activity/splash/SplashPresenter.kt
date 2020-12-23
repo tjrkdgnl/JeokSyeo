@@ -34,7 +34,7 @@ class SplashPresenter : SplashContract.BasePresenter {
         }, 2000)
     }
 
-    override fun setUserInfo() {
+    override suspend fun setUserInfo():Boolean = suspendCoroutine { coroutineResult ->
         Log.e("유저정보 셋팅 엑세스토큰",GlobalApplication.userDataBase.getAccessToken().toString())
 
         compositedisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -50,8 +50,11 @@ class SplashPresenter : SplashContract.BasePresenter {
                     setAddress("") //추후에 셋팅하기
                     setLevel(user.data?.userInfo?.level ?: 0)
                     setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
+                    Log.e("유저정보 셋팅","유저정보")
+                    coroutineResult.resume(true)
                 }.build()
             }, {t->
+                coroutineResult.resume(false)
                 CustomDialog.networkErrorDialog(activity)
                 Log.e(ErrorManager.USERINFO,t.message.toString())})
         )
