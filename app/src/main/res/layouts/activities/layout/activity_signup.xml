@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
@@ -9,7 +10,7 @@
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:layout="@layout/fragment_signup_nickname"
         android:background="@color/white"
         >
@@ -25,38 +26,46 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
             android:layout_width="match_parent"
-            tools:layout="@layout/fragment_signup_nickname"
             android:layout_height="520dp"
             tool:layout_constraintStart_toStartOf="parent"
             tool:layout_constraintEnd_toEndOf="parent"
             tool:layout_constraintTop_toBottomOf="@id/signup_header"
-            tool:layout_constraintBottom_toTopOf="@id/infoConfirmButton"
-            android:layout_marginBottom="10dp"
+            tool:layout_constraintBottom_toTopOf="@id/infoConfirmButton_scalableLayout"
             />
 
-        <Button
-            android:id="@+id/infoConfirmButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ok_button_size"
-            tool:layout_constraintTop_toBottomOf="@id/viewPager2"
-            tool:layout_constraintStart_toStartOf="parent"
-            tool:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/change_button"
-            android:text="확인"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/infoConfirmButton_scalableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            />
+            tool:layout_constraintTop_toBottomOf="@id/viewPager2"
+            tool:layout_constraintStart_toStartOf="parent"
+            tool:layout_constraintEnd_toEndOf="parent"
+            app:scale_base_height="180"
+            app:scale_base_width="1080">
+
+            <Button
+                android:id="@+id/infoConfirmButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/change_button"
+                android:text="확인"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:textColor="@color/white"
+                app:scale_height="180"
+                app:scale_textsize="64"
+                app:scale_width="1080"
+                />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            tool:layout_constraintTop_toBottomOf="@id/infoConfirmButton"
+            tool:layout_constraintTop_toBottomOf="@id/infoConfirmButton_scalableLayout"
             tool:layout_constraintStart_toStartOf="parent"
             tool:layout_constraintEnd_toEndOf="parent"/>
 

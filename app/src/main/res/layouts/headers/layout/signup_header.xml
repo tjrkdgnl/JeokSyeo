@@ -6,7 +6,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
         <ImageView
@@ -14,24 +14,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/signup_backbutton"
-            app:layout_constraintTop_toTopOf="@id/signup_header_title"
-            app:layout_constraintBottom_toBottomOf="@id/signup_header_title"
+            app:layout_constraintTop_toTopOf="@id/signup_header_title_scalableLayoyut"
+            app:layout_constraintBottom_toBottomOf="@id/signup_header_title_scalableLayoyut"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="9dp"/>
 
-        <TextView
-            android:id="@+id/signup_header_title"
-            android:layout_width="match_parent"
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/signup_header_title_scalableLayoyut"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:text="회원정보 등록"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold"
+            app:scale_base_width="1080"
+            app:scale_base_height="80"
+            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/signup_header_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="회원정보 등록"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="6sp"
+                android:layout_gravity="center_horizontal"
+                app:scale_height="70"
+                app:scale_textsize="44"
+                app:scale_width="470"
+                app:textview_wrapcontent_direction="bottom"
+                app:textview_wrapcontent_movesiblings="true"
+                app:textview_wrapcontent_resizesurrounded="true"
+             />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
 
         <View
             android:id="@+id/signUP_headLine"
@@ -39,7 +59,7 @@
             android:layout_height="0.7dp"
             android:background="@color/orange"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/signup_header_title"/>
+            app:layout_constraintTop_toBottomOf="@id/signup_header_title_scalableLayoyut"/>
 
         <ProgressBar
             android:id="@+id/signUp_header_progressbar"

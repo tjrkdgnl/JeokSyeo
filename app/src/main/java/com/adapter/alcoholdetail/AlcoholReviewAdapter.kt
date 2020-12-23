@@ -26,7 +26,7 @@ class AlcoholReviewAdapter(private val context: Context,
     private val likeList = mutableListOf<Boolean>()
     private val disLikeList = mutableListOf<Boolean>()
 
-    private val compositeDisposable:CompositeDisposable? = CompositeDisposable()
+    private val compositeDisposable:CompositeDisposable = CompositeDisposable()
 
     //초기에는 detail presenter에서 호출되므로 다음 페이지는 항상 2부터이다.
     private var pageNum =2
@@ -97,7 +97,7 @@ class AlcoholReviewAdapter(private val context: Context,
         else if( holder is AlcoholMoreReviewViewHolder){
             holder.getViewBinding().reviewMoreParentLayout.setOnClickListener {
 
-            compositeDisposable?.add(ApiGenerator.retrofit.create(ApiService::class.java)
+            compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcoholReivew(
                         GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(),
@@ -118,7 +118,7 @@ class AlcoholReviewAdapter(private val context: Context,
                                 notifyItemRemoved(lastIdx)
                             }
                         }
-                    }, { t->
+                    }, {
                         CustomDialog.networkErrorDialog(context)
 
                     }))
@@ -181,7 +181,7 @@ class AlcoholReviewAdapter(private val context: Context,
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        compositeDisposable?.dispose()
+        compositeDisposable.dispose()
     }
 
     private fun View.setUpDownClickListener(onClick:(View)->Unit){

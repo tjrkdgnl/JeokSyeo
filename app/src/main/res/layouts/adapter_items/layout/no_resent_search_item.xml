@@ -18,18 +18,28 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-        <TextView
-            android:layout_width="match_parent"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:gravity="center"
-            android:text="최근에 검색한 주류가 없습니다.\n궁금하신 주류를 검색해 보세요."
-            android:textSize="16sp"
-            android:lineSpacingExtra="5sp"
+            app:scale_base_width="1080"
+            app:scale_base_height="140"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/question"
-            app:layout_constraintTop_toTopOf="@id/question" />
+            app:layout_constraintTop_toTopOf="@id/question">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:gravity="center"
+                app:scale_width="700"
+                app:scale_height="140"
+                android:layout_gravity="center_horizontal"
+                app:scale_textsize="42"
+                android:text="최근에 검색한 주류가 없습니다.\n궁금하신 주류를 검색해 보세요."
+
+                android:lineSpacingExtra="5sp" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

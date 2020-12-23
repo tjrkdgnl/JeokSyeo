@@ -15,5 +15,9 @@ class LocationViewHolder(parent:ViewGroup):BaseViewHolder<AreaList,LocationItemB
 //            view.executePendingBindings()
         binding.area = data
         binding.executePendingBindings()
+
+
+
+
     }
 }

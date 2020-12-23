@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="tab_text_size">11sp</dimen> //1
-    <dimen name="component_text_size">11sp</dimen> //1
-    <dimen name="navigation_name_size">12sp</dimen> //3
-    <dimen name="navigation_name_hello">4sp</dimen>
-    //3
-    //1
-    <dimen name="detail_more_text_size">8sp</dimen> //1
-    <dimen name="gridItem_default_textsize">8sp</dimen> //1
-    <dimen name="rated_name_size">18sp</dimen> //1
-    <dimen name="rated_count_size">10sp</dimen> //1
+    //공통
+    <dimen name="pageMargin">33dp</dimen>
+    <dimen name="offset">30dp</dimen>
+    <dimen name="grid_layout_margin">1.5px</dimen>
+    <dimen name="thumb_size">4dp</dimen>
+    <dimen name="thumb_text_size">12sp</dimen>
+    <dimen name="component_recyclerview_height">65dp</dimen>
+    <dimen name="tab_text_size">12sp</dimen>
+    <dimen name="listItem_listAhchol_img_size">112dp</dimen>
 
+    //comment window
+    <dimen name="aromaTextSize">17sp</dimen>
+    <dimen name="componentMarginEnd">15dp</dimen>
+
+    //ActivityMainWindow
+    <dimen name="alcohol_button_textSize">13sp</dimen>
+    <dimen name="autoViewPager_textSize">10sp</dimen>
+    <dimen name="whatIsQuestion_textSize">10sp</dimen>
+
+    //searchWindow
+    <dimen name="recentSearch_textSize">15sp</dimen>
+
+    //AlcoholDetail
+    <dimen name="detail_default_textSize">12sp</dimen>
+    <dimen name="detail_review_progress_height">20dp</dimen>
 </resources>

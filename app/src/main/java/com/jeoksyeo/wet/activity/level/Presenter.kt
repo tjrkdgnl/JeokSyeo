@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.level
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -55,6 +56,10 @@ class Presenter :LevelContract.BasePresenter{
 
     override fun detach() {
         compositeDisposable.dispose()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
     }
 
     override fun getMyLevel() {

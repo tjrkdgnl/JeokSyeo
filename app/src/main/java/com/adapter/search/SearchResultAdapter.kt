@@ -59,10 +59,10 @@ class SearchResultAdapter(private val context: Context,
 
         lst[position].isLiked?.let {
             if(it ){
-                holder.getViewBinding().imageViewListHeart.setImageResource(R.mipmap.small_heart_full)
+                holder.getViewBinding().imageViewListHeart.setImageResource(R.mipmap.list_heart_full)
             }
             else{
-                holder.getViewBinding().imageViewListHeart.setImageResource(R.mipmap.small_heart_empty)
+                holder.getViewBinding().imageViewListHeart.setImageResource(R.mipmap.list_heart_empty)
 
             }
         }

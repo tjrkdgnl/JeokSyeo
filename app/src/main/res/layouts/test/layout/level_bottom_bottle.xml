@@ -23,43 +23,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:id="@+id/textView_evaluation_noticeNextLevelText"
-            android:layout_width="wrap_content"
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/textView_evaluation_noticeNextLevelText_scalableLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:scale_base_width="1080"
+            app:scale_base_height="80"
             android:layout_marginTop="19dp"
-            android:fontFamily="@font/apple_sd_gothic_neo_b"
-            android:lineSpacingExtra="2sp"
-            android:text="마시는 척하는 사람"
-            android:textColor="@color/orange"
-            android:textSize="20sp"
-
             app:layout_constraintVertical_bias="0"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/imageView_evaluationByMe_bottleLv1"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            />
+            <TextView
+                android:id="@+id/textView_evaluation_noticeNextLevelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_b"
+                android:lineSpacingExtra="2sp"
+                android:text="마시는 척하는 사람"
+                android:textColor="@color/orange"
+                app:scale_width="430"
+                app:scale_height="80"
+                app:scale_textsize="53"
+                android:gravity="bottom"
+                />
 
-        <TextView
-            android:id="@+id/textView_evaluation_noticeNextLevelCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:gravity="bottom"
-            android:lineSpacingExtra="2sp"
-            android:text="까지 0병 남았습니다."
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="1"
-            app:layout_constraintTop_toTopOf="@id/textView_evaluation_noticeNextLevelText"
-            app:layout_constraintBottom_toBottomOf="@id/textView_evaluation_noticeNextLevelText"
-            app:layout_constraintStart_toEndOf="@id/textView_evaluation_noticeNextLevelText" />
+            <TextView
+                android:id="@+id/textView_evaluation_noticeNextLevelCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:lineSpacingExtra="2sp"
+                android:text="까지 0병 남았습니다."
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:scale_width="530"
+                app:scale_height="65"
+                app:scale_textsize="46"
+                app:scale_left="430"
+
+                android:layout_gravity="bottom"
+               />
+
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
         <ImageView
             android:id="@+id/imageView_evaluationByMe_bottleLv1"
@@ -72,7 +82,7 @@
             app:layout_constraintEnd_toStartOf="@id/imageView_evaluationByMe_bottleLv2"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_evaluation_noticeNextLevelText" />
+            app:layout_constraintTop_toBottomOf="@id/textView_evaluation_noticeNextLevelText_scalableLayout" />
 
         <ImageView
             android:id="@+id/imageView_evaluationByMe_bottleLv2"

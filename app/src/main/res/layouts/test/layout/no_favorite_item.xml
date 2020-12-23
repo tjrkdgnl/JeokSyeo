@@ -15,20 +15,30 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-        <TextView
+        <com.ssomai.android.scalablelayout.ScalableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/apple_sd_gothic_neo_sb"
-            android:textStyle="normal"
-            android:textSize="18sp"
-            android:textColor="#8f8f8f"
-            android:lineSpacingExtra="6sp"
-            android:text="찜한 주류 내역이 없습니다."
+            app:scale_base_width="1080"
+            app:scale_base_height="70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                android:textStyle="normal"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#8f8f8f"
+                android:lineSpacingExtra="6sp"
+                android:text="찜한 주류 내역이 없습니다."
+                app:scale_width="700"
+                app:scale_height="70"
+                app:scale_textsize="50"
+                />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

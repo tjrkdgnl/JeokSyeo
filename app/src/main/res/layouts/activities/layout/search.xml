@@ -7,78 +7,97 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fbfbfb"
+        android:background="@color/white"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/imageButton_searchBarBackButton"
-            android:layout_width="@dimen/userInfo_imageButton_backButton_size"
-            android:layout_height="@dimen/userInfo_imageButton_backButton_size"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="@dimen/basic_backbutton_marginBottom"
-            android:background="@null"
-            android:onClick="onClick"
-            android:src="@mipmap/search_back_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/linearLayout_searchBar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/imageButton_searchBarBackButton"
+            android:weightSum="6"
+            app:layout_constraintBottom_toTopOf="@id/search_boundary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageButton_searchBarBackButton"
-            app:layout_constraintTop_toTopOf="@id/imageButton_searchBarBackButton">
-
-            <EditText
-                android:id="@+id/editText_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <ImageButton
+                android:id="@+id/imageButton_searchBarBackButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@null"
-                android:elevation="6dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:hint="찾으시는 주류가 있으신가요?"
-                android:imeOptions="actionGo"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColorHint="@color/orange"
-                android:textCursorDrawable="@color/light_yellow"
-                android:textSize="@dimen/search_editTextSize"
-                android:textStyle="bold"
-                android:theme="@style/cursorColor"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/search_back_button"
+                android:onClick="onClick" />
+
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:scale_base_width="500"
+                android:layout_marginTop="2dp"
+                app:scale_base_height="90"
+                android:layout_weight="4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/initEditText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/imageButton_searchBarBackButton"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/editText_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:elevation="6dp"
+                    android:ellipsize="end"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:gravity="center"
+                    android:hint="찾으시는 주류가 있으신가요?"
+                    android:imeOptions="actionGo"
+                    android:lineSpacingExtra="5sp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColorHint="@color/orange"
+                    android:textCursorDrawable="@color/light_yellow"
+                    app:scale_width="500"
+                    app:scale_height="90"
+                    app:scale_textsize="35"
+                    android:theme="@style/cursorColor"
+                   />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
 
             <ImageView
                 android:id="@+id/initEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:onClick="onClick"
                 android:src="@mipmap/search_cancel"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/imageView_searchBar_btn"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="0.4" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"/>
             <ImageView
                 android:id="@+id/imageView_searchBar_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:onClick="onClick"
+                android:layout_weight="0.5"
                 android:src="@mipmap/search_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <View
             android:id="@+id/search_boundary"
@@ -122,7 +141,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
                     android:lineSpacingExtra="2sp"
-                    android:maxEms="5"
+                    android:maxEms="4"
                     android:singleLine="true"
                     android:textColor="#949292"
                     android:textSize="@dimen/recentSearch_textSize" />
@@ -140,23 +159,35 @@
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/textView_recentSearch"
-                android:layout_width="wrap_content"
+            <com.ssomai.android.scalablelayout.ScalableLayout
+             android:id="@+id/textView_recentSearch_scalableLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:scale_base_width="1080"
+                app:scale_base_height="60"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="23dp"
                 android:layout_marginEnd="18dp"
-                android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                android:lineSpacingExtra="2sp"
-                android:text="최근 검색어"
-                android:textColor="#949292"
-                android:textSize="@dimen/recentSearch_textSize"
-                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                >
+                <TextView
+                    android:id="@+id/textView_recentSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_sb"
+                    android:lineSpacingExtra="2sp"
+                    android:text="최근 검색어"
+                    android:textColor="#949292"
+                    android:visibility="visible"
+                    app:scale_width="240"
+                    app:scale_height="60"
+                    app:scale_textsize="46"
+                    />
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -168,20 +199,20 @@
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/textView_recentSearch"
-                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch"
+                app:layout_constraintStart_toStartOf="@id/textView_recentSearch_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch_scalableLayout"
                 app:layout_constraintVertical_bias="0" />
 
             <LinearLayout
                 android:id="@+id/recyclerView_cover"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:orientation="horizontal"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/textView_recentSearch"
-                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch"
-                android:orientation="horizontal" />
+                app:layout_constraintStart_toStartOf="@id/textView_recentSearch_scalableLayout"
+                app:layout_constraintTop_toBottomOf="@id/textView_recentSearch_scalableLayout" />
 
             <include
                 android:id="@+id/progressbar"

@@ -66,6 +66,11 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
         GlobalApplication.instance.setActivityBackground(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach()
+    }
+
     override fun getView(): AlcoholRatedBinding {
         return binding
     }

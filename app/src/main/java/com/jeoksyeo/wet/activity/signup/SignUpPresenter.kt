@@ -115,5 +115,8 @@ class SignUpPresenter : SignUpContract.BasePresenter {
 
     override fun detachView() {
         compositDisposable.dispose()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
     }
 }

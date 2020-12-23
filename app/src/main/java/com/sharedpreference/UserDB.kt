@@ -94,7 +94,6 @@ class UserDB(private val context: Context) {
             //새롭게 추가 될 키워드가 중복되는지 확인
             for (keyword in keywordList) {
                 if (keyword == alcholKeyword) {
-                    duplicate = true
                     return
                 }
             }
@@ -163,11 +162,11 @@ class UserDB(private val context: Context) {
             else{
                 val jsonArray = JSONArray()
                 //삭제 후 다시 저장.
-                for (keyword in keywordList) {
+                for (name in keywordList) {
                     val jsonObject = JSONObject()
 
                     try {
-                        jsonObject.put(KEYWORD, keyword)
+                        jsonObject.put(KEYWORD, name)
                         jsonArray.put(jsonObject)
                     } catch (e: Exception) {
                         Log.e("JsonArray error", e.message.toString())

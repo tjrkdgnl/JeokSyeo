@@ -168,6 +168,10 @@ class CommentPresenter : CommentContract.BasePresenter {
 
     override fun detachView() {
         compositDisposable.dispose()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
     }
 
     //내가 남긴 코멘트 셋팅하는 메서드

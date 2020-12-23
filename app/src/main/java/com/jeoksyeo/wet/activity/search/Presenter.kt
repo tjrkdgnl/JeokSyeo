@@ -40,7 +40,7 @@ class Presenter : SearchContract.BasePresenter {
     private lateinit var networkUtil: NetworkUtil
 
     override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(activity)
             networkUtil.register()
         }
@@ -176,14 +176,14 @@ class Presenter : SearchContract.BasePresenter {
                 .subscribe({
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) { //사용자가 검색한 주류를 업데이트
-                            checkKeywordText(false,"연관검색어")
+                            checkKeywordText(false,"연관 검색어")
                             view.updateRelativeList(
                                 lst.toMutableList(),
                                 R.mipmap.relative_search_btn
                             )
                         } else if (alcholKeyword == "-1") {//검색어가 없을 때
                             Log.e("alcochol keyword", alcholKeyword)
-                            checkKeywordText(false,"최근검색어")
+                            checkKeywordText(false,"최근 검색어")
 
                             GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
                                 if (lst.size != 0) {
@@ -196,7 +196,7 @@ class Presenter : SearchContract.BasePresenter {
 
                             })
                         } else { //연관 검색어가 없을 때
-                            checkKeywordText(false,"연관검색어")
+                            checkKeywordText(false,"연관 검색어")
                             view.updateRelativeList(
                                 mutableListOf<String>("2"),
                                 R.mipmap.relative_search_btn
@@ -211,6 +211,9 @@ class Presenter : SearchContract.BasePresenter {
 
     override fun detach() {
         compositeDisposable.dispose()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
     }
 
     val exeuteProgressBar: (check: Boolean) -> Unit = { check ->

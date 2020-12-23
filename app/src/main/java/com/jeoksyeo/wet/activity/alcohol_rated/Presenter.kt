@@ -25,7 +25,7 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
 
 
     override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(context)
             networkUtil.register()
         }
@@ -47,10 +47,9 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
                 val textView = TextView(context)
                 tab.customView = textView
                 textView.text = lst[position]
-                textView.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    context.resources.getDimension(R.dimen.tab_text_size)
-                )
+                //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
+                textView.textSize = (15f / 90f)*(GlobalApplication.instance.device_width/5)
+
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 textView.gravity = Gravity.CENTER_HORIZONTAL
 
@@ -65,6 +64,9 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
         }
     }
 
-
-
+    override fun detach() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
+    }
 }
