@@ -13,7 +13,7 @@ interface SplashContract {
         var view: BaseView
         var activity: Activity
 
-        fun setUserInfo()
+        suspend fun setUserInfo():Boolean
         fun moveActivity()
         fun detach()
         suspend fun versionCheck(): Boolean
