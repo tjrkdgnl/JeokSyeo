@@ -55,3 +55,4 @@ class TestActivity : AppCompatActivity() {
             }, { t: Throwable? ->Log.e("retrofit fail",t?.message.toString())})
     }
 }
+

@@ -55,6 +55,17 @@ class Login : AppCompatActivity(), View.OnClickListener {
         progressbarStatus(this, status)
     }
 
+    //executeProgressBar를 다르게 사용할 수 있는 패턴들
+//    private val exe = fun(){}
+//
+//    private val exe1 = fun():Boolean {
+//        return false
+//    }
+//
+//    private val exe2 = fun(check:Boolean):Boolean{
+//        return check
+//    }
+
     init {
         loginObj = this
     }
