@@ -301,7 +301,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                             val content = dialog.findViewById<TextView>(R.id.dialog_contents)
                             val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
                             val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
-                            content.text = "\'적셔\'는 서비스 이용내역 안내를 위해 이메일 사용 권한 허용이 필요합니다.\n 이메일 제공에 동의 해 주세요."
+                            content.text = "\'적셔\'는 서비스 이용내역 안내를 위해 이메일 사용 권한 허용이 필요합니다.\n 이메일 제공에 동의해주세요."
                             okButton.setOnClickListener{dialog.dismiss()}
                             cancelButton.setOnClickListener { dialog.dismiss() }
                         }

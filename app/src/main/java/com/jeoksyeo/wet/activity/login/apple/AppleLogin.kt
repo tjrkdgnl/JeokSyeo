@@ -181,7 +181,7 @@ class AppleLogin(private val mContext:Context,private val activity: Activity) {
                     Log.e("성공","success google unlink")
                 }
                 else{
-                    Log.e("실","fail google unlink")
+                    Log.e("실패","fail google unlink")
                 }
             }.addOnFailureListener(activity) {fail->
                 Log.e(ErrorManager.Google_TAG,fail.message.toString())

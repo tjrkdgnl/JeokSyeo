@@ -54,16 +54,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
+                    app:scale_top = "4"
                     android:layout_weight="1.4"
                     android:fontFamily="@font/apple_sd_gothic_neo_m"
                     android:gravity="end|center_vertical"
                     android:hint="사용 불가능한 닉네임입니다."
                     android:maxLines="1"
-                    app:scale_height="150"
+                    app:scale_height="100"
                     app:scale_textsize="33"
                     app:scale_width="380"
-                    android:layout_gravity="end"
+                    android:layout_gravity="end|center_vertical"
                     android:visibility="invisible" />
+
             </com.ssomai.android.scalablelayout.ScalableLayout>
         </LinearLayout>
 
@@ -107,7 +109,5 @@
                 app:scale_textsize="68.5"
                 app:scale_width="700" />
         </com.ssomai.android.scalablelayout.ScalableLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

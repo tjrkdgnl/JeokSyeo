@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2sp"
-                android:text="대표전화      010-5892-2348"
+                android:text="대표전화      0507-1365-2348"
                 android:textColor="#7d7d7d"
                 app:scale_width="440"
                 app:scale_height="40"
