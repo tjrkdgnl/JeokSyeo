@@ -68,9 +68,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     private val TEMPERATURE_SIZE = 25f
 
 
-
-
-
     private val componentList = listOf<String>(
         "ADJUNCT", //0
         "TEMPERATURE",
@@ -95,7 +92,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     )
 
     override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(context)
             networkUtil.register()
         }
@@ -252,27 +249,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     private fun settingLikeButtonEnabled(view: View, setting: Boolean) {
         view.isEnabled = setting
     }
-
-//    "ADJUNCT", //0
-//    "TEMPERATURE",
-//    "BARREL AGED",
-//    "FILTERED",
-//    "SRM",
-//    "BODY",//5
-//    "ACIDIC",
-//    "MALT",
-//    "HOP",
-//    "IBU",
-//    "TANNIN",//10
-//    "SWEET",
-//    "POLISHING",
-//    "CASK",
-//    "SAKE_TYPE",
-//    "GRAPE",//15
-//    "RPR",
-//    "SMV",
-//    "COLOR",
-//    "AGED_YEAR"
 
     override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기

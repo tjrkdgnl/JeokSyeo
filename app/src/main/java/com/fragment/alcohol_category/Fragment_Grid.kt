@@ -61,17 +61,6 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
         return binding.root
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.e("프래그먼트 onPause","pause")
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-
-    }
-
     fun changeSort(sort:String){
         gridPresenter.changeSort(sort)
     }
@@ -101,5 +90,9 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
     override fun getSort(): String {
         return gridPresenter.sort
+    }
+
+    override fun moveTopPosition() {
+        binding.gridRecyclerView.smoothScrollToPosition(0)
     }
 }

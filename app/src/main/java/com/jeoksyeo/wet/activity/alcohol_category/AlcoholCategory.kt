@@ -230,6 +230,7 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
         else{
             (tab?.customView as? TextView)?.setTextColor(ContextCompat.getColor(this,R.color.tabColor))
         }
+
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {

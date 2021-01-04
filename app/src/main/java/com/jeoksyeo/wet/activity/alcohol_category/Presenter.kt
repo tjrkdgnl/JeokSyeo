@@ -6,10 +6,11 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
+import android.view.MotionEvent
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -49,11 +50,13 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
         }
     }
 
-    override fun inintTabLayout(context: Context,currentItem:Int) {
+    @SuppressLint("ClickableViewAccessibility")
+    override fun inintTabLayout(context: Context, currentItem: Int) {
         if(context is FragmentActivity){
             view.getView().viewPager2Container.adapter = GridViewPagerAdapter(context)
-            val lst = listOf<String>("전통주","맥주","와인","양주","사케")
-            TabLayoutMediator(view.getView().tabLayoutAlcoholList,view.getView().viewPager2Container
+            val lst = mutableListOf("전통주", "맥주", "와인", "양주", "사케")
+            TabLayoutMediator(
+                view.getView().tabLayoutAlcoholList, view.getView().viewPager2Container
             ) { tab, position ->
                 val textView = TextView(context)
                 tab.customView = textView
@@ -65,15 +68,33 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                     textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
                 }
                 else{
-                    textView.setTextColor(ContextCompat.getColor(context,R.color.tabColor))
+                    textView.setTextColor(ContextCompat.getColor(context, R.color.tabColor))
                 }
                 textView.gravity = Gravity.CENTER_HORIZONTAL
+
+
+                //탭을 클릭할 시, 리스트의 최상단으로 이동하기 위한 코드
+                tab.view.setOnClickListener {
+                    val fragment = getFragement(currentItem)
+
+                    if(fragment is Fragment_Grid){
+                        fragment.moveTopPosition()
+                    }
+                    else if (fragment is Fragment_List){
+                        fragment.moveTopPosition()
+                    }
+
+                }
             }.attach()
 
             view.getView().viewPager2Container.offscreenPageLimit=5
             view.getView().viewPager2Container.currentItem =currentItem
+
+
+
         }
     }
+
 
     override fun getFragement(position: Int): Fragment? {
         var fragment:Fragment? =null
@@ -89,8 +110,8 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
         return fragment
     }
 
-    override fun checkSort(position: Int,sort:String) {
-        getFragement(position)?.let {fragment ->
+    override fun checkSort(position: Int, sort: String) {
+        getFragement(position)?.let { fragment ->
             if(fragment is Fragment_Grid){
                 if(fragment.getSort() != sort){
                     fragment.changeSort(sort)
@@ -104,7 +125,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
         }
     }
 
-    override fun initNavigationItemSet(context: Context,activity:Activity) {
+    override fun initNavigationItemSet(context: Context, activity: Activity) {
 
         CoroutineScope(Dispatchers.IO).launch {
             JWTUtil.checkToken()
@@ -118,13 +139,25 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                 lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
                 lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
                 lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
+                lst.add(GlobalApplication.userInfo.getProvider()?.let {
+                    NavigationItem(
+                        R.mipmap.navigation5_img,
+                        "로그아웃"
+                    )
+                }
                     ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 
                 view.getView().categoryNavigation.navigationContainer.setHasFixedSize(true)
-                view.getView().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(context)
-                view.getView().categoryNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst
-                    ,GlobalApplication.userInfo.getProvider(),GlobalApplication.ACTIVITY_HANDLING_CATEGORY)
+                view.getView().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(
+                    context
+                )
+                view.getView().categoryNavigation.navigationContainer.adapter = NavigationAdpater(
+                    context,
+                    activity,
+                    lst,
+                    GlobalApplication.userInfo.getProvider(),
+                    GlobalApplication.ACTIVITY_HANDLING_CATEGORY
+                )
             }
         }
     }
@@ -141,11 +174,11 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                     view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text= GlobalApplication.userInfo.nickName + "님,"
                     view.getView().categoryDrawerLayout.category_navigation.navigation_header_hello.text = "안녕하세요"
                 }
-                GlobalApplication.userInfo.getProfile()?.let {lst->
-                    Log.e("프로필 변경","변경")
+                GlobalApplication.userInfo.getProfile()?.let { lst->
+                    Log.e("프로필 변경", "변경")
                     if(lst.isNotEmpty()){
                         Glide.with(context)
-                            .load(lst[lst.size-1].mediaResource?.small?.src.toString())
+                            .load(lst[lst.size - 1].mediaResource?.small?.src.toString())
                             .apply(
                                 RequestOptions()
                                     .signature(ObjectKey("signature"))
