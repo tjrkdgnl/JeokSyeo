@@ -111,7 +111,7 @@ class Presenter : MainContract.BasePresenter {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({alcohol->
-                val intent = Intent(activity.baseContext, AlcoholDetail::class.java)
+                val intent = Intent(activity, AlcoholDetail::class.java)
                 val bundle = Bundle()
                 bundle.putParcelable(
                     GlobalApplication.MOVE_ALCHOL,
@@ -131,7 +131,7 @@ class Presenter : MainContract.BasePresenter {
 
     override fun setNetworkUtil() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(activity.baseContext)
+            networkUtil = NetworkUtil(activity)
             networkUtil.register()
         }
 
