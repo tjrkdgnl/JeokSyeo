@@ -95,6 +95,7 @@ class GlobalApplication : MultiDexApplication() {
 
         const val CATEGORY_BUNDLE = "category_bundle"
         const val ALCHOL_BUNDLE = "alcohol"
+        const val DEEP_LINK_ALCOHOL = "deepLink_alcohol"
         const val CATEGORY_SIZE = 5
         const val MOVE_TYPE = "type"
         const val PAGINATION_SIZE = 20
@@ -215,7 +216,7 @@ class GlobalApplication : MultiDexApplication() {
     fun moveActivity(
         context: Context,
         activityClass: Class<*>,
-        flag: Int = 0,
+        intentFlags: Int = 0,
         bundle: Bundle? = null,
         bundleFlag: String? = null,
         animationFlag: Int = 0
@@ -229,7 +230,7 @@ class GlobalApplication : MultiDexApplication() {
             }
         }
 
-        when (flag) {
+        when (intentFlags) {
             0 -> {
                 activity.startActivity(intent)
             }

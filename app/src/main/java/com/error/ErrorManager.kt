@@ -49,4 +49,6 @@ object ErrorManager {
     val FAVORITE ="내가 찜한 주류 조회 에러"
 
     val VERSION = "버전 조회 에러 "
+
+    val DEEP_LINK = "주류 링크 에러"
 }

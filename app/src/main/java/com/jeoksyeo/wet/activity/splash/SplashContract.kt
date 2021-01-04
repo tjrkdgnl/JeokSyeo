@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.splash
 
 import android.app.Activity
+import android.net.Uri
 import com.vuforia.engine.wet.databinding.SplashBinding
 
 interface SplashContract {
@@ -17,6 +18,9 @@ interface SplashContract {
         fun moveActivity()
         fun detach()
         suspend fun versionCheck(): Boolean
+
+
+
 
     }
 

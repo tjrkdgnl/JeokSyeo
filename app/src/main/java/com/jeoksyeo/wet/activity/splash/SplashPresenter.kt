@@ -3,13 +3,18 @@ package com.jeoksyeo.wet.activity.splash
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.error.ErrorManager
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.model.user.UserInfo
 import com.service.ApiGenerator
@@ -27,12 +32,14 @@ class SplashPresenter : SplashContract.BasePresenter {
     private var retrofit = ApiGenerator.retrofit.create(ApiService::class.java)
     private val handler = Handler(Looper.getMainLooper())
 
+
     override fun moveActivity() {
         handler.postDelayed({
             activity.startActivity(Intent(activity, MainActivity::class.java))
             activity.finish()
         }, 2000)
     }
+
 
     override suspend fun setUserInfo():Boolean = suspendCoroutine { coroutineResult ->
         Log.e("유저정보 셋팅 엑세스토큰",GlobalApplication.userDataBase.getAccessToken().toString())

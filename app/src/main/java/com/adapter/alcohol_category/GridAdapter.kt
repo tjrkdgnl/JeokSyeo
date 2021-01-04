@@ -37,6 +37,7 @@ class GridAdapter(private val context: Context,private val lst:MutableList<Alcoh
         holder.getViewBinding().gridItemParentLayout.setOnSingleClickListener {
             executeProgressBar(true)
             lst[position].alcoholId?.let { alcholId->
+                Log.e("alcoholId",alcholId.toString())
                 disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                     .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,
                         GlobalApplication.userInfo.getAccessToken(), alcholId)

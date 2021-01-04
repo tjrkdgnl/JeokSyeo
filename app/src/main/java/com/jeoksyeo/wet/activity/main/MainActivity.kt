@@ -3,6 +3,8 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +33,14 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
 
         presenter = Presenter().apply {
             view = this@MainActivity
-            context = this@MainActivity
+            activity = this@MainActivity
+        }
+
+        //링크를 통해 앱을 실행했을 때, 0.6초 뒤에 주류 상세정보로 이동
+       with(Handler(Looper.getMainLooper())){
+            postDelayed({
+                presenter.handleDeepLink()
+            },300)
         }
 
         //네트워크 상태확인

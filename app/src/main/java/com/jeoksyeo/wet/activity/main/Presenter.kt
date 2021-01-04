@@ -3,7 +3,10 @@ package com.jeoksyeo.wet.activity.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +21,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.model.banner.Banner
 import com.model.navigation.NavigationItem
 import com.model.recommend_alcohol.AlcoholList
@@ -40,17 +46,92 @@ import java.util.concurrent.TimeUnit
 
 @SuppressLint("SetTextI18n")
 class Presenter : MainContract.BasePresenter {
-    override lateinit var context: Context
+    override lateinit var activity: Activity
     override lateinit var view: MainContract.BaseView
     private  var compositeDisposable:CompositeDisposable = CompositeDisposable()
     private lateinit var bannerAdapter: BannerAdapter
     var bannerItem:Int =0
     lateinit var networkUtil:NetworkUtil
+    private val SEGMENT_PROMOTION = "alcoholDetail"
+    private val KEY_CODE = "alcoholId"
+
+
+    //링크에 대한 url 내용물 구성하기
+    override fun checkDeepLink(): Uri {
+        val promoteCode = "1234"
+        return Uri.parse("https://jeoksyeo.com/ ${SEGMENT_PROMOTION}?${KEY_CODE}=${promoteCode}")
+    }
+
+    //url을 가지고서 링크를 만들기
+    override fun createDynamicLink() {
+        val dynamicLink=  FirebaseDynamicLinks.getInstance().createDynamicLink()
+            .setLink(checkDeepLink())
+            .setDomainUriPrefix("https://jeoksyeo.page.link")
+            .setAndroidParameters(DynamicLink.AndroidParameters.Builder("com.vuforia.engine.wet").build())
+            .buildDynamicLink()
+
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+            .setLongLink(dynamicLink.uri)
+            .buildShortDynamicLink()
+            .addOnCompleteListener {task->
+                if(task.isSuccessful){
+                    val shortLink = task.result?.shortLink
+
+                    Log.e("shortLink ",shortLink.toString())
+                }
+            }
+    }
+
+    //링크를 타고 들어왔을 때 핸들링
+    override fun handleDeepLink() {
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(activity.intent)
+            .addOnSuccessListener { pendingDynamicData ->
+                //링크를 안타고 들어오면 null, 링크를 타서 들어오면 not null
+
+                pendingDynamicData?.let { data->
+                    val deepLink = data.link
+
+//                Log.e("query",deepLink?.getQueryParameter("alcoholID").toString())
+
+                    deepLink?.let {  segment ->
+                        //링크를 타고 들어왔을 때, 해당 Link url을 받아서 분기하기
+                        Log.e("lastSegment", segment.lastPathSegment.toString())
+                        Log.e("alcoholId", deepLink.getQueryParameter("alcoholID").toString())
+
+                        getAlcohol(deepLink.getQueryParameter("alcoholID").toString())
+                    }
+                }
+            }
+    }
+
+    override fun getAlcohol(alcoholId: String) {
+        compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
+            .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),alcoholId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({alcohol->
+                val intent = Intent(activity.baseContext, AlcoholDetail::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable(
+                    GlobalApplication.MOVE_ALCHOL,
+                    alcohol.data?.alcohol
+                )
+                intent.putExtra(GlobalApplication.ALCHOL_BUNDLE, bundle)
+
+                GlobalApplication.instance.moveActivity(activity
+                    ,AlcoholDetail::class.java,
+                    0,bundle,GlobalApplication.ALCHOL_BUNDLE,0)
+
+            },{t->
+                Log.e(ErrorManager.DEEP_LINK,t.message.toString())}))
+
+    }
 
 
     override fun setNetworkUtil() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(context)
+            networkUtil = NetworkUtil(activity.baseContext)
             networkUtil.register()
         }
 

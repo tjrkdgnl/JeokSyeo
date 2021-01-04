@@ -1,6 +1,8 @@
 package com.jeoksyeo.wet.activity.main
 
+import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import com.vuforia.engine.wet.databinding.MainBinding
 
 interface MainContract {
@@ -12,7 +14,7 @@ interface MainContract {
 
     interface BasePresenter {
         var view:BaseView
-        var context:Context
+        var activity:Activity
 
         fun initBanner(context:Context)
 
@@ -26,5 +28,13 @@ interface MainContract {
 
         fun setNetworkUtil()
 
+
+        fun handleDeepLink()
+
+        fun createDynamicLink()
+
+        fun checkDeepLink(): Uri
+
+        fun getAlcohol(alcoholId: String)
     }
 }

@@ -67,6 +67,10 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     private val CHAR_SIZE = 22f
     private val TEMPERATURE_SIZE = 25f
 
+
+
+
+
     private val componentList = listOf<String>(
         "ADJUNCT", //0
         "TEMPERATURE",

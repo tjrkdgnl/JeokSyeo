@@ -32,6 +32,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
         }
 
+
         alcohol?.abv?.let {
             binding.detailAlcoholinfo.textViewDosu.text ="${it}%"
         }
