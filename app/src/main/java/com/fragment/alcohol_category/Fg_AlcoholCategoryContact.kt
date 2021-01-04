@@ -13,6 +13,7 @@ interface Fg_AlcoholCategoryContact {
         fun changeSort(list:MutableList<AlcoholList>)
         fun getLastAlcoholId():String?
         fun getSort():String
+        fun moveTopPosition()
     }
     interface BasePresenter{
         var view:BaseView

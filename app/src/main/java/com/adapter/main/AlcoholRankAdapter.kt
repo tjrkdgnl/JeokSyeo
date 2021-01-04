@@ -1,11 +1,15 @@
 package com.adapter.main
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholRankViewHolder
 import com.application.GlobalApplication
@@ -59,8 +63,23 @@ class AlcoholRankAdapter(
                             .subscribe({
                                 val bundle = Bundle()
                                 bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
-                                GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
-                                    ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    val intent = Intent(context, AlcoholDetail::class.java)
+                                    intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
+                                    val pair = androidx.core.util.Pair.create(
+                                        holder.getViewBinding().rankMainImage as View, holder.getViewBinding().rankMainImage.transitionName)
+
+                                    val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        (context as Activity), pair)
+
+                                    context.startActivity(intent, optionCompat.toBundle())
+                                }
+                                else{
+                                    GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
+                                        ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                                }
                             },{t->
                                 CustomDialog.networkErrorDialog(context)
                                 Log.e(ErrorManager.ALCHOL_DETAIL,t.message.toString())})

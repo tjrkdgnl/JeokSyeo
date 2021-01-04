@@ -32,7 +32,6 @@ class SplashPresenter : SplashContract.BasePresenter {
     private var retrofit = ApiGenerator.retrofit.create(ApiService::class.java)
     private val handler = Handler(Looper.getMainLooper())
 
-
     override fun moveActivity() {
         handler.postDelayed({
             activity.startActivity(Intent(activity, MainActivity::class.java))

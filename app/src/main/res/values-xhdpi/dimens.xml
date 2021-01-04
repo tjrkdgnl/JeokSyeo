@@ -8,7 +8,6 @@
     <dimen name="thumb_size">5dp</dimen>
     <dimen name="thumb_text_size">14sp</dimen>
     <dimen name="component_recyclerview_height">65dp</dimen>
-    <dimen name="tab_text_size">13sp</dimen>
     <dimen name="listItem_listAhchol_img_size">112dp</dimen>
 
 
@@ -17,9 +16,6 @@
     <dimen name="componentMarginEnd">15dp</dimen>
 
     //ActivityMainWindow
-    <dimen name="alcohol_button_textSize">13sp</dimen>
-    <dimen name="autoViewPager_textSize">10sp</dimen>
-    <dimen name="whatIsQuestion_textSize">10sp</dimen>
 
     //searchWindow
     <dimen name="recentSearch_textSize">15sp</dimen>

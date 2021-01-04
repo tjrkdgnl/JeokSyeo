@@ -1,10 +1,13 @@
 package com.adapter.alcohol_category
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholCategoryListViewHolder
 import com.application.GlobalApplication
@@ -47,9 +50,26 @@ class ListAdapter(private val context: Context,
                         val bundle = Bundle()
                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
 
-                        GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
-                            ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                            val intent = Intent(context,AlcoholDetail::class.java)
+                            intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
+                            val pair = androidx.core.util.Pair.create(
+                                holder.getViewBinding().listMainImage as View,
+                                holder.getViewBinding().listMainImage.transitionName
+                            )
+
+                            val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                (context as Activity), pair)
+
+                            context.startActivity(intent, optionCompat.toBundle())
+                        }
+                        else{
+                            GlobalApplication.instance.moveActivity(context,AlcoholDetail::class.java
+                                ,0,bundle,GlobalApplication.ALCHOL_BUNDLE)
+                        }
+
                         executeProgressBar(false)
+
                     },{t->
                         CustomDialog.networkErrorDialog(context)
                         executeProgressBar(false)

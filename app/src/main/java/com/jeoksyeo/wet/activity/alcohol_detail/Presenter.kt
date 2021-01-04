@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -8,7 +9,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,9 +71,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     private val TEMPERATURE_SIZE = 25f
 
 
-
-
-
     private val componentList = listOf<String>(
         "ADJUNCT", //0
         "TEMPERATURE",
@@ -95,7 +95,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     )
 
     override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(context)
             networkUtil.register()
         }
@@ -252,27 +252,6 @@ class Presenter : AlcoholDetailContract.BasePresenter {
     private fun settingLikeButtonEnabled(view: View, setting: Boolean) {
         view.isEnabled = setting
     }
-
-//    "ADJUNCT", //0
-//    "TEMPERATURE",
-//    "BARREL AGED",
-//    "FILTERED",
-//    "SRM",
-//    "BODY",//5
-//    "ACIDIC",
-//    "MALT",
-//    "HOP",
-//    "IBU",
-//    "TANNIN",//10
-//    "SWEET",
-//    "POLISHING",
-//    "CASK",
-//    "SAKE_TYPE",
-//    "GRAPE",//15
-//    "RPR",
-//    "SMV",
-//    "COLOR",
-//    "AGED_YEAR"
 
     override fun initComponent(context: Context) {
         //SRM value에 따른 색 지정하기
@@ -736,14 +715,27 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     } else {
-
                                         //주류 코멘트 화면으로 이동
                                         val bundle = Bundle()
 
                                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
-                                        GlobalApplication.instance.moveActivity(
-                                            context, CommentActivity::class.java, 0,
-                                            bundle, GlobalApplication.ALCHOL_BUNDLE)
+
+                                        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.LOLLIPOP) {
+                                            val intent = Intent(context,CommentActivity::class.java)
+                                            intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
+                                            val pair = androidx.core.util.Pair.create(
+                                                view.getView().detailMainImg as View, view.getView().detailMainImg.transitionName)
+
+                                            val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                (context as Activity), pair)
+
+                                            context.startActivity(intent, optionCompat.toBundle())
+                                        }
+                                        else{
+                                            GlobalApplication.instance.moveActivity(
+                                                context, CommentActivity::class.java, 0,
+                                                bundle, GlobalApplication.ALCHOL_BUNDLE)
+                                        }
                                     }
                                 }
                             }, { t ->

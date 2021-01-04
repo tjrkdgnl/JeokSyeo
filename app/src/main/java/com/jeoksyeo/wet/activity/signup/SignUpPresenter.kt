@@ -97,9 +97,8 @@ class SignUpPresenter : SignUpContract.BasePresenter {
                         GlobalApplication.userBuilder.setAccessToken("Bearer ${GlobalApplication.userDataBase.getAccessToken()}")
                         GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
 
-
-                        GlobalApplication.instance.moveActivity(activity, MainActivity::class.java,
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP,null,null,1)
+                        activity.startActivity(Intent(activity,MainActivity::class.java))
+                        activity.finish()
                     }, { t: Throwable ->
                         CustomDialog.networkErrorDialog(activity)
                         t.stackTrace }))

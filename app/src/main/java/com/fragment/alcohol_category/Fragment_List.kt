@@ -88,4 +88,8 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     override fun getSort(): String {
         return listPresenter.sort
     }
+
+    override fun moveTopPosition() {
+        binding.listRecyclerView.smoothScrollToPosition(0)
+    }
 }
