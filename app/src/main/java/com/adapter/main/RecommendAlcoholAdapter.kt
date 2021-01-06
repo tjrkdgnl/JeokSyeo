@@ -33,7 +33,8 @@ import kotlinx.coroutines.withContext
 
 class RecommendAlcoholAdapter(
     private val context: Context,
-    private var lst: MutableList<AlcoholList>
+    private var lst: MutableList<AlcoholList>,
+    private val progressbar:(Boolean)->Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var compositDisposable = CompositeDisposable()
     private var likeList = mutableListOf<Boolean>()
@@ -71,6 +72,7 @@ class RecommendAlcoholAdapter(
                     JWTUtil.checkToken()
 
                     withContext(Dispatchers.Main) {
+                        progressbar(true)
                         moveActivity(holder,position)
                     }
                 }
@@ -115,6 +117,8 @@ class RecommendAlcoholAdapter(
                                 GlobalApplication.MOVE_ALCHOL,
                                 it.data?.alcohol
                             )
+
+                            progressbar(false)
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 val intent = Intent(context, AlcoholDetail::class.java)

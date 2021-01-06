@@ -31,7 +31,8 @@ import kotlinx.coroutines.withContext
 
 class AlcoholRankAdapter(
     private val context: Context,
-    private val lst:MutableList<AlcoholList>
+    private val lst:MutableList<AlcoholList>,
+    private val progressbar:(Boolean)->Unit
 ) : RecyclerView.Adapter<AlcoholRankViewHolder>() {
 
     private var disposable: Disposable? =null
@@ -54,6 +55,8 @@ class AlcoholRankAdapter(
                 JWTUtil.checkToken()
 
                 withContext(Dispatchers.Main){
+                    progressbar(true)
+
                     lst[position].alcoholId?.let {alcoholId->
                         disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                             .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,
@@ -63,7 +66,7 @@ class AlcoholRankAdapter(
                             .subscribe({
                                 val bundle = Bundle()
                                 bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
-
+                                progressbar(false)
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     val intent = Intent(context, AlcoholDetail::class.java)

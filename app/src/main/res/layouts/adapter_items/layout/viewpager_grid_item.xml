@@ -43,7 +43,6 @@
                     setting_icon_str="@{alcohol.media.get(0).mediaResource.medium.src}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:transitionName="@string/transitionName"
                     android:scaleType="fitCenter" />
 
                 <com.ssomai.android.scalablelayout.ScalableLayout

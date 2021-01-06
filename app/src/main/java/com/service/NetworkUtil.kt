@@ -18,15 +18,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.main.MainActivity
+import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import java.util.zip.Inflater
 
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() {
+class NetworkUtil(val context: Context, var viewModelStoreOwner:ViewModelStoreOwner? =null ) : ConnectivityManager.NetworkCallback() {
 
     private var networkRequest: NetworkRequest = NetworkRequest.Builder()
         .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
@@ -40,9 +43,16 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
 
     private var networkCheck = false
 
+    private var mainViewModel: MainViewModel? =null
+
 
     init {
         taskInfo = activityManager.appTasks
+
+        viewModelStoreOwner?.let { owner->{
+            mainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
+        } }
+
     }
 
     fun register() {
@@ -62,6 +72,7 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
             }
 
             networkCheck = false
+            mainViewModel?.networkCheck?.value = networkCheck
             if (GlobalApplication.instance.activityClass == MainActivity::class.java) {
                 val intent = Intent(context, GlobalApplication.instance.activityClass)
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -76,6 +87,7 @@ class NetworkUtil(val context: Context) : ConnectivityManager.NetworkCallback() 
 
         if(!networkCheck){
             networkCheck = true
+            mainViewModel?.networkCheck?.value = networkCheck
             if(GlobalApplication.instance.getActivityBackground()){
                 GlobalApplication.instance.getToastView()?.let {
                     val toast = Toast(GlobalApplication.instance)

@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.main.AlcoholRankAdapter
@@ -55,6 +57,28 @@ class Presenter : MainContract.BasePresenter {
     private val SEGMENT_PROMOTION = "alcoholDetail"
     private val KEY_CODE = "alcoholId"
 
+
+    private val recommendProgressBar:(Boolean)->Unit ={check->
+        if(check){
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            view.getView().recommendProgressbar.root.visibility= View.VISIBLE
+        }
+        else{
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            view.getView().recommendProgressbar.root.visibility=View.INVISIBLE
+        }
+    }
+
+    private val monthlyProgressBar:(Boolean)->Unit ={check->
+        if(check){
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            view.getView().monthlyProgressbar.root.visibility= View.VISIBLE
+        }
+        else{
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            view.getView().monthlyProgressbar.root.visibility=View.INVISIBLE
+        }
+    }
 
     //링크에 대한 url 내용물 구성하기
     override fun checkDeepLink(): Uri {
@@ -131,7 +155,7 @@ class Presenter : MainContract.BasePresenter {
 
     override fun setNetworkUtil() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(activity)
+            networkUtil = NetworkUtil(activity,(activity as MainActivity))
             networkUtil.register()
         }
 
@@ -202,7 +226,7 @@ class Presenter : MainContract.BasePresenter {
                         type = -1
                     })
                 }
-                view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst)
+                view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst,recommendProgressBar)
 
                 //추천 주류 불러오기
                 compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -216,7 +240,7 @@ class Presenter : MainContract.BasePresenter {
                         it.data?.alcoholList?.let { lst->
                             //어댑터 자체에서 갱신하면 아이템 사이즈가 커지는 문제가 발생하여
                             //새로운 어댑터를 셋팅하는 방법으로 일시 대체
-                            view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst.toMutableList())
+                            view.getView().activityMainRecommendViewPager2.adapter = RecommendAlcoholAdapter(context,lst.toMutableList(),recommendProgressBar)
 
                         }
                     }, { t ->
@@ -267,7 +291,7 @@ class Presenter : MainContract.BasePresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         view.getView().monthlyRecylcerView.adapter =
-                            AlcoholRankAdapter(context, it.data?.alcoholList?.toMutableList()!!)
+                            AlcoholRankAdapter(context, it.data?.alcoholList?.toMutableList()!!,monthlyProgressBar)
 
                     }, { t ->
                         Log.e(ErrorManager.ALCHOL_RANKING, t.message.toString()) })

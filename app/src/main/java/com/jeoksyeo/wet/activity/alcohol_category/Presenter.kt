@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -62,7 +63,11 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                 tab.customView = textView
                 textView.text = lst[position]
 
-                textView.textSize =  (15f/72f)*(GlobalApplication.instance.device_width/5)
+                //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/72f)*(GlobalApplication.instance.device_width/5f))
+
+                Log.e("기본 시스템 폰트사이즈",context.resources.displayMetrics.scaledDensity.toString())
+
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     textView.setTextColor(context.resources.getColor(R.color.tabColor, null))

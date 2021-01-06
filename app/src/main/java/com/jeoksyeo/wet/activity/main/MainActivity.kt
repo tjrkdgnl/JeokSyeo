@@ -1,6 +1,7 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -10,12 +11,14 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.search.Search
+import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -49,6 +52,9 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         presenter.initBanner(this)
         presenter.autoSlide()
 
+        presenter.initRecommendViewPager(this)
+        presenter.initAlcoholRanking(this)
+
         binding.mainNavigation.navigationHeader.root.setOnClickListener(this)
 
         binding.mainBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -57,9 +63,20 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
                 binding.bannerCount.text = "${position % presenter.bannerItem + 1} / ${presenter.bannerItem}"
             }
         })
+
+
     }
 
-    override fun onStart() {
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        //네트워크가 다시 연결 됐을 때,
+        presenter.initRecommendViewPager(this)
+        presenter.initAlcoholRanking(this)
+
+    }
+
+    override fun onStart(){
         super.onStart()
         GlobalApplication.instance.activityClass = MainActivity::class.java
         presenter.initNavigationItemSet(this, this)
@@ -74,9 +91,6 @@ class MainActivity : AppCompatActivity(), MainContract.BaseView, View.OnClickLis
         super.onResume()
         GlobalApplication.instance.setActivityBackground(true)
 
-        //네트워크가 다시 연결 됐을 때,
-        presenter.initRecommendViewPager(this)
-        presenter.initAlcoholRanking(this)
     }
     override fun onStop() {
         super.onStop()

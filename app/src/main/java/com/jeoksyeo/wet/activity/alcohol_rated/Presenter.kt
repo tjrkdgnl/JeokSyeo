@@ -48,7 +48,7 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
                 tab.customView = textView
                 textView.text = lst[position]
                 //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
-                textView.textSize = (15f / 90f)*(GlobalApplication.instance.device_width/5)
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/80f)*(GlobalApplication.instance.device_width/6f))
 
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 textView.gravity = Gravity.CENTER_HORIZONTAL

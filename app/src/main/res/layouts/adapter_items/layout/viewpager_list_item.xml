@@ -41,7 +41,6 @@
                     setting_icon_str="@{alcohol.media.get(0).mediaResource.small.src.toString()}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:transitionName="@string/transitionName"
                     android:scaleType="fitCenter" />
             </androidx.cardview.widget.CardView>
 

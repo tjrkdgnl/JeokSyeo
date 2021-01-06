@@ -50,7 +50,9 @@ class Presenter : FavoriteContract.BasePresenter {
             var textView = TextView(context)
             tab.customView = textView
             textView.text = tabList[position]
-            textView.textSize = (15f/90f)*(GlobalApplication.instance.device_width/5)
+
+            //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/80f)*(GlobalApplication.instance.device_width/6f))
 
             textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

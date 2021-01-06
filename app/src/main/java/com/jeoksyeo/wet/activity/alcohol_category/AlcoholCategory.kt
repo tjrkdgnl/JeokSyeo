@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -86,6 +87,7 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
             }
         })
 
+        binding.textViewTotalProduct.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(11f/360f)*(GlobalApplication.instance.device_width))
         viewModel.changePosition.observe(this, Observer {
             binding.textViewTotalProduct.text = "총 "+ viewModel.totalCountList[binding.viewPager2Container.currentItem].toString()+
                     "개의 상품이 있습니다."

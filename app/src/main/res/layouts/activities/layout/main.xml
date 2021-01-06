@@ -416,14 +416,34 @@
                     app:layout_constraintTop_toBottomOf="@id/activityMain_howAboutAlcoholsText_scalableLayout">
                 </ImageView>
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/activityMain_RecommendViewPager2"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewPager2_container"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/recommend_background"
-                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle_scalableLayout" />
+                    app:layout_constraintBottom_toTopOf="@id/appMain_monthlyTitle_scalableLayout">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/activityMain_RecommendViewPager2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                       />
+
+                    <include
+                        android:id="@+id/recommend_progressbar"
+                        layout="@layout/progressbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.ssomai.android.scalablelayout.ScalableLayout
                     android:id="@+id/appMain_monthlyTitle_scalableLayout"
@@ -436,7 +456,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activityMain_RecommendViewPager2" >
+                    app:layout_constraintTop_toBottomOf="@id/viewPager2_container" >
                     <TextView
                         android:id="@+id/appMain_monthlyTitle"
                         android:layout_width="wrap_content"
@@ -471,20 +491,45 @@
                     android:layout_height="0.45dp"
                     android:background="@color/light_grey"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@id/monthly_recylcerView"
+                    app:layout_constraintBottom_toTopOf="@id/monthlyRecyclerView_container"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/monthly_recylcerView"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/monthlyRecyclerView_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="17dp"
-                    android:nestedScrollingEnabled="false"
                     app:layout_constraintBottom_toTopOf="@id/business_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle_scalableLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/appMain_monthlyTitle_scalableLayout">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/monthly_recylcerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                    <include
+                        android:id="@+id/monthly_progressbar"
+                        layout="@layout/progressbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <include
                     android:id="@+id/business_info"
@@ -494,7 +539,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/monthly_recylcerView"
+                    app:layout_constraintTop_toBottomOf="@id/monthlyRecyclerView_container"
                     app:layout_constraintVertical_bias="0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

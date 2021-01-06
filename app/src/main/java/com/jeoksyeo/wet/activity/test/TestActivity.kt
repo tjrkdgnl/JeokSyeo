@@ -25,6 +25,12 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        val interClass = InterPractice.InterClass(1,2)
+
+        interClass.left
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.test_activity)
 
         binding.button.setOnClickListener {
