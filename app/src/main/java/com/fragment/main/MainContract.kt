@@ -1,20 +1,20 @@
-package com.jeoksyeo.wet.activity.main
+package com.fragment.main
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import androidx.fragment.app.FragmentActivity
 import com.vuforia.engine.wet.databinding.MainBinding
 
 interface MainContract {
 
     interface BaseView{
-        fun getView() : MainBinding
+        fun getViewBinding() : MainBinding
 
     }
 
     interface BasePresenter {
-        var view:BaseView
-        var activity:Activity
+        var view: BaseView
+        var activity:FragmentActivity
 
         fun initBanner(context:Context)
 
@@ -24,17 +24,5 @@ interface MainContract {
 
         fun detachView()
 
-        fun checkLogin(context: Context)
-
-        fun setNetworkUtil()
-
-
-        fun handleDeepLink()
-
-        fun createDynamicLink()
-
-        fun checkDeepLink(): Uri
-
-        fun getAlcohol(alcoholId: String)
     }
 }

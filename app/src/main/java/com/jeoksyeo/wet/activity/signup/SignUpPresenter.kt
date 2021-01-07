@@ -21,7 +21,6 @@ import com.service.JWTUtil
 import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class SignUpPresenter : SignUpContract.BasePresenter {
@@ -97,7 +96,7 @@ class SignUpPresenter : SignUpContract.BasePresenter {
                         GlobalApplication.userBuilder.setAccessToken("Bearer ${GlobalApplication.userDataBase.getAccessToken()}")
                         GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
 
-                        activity.startActivity(Intent(activity,MainActivity::class.java))
+                        activity.startActivity(Intent(activity, MainActivity::class.java))
                         activity.finish()
                     }, { t: Throwable ->
                         CustomDialog.networkErrorDialog(activity)

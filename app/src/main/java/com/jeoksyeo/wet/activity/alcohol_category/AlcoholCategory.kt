@@ -1,13 +1,9 @@
 package com.jeoksyeo.wet.activity.alcohol_category
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
@@ -32,7 +28,6 @@ import com.jeoksyeo.wet.activity.search.Search
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
-import org.w3c.dom.Text
 
 class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, View.OnClickListener,
     PopupMenu.OnMenuItemClickListener,TabLayout.OnTabSelectedListener {
@@ -170,9 +165,6 @@ class AlcoholCategory : FragmentActivity(), AlcoholCategoryContact.BaseView, Vie
                 if(binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END))
                     binding.categoryDrawerLayout.closeDrawer(GravityCompat.END) }
 
-            R.id.windowHeader_listCategory -> {
-                if (!binding.categoryDrawerLayout.isDrawerOpen(GravityCompat.END))
-                    binding.categoryDrawerLayout.openDrawer(GravityCompat.END) }
 
             R.id.navigation_header->{
                 if(GlobalApplication.userInfo.getProvider() ==null){

@@ -1,7 +1,5 @@
 package com.service
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -10,22 +8,14 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.viewmodel.MainViewModel
-import com.vuforia.engine.wet.R
-import java.util.zip.Inflater
 
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

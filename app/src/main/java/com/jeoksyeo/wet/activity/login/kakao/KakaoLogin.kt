@@ -84,7 +84,7 @@ class KakaoLogin(private val context: Context) {
             GlobalApplication.userDataBase.setRefreshTokenExpire(0)
 
 
-            context.startActivity(Intent(context,MainActivity::class.java))
+            context.startActivity(Intent(context, MainActivity::class.java))
             if(context is MainActivity){
                 context.finish()
                 context.overridePendingTransition(R.anim.right_to_current,R.anim.current_to_left )

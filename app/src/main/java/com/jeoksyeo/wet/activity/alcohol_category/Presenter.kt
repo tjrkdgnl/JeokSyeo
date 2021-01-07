@@ -8,9 +8,6 @@ import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.MotionEvent
-import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment

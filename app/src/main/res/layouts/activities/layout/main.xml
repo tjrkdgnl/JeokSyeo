@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingConstraints">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/main_drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:openDrawer="end">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -544,13 +539,4 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-        <include
-            android:id="@+id/main_navigation"
-            layout="@layout/drawer_navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end" />
-
-    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
