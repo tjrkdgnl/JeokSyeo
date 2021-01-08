@@ -1,4 +1,4 @@
-package com.jeoksyeo.wet.activity.alcohol_category
+package com.fragment.alcohol_category
 
 import android.app.Activity
 import android.content.Context
@@ -8,7 +8,7 @@ import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
 interface AlcoholCategoryContact {
 
     interface BaseView{
-       fun getView():AlcoholCategoryBinding
+       fun getViewBinding():AlcoholCategoryBinding
 
         fun changeToggle(toggle:Boolean)
 
@@ -17,7 +17,7 @@ interface AlcoholCategoryContact {
     }
 
     interface BasePresenter{
-        var view:BaseView
+        var view: BaseView
         var context:Context
 
         fun inintTabLayout(context: Context,currentItem:Int)
@@ -30,7 +30,6 @@ interface AlcoholCategoryContact {
 
         fun checkLogin(context: Context)
 
-        fun setNetworkUtil()
 
         fun detach()
 

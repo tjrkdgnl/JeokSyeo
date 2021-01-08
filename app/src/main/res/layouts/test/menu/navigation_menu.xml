@@ -3,16 +3,16 @@
 
     <item android:id="@+id/navigation_journal"
         android:title="테이스트 저널"
-        android:icon="@mipmap/small_heart_full"/>
+        android:icon="@mipmap/journal_tab"/>
 
     <item android:id="@+id/navigation_journey"
         android:title="저니박스"
-        android:icon="@mipmap/small_heart_full"/>
+        android:icon="@mipmap/journey_tab"/>
 
 
     <item android:id="@+id/navigation_myPage"
         android:title="MY"
         android:enabled="true"
-        android:icon="@mipmap/small_heart_full"/>
+        android:icon="@mipmap/mypage_tab"/>
 
 </menu>

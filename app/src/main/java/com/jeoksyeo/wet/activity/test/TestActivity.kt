@@ -34,8 +34,8 @@ class TestActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.test_activity)
 
         binding.button.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                if (callMethod()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (ex()) {
                     Log.e("성공", "성공")
                     binding.text.text = "변경완료"
                 } else {
@@ -49,6 +49,12 @@ class TestActivity : AppCompatActivity() {
        var bool = executeMethod()
 
         return bool
+    }
+
+    suspend fun ex():Boolean{
+      return  CoroutineScope(Dispatchers.IO).async {
+            true
+        }.await()
     }
 
     suspend fun executeMethod(): Boolean = suspendCoroutine {

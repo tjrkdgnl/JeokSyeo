@@ -10,8 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
-import com.jeoksyeo.wet.activity.search.Search
+import com.fragment.alcohol_category.AlcoholCategoryFragment
+import com.fragment.search.SearchFragment
+import com.jeoksyeo.wet.activity.main.MainActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -32,6 +33,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
         binding.activityMainWine.setOnClickListener(this)
         binding.activityMainWhisky.setOnClickListener(this)
         binding.activityMainSake.setOnClickListener(this)
+        binding.basicHeader.windowHeaderSearchButton.setOnClickListener(this)
 
 
         mainPresenter = MainPresenter().apply {
@@ -75,51 +77,52 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
-                GlobalApplication.instance.moveActivity(v.context, Search::class.java)
+
+                (activity as? MainActivity)?.replaceFragment(SearchFragment.newInstance("main"),"search")
+
             }
 
             R.id.activityMain_koreanAlcohol -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 0)
-                GlobalApplication.instance.moveActivity(
-                    v.context, AlcoholCategory::class.java,
-                    0, postionBundle, GlobalApplication.CATEGORY_BUNDLE
-                )
+                val fragment = AlcoholCategoryFragment()
+                fragment.arguments = postionBundle
+
+                (activity as? MainActivity)?.replaceFragment(fragment,"category")
             }
 
             R.id.activityMain_beer -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 1)
-                GlobalApplication.instance.moveActivity(
-                    v.context, AlcoholCategory::class.java,
-                    0, postionBundle, GlobalApplication.CATEGORY_BUNDLE
-                )
+                val fragment = AlcoholCategoryFragment()
+                fragment.arguments = postionBundle
+
+                (activity as? MainActivity)?.replaceFragment(fragment,"category")
             }
 
             R.id.activityMain_wine -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 2)
-                GlobalApplication.instance.moveActivity(
-                    v.context, AlcoholCategory::class.java,
-                    0, postionBundle, GlobalApplication.CATEGORY_BUNDLE
-                )
+                val fragment = AlcoholCategoryFragment()
+                fragment.arguments = postionBundle
+
+                (activity as? MainActivity)?.replaceFragment(fragment,"category")
             }
 
             R.id.activityMain_whisky -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 3)
-                GlobalApplication.instance.moveActivity(
-                    v.context, AlcoholCategory::class.java,
-                    0, postionBundle, GlobalApplication.CATEGORY_BUNDLE
-                )
+                val fragment = AlcoholCategoryFragment()
+                fragment.arguments = postionBundle
+
+                (activity as? MainActivity)?.replaceFragment(fragment,"category")
             }
 
             R.id.activityMain_sake -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 4)
-                GlobalApplication.instance.moveActivity(
-                    v.context, AlcoholCategory::class.java,
-                    0, postionBundle, GlobalApplication.CATEGORY_BUNDLE
-                )
+                val fragment = AlcoholCategoryFragment()
+                fragment.arguments = postionBundle
+
+                (activity as? MainActivity)?.replaceFragment(fragment,"category")
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

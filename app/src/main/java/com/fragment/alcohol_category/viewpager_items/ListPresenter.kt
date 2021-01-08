@@ -1,4 +1,4 @@
-package com.fragment.alcohol_category
+package com.fragment.alcohol_category.viewpager_items
 
 import android.content.Context
 import android.util.Log
@@ -7,11 +7,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.service.JWTUtil
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 import io.reactivex.android.schedulers.AndroidSchedulers

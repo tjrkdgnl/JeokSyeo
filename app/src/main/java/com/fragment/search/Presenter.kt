@@ -1,4 +1,4 @@
-package com.jeoksyeo.wet.activity.search
+package com.fragment.search
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -6,7 +6,6 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.GlobalApplication
@@ -37,14 +36,6 @@ class Presenter : SearchContract.BasePresenter {
     private var totalItemCount = 0
     private var pastVisibleItem = 0
 
-    private lateinit var networkUtil: NetworkUtil
-
-    override fun setNetworkUtil() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(activity)
-            networkUtil.register()
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     override fun setSearchResult(keyword: String?) {
@@ -77,7 +68,7 @@ class Presenter : SearchContract.BasePresenter {
                     }
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) {
-                            view.getView().editTextSearch.setText(keyword)
+                            view.getViewBinding().editTextSearch.setText(keyword)
                             view.noSearchItem(false,keyword)
 
                             view.setSearchList(lst.toMutableList())
@@ -97,7 +88,7 @@ class Presenter : SearchContract.BasePresenter {
     }
 
     private fun setListener(keyword: String?) {
-        view.getView().recyclerViewSearchlist.addOnScrollListener(object :
+        view.getViewBinding().recyclerViewSearchlist.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 visibleItemCount = layoutManager.childCount
@@ -149,16 +140,16 @@ class Presenter : SearchContract.BasePresenter {
     @SuppressLint("SetTextI18n")
     private fun checkKeywordText(show:Boolean, keyword:String ="", total:Int =0){
         if(show){
-            view.getView().searchKeyword.text ="\"$keyword"
-            view.getView().keywordCount.text ="\"관련해서 총 ${total}개의 상품을 찾았습니다."
-            view.getView().keywordResult.visibility =View.VISIBLE
-            view.getView().textViewRecentSearch.visibility =View.INVISIBLE
+            view.getViewBinding().searchKeyword.text ="\"$keyword"
+            view.getViewBinding().keywordCount.text ="\"관련해서 총 ${total}개의 상품을 찾았습니다."
+            view.getViewBinding().keywordResult.visibility =View.VISIBLE
+            view.getViewBinding().textViewRecentSearch.visibility =View.INVISIBLE
 
         }
         else{
-            view.getView().textViewRecentSearch.text = keyword
-            view.getView().keywordResult.visibility =View.INVISIBLE
-            view.getView().textViewRecentSearch.visibility =View.VISIBLE
+            view.getViewBinding().textViewRecentSearch.text = keyword
+            view.getViewBinding().keywordResult.visibility =View.INVISIBLE
+            view.getViewBinding().textViewRecentSearch.visibility =View.VISIBLE
         }
     }
 
@@ -211,17 +202,14 @@ class Presenter : SearchContract.BasePresenter {
 
     override fun detach() {
         compositeDisposable.dispose()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
     }
 
     val exeuteProgressBar: (check: Boolean) -> Unit = { check ->
         if (check) {
-            view.getView().progressbar.root.visibility = View.VISIBLE
+            view.getViewBinding().progressbar.root.visibility = View.VISIBLE
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         } else{
-            view.getView().progressbar.root.visibility = View.INVISIBLE
+            view.getViewBinding().progressbar.root.visibility = View.INVISIBLE
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }

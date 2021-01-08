@@ -1,7 +1,6 @@
-package com.fragment.alcohol_category
+package com.fragment.alcohol_category.viewpager_items
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     private lateinit var gridPresenter: GridPresenter
 
     companion object{
-        fun newInstance(position:Int):Fragment_Grid{
+        fun newInstance(position:Int): Fragment_Grid {
             val fragment = Fragment_Grid()
             val bundle = Bundle()
             bundle.putInt("position",position)

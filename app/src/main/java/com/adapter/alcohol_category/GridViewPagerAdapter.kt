@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.application.GlobalApplication
-import com.fragment.alcohol_category.Fragment_Grid
+import com.fragment.alcohol_category.viewpager_items.Fragment_Grid
 
 class GridViewPagerAdapter(val activity:FragmentActivity):FragmentStateAdapter(activity) {
 

@@ -1,4 +1,4 @@
-package com.jeoksyeo.wet.activity.search
+package com.fragment.search
 
 import android.app.Activity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +10,7 @@ import com.vuforia.engine.wet.databinding.SearchBinding
 interface SearchContract {
 
     interface BaseVIew{
-        fun getView():SearchBinding
+        fun getViewBinding():SearchBinding
 
         fun initSearchAdapter():SearchAdapter
         fun updateRelativeList(list:MutableList<String>,searchImg:Int = R.mipmap.resent_timer)
@@ -22,7 +22,7 @@ interface SearchContract {
 
 
     interface BasePresenter{
-        var view:BaseVIew
+        var view: BaseVIew
         var layoutManager:LinearLayoutManager
         var activity:Activity
 
@@ -31,6 +31,5 @@ interface SearchContract {
 
         fun setRelativeSearch(keyword:String)
 
-        fun setNetworkUtil()
     }
 }

@@ -1,4 +1,4 @@
-package com.fragment.alcohol_category
+package com.fragment.alcohol_category.viewpager_items
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,10 +20,10 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     private var position = 0
     private lateinit var viewmodel:AlcoholCategoryViewModel
     private lateinit var listAdapter:ListAdapter
-    private lateinit var listPresenter:ListPresenter
+    private lateinit var listPresenter: ListPresenter
 
     companion object{
-        fun newInstance(position:Int):Fragment_List{
+        fun newInstance(position:Int): Fragment_List {
             val fragment = Fragment_List()
             val bundle = Bundle()
             bundle.putInt("position",position)

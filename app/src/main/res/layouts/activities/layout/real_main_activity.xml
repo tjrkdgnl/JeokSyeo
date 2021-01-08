@@ -28,6 +28,7 @@
             app:itemIconTint="@color/navigation_select"
             app:menu="@menu/navigation_menu"
             app:itemRippleColor="@color/white"
+            style="@style/Widget.Design.BottomNavigationView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

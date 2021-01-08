@@ -8,7 +8,7 @@ import com.adapter.viewholder.NoRelativeSearchViewHolder
 import com.adapter.viewholder.NoResentViewholder
 import com.adapter.viewholder.SearchViewHolder
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.search.SearchContract
+import com.fragment.search.SearchContract
 import com.vuforia.engine.wet.R
 
 class SearchAdapter(

@@ -1,4 +1,4 @@
-package com.jeoksyeo.wet.activity.alcohol_category
+package com.fragment.alcohol_category
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -21,8 +21,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import com.fragment.alcohol_category.Fragment_Grid
-import com.fragment.alcohol_category.Fragment_List
+import com.fragment.alcohol_category.viewpager_items.Fragment_Grid
+import com.fragment.alcohol_category.viewpager_items.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
 import com.model.navigation.NavigationItem
 import com.service.JWTUtil
@@ -35,26 +35,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Presenter:AlcoholCategoryContact.BasePresenter {
-    lateinit var networkUtil: NetworkUtil
+class Presenter: AlcoholCategoryContact.BasePresenter {
     override lateinit var view: AlcoholCategoryContact.BaseView
     override lateinit var context: Context
 
 
-    override fun setNetworkUtil() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(context)
-            networkUtil.register()
-        }
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun inintTabLayout(context: Context, currentItem: Int) {
         if(context is FragmentActivity){
-            view.getView().viewPager2Container.adapter = GridViewPagerAdapter(context)
+            view.getViewBinding().viewPager2Container.adapter = GridViewPagerAdapter(context)
             val lst = mutableListOf("전통주", "맥주", "와인", "양주", "사케")
             TabLayoutMediator(
-                view.getView().tabLayoutAlcoholList, view.getView().viewPager2Container
+                view.getViewBinding().tabLayoutAlcoholList, view.getViewBinding().viewPager2Container
             ) { tab, position ->
                 val textView = TextView(context)
                 tab.customView = textView
@@ -62,8 +54,6 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
 
                 //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/72f)*(GlobalApplication.instance.device_width/5f))
-
-                Log.e("기본 시스템 폰트사이즈",context.resources.displayMetrics.scaledDensity.toString())
 
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -89,24 +79,24 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                 }
             }.attach()
 
-            view.getView().viewPager2Container.offscreenPageLimit=5
-            view.getView().viewPager2Container.currentItem =currentItem
-
-
-
+            Log.e("탭 값",currentItem.toString())
+            view.getViewBinding().viewPager2Container.offscreenPageLimit=5
+            view.getViewBinding().viewPager2Container.post{
+                view.getViewBinding().viewPager2Container.setCurrentItem(currentItem,true)
+            }
         }
     }
 
 
     override fun getFragement(position: Int): Fragment? {
         var fragment:Fragment? =null
-        if(view.getView().viewPager2Container.adapter is GridViewPagerAdapter){
-            fragment= (view.getView().viewPager2Container.adapter as GridViewPagerAdapter)
-                .getFragment(view.getView().viewPager2Container.currentItem)
+        if(view.getViewBinding().viewPager2Container.adapter is GridViewPagerAdapter){
+            fragment= (view.getViewBinding().viewPager2Container.adapter as GridViewPagerAdapter)
+                .getFragment(view.getViewBinding().viewPager2Container.currentItem)
         }
-        else if (view.getView().viewPager2Container.adapter is ListViewPagerAdapter){
-            fragment= (view.getView().viewPager2Container.adapter as ListViewPagerAdapter)
-                .getFragment(view.getView().viewPager2Container.currentItem)
+        else if (view.getViewBinding().viewPager2Container.adapter is ListViewPagerAdapter){
+            fragment= (view.getViewBinding().viewPager2Container.adapter as ListViewPagerAdapter)
+                .getFragment(view.getViewBinding().viewPager2Container.currentItem)
         }
 
         return fragment
@@ -149,11 +139,11 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                 }
                     ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
 
-                view.getView().categoryNavigation.navigationContainer.setHasFixedSize(true)
-                view.getView().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(
+                view.getViewBinding().categoryNavigation.navigationContainer.setHasFixedSize(true)
+                view.getViewBinding().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(
                     context
                 )
-                view.getView().categoryNavigation.navigationContainer.adapter = NavigationAdpater(
+                view.getViewBinding().categoryNavigation.navigationContainer.adapter = NavigationAdpater(
                     context,
                     activity,
                     lst,
@@ -173,8 +163,8 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
             withContext(Dispatchers.Main){
                 GlobalApplication.userInfo.getProvider()?.let {
                     //유저 프로필 설정하는 화면 필요함
-                    view.getView().categoryDrawerLayout.category_navigation.navigation_header_Name.text= GlobalApplication.userInfo.nickName + "님,"
-                    view.getView().categoryDrawerLayout.category_navigation.navigation_header_hello.text = "안녕하세요"
+                    view.getViewBinding().categoryDrawerLayout.category_navigation.navigation_header_Name.text= GlobalApplication.userInfo.nickName + "님,"
+                    view.getViewBinding().categoryDrawerLayout.category_navigation.navigation_header_hello.text = "안녕하세요"
                 }
                 GlobalApplication.userInfo.getProfile()?.let { lst->
                     Log.e("프로필 변경", "변경")
@@ -188,7 +178,7 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .circleCrop()
                             )
-                            .into(view.getView().categoryNavigation.navigationHeader.navigationHeaderProfile)
+                            .into(view.getViewBinding().categoryNavigation.navigationHeader.navigationHeaderProfile)
                     }
                 }
             }
@@ -196,8 +186,6 @@ class Presenter:AlcoholCategoryContact.BasePresenter {
     }
 
     override fun detach() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
+      
     }
 }

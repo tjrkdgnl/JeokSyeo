@@ -78,8 +78,6 @@ class GlobalApplication : MultiDexApplication() {
         lateinit var userDataBase: UserDB
 
         //디바이스 사이즈
-
-
         const val NICKNAME = "nickname"
         const val BIRTHDAY = "birth"
         const val GENDER = "gender"

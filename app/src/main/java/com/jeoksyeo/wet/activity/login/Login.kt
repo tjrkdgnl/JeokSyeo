@@ -19,7 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.jeoksyeo.wet.activity.login.apple.AppleLogin
 import com.jeoksyeo.wet.activity.login.google.GoogleLogin
@@ -328,13 +327,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
                 GlobalApplication.instance.moveActivity(
                     this,
                     AlcoholDetail::class.java,
-                    Intent.FLAG_ACTIVITY_SINGLE_TOP
-                )
-            }
-            GlobalApplication.ACTIVITY_HANDLING_CATEGORY -> {
-                GlobalApplication.instance.moveActivity(
-                    this,
-                    AlcoholCategory::class.java,
                     Intent.FLAG_ACTIVITY_SINGLE_TOP
                 )
             }

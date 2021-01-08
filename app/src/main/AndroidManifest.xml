@@ -74,18 +74,16 @@
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.test.TestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
-        </activity>
-
-        <activity android:name="com.jeoksyeo.wet.activity.alcohol_category.AlcoholCategory"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
         </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.setting.SettingActivity"
@@ -104,22 +102,13 @@
         </activity>
 
         <activity
-            android:name="com.jeoksyeo.wet.activity.main.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name="com.jeoksyeo.wet.activity.splash.Splash"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

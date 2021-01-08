@@ -1,4 +1,4 @@
-package com.fragment.alcohol_category
+package com.fragment.alcohol_category.viewpager_items
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
@@ -16,7 +16,7 @@ interface Fg_AlcoholCategoryContact {
         fun moveTopPosition()
     }
     interface BasePresenter{
-        var view:BaseView
+        var view: BaseView
         var context:Context
 
         fun initRecyclerView(context: Context)
