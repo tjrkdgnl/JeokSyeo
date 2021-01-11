@@ -7,7 +7,6 @@ import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.adapter.alcohol_rated.RatedViewPagerAdapter
@@ -15,7 +14,6 @@ import com.application.GlobalApplication
 import com.google.android.material.tabs.TabLayoutMediator
 import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
-import io.reactivex.disposables.CompositeDisposable
 
 class Presenter :AlcoholRatedContact.BasesPresenter {
     override lateinit var view: AlcoholRatedContact.BaseView
@@ -48,7 +46,7 @@ class Presenter :AlcoholRatedContact.BasesPresenter {
                 tab.customView = textView
                 textView.text = lst[position]
                 //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/80f)*(GlobalApplication.instance.device_width/6f))
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, GlobalApplication.instance.getCalculatorTextSize(16f,true,6))
 
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 textView.gravity = Gravity.CENTER_HORIZONTAL

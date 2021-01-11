@@ -1,7 +1,6 @@
 package com.fragment.alcohol_rated
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -9,12 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adapter.alcohol_rated.AlcoholRatedAdapter
 import com.application.GlobalApplication
 import com.custom.CenterLayoutManager
-import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.rated.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.service.JWTUtil
 import com.viewmodel.RatedViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

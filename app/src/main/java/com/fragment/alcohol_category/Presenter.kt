@@ -26,7 +26,6 @@ import com.fragment.alcohol_category.viewpager_items.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
 import com.model.navigation.NavigationItem
 import com.service.JWTUtil
-import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import kotlinx.android.synthetic.main.alcohol_category.view.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
@@ -53,7 +52,7 @@ class Presenter: AlcoholCategoryContact.BasePresenter {
                 textView.text = lst[position]
 
                 //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/72f)*(GlobalApplication.instance.device_width/5f))
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, GlobalApplication.instance.getCalculatorTextSize(16f,true,5))
 
                 textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -79,7 +78,6 @@ class Presenter: AlcoholCategoryContact.BasePresenter {
                 }
             }.attach()
 
-            Log.e("탭 값",currentItem.toString())
             view.getViewBinding().viewPager2Container.offscreenPageLimit=5
             view.getViewBinding().viewPager2Container.post{
                 view.getViewBinding().viewPager2Container.setCurrentItem(currentItem,true)
@@ -117,42 +115,6 @@ class Presenter: AlcoholCategoryContact.BasePresenter {
         }
     }
 
-    override fun initNavigationItemSet(context: Context, activity: Activity) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.checkToken()
-
-            withContext(Dispatchers.Main){
-                val lst = mutableListOf<NavigationItem>()
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
-                lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
-                lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(GlobalApplication.userInfo.getProvider()?.let {
-                    NavigationItem(
-                        R.mipmap.navigation5_img,
-                        "로그아웃"
-                    )
-                }
-                    ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
-
-                view.getViewBinding().categoryNavigation.navigationContainer.setHasFixedSize(true)
-                view.getViewBinding().categoryNavigation.navigationContainer.layoutManager = LinearLayoutManager(
-                    context
-                )
-                view.getViewBinding().categoryNavigation.navigationContainer.adapter = NavigationAdpater(
-                    context,
-                    activity,
-                    lst,
-                    GlobalApplication.userInfo.getProvider(),
-                    GlobalApplication.ACTIVITY_HANDLING_CATEGORY
-                )
-            }
-        }
-    }
 
 
     @SuppressLint("SetTextI18n")

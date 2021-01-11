@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
 import com.google.android.material.tabs.TabLayout
-import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.viewmodel.FavoriteViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FavoriteActivityBinding

@@ -9,13 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:background="#f5f5f5"
+        android:background="@color/white"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="10dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="30dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
@@ -31,22 +29,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintWidth_percent="0.35" />
-
-
-        <com.ssomai.android.scalablelayout.ScalableLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/navigation_header_Profile"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2"
-            app:scale_base_height="200"
-            app:scale_base_width="500">
+            app:layout_constraintWidth_percent="0.21" />
 
             <TextView
-                android:id="@+id/navigation_header_Name"
+                android:id="@+id/navigation_header_hello"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -54,30 +40,29 @@
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="3sp"
                 android:maxLines="1"
-                android:text="안녕하세요,"
+                android:textSize="16sp"
+                android:text="로그인 해주세요!"
                 android:textColor="#333333"
-                app:scale_height="100"
-                app:scale_left="23"
-                app:scale_textsize="60"
-                app:scale_top="10"
-                app:scale_width="470" />
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="@id/navigation_header_Profile"
+                app:layout_constraintStart_toEndOf="@id/navigation_header_Profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+             />
 
             <TextView
-                android:id="@+id/navigation_header_hello"
+                android:id="@+id/navigation_header_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/apple_sd_gothic_neo_sb"
                 android:lineSpacingExtra="3sp"
-                android:text="로그인하시겠어요?"
+                android:textSize="30sp"
+                android:text="비회원"
                 android:textColor="#333333"
-                app:scale_height="60"
-                app:scale_left="23"
-                app:scale_textsize="45"
-                app:scale_top="110"
-                app:scale_width="470"
+                app:layout_constraintTop_toBottomOf="@id/navigation_header_hello"
+                app:layout_constraintStart_toStartOf="@id/navigation_header_hello"
                 />
-        </com.ssomai.android.scalablelayout.ScalableLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

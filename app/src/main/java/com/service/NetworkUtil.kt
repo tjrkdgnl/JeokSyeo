@@ -11,15 +11,13 @@ import android.os.Build
 import android.view.Gravity
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.application.GlobalApplication
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.viewmodel.MainViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class NetworkUtil(val context: Context, var viewModelStoreOwner:ViewModelStoreOwner? =null ) : ConnectivityManager.NetworkCallback() {
+class NetworkUtil(val context: Context ) : ConnectivityManager.NetworkCallback() {
 
     private var networkRequest: NetworkRequest = NetworkRequest.Builder()
         .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
@@ -38,10 +36,6 @@ class NetworkUtil(val context: Context, var viewModelStoreOwner:ViewModelStoreOw
 
     init {
         taskInfo = activityManager.appTasks
-
-        viewModelStoreOwner?.let { owner->{
-            mainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
-        } }
 
     }
 

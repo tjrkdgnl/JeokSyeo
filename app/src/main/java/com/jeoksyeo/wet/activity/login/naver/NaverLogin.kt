@@ -116,7 +116,6 @@ class NaverLogin(private val mContext: Context) {
             mContext.startActivity(Intent(mContext, MainActivity::class.java))
             if (mContext is MainActivity) {
                 mContext.finish()
-                mContext.overridePendingTransition(R.anim.right_to_current, R.anim.current_to_left)
             }
             Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()

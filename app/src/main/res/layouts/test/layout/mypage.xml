@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="#f8f8f8"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/myPage_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/navigation_header"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/myPage_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/myPage_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
+            />
+
+            <LinearLayout
+                android:id="@+id/myPage_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical"
+                android:paddingVertical="11dp"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="48dp"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myPage_recyclerView">
+
+                <TextView
+                    android:id="@+id/help_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:textStyle="normal"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#333333"
+                    android:lineSpacingExtra="18sp"
+                    android:text="help@jeoksyeo.com" />
+
+                <TextView
+                    android:id="@+id/help_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:textStyle="normal"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#333333"
+                    android:lineSpacingExtra="18sp"
+                    android:text="AM 10:00-PM 17:00 ( 점심시간 12:00-14:00 )" />
+
+                <TextView
+                    android:id="@+id/help_holiyday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/apple_sd_gothic_neo_m"
+                    android:textStyle="normal"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#333333"
+                    android:lineSpacingExtra="18sp"
+                    android:text="DAYOFF ( 토일 공휴일 )"
+                    />
+
+            </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

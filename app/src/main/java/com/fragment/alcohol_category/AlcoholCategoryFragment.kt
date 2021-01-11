@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.adapter.alcohol_category.GridViewPagerAdapter
@@ -25,18 +26,18 @@ import com.fragment.main.MainFragment
 import com.fragment.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
 import com.jeoksyeo.wet.activity.main.MainActivity
-import com.jeoksyeo.wet.activity.search.Search
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
 
-class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabLayout.OnTabSelectedListener
-    ,View.OnClickListener,PopupMenu.OnMenuItemClickListener {
-    private lateinit var binding:AlcoholCategoryBinding
+class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
+    TabLayout.OnTabSelectedListener
+    , View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    private lateinit var binding: AlcoholCategoryBinding
     private lateinit var categoryPresenter: Presenter
     private lateinit var activityContext: Context
     private lateinit var viewModel: AlcoholCategoryViewModel
-    private var currentItem:Int =0
+    private var currentItem: Int = 0
     private var popupMenu: PopupMenu? = null
 
     override fun onAttach(context: Context) {
@@ -58,11 +59,12 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.alcohol_category,container,false)
+        binding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.alcohol_category, container, false)
 
         categoryPresenter = Presenter().apply {
             view = this@AlcoholCategoryFragment
-            this.context =activityContext
+            this.context = activityContext
         }
 
         binding.tabLayoutAlcoholList.addOnTabSelectedListener(this)
@@ -85,10 +87,10 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
         super.onViewCreated(view, savedInstanceState)
 
         //뷰페이저 초기화
-        categoryPresenter.inintTabLayout(activityContext,currentItem)
+        categoryPresenter.inintTabLayout(activityContext, currentItem)
 
-
-        binding.viewPager2Container.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+        binding.viewPager2Container.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 currentItem = position
@@ -96,20 +98,20 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
                 viewModel.changePosition.value = position
                 categoryPresenter.checkSort(position, viewModel.currentSort)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(resources.getColor(R.color.orange,null))
-                }
-                else{
                     (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(
-                        ContextCompat.getColor(activityContext,R.color.orange))
+                        resources.getColor(R.color.orange, null)
+                    )
+                } else {
+                    (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(
+                        ContextCompat.getColor(activityContext, R.color.orange)
+                    )
                 }
             }
         })
 
-        binding.textViewTotalProduct.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(11f/360f)*(GlobalApplication.instance.device_width))
-        viewModel.changePosition.observe(requireActivity(),  {
-            binding.textViewTotalProduct.text = "총 "+ viewModel.totalCountList[binding.viewPager2Container.currentItem].toString()+
-                    "개의 상품이 있습니다."
-        })
+        viewModel.changePosition.observe(requireActivity(), Observer {
+            setTotalCount(viewModel.totalCountList[binding.viewPager2Container.currentItem]) }
+        )
     }
 
     override fun onDestroy() {
@@ -155,12 +157,11 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
     }
 
 
-
     @SuppressLint("SetTextI18n")
     override fun setTotalCount(alcoholCount: Int) {
-        binding.textViewTotalProduct.text = "총 " + alcoholCount + "개의 주류가 있습니다."
+        binding.textViewTotalProduct.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(11f))
+        binding.textViewTotalProduct.text = "총  ${alcoholCount}개의 주류가 있습니다."
     }
-
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
 
@@ -168,10 +169,14 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor,null))
-        }
-        else{
-            (tab?.customView as? TextView)?.setTextColor(ContextCompat.getColor(activityContext,R.color.tabColor))
+            (tab?.customView as? TextView)?.setTextColor(resources.getColor(R.color.tabColor, null))
+        } else {
+            (tab?.customView as? TextView)?.setTextColor(
+                ContextCompat.getColor(
+                    activityContext,
+                    R.color.tabColor
+                )
+            )
         }
     }
 
@@ -182,17 +187,24 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.windowHeader_SearchButton ->{
-                (activity as? MainActivity)?.replaceFragment(SearchFragment.newInstance("category"),"search")
+            R.id.windowHeader_SearchButton -> {
+                (activity as? MainActivity)?.replaceFragment(
+                    SearchFragment.newInstance("category"),
+                    "search"
+                )
             }
 
-            R.id.windowHeader_logo ->{
-                (activity as? MainActivity)?.replaceFragment(MainFragment(),"main")
+            R.id.windowHeader_logo -> {
+                (activity as? MainActivity)?.replaceFragment(MainFragment(), "main")
             }
 
-            R.id.imageView_listToggle -> { changeToggle(false) }
+            R.id.imageView_listToggle -> {
+                changeToggle(false)
+            }
 
-            R.id.imageView_viewToggle -> { changeToggle(true) }
+            R.id.imageView_viewToggle -> {
+                changeToggle(true)
+            }
 
             R.id.sorting_constraintLayout -> {
                 if (popupMenu == null) {
@@ -204,20 +216,25 @@ class AlcoholCategoryFragment:Fragment(), AlcoholCategoryContact.BaseView , TabL
             }
         }
     }
+
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.reviewOrder -> {
                 executeSorting("review")
-                binding.textViewCurrentOrdering.text = "리뷰순" }
+                binding.textViewCurrentOrdering.text = "리뷰순"
+            }
             R.id.likeOrder -> {
                 executeSorting("like")
-                binding.textViewCurrentOrdering.text = "좋아요순" }
+                binding.textViewCurrentOrdering.text = "좋아요순"
+            }
             R.id.degreeOrder_asc -> {
                 executeSorting("abv-asc")
-                binding.textViewCurrentOrdering.text = "도수 낮은순" }
+                binding.textViewCurrentOrdering.text = "도수 낮은순"
+            }
             R.id.degreeOrder_desc -> {
                 executeSorting("abv-desc")
-                binding.textViewCurrentOrdering.text = "도수 높은순" }
+                binding.textViewCurrentOrdering.text = "도수 높은순"
+            }
         }
         return true
     }

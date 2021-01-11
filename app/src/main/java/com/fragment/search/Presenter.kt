@@ -2,7 +2,6 @@ package com.fragment.search
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -13,7 +12,6 @@ import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.service.NetworkUtil
 import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -122,13 +122,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     private fun googleExecute() {
         FirebaseAuth.getInstance().signOut()
-        googleLogin = GoogleLogin(this, this)
+        googleLogin = GoogleLogin(this)
         startActivityForResult(googleLogin.instance.signInIntent, GOOGLE_SIGN)
     }
 
     private fun appleExecute() {
         FirebaseAuth.getInstance().signOut()
-        appleLogin = AppleLogin(this, this)
+        appleLogin = AppleLogin(this)
         appleLogin.executeProgressBar = executeProgressBar
 
         appleLogin.loginExecute()

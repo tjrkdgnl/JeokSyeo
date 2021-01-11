@@ -10,9 +10,11 @@
         <include
             android:id="@+id/basic_header"
             layout="@layout/activity_basic_header2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></include>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -30,7 +32,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/basic_header" />
 
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/favorite_tablayout"
             style="@style/TabLayoutSelectedTextStyle"
@@ -40,11 +41,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_header"
+            app:tabMaxWidth="0dp"
             app:tabGravity="fill"
+            app:tabMode="fixed"
             app:tabIndicatorColor="@color/orange"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed"
             app:tabPaddingBottom="-3dp"
             app:tabRippleColor="@color/transparent"
             app:tabTextColor="@color/tabTextDefaultColor" />
@@ -67,11 +69,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/favorite_viewPager2"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                app:layout_constraintBottom_toTopOf="@id/favorite_viewPager2"
                 app:scale_base_height="65"
                 app:scale_base_width="1080">
 
@@ -83,11 +85,11 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:lineSpacingExtra="6sp"
                     android:text="전체"
-                    app:scale_height="65"
-                    app:scale_width="110"
-                    app:scale_textsize="35"
                     android:textColor="@color/orange"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    app:scale_height="65"
+                    app:scale_textsize="35"
+                    app:scale_width="110" />
 
                 <TextView
                     android:id="@+id/type_Count_Text"
@@ -95,15 +97,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/apple_sd_gothic_neo_sb"
-                    android:lineSpacingExtra="5sp"
                     android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
                     android:text="총 0개의 주류를 찜하셨습니다"
                     android:textColor="#c7c7c7"
+                    android:textStyle="normal"
                     app:scale_height="65"
-                    app:scale_width="630"
-                    app:scale_textsize="35"
                     app:scale_left="115"
-                    android:textStyle="normal" />
+                    app:scale_textsize="35"
+                    app:scale_width="630" />
 
             </com.ssomai.android.scalablelayout.ScalableLayout>
 

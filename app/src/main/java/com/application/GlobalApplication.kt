@@ -119,6 +119,15 @@ class GlobalApplication : MultiDexApplication() {
         const val PAGE_REVIEW_COUNT =3
     }
 
+    fun getCalculatorTextSize(spValue:Float, tabSizeCheck:Boolean =false,tabCount:Int =1):Float{
+
+        return if(!tabSizeCheck) {
+            (spValue/360f*device_width)
+        } else {
+            (spValue/(410f/tabCount)*(device_width/tabCount))
+        }
+    }
+
     fun setActivityBackground(check:Boolean){
         activityBackground = check
     }

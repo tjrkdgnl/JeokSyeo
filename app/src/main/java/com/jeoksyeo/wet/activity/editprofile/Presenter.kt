@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide

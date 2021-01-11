@@ -13,65 +13,32 @@
     <LinearLayout
         android:id="@+id/navigation_linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="55dp"
+        android:background="@drawable/bottom_outline"
+        android:weightSum="2"
+        android:paddingVertical="11dp"
+        android:orientation="horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/navigation_icon"
-                setting_icon_Res="@{navigationItem.icon}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                app:scale_width = "130"
-                app:scale_height = "130"
-                app:scale_left = "35"
-                android:layout_marginStart="14dp"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/btn_top_setting"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_bias="0.5"
-                />
+        <TextView
+            android:id="@+id/navigation_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/apple_sd_gothic_neo_m"
+            android:lineSpacingExtra="2sp"
+            android:text="@{navigationItem.title.toString()}"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1.8"
+            tools:text="설정" />
 
-            <com.ssomai.android.scalablelayout.ScalableLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:scale_base_width="1080"
-                android:layout_gravity="center_vertical"
-                app:layout_constraintStart_toEndOf="@id/navigation_icon"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="14dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:scale_base_height="250">
-                <TextView
-                    android:id="@+id/navigation_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="2sp"
-                    android:text="@{navigationItem.title.toString()}"
-                    android:textColor="#333333"
-                    app:scale_textsize = "65"
-                    android:gravity="start|center"
-                    app:scale_width = "1080"
-                    app:scale_height = "200"
-                    android:layout_marginBottom="0.5dp"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/apple_sd_gothic_neo_m"
-                    tools:text="설정" />
-
-            </com.ssomai.android.scalablelayout.ScalableLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+        <ImageView
+            android:id="@+id/right_errow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/right_arrow"
+            android:layout_weight="0.2"
+            android:layout_marginEnd="16dp"/>
     </LinearLayout>
 </layout>

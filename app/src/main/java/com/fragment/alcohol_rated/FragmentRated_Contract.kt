@@ -1,7 +1,6 @@
 package com.fragment.alcohol_rated
 
 import android.app.Activity
-import android.content.Context
 import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.login.Login
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SettingBinding
 

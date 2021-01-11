@@ -27,7 +27,7 @@
             app:itemTextColor="@color/navigation_select"
             app:itemIconTint="@color/navigation_select"
             app:menu="@menu/navigation_menu"
-            app:itemRippleColor="@color/white"
+            app:itemBackground="@color/transparent"
             style="@style/Widget.Design.BottomNavigationView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

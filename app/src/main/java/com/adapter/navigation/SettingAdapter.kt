@@ -93,8 +93,8 @@ class SettingAdapter(
             when (provider) {
                 "NAVER" -> {NaverLogin(context).naverDelete() }
                 "KAKAO" -> {KakaoLogin(context).kakaoDelete() }
-                "GOOGLE" -> { GoogleLogin(context,activity).googleDelete() }
-                "APPLE" -> { AppleLogin(context,activity).appleDelete()}
+                "GOOGLE" -> { GoogleLogin(activity).googleDelete() }
+                "APPLE" -> { AppleLogin(activity).appleDelete()}
             }
         }
     }

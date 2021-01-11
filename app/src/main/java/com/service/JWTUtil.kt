@@ -3,10 +3,8 @@ package com.service
 import android.util.Base64
 import android.util.Log
 import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.model.user.UserInfo
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject

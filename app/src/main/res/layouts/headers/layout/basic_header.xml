@@ -14,7 +14,6 @@
             android:layout_height="0dp"
             android:layout_margin="7dp"
             android:background="@null"
-            android:onClick="onClick"
             android:src="@mipmap/main_logo"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"

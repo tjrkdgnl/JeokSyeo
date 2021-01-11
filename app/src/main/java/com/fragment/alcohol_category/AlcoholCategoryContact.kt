@@ -26,8 +26,6 @@ interface AlcoholCategoryContact {
 
         fun checkSort(position:Int,sort:String)
 
-        fun initNavigationItemSet(context: Context,activity:Activity)
-
         fun checkLogin(context: Context)
 
 

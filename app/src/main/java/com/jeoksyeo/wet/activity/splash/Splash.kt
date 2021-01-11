@@ -1,9 +1,7 @@
 package com.jeoksyeo.wet.activity.splash
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication

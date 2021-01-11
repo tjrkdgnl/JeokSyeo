@@ -77,9 +77,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
-
                 (activity as? MainActivity)?.replaceFragment(SearchFragment.newInstance("main"),"search")
-
             }
 
             R.id.activityMain_koreanAlcohol -> {

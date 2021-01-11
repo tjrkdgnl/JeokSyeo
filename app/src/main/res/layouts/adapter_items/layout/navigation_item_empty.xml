@@ -13,17 +13,9 @@
     <LinearLayout
         android:id="@+id/navigation_linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#f5f5f5"
+        android:layout_height="30dp"
+        android:background="#f8f8f8"
         android:orientation="vertical">
-
-        <com.ssomai.android.scalablelayout.ScalableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:scale_base_width="1080"
-            app:scale_base_height="130">
-
-        </com.ssomai.android.scalablelayout.ScalableLayout>
 
     </LinearLayout>
 </layout>

@@ -17,7 +17,6 @@ import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
-import com.jeoksyeo.wet.activity.comment.CommentActivity
 import com.model.recommend_alcohol.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService

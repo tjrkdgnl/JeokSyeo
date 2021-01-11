@@ -178,31 +178,6 @@ class MainPresenter : MainContract.BasePresenter {
         }
     }
 
-    fun initNavigationItemSet(context: Context,activity:Activity) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.checkToken()
-
-            withContext(Dispatchers.Main){
-                val lst = mutableListOf<NavigationItem>()
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "설정"))
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(NavigationItem(R.mipmap.navigation1_img, "내가 평가한 주류"))
-                lst.add(NavigationItem(R.mipmap.navigation2_img, "나의 주류 레벨"))
-                lst.add(NavigationItem(R.mipmap.navigation3_img, "내가 찜한 주류"))
-                lst.add(NavigationItem(R.mipmap.btn_top_setting, "-1"))
-                lst.add(GlobalApplication.userInfo.getProvider()?.let { NavigationItem(R.mipmap.navigation5_img, "로그아웃") }
-                    ?: NavigationItem(R.mipmap.navigation5_img, "로그인"))
-
-//                view.getViewBinding().mainNavigation.navigationContainer.setHasFixedSize(true)
-//                view.getViewBinding().mainNavigation.navigationContainer.layoutManager = LinearLayoutManager(context)
-//                view.getViewBinding().mainNavigation.navigationContainer.adapter = NavigationAdpater(context,activity,lst
-//                    ,GlobalApplication.userInfo.getProvider(),GlobalApplication.ACTIVITY_HANDLING_MAIN)
-            }
-        }
-    }
-
     override fun initAlcoholRanking(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             JWTUtil.checkToken()

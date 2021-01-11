@@ -1,7 +1,6 @@
 package com.fragment.main
 
 import android.content.Context
-import android.net.Uri
 import androidx.fragment.app.FragmentActivity
 import com.vuforia.engine.wet.databinding.MainBinding
 

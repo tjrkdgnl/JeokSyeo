@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LevelBinding
-import kotlinx.android.synthetic.main.level_bottom_wave.view.*
 
 class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.BaseView {
     private lateinit var binding:LevelBinding

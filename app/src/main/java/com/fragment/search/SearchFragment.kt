@@ -24,7 +24,6 @@ import com.fragment.main.MainFragment
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.model.alcohol_category.AlcoholList
 import com.vuforia.engine.wet.R
-import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
 import com.vuforia.engine.wet.databinding.SearchBinding
 import io.reactivex.disposables.CompositeDisposable
 

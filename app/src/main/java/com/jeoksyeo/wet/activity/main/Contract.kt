@@ -19,12 +19,11 @@ interface Contract {
 
         fun detachView()
 
-        fun checkLogin(context: Context)
-
         fun setNetworkUtil()
 
         fun getAlcohol(alcoholId: String)
 
         fun handleDeepLink()
+
     }
 }

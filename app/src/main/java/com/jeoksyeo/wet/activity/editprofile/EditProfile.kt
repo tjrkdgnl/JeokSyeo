@@ -25,12 +25,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.EditProfileBinding
 import com.yalantis.ucrop.UCrop
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 

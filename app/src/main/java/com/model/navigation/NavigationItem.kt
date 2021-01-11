@@ -1,7 +1,8 @@
 package com.model.navigation
 
 data class NavigationItem(
-     var icon:Int,
-     var title:String) {
+     var type:Int,
+     var title:String,
+     var boldCheck:Boolean) {
 
 }

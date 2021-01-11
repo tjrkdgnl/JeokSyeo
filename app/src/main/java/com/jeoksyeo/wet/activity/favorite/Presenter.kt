@@ -5,8 +5,9 @@ import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.adapter.favorite.FavoriteViewPagerAdapter
@@ -52,7 +53,8 @@ class Presenter : FavoriteContract.BasePresenter {
             textView.text = tabList[position]
 
             //(폰트 고정 사이즈 * textview의 고정 넓이) * 비율로 계산된 값
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,(16f/80f)*(GlobalApplication.instance.device_width/6f))
+
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, GlobalApplication.instance.getCalculatorTextSize(16f,true,6))
 
             textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -64,7 +66,22 @@ class Presenter : FavoriteContract.BasePresenter {
 
         }.attach()
 
-            view.getBinding().favoriteViewPager2.offscreenPageLimit =5
+        view.getBinding().favoriteViewPager2.offscreenPageLimit =5
+
+    }
+
+    fun wrapTab(){
+        val tabStrip = view.getBinding().favoriteTablayout.getChildAt(0);
+
+        if(tabStrip is ViewGroup){
+            for(idx in 0 until tabStrip.childCount){
+                val tab = tabStrip.getChildAt(idx)
+                tab.minimumWidth =0
+                tab.setPadding(0,tab.paddingTop,0,tab.paddingBottom)
+                tab.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT)
+                tab.requestLayout()
+            }
+        }
     }
 
     override fun initProfile() {
