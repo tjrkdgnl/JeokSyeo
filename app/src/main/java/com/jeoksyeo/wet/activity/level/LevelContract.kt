@@ -14,6 +14,8 @@ interface LevelContract {
 
         fun finalLevel()
 
+        fun setHeaderInit()
+
     }
 
     interface BasePresenter{

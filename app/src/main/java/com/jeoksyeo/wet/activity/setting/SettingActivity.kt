@@ -1,14 +1,17 @@
 package com.jeoksyeo.wet.activity.setting
 
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SettingBinding
 
-class SettingActivity: AppCompatActivity(), SettingContract.BaseView, View.OnClickListener {
+class SettingActivity: AppCompatActivity(), SettingContract.BaseView{
     private lateinit var presenter:Presenter
     private lateinit var binding:SettingBinding
 
@@ -19,7 +22,7 @@ class SettingActivity: AppCompatActivity(), SettingContract.BaseView, View.OnCli
             view =this@SettingActivity
         }
 
-        binding.settingBasicHeader.basicHeaderWindowName.text = "설정"
+        setStatusBarInit()
 
         presenter.initItem(this,this)
     }
@@ -41,12 +44,25 @@ class SettingActivity: AppCompatActivity(), SettingContract.BaseView, View.OnCli
         return binding
     }
 
-    override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.basicHeader_backButton ->{
-                finish()
-                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+    override fun setStatusBarInit() {
+        binding.settingBasicHeader.basicHeaderWindowName.text = "설정"
+        binding.settingBasicHeader.basicHeaderWindowName.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(16f))
+
+        //status bar 배경변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.statusBarColor = resources.getColor(R.color.white,null)
+            }else{
+                window.statusBarColor = ContextCompat.getColor(this, R.color.white)
             }
+        }
+
+        //status bar의 icon 색상 변경
+        val decor = window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
+        }else{
+            decor.systemUiVisibility =0
         }
     }
 

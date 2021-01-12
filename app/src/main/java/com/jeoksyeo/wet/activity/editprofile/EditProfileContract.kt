@@ -14,6 +14,9 @@ interface EditProfileContract {
         fun resultNickNameCheck(result:Boolean)
         fun getView(): EditProfileBinding
         fun checkOkButton()
+
+        fun setStatusBarInit()
+
     }
 
 
