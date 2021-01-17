@@ -3,7 +3,7 @@ package com.jeoksyeo.wet.activity.favorite
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,7 +16,7 @@ import com.viewmodel.FavoriteViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FavoriteActivityBinding
 
-class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.OnClickListener {
+class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView {
     private lateinit var binding:FavoriteActivityBinding
     private lateinit var presenter:Presenter
     private lateinit var viewmodel:FavoriteViewModel
@@ -37,7 +37,7 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
 
         presenter.setNetworkUtil()
 
-        binding.basicHeader.title.text = "내가 찜한 주류"
+        setHeaderInit()
 
         presenter.initTabLayout()
         presenter.initProfile()
@@ -93,11 +93,15 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView , View.On
         return binding
     }
 
-    override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.rated_back ->{
-                finish()
-                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
+    override fun setHeaderInit() {
+        binding.basicHeader.title.text = "내가 찜한 주류"
+        binding.basicHeader.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(16f))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.statusBarColor = resources.getColor(R.color.orange,null)
+            }else{
+                window.statusBarColor = ContextCompat.getColor(this, R.color.orange)
             }
         }
     }

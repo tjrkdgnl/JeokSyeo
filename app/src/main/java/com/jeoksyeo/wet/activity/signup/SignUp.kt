@@ -2,9 +2,11 @@ package com.jeoksyeo.wet.activity.signup
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,13 +37,16 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         presenter.initViewpager()
 
         binding.infoConfirmButton.setOnClickListener(this)
-        binding.signupHeader.signupHeaderBackButton.setOnClickListener(this)
+
+        setStatusBarInit()
 
         //확인 enable setting
         viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
         viewModel.buttonState.observe(this, Observer {
             binding.infoConfirmButton.isEnabled = it
         })
+
+
     }
 
     override fun onStart() {
@@ -61,10 +66,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         when (v?.id) {
             R.id.infoConfirmButton -> nextView()
 
-            R.id.signup_header_backButton -> {
-                finish()
-                overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
-            }
             else -> {
             }
         }
@@ -72,6 +73,25 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
 
     override fun getBinding(): ActivitySignupBinding {
         return binding
+    }
+
+    override fun setStatusBarInit() {
+        //status bar 배경변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.statusBarColor = resources.getColor(R.color.white,null)
+            }else{
+                window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+            }
+        }
+
+        //status bar의 icon 색상 변경
+        val decor = window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
+        }else{
+            decor.systemUiVisibility =0
+        }
     }
 
     @SuppressLint("HardwareIds")

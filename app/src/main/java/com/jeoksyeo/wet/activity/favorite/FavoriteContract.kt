@@ -7,6 +7,8 @@ interface FavoriteContract {
 
     interface BaseView{
         fun getBinding():FavoriteActivityBinding
+
+        fun setHeaderInit()
     }
 
     interface BasePresenter{

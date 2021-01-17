@@ -93,8 +93,10 @@ class SignUpPresenter : SignUpContract.BasePresenter {
                         JWTUtil.decodeRefreshToken(it.data?.token?.refreshToken.toString())
 
                         //토큰을 갖는 user객체 셋팅
-                        GlobalApplication.userBuilder.setAccessToken("Bearer ${GlobalApplication.userDataBase.getAccessToken()}")
-                        GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
+                        GlobalApplication.userInfo = GlobalApplication.userBuilder
+                            .setAccessToken("Bearer ${GlobalApplication.userDataBase.getAccessToken()}")
+                            .setLevel(1)
+                            .build()
 
                         activity.startActivity(Intent(activity, MainActivity::class.java))
                         activity.finish()

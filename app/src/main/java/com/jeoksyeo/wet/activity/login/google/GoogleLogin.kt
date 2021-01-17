@@ -29,7 +29,7 @@ import io.reactivex.schedulers.Schedulers
 class GoogleLogin(private val activity: Activity) {
     private  var disposable: Disposable? =null
     val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(activity.baseContext.getString(R.string.googleWebApplicationId))
+        .requestIdToken(activity.getString(R.string.googleWebApplicationId))
         .requestEmail()
         .build()
     val instance: GoogleSignInClient
@@ -39,7 +39,7 @@ class GoogleLogin(private val activity: Activity) {
     }
 
     fun googleLogOut() {
-        val dialog = Dialog(activity.baseContext, R.style.custom_dialog)
+        val dialog = Dialog(activity, R.style.custom_dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.custom_dialog_twobutton)
@@ -100,9 +100,9 @@ class GoogleLogin(private val activity: Activity) {
                                         GlobalApplication.userDataBase.setRefreshToken(null)
                                         GlobalApplication.userDataBase.setAccessTokenExpire(0)
                                         GlobalApplication.userDataBase.setRefreshTokenExpire(0)
-                                        Toast.makeText(activity.baseContext, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(activity, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
 
-                                        activity.baseContext.startActivity(
+                                        activity.startActivity(
                                             Intent(activity, MainActivity::class.java).addFlags(
                                                 Intent.FLAG_ACTIVITY_CLEAR_TOP
                                             )

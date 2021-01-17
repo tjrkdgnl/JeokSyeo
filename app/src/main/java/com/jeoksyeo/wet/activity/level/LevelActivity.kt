@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,19 +16,21 @@ import com.application.GlobalApplication
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LevelBinding
 
-class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.BaseView {
+class LevelActivity:AppCompatActivity(), LevelContract.BaseView {
     private lateinit var binding:LevelBinding
     private lateinit var presenter: Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =DataBindingUtil.setContentView(this, R.layout.level)
-        binding.myLevelBasicHeader.basicHeaderWindowName.text = "나의 주류 레벨"
+
 
         presenter = Presenter().apply {
             view = this@LevelActivity
             context = this@LevelActivity.baseContext
         }
+
+        setHeaderInit()
 
         presenter.setNetworkUtil()
 
@@ -49,14 +52,6 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
         GlobalApplication.instance.setActivityBackground(false)
     }
 
-    override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.basicHeader_backButton ->{
-                finish()
-                overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
-            }
-        }
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -65,6 +60,29 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
 
     override fun getView(): LevelBinding {
         return binding
+    }
+
+    override fun setHeaderInit() {
+        binding.myLevelBasicHeader.basicHeaderWindowName.text = "나의 주류 레벨"
+        binding.myLevelBasicHeader.basicHeaderWindowName.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(16f))
+
+        //status bar 배경변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.statusBarColor = resources.getColor(R.color.white,null)
+            }else{
+                window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+            }
+        }
+
+        //status bar의 icon 색상 변경
+        val decor = window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
+        }else{
+            decor.systemUiVisibility =0
+        }
+
     }
 
     override fun settingMainAlcholGIF(level: Int) {
@@ -98,7 +116,6 @@ class LevelActivity:AppCompatActivity(), View.OnClickListener, LevelContract.Bas
         else{
             finalLevel()
         }
-
 
         binding.levelBottomBottle.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-rest}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
 

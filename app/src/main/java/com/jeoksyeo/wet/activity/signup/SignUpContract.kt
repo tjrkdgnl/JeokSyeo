@@ -10,6 +10,7 @@ interface SignUpContract {
     interface BaseView{
         fun nextView()
         fun getBinding():ActivitySignupBinding
+        fun setStatusBarInit()
     }
 
     interface BasePresenter{

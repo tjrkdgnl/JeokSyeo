@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.widget.DatePicker
@@ -66,7 +67,8 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         )
 
         presenter.settingUserInfo(this, GlobalApplication.userInfo.getProvider())
-        binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
+
+        setStatusBarInit()
 
 
         binding.insertInfoEditText.setOnKeyListener(this)
@@ -230,10 +232,6 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.basicHeader_backButton -> {
-                finish()
-                overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
-            }
 
             R.id.editProfile_G_album -> CameraPermission()
 
@@ -324,6 +322,28 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun getView(): EditProfileBinding {
         return binding
+    }
+
+    override fun setStatusBarInit() {
+        binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
+        binding.editBasicHeader.basicHeaderWindowName.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(16f))
+
+        //status bar 배경변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.statusBarColor = resources.getColor(R.color.white,null)
+            }else{
+                window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+            }
+        }
+
+        //status bar의 icon 색상 변경
+        val decor = window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
+        }else{
+            decor.systemUiVisibility =0
+        }
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {

@@ -3,6 +3,7 @@ package com.jeoksyeo.wet.activity.alcohol_rated
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,7 @@ import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholRatedBinding
 
 class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
-    ,TabLayout.OnTabSelectedListener,View.OnClickListener{
+    ,TabLayout.OnTabSelectedListener{
     private lateinit var binding:AlcoholRatedBinding
     private lateinit var presenter:Presenter
     @SuppressLint("SetTextI18n")
@@ -26,26 +27,23 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
         binding = DataBindingUtil.setContentView(this, R.layout.alcohol_rated)
         binding.lifecycleOwner =this
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.statusBarColor = resources.getColor(R.color.orange,null)
-            }else{
-                window.statusBarColor = ContextCompat.getColor(this, R.color.orange)
-            }
-        }
-
         presenter = Presenter().apply {
             view=this@AlcoholRated
             context =this@AlcoholRated
         }
+
         presenter.setNetworkUtil()
+
+        setHeaderinit()
 
         presenter.initProfile(GlobalApplication.userInfo.getProvider())
         presenter.initTabLayout(this)
         binding.ratedTablayout.addOnTabSelectedListener(this)
 
-        val viewmodel = ViewModelProvider(this).get(RatedViewModel::class.java)
+        binding.ratedHeader.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(16f))
 
+
+        val viewmodel = ViewModelProvider(this).get(RatedViewModel::class.java)
 
         viewmodel.reviewCount.observe(this, Observer {
            binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
@@ -72,6 +70,16 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
     override fun getView(): AlcoholRatedBinding {
         return binding
+    }
+
+    override fun setHeaderinit() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.statusBarColor = resources.getColor(R.color.orange,null)
+            }else{
+                window.statusBarColor = ContextCompat.getColor(this, R.color.orange)
+            }
+        }
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -102,12 +110,5 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
 
-    override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.rated_back-> {
-                finish()
-                overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
-            }
-        }
-    }
+
 }

@@ -7,6 +7,8 @@ interface AlcoholRatedContact {
 
     interface BaseView{
         fun getView():AlcoholRatedBinding
+
+        fun setHeaderinit()
     }
 
     interface BasesPresenter {

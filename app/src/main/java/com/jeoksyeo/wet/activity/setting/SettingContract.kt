@@ -8,6 +8,8 @@ interface SettingContract {
 
     interface BaseView{
         fun getView():SettingBinding
+
+        fun setStatusBarInit()
     }
 
     interface BasePresenter{
