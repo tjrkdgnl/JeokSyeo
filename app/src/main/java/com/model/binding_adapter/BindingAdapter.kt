@@ -21,7 +21,7 @@ class BindingAdapter {
             Glide.with(imageView.context)
                 .load(ResStr)
                 .apply(RequestOptions()
-                        .signature(ObjectKey("signature true"))
+                        .signature(ObjectKey(System.currentTimeMillis()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                 )

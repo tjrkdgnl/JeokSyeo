@@ -162,7 +162,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
             .load(tempFile?.absolutePath)
             .apply(
                 RequestOptions()
-                    .signature(ObjectKey("signature"))
+                    .signature(ObjectKey(System.currentTimeMillis()))
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .circleCrop()

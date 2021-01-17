@@ -321,7 +321,7 @@ class Presenter : EditProfileContract.BasePresenter {
                         .load(lst[0].mediaResource?.small?.src.toString())
                         .apply(
                             RequestOptions()
-                                .signature(ObjectKey("signature"))
+                                .signature(ObjectKey(System.currentTimeMillis()))
                                 .skipMemoryCache(true)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .circleCrop()

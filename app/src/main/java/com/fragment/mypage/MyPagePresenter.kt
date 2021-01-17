@@ -76,7 +76,7 @@ class MyPagePresenter:MypageContract.BasePresenter {
                             .load(lst[lst.size - 1].mediaResource?.small?.src.toString())
                             .apply(
                                 RequestOptions()
-                                    .signature(ObjectKey("signature"))
+                                    .signature(ObjectKey(System.currentTimeMillis()))
                                     .skipMemoryCache(true)
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .circleCrop()

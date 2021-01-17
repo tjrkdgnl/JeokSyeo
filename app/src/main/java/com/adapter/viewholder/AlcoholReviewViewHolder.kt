@@ -61,7 +61,7 @@ class AlcoholReviewViewHolder(
                 Glide.with(parent.context)
                     .load(it.src)
                     .apply(RequestOptions()
-                        .signature(ObjectKey("signature"))
+                        .signature(ObjectKey(System.currentTimeMillis()))
                         .skipMemoryCache(true)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .circleCrop())
