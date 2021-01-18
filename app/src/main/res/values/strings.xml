@@ -1,6 +1,7 @@
 <resources>
     <string name="private_agreement">https://policy.jeoksyeo.com/policy/privacy.html</string>
     <string name="use_agreement">https://policy.jeoksyeo.com/policy/service.html</string>
+    <string name="journey_box_url">https://m.jeoksyeo.co.kr/shopinfo/product.html</string>
     <string name="playStore_url">https://play.google.com/store/apps/details?id=com.vuforia.engine.wet</string>
     <string name="appName">적셔</string>
     <string name="kakaoNativeKey">5282095928e58a24b423dcf6d20fa837</string>

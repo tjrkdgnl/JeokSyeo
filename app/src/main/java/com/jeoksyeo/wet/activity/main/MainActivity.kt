@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.application.GlobalApplication
+import com.fragment.joury_box.JourneyBoxFragment
 import com.fragment.main.MainFragment
 import com.fragment.mypage.MyPageFragment
 import com.vuforia.engine.wet.R
@@ -49,6 +50,10 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
             when (it.itemId) {
 
                 R.id.navigation_journey -> {
+                    if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journey){
+                        replaceFragment(JourneyBoxFragment(),"journey")
+                    }
+
                     return@setOnNavigationItemSelectedListener true
                 }
 
