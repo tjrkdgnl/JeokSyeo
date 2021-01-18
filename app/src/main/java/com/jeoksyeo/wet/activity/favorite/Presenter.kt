@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -30,7 +31,6 @@ class Presenter : FavoriteContract.BasePresenter {
     private val compositeDisposable = CompositeDisposable()
 
     private lateinit var networkUtil: NetworkUtil
-
 
     override fun setNetworkUtil() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

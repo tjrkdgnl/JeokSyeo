@@ -16,5 +16,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints" />
 
+        <include
+            android:id="@+id/favorite_progressbar"
+            layout="@layout/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

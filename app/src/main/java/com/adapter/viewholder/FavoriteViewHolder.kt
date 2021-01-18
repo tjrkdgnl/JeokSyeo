@@ -20,5 +20,7 @@ class FavoriteViewHolder( parent: ViewGroup) :
             binding.favoriteAbv.text = "${String.format("%.1f",it)}%"
 
         }
+
+
     }
 }

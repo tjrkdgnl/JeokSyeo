@@ -2,6 +2,7 @@ package com.fragment.favorite
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.favorite.FavoriteAdapter
@@ -27,6 +28,17 @@ class Presenter :FavoriteContract.BasePresenter {
     private var pastVisibleItem = 0
     private var loading = false
     private var pageNum:Int = 1
+
+
+    val setProgressBar: (Boolean) -> Unit ={
+        if(it){
+            view.getBinding().favoriteProgressbar.root.visibility= View.VISIBLE
+        }
+        else{
+            view.getBinding().favoriteProgressbar.root.visibility= View.INVISIBLE
+        }
+    }
+
 
     override fun getMyAlcohol() {
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
@@ -54,7 +66,7 @@ class Presenter :FavoriteContract.BasePresenter {
 
                 it.data?.alcoholList?.let {list->
                     if(list.isNotEmpty()){
-                        view.setAdapter(FavoriteAdapter((list.toMutableList())))
+                        view.setAdapter(FavoriteAdapter((list.toMutableList()),setProgressBar))
                         initScrollListener()
                     }
                     else{
@@ -62,7 +74,7 @@ class Presenter :FavoriteContract.BasePresenter {
                         alcohol.type =-1
                         view.getBinding().favoriteRecyclerView.adapter = FavoriteAdapter(mutableListOf<AlcoholList>().apply {
                             this.add(alcohol)
-                        })
+                        },setProgressBar)
                         view.getBinding().favoriteRecyclerView.layoutManager = LinearLayoutManager(context)
                     }
                 }
