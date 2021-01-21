@@ -1,6 +1,5 @@
 package com.jeoksyeo.wet.activity.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,16 +11,10 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.service.JWTUtil
 import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class Presenter:Contract.BasePresenter {
 

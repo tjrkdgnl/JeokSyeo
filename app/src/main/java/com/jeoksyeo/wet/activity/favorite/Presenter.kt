@@ -70,19 +70,7 @@ class Presenter : FavoriteContract.BasePresenter {
 
     }
 
-    fun wrapTab(){
-        val tabStrip = view.getBinding().favoriteTablayout.getChildAt(0);
 
-        if(tabStrip is ViewGroup){
-            for(idx in 0 until tabStrip.childCount){
-                val tab = tabStrip.getChildAt(idx)
-                tab.minimumWidth =0
-                tab.setPadding(0,tab.paddingTop,0,tab.paddingBottom)
-                tab.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT)
-                tab.requestLayout()
-            }
-        }
-    }
 
     override fun initProfile() {
         GlobalApplication.userInfo.getProfile()?.let { lst->

@@ -1,4 +1,4 @@
-package com.jeoksyeo.wet.activity.favorite
+ package com.jeoksyeo.wet.activity.favorite
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -64,14 +64,14 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView {
             }
         })
 
-        viewmodel.currentPosition.observe(this, Observer {
+        viewmodel.currentPosition.observe(this,  {
             if(it !=-1){
                 binding.typeCountText.text = "총 ${viewmodel.alcoholTypeList[it]}개의 주류를 찜하셨습니다."
                 binding.favoriteAlcoholTypeText.text = tabList[it]
             }
         })
 
-        viewmodel.summaryCount.observe(this, Observer {
+        viewmodel.summaryCount.observe(this,  {
             binding.profileHeader.ratedCountText.text = "총 ${viewmodel.summaryCount.value}개의 주류를 찜하셨습니다."
         })
     }

@@ -2,6 +2,7 @@ package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
             binding.alcohol =alcohol //주류 이미지
             binding.detailAlcoholinfo.alcohol =alcohol //주류에 대한 기본정보
             binding.detailDescription.alcohol =alcohol //주류 설명
-
+            Log.e("alcoholId", binding.detailAlcoholinfo.alcohol!!.alcoholId.toString())
         }
 
         alcohol?.abv?.let {
