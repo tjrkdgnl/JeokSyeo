@@ -1,7 +1,10 @@
 package com.fragment.search
 
+import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
+import android.app.Service
 import android.content.Context
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,6 +15,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.search.SearchAdapter
@@ -23,8 +27,10 @@ import com.fragment.alcohol_category.AlcoholCategoryFragment
 import com.fragment.main.MainFragment
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.model.alcohol_category.AlcoholList
+import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SearchBinding
+import gun0912.tedkeyboardobserver.TedRxKeyboardObserver
 import io.reactivex.disposables.CompositeDisposable
 
 class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew, View.OnClickListener, TextWatcher,
@@ -39,7 +45,8 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
     private var relativeCheck:Boolean =true
     private lateinit var activityContext: Context
     private var className:String? =null
-
+    private lateinit var viewModel: MainViewModel
+    private var hintChecking =false
 
     companion object{
 
@@ -51,6 +58,7 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
             fragment.arguments = args
             return fragment
         }
+
     }
 
     override fun onAttach(context: Context) {
@@ -78,6 +86,7 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
         binding.imageButtonSearchBarBackButton.setOnClickListener(this)
         binding.imageViewSearchBarBtn.setOnClickListener(this)
 
+        viewModel =ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         layoutManager = LinearLayoutManager(activityContext)
         searchPresenter = Presenter().apply {
@@ -89,19 +98,36 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
         return binding.root
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.editTextSearch.setOnKeyListener(this)
         binding.editTextSearch.addTextChangedListener(this)
 
+        TedRxKeyboardObserver(requireActivity())
+            .listen()
+            .subscribe({isShow->
+                if(isShow){
+                    viewModel.bottomNavigationViewVisiblity.value =1
+                }
+                else{
+                    viewModel.bottomNavigationViewVisiblity.value =0
+                }
+            },{})
+
+
         //포커싱에 따른 힌트 출력여부 결정
         binding.editTextSearch.setOnFocusChangeListener { v, hasFocus ->
             if(hasFocus){
                 binding.editTextSearch.hint = ""
+
+                viewModel.bottomNavigationViewVisiblity.value= 1
             } else{
-                if(binding.editTextSearch.text.isEmpty())
+                if(binding.editTextSearch.text.isEmpty()){
                     binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
+                    viewModel.bottomNavigationViewVisiblity.value= 0
+                }
             }
         }
 

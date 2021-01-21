@@ -25,5 +25,7 @@ interface Contract {
 
         fun handleDeepLink()
 
+        fun bottomNavigationVisiblity(check:Int)
+
     }
 }

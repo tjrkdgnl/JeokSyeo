@@ -51,11 +51,6 @@
 
         </activity>
 
-        <activity android:name="com.jeoksyeo.wet.activity.search.Search"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait">
-
-        </activity>
 
         <activity android:name="com.jeoksyeo.wet.activity.level.LevelActivity"
             android:launchMode="singleTop"
@@ -94,6 +89,7 @@
 
         <activity
             android:name="com.jeoksyeo.wet.activity.main.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
 
         </activity>

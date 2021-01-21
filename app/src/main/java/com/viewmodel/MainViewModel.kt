@@ -8,7 +8,7 @@ class MainViewModel :ViewModel() {
 
     var networkCheck = MutableLiveData<Boolean>(false)
 
-
+    var bottomNavigationViewVisiblity = MutableLiveData<Int>(-1)
 
 
 }

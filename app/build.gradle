@@ -224,6 +224,9 @@ dependencies {
     //deep link
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    //키보드 감지
+    implementation 'gun0912.ted:tedkeyboardobserver:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

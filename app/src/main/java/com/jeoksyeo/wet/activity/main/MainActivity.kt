@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
 import com.fragment.joury_box.JourneyBoxFragment
 import com.fragment.main.MainFragment
 import com.fragment.mypage.MyPageFragment
+import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 import kotlinx.coroutines.CoroutineScope
@@ -22,10 +24,13 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
 
     private lateinit var binding: RealMainActivityBinding
     private lateinit var presenter: Presenter
+    private lateinit var viewModel:MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.real_main_activity)
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         presenter = Presenter().apply {
             view = this@MainActivity
@@ -45,6 +50,12 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
                 presenter.handleDeepLink()
             }, 300)
         }
+
+
+        viewModel.bottomNavigationViewVisiblity.observe(this, {
+            presenter.bottomNavigationVisiblity(it)
+        })
+
 
         binding.navigationBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {

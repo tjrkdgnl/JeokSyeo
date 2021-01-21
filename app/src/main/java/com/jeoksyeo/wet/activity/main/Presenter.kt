@@ -1,9 +1,11 @@
 package com.jeoksyeo.wet.activity.main
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.FragmentActivity
 import com.application.GlobalApplication
 import com.error.ErrorManager
@@ -26,6 +28,22 @@ class Presenter:Contract.BasePresenter {
 
     val compositeDisposable =CompositeDisposable()
 
+    override fun bottomNavigationVisiblity(check: Int) {
+        if(check ==1){
+            view.getBinding().navigationBottomBar
+                .animate()
+                .translationY(300f)
+                .setDuration(300)
+                .startDelay =300
+        }
+        else if(check ==0) {
+            view.getBinding().navigationBottomBar
+                .animate()
+                .translationY(0f)
+                .setDuration(300)
+                .start()
+        }
+    }
 
     override fun setNetworkUtil() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -59,6 +77,34 @@ class Presenter:Contract.BasePresenter {
                 Log.e(ErrorManager.DEEP_LINK,t.message.toString())}))
 
     }
+
+//    //링크에 대한 url 내용물 구성하기
+//     fun checkDeepLink(): Uri {
+//        val promoteCode = "bbb0f754-cf69-484f-96dc-e9a7b51e9c66"
+//        val SEGMENT_PROMOTION = "alcoholDetail"
+//        val KEY_CODE = "alcoholID"
+//        return Uri.parse("https://jeoksyeo.com/ ${SEGMENT_PROMOTION}?${KEY_CODE}=${promoteCode}")
+//    }
+//
+//    //url을 가지고서 링크를 만들기
+//     fun createDynamicLink() {
+//        val dynamicLink=  FirebaseDynamicLinks.getInstance().createDynamicLink()
+//            .setLink(checkDeepLink())
+//            .setDomainUriPrefix("https://jeoksyeo.page.link")
+//            .setAndroidParameters(DynamicLink.AndroidParameters.Builder("com.vuforia.engine.wet").build())
+//            .buildDynamicLink()
+//
+//        FirebaseDynamicLinks.getInstance().createDynamicLink()
+//            .setLongLink(dynamicLink.uri)
+//            .buildShortDynamicLink()
+//            .addOnCompleteListener {task->
+//                if(task.isSuccessful){
+//                    val shortLink = task.result?.shortLink
+//
+//                    Log.e("shortLink ",shortLink.toString())
+//                }
+//            }
+//    }
 
     //링크를 타고 들어왔을 때 핸들링
     override fun handleDeepLink() {
