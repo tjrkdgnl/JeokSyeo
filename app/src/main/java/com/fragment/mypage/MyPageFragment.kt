@@ -12,6 +12,8 @@ import com.vuforia.engine.wet.databinding.MypageBinding
 
 class MyPageFragment: Fragment(), MypageContract.BaseView {
     private lateinit var binding:MypageBinding
+    private var bindObj:MypageBinding? =null
+
     private lateinit var presenter:MyPagePresenter
     private lateinit var activityContext: Context
 
@@ -25,7 +27,8 @@ class MyPageFragment: Fragment(), MypageContract.BaseView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.mypage,container,false)
+        bindObj = DataBindingUtil.inflate(layoutInflater, R.layout.mypage,container,false)
+        binding = bindObj!!
 
         return binding.root
     }
@@ -49,5 +52,10 @@ class MyPageFragment: Fragment(), MypageContract.BaseView {
 
     override fun getViewBinding(): MypageBinding {
         return binding
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
     }
 }

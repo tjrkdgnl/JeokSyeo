@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
 import com.google.android.material.tabs.TabLayout
@@ -16,8 +15,9 @@ import com.viewmodel.FavoriteViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FavoriteActivityBinding
 
-class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView {
+ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView {
     private lateinit var binding:FavoriteActivityBinding
+    private var bindObj:FavoriteActivityBinding? =null
     private lateinit var presenter:Presenter
     private lateinit var viewmodel:FavoriteViewModel
     val tabList = listOf("전체","전통주","맥주","와인","양주","사케")
@@ -25,7 +25,9 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.favorite_activity)
+
+        bindObj = DataBindingUtil.setContentView(this, R.layout.favorite_activity)
+        binding = bindObj!!
         binding.lifecycleOwner =this
 
         viewmodel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
@@ -87,6 +89,11 @@ class FavoriteActivity: AppCompatActivity(), FavoriteContract.BaseView {
     override fun onStop() {
         super.onStop()
         GlobalApplication.instance.setActivityBackground(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
     }
 
     override fun getBinding(): FavoriteActivityBinding {

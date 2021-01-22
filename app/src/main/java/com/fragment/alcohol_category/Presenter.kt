@@ -1,7 +1,6 @@
 package com.fragment.alcohol_category
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
@@ -12,10 +11,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcohol_category.GridViewPagerAdapter
 import com.adapter.alcohol_category.ListViewPagerAdapter
-import com.adapter.navigation.NavigationAdpater
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -24,7 +21,6 @@ import com.bumptech.glide.signature.ObjectKey
 import com.fragment.alcohol_category.viewpager_items.Fragment_Grid
 import com.fragment.alcohol_category.viewpager_items.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
-import com.model.navigation.NavigationItem
 import com.service.JWTUtil
 import com.vuforia.engine.wet.R
 import kotlinx.android.synthetic.main.alcohol_category.view.*
@@ -114,9 +110,7 @@ class Presenter: AlcoholCategoryContact.BasePresenter {
             }
         }
     }
-
-
-
+    
     @SuppressLint("SetTextI18n")
     override fun checkLogin(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {

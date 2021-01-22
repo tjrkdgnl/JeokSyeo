@@ -13,6 +13,8 @@ import com.vuforia.engine.wet.databinding.FragmentSignupRequestBinding
 
 class RequestFragment:Fragment() {
     private  lateinit var binding:FragmentSignupRequestBinding
+    private  var bindObj:FragmentSignupRequestBinding? =null
+
     companion object{
 
         fun newInstance():Fragment{
@@ -26,7 +28,8 @@ class RequestFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_request,container,false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_nickname, container, false)
+        binding = bindObj!!
         val viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
         viewmodel.checkRequest =true
@@ -35,5 +38,10 @@ class RequestFragment:Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj = null
     }
 }

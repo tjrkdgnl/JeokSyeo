@@ -16,6 +16,7 @@ import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
     private var position =0
     private lateinit var binding:FragmentAlcholRatedBinding
+    private var bindObj:FragmentAlcholRatedBinding? =null
     private lateinit var smoothScrollListener: SmoothScrollListener
     private lateinit var presenter:Presenter
 
@@ -43,7 +44,8 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_rated,container,false)
+        bindObj =DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_rated,container,false)
+        binding = bindObj!!
         binding.lifecycleOwner =this
 
 
@@ -75,5 +77,8 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
         return binding
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
+    }
 }

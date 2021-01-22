@@ -18,11 +18,13 @@ import com.vuforia.engine.wet.databinding.LevelBinding
 
 class LevelActivity:AppCompatActivity(), LevelContract.BaseView {
     private lateinit var binding:LevelBinding
+    private var bindObj:LevelBinding? =null
     private lateinit var presenter: Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =DataBindingUtil.setContentView(this, R.layout.level)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.level)
+        binding =bindObj!!
 
 
         presenter = Presenter().apply {
@@ -136,5 +138,6 @@ class LevelActivity:AppCompatActivity(), LevelContract.BaseView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
+        bindObj =null
     }
 }

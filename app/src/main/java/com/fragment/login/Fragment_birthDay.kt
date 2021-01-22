@@ -18,6 +18,7 @@ import java.util.*
 class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnClickListener {
     private lateinit var viewmodel: SignUpViewModel
     private lateinit var binding: FragmentSignupBirthdayBinding
+    private var bindObj: FragmentSignupBirthdayBinding?=null
     private lateinit var date:String
 
     companion object {
@@ -33,7 +34,9 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_birthday, container, false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_birthday, container, false)
+        binding = bindObj!!
+
         binding.lifecycleOwner = this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
@@ -93,5 +96,10 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
     }
 }

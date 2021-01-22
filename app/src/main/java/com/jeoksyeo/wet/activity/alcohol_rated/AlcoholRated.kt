@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,11 +19,14 @@ import com.vuforia.engine.wet.databinding.AlcoholRatedBinding
 class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
     ,TabLayout.OnTabSelectedListener{
     private lateinit var binding:AlcoholRatedBinding
+    private var bindObj:AlcoholRatedBinding?=null
+
     private lateinit var presenter:Presenter
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.alcohol_rated)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.alcohol_rated)
+        binding =bindObj!!
         binding.lifecycleOwner =this
 
         presenter = Presenter().apply {
@@ -65,6 +67,7 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
 
     override fun onDestroy() {
         super.onDestroy()
+        bindObj=null
         presenter.detach()
     }
 

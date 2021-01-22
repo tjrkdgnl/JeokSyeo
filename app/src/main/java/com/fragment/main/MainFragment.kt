@@ -16,17 +16,19 @@ import com.jeoksyeo.wet.activity.main.MainActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
-class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
-    lateinit var binding:MainBinding
+class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
+    private lateinit var binding: MainBinding
+    private var bindObj: MainBinding? = null
     lateinit var mainPresenter: MainPresenter
-    private val postionBundle:Bundle = Bundle()
+    private val postionBundle: Bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.main,container,false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.main, container, false)
+        binding = bindObj!!
 
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
@@ -58,7 +60,8 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.bannerCount.text = "${position % mainPresenter.bannerItem + 1} / ${mainPresenter.bannerItem}"
+                binding.bannerCount.text =
+                    "${position % mainPresenter.bannerItem + 1} / ${mainPresenter.bannerItem}"
             }
         })
 
@@ -68,7 +71,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
         return binding
     }
 
-    fun initApi(context: Context){
+    fun initApi(context: Context) {
         mainPresenter.initRecommendViewPager(context)
         mainPresenter.initAlcoholRanking(context)
     }
@@ -77,7 +80,10 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
-                (activity as? MainActivity)?.replaceFragment(SearchFragment.newInstance("main"),"search")
+                (activity as? MainActivity)?.replaceFragment(
+                    SearchFragment.newInstance("main"),
+                    "search"
+                )
             }
 
             R.id.activityMain_koreanAlcohol -> {
@@ -85,7 +91,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment,"category")
+                (activity as? MainActivity)?.replaceFragment(fragment, "category")
             }
 
             R.id.activityMain_beer -> {
@@ -93,7 +99,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment,"category")
+                (activity as? MainActivity)?.replaceFragment(fragment, "category")
             }
 
             R.id.activityMain_wine -> {
@@ -101,7 +107,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment,"category")
+                (activity as? MainActivity)?.replaceFragment(fragment, "category")
             }
 
             R.id.activityMain_whisky -> {
@@ -109,7 +115,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment,"category")
+                (activity as? MainActivity)?.replaceFragment(fragment, "category")
             }
 
             R.id.activityMain_sake -> {
@@ -117,7 +123,7 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment,"category")
+                (activity as? MainActivity)?.replaceFragment(fragment, "category")
             }
         }
     }
@@ -125,5 +131,6 @@ class MainFragment: Fragment(), MainContract.BaseView,View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         mainPresenter.detachView()
+        bindObj = null
     }
 }

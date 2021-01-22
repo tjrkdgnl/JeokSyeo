@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcoholdetail.AlcoholComponentAdapter
@@ -722,7 +723,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                         if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.LOLLIPOP) {
                                             val intent = Intent(context,CommentActivity::class.java)
                                             intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
-                                            val pair = androidx.core.util.Pair.create(
+                                            val pair = Pair.create(
                                                 view.getView().detailMainImg as View, view.getView().detailMainImg.transitionName)
 
                                             val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(

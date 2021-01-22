@@ -33,6 +33,7 @@ import java.util.regex.Pattern
 class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnClickListener {
     private lateinit var viewmodel: SignUpViewModel
     private lateinit var binding: FragmentSignupNicknameBinding
+    private var bindObj: FragmentSignupNicknameBinding? =null
     private var checkPrivateAgreement = false
     private var checkAppAgreement = false
     private var checkTotalAgreement = false
@@ -54,8 +55,8 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_signup_nickname, container, false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_nickname, container, false)
+        binding = bindObj!!
         binding.lifecycleOwner = this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
@@ -289,5 +290,10 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
     }
 }

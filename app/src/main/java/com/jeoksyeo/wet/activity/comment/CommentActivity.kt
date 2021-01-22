@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -22,8 +23,9 @@ import com.xw.repo.BubbleSeekBar.OnProgressChangedListener
 
 @RequiresApi(Build.VERSION_CODES.M)
 class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChangeListener,
-    View.OnClickListener, TextWatcher, CommentContract.BaseView {
+    View.OnClickListener, TextWatcher, CommentContract.BaseView,ViewTreeObserver.OnPreDrawListener {
     private lateinit var binding:CommentWindowBinding
+    private var bindObj:CommentWindowBinding? =null
     private var calculateScore:Float =0f
     private var alcohol:Alcohol? =null
     private var myComment:Comment? = null
@@ -31,7 +33,16 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
     private lateinit var commentPresenter: CommentPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.comment_window)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.comment_window)
+        binding = bindObj!!
+
+        supportPostponeEnterTransition()
+
+        binding.commentAlcoholImg.viewTreeObserver.addOnPreDrawListener{
+            binding.commentAlcoholImg.viewTreeObserver.removeOnPreDrawListener(this)
+            supportStartPostponedEnterTransition()
+            true
+        }
 
         commentPresenter = CommentPresenter().apply {
             view=this@CommentActivity
@@ -93,7 +104,7 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
         content.text = "리뷰 작성을 취소하시겠습니까?\n작성한 내용이 사라집니다."
 
         okButton.setOnClickListener {
-            super.onBackPressed()
+            supportFinishAfterTransition()
             overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
             dialog.dismiss()
         }
@@ -102,6 +113,9 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
         }
     }
 
+    override fun onPreDraw(): Boolean {
+        return true
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onProgressChanged(bubbleSeekBar: BubbleSeekBar?, progress: Int, progressFloat: Float, fromUser: Boolean) {
@@ -197,5 +211,6 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
     override fun onDestroy() {
         super.onDestroy()
         commentPresenter.detachView()
+        bindObj=null
     }
 }

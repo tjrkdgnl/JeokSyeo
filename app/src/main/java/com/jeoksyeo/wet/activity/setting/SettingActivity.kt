@@ -14,10 +14,13 @@ import com.vuforia.engine.wet.databinding.SettingBinding
 class SettingActivity: AppCompatActivity(), SettingContract.BaseView{
     private lateinit var presenter:Presenter
     private lateinit var binding:SettingBinding
+    private var bindObj:SettingBinding? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.setting)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.setting)
+        binding = bindObj!!
+
         presenter = Presenter().apply {
             view =this@SettingActivity
         }
@@ -38,6 +41,11 @@ class SettingActivity: AppCompatActivity(), SettingContract.BaseView{
     override fun onStop() {
         super.onStop()
         GlobalApplication.instance.setActivityBackground(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
     }
 
     override fun getView(): SettingBinding {

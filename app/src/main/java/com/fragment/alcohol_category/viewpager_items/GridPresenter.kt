@@ -47,7 +47,7 @@ class GridPresenter : Fg_AlcoholCategoryContact.BasePresenter {
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcoholCategory(
                     GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken(),
-                    type, GlobalApplication.PAGINATION_SIZE, sort, 1.toString())
+                    type, GlobalApplication.PAGINATION_SIZE, sort, pageNum.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

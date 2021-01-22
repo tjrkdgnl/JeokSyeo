@@ -19,9 +19,12 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
 
     private lateinit var presenter:SplashPresenter
     private lateinit var binding: SplashBinding
+    private var bindObj: SplashBinding? =null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.splash)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.splash)
+        binding = bindObj!!
 
         //디바이스별의 크기 얻기
         GlobalApplication.instance.getStandardSize(this)
@@ -74,6 +77,7 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
+        bindObj =null
     }
 
     override fun getBinding(): SplashBinding {

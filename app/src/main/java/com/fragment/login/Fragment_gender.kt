@@ -15,6 +15,8 @@ import com.vuforia.engine.wet.databinding.FragmentSignupGenderBinding
 class Fragment_gender : Fragment(),View.OnClickListener{
     private lateinit var viewmodel: SignUpViewModel
     private lateinit var binding: FragmentSignupGenderBinding
+    private var bindObj: FragmentSignupGenderBinding?=null
+
     private var maleCheck = false
     private var femaleCheck = false
 
@@ -34,7 +36,9 @@ class Fragment_gender : Fragment(),View.OnClickListener{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_gender, container, false)
+        bindObj =DataBindingUtil.inflate(inflater, R.layout.fragment_signup_gender, container, false)
+        binding = bindObj!!
+
         binding.lifecycleOwner =this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
@@ -80,5 +84,10 @@ class Fragment_gender : Fragment(),View.OnClickListener{
         }
 
         viewmodel.buttonState.value=true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj=null
     }
 }

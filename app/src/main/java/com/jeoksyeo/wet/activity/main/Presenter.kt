@@ -1,11 +1,9 @@
 package com.jeoksyeo.wet.activity.main
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.FragmentActivity
 import com.application.GlobalApplication
 import com.error.ErrorManager

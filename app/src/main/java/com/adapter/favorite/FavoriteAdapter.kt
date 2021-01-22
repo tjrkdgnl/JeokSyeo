@@ -1,14 +1,9 @@
 package com.adapter.favorite
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.FavoriteViewHolder
 import com.adapter.viewholder.NoFavoriteViewHolder
@@ -24,7 +19,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class FavoriteAdapter(private var lst: MutableList<AlcoholList>,val setProgressBar:(Boolean)->Unit) :
+class FavoriteAdapter(
+    private var lst: MutableList<AlcoholList>,
+    val setProgressBar: (Boolean) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val compositeDisposable = CompositeDisposable()
     private var likeCheckList = mutableListOf<Boolean>()
@@ -61,42 +59,36 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>,val setProgressB
 
             holder.getViewBinding().imageViewFavoriteImg.setOnClickListener {
                 setProgressBar(true)
-                lst[position].alcoholId?.let { alcoholId->
+                lst[position].alcoholId?.let { alcoholId ->
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)
-                            .getAlcoholDetail(GlobalApplication.userBuilder.createUUID,GlobalApplication.userInfo.getAccessToken(),alcoholId)
+                            .getAlcoholDetail(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(),
+                                alcoholId
+                            )
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 setProgressBar(false)
                                 val bundle = Bundle()
-                                bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
+                                bundle.putParcelable(
+                                    GlobalApplication.MOVE_ALCHOL,
+                                    it.data?.alcohol
+                                )
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    val intent = Intent(context, AlcoholDetail::class.java)
-                                    intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
-                                    val pair = androidx.core.util.Pair.create(
-                                        holder.getViewBinding().imageViewFavoriteImg as View, holder.getViewBinding().imageViewFavoriteImg.transitionName)
+                                GlobalApplication.instance.moveActivity(
+                                    context,
+                                    AlcoholDetail::class.java,
+                                    0,
+                                    bundle,
+                                    GlobalApplication.ALCHOL_BUNDLE,
+                                    0
+                                )
 
-                                    val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        (context as Activity), pair)
-
-                                    context.startActivity(intent, optionCompat.toBundle())
-                                }
-                                else{
-                                    GlobalApplication.instance.moveActivity(
-                                        context,
-                                        AlcoholDetail::class.java,
-                                        0,
-                                        bundle,
-                                        GlobalApplication.ALCHOL_BUNDLE
-                                    )
-                                }
-
-                            },{})
+                            }, {})
                     )
                 }
-
             }
 
 
@@ -115,7 +107,8 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>,val setProgressB
                             .subscribe({
 
                                 holder.getViewBinding().imageViewFavoriteHeart.setImageResource(
-                                    R.mipmap.favorite_heart_empty)
+                                    R.mipmap.favorite_heart_empty
+                                )
                                 likeCheckList[position] = false
                             }, { t ->
                                 CustomDialog.networkErrorDialog(context)
@@ -123,7 +116,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>,val setProgressB
                             })
                     )
                 } else {
-                    holder.getViewBinding().imageViewFavoriteHeart.isEnabled =false
+                    holder.getViewBinding().imageViewFavoriteHeart.isEnabled = false
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)
                             .alcoholLike(
@@ -133,13 +126,12 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>,val setProgressB
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
-                                holder.getViewBinding().imageViewFavoriteHeart.isEnabled =true
-                                holder.getViewBinding().imageViewFavoriteHeart.setImageResource(
-                                    R.mipmap.favorite_heart_full)
+                                holder.getViewBinding().imageViewFavoriteHeart.isEnabled = true
+                                holder.getViewBinding().imageViewFavoriteHeart.setImageResource(R.mipmap.favorite_heart_full)
                                 likeCheckList[position] = true
                             }, { t ->
                                 CustomDialog.networkErrorDialog(context)
-                                holder.getViewBinding().imageViewFavoriteHeart.isEnabled =true
+                                holder.getViewBinding().imageViewFavoriteHeart.isEnabled = true
                                 Log.e(ErrorManager.ALCHOL_CANCEL_LIKE, t.message.toString())
                             })
                     )
@@ -153,7 +145,7 @@ class FavoriteAdapter(private var lst: MutableList<AlcoholList>,val setProgressB
     }
 
     fun pageUpdate(list: MutableList<AlcoholList>) {
-        for(idx in list.indices){ //페이징 처리되는 것 만큼 좋아요 체크 리스트도 개수 증가
+        for (idx in list.indices) { //페이징 처리되는 것 만큼 좋아요 체크 리스트도 개수 증가
             likeCheckList.add(true)
         }
 

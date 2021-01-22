@@ -18,13 +18,15 @@ import com.vuforia.engine.wet.databinding.ActivitySignupBinding
 
 class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseView {
     private lateinit var binding: ActivitySignupBinding
+    private var bindObj: ActivitySignupBinding? =null
     private var idx = 0
     private lateinit var viewModel: SignUpViewModel
     private lateinit var presenter: SignUpPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.activity_signup)
+        binding = bindObj!!
         binding.lifecycleOwner = this
 
         presenter = SignUpPresenter().apply {
@@ -145,5 +147,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+        bindObj =null
     }
 }

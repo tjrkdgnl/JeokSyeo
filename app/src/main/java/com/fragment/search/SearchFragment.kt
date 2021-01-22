@@ -1,10 +1,7 @@
 package com.fragment.search
 
-import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
-import android.app.Service
 import android.content.Context
-import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -36,6 +33,7 @@ import io.reactivex.disposables.CompositeDisposable
 class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew, View.OnClickListener, TextWatcher,
     View.OnKeyListener {
     private lateinit var binding:SearchBinding
+    private var bindObj:SearchBinding?=null
     private lateinit var searchPresenter: Presenter
     private val compositeDisposable = CompositeDisposable()
     private var searchAdapter: SearchAdapter? = null
@@ -80,7 +78,8 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.search,container,false)
+        bindObj = DataBindingUtil.inflate(layoutInflater, R.layout.search,container,false)
+        binding = bindObj!!
 
         binding.initEditText.setOnClickListener(this)
         binding.imageButtonSearchBarBackButton.setOnClickListener(this)
@@ -123,6 +122,8 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
                 binding.editTextSearch.hint = ""
 
                 viewModel.bottomNavigationViewVisiblity.value= 1
+
+
             } else{
                 if(binding.editTextSearch.text.isEmpty()){
                     binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
@@ -306,7 +307,7 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
 
     override fun onDestroy() {
         super.onDestroy()
-
+        bindObj=null
         searchPresenter.detach()
         compositeDisposable.dispose()
     }

@@ -36,6 +36,7 @@ import java.util.*
 class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDateChangedListener,
     EditProfileContract.BaseView, View.OnKeyListener, TextWatcher {
     private lateinit var binding: EditProfileBinding
+    private var bindObj: EditProfileBinding? =null
     private val PICK_FROM_ALBUM = 1
     private var tempFile: File? = null
     private lateinit var presenter: Presenter
@@ -44,7 +45,8 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.edit_profile)
+        bindObj= DataBindingUtil.setContentView(this, R.layout.edit_profile)
+        binding = bindObj!!
 
         presenter = Presenter().apply {
             view = this@EditProfile
@@ -94,6 +96,7 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
+        bindObj =null
     }
 
     private fun CameraPermission() {

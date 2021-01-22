@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -12,8 +13,9 @@ import com.model.alcohol_detail.Alcohol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 
-class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.OnClickListener {
+class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.OnClickListener,ViewTreeObserver.OnPreDrawListener {
     private lateinit var binding: AlcoholDetailBinding
+    private var bindObj:AlcoholDetailBinding? =null
     private lateinit var presenter: Presenter
     private var alcohol:Alcohol? =null
     private var refreshLikeCheck =false
@@ -21,8 +23,22 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.alcohol_detail)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.alcohol_detail)
+        binding = bindObj!!
         binding.lifecycleOwner = this
+
+        //shared element를 통해 이동할 이미지가 set되는 것 지연시켜줌
+        //호출된 액티비티로 넘어온 이미지는 자신이 들어갈 이미지뷰의 사이즈를 측정알아야 자연스러운 애니메이션이 형성되므로
+        //사이즈 측정이 끝날 때 까지 지연되야한다.
+        supportPostponeEnterTransition()
+
+        //이미지 측정이 끝났을 때 지연되었던 이미지를 setting 진행
+        binding.detailMainImg.viewTreeObserver.addOnPreDrawListener {
+            //넘어온 이미지를 통해 셋팅되야하므로 현재 이미지로 그려지는 것을 제거해야한다.
+           binding.detailMainImg.viewTreeObserver.removeOnPreDrawListener(this@AlcoholDetail)
+           supportStartPostponedEnterTransition()
+            true
+        }
 
         if (intent.hasExtra(GlobalApplication.ALCHOL_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
@@ -74,7 +90,12 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
     override fun onDestroy() {
         super.onDestroy()
+        bindObj=null
         presenter.detach()
+    }
+
+    override fun onPreDraw(): Boolean {
+        return true
     }
 
     override fun getView(): AlcoholDetailBinding {
@@ -127,7 +148,7 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        supportFinishAfterTransition()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
 }

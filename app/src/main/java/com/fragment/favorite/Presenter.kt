@@ -3,15 +3,18 @@ package com.fragment.favorite
 import android.content.Context
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.favorite.FavoriteAdapter
 import com.application.GlobalApplication
+import com.custom.GridSpacingItemDecoration
 import com.error.ErrorManager
 import com.model.favorite.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.FavoriteViewModel
+import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -29,8 +32,14 @@ class Presenter :FavoriteContract.BasePresenter {
     private var loading = false
     private var pageNum:Int = 1
 
+    private lateinit var favoriteAdapter: FavoriteAdapter
 
-    val setProgressBar: (Boolean) -> Unit ={
+    private val gridLayoutManager by lazy {
+        GridLayoutManager(context,2)
+
+    }
+
+    private val setProgressBar: (Boolean) -> Unit ={
         if(it){
             view.getBinding().favoriteProgressbar.root.visibility= View.VISIBLE
         }
@@ -50,7 +59,7 @@ class Presenter :FavoriteContract.BasePresenter {
             .subscribe({
 
                 it.data?.pagingInfo?.page?.let { page->
-                    pageNum = page.toInt() +1
+                    pageNum = page.toInt()
                 }
 
                 it.data?.pagingInfo?.alcoholTotalCount?.let { total->
@@ -66,8 +75,19 @@ class Presenter :FavoriteContract.BasePresenter {
 
                 it.data?.alcoholList?.let {list->
                     if(list.isNotEmpty()){
-                        view.setAdapter(FavoriteAdapter((list.toMutableList()),setProgressBar))
+                        favoriteAdapter = FavoriteAdapter(list.toMutableList(),setProgressBar)
+                        view.getBinding().favoriteRecyclerView.adapter = favoriteAdapter
+                        view.getBinding().favoriteRecyclerView.addItemDecoration(
+                            GridSpacingItemDecoration(
+                                2,
+                                context.resources.getDimensionPixelSize(R.dimen.grid_layout_margin),
+                                true,
+                                0
+                            )
+                        )
+                        view.getBinding().favoriteRecyclerView.layoutManager = gridLayoutManager
                         initScrollListener()
+
                     }
                     else{
                         val alcohol = AlcoholList()
@@ -77,6 +97,8 @@ class Presenter :FavoriteContract.BasePresenter {
                         },setProgressBar)
                         view.getBinding().favoriteRecyclerView.layoutManager = LinearLayoutManager(context)
                     }
+
+                    view.getBinding().favoriteRecyclerView.setHasFixedSize(false)
                 }
 
             },{t->
@@ -90,13 +112,13 @@ class Presenter :FavoriteContract.BasePresenter {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                visibleItemCount = view.getGridLayoutManager().childCount
-                totalItemCount =  view.getGridLayoutManager().itemCount
-                pastVisibleItem = view.getGridLayoutManager().findFirstVisibleItemPosition()
+                visibleItemCount = gridLayoutManager.childCount
+                totalItemCount =  gridLayoutManager.itemCount
+                pastVisibleItem = gridLayoutManager.findFirstVisibleItemPosition()
 
                 if(dy >0){
                     if(!loading){
-                        if(visibleItemCount + pastVisibleItem >= totalItemCount){
+                        if((visibleItemCount + pastVisibleItem) >= totalItemCount){
                             loading =true
                             pagination()
                         }
@@ -111,23 +133,24 @@ class Presenter :FavoriteContract.BasePresenter {
         compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getMyFavoriteAlcohol(
                 GlobalApplication.userBuilder.createUUID, GlobalApplication.userInfo.getAccessToken(),
-                GlobalApplication.instance.getRatedType(position), GlobalApplication.PAGINATION_SIZE,pageNum)
+                GlobalApplication.instance.getRatedType(position), GlobalApplication.PAGINATION_SIZE,pageNum+1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
 
                 it.data?.pagingInfo?.page?.let { page->
-                    pageNum = page.toInt() +1
+                    pageNum = page.toInt()
                 }
 
                 it.data?.alcoholList?.let {list->
                     if(list.isNotEmpty()){
                         loading=false
-                        view.updateList(list.toMutableList())
+                        favoriteAdapter.pageUpdate(list.toMutableList())
                     }
                 }
 
             },{t->
+                loading=false
                 Log.e(ErrorManager.FAVORITE,t.message.toString())
             }))
     }

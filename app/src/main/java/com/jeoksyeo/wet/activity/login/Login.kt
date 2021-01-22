@@ -40,6 +40,7 @@ import io.reactivex.schedulers.Schedulers
 
 class Login : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: LoginBinding
+    private var bindObj: LoginBinding? =null
     private val GOOGLE_SIGN = 1
     private lateinit var googleLogin: GoogleLogin
     private lateinit var kakaoLogin: KakaoLogin
@@ -73,7 +74,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.login)
+        bindObj = DataBindingUtil.setContentView(this, R.layout.login)
+        binding = bindObj!!
 
 
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -357,6 +359,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        bindObj=null
         compositdisposable.dispose()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil.unRegister()

@@ -21,14 +21,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), Contract.BaseView {
-
     private lateinit var binding: RealMainActivityBinding
+    private  var bindObj: RealMainActivityBinding? =null
     private lateinit var presenter: Presenter
     private lateinit var viewModel:MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.real_main_activity)
+        bindObj= DataBindingUtil.setContentView(this, R.layout.real_main_activity)
+        binding = bindObj!!
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
@@ -135,6 +136,11 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
     override fun onStop() {
         super.onStop()
         GlobalApplication.instance.setActivityBackground(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj=null
     }
 
     override fun getBinding(): RealMainActivityBinding {

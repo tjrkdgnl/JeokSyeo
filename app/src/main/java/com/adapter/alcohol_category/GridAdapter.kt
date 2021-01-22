@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholCategoryGridViewHolder
 import com.application.GlobalApplication
@@ -60,7 +61,7 @@ class GridAdapter(
                             val intent = Intent(context, AlcoholDetail::class.java)
                             intent.putExtra(GlobalApplication.ALCHOL_BUNDLE, bundle)
 
-                            val pair = androidx.core.util.Pair.create(
+                            val pair = Pair.create(
                                 holder.getViewBinding().gridMainImg as View,
                                 holder.getViewBinding().gridMainImg.transitionName
                             )

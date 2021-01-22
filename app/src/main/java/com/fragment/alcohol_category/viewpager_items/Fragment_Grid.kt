@@ -18,6 +18,7 @@ import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
 class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
     private lateinit var binding: FragmentAlcholCategoryGridBinding
+    private var bindObj: FragmentAlcholCategoryGridBinding? =null
     var position =0
     private lateinit var viewmodel:AlcoholCategoryViewModel
     private lateinit var gridAdapter:GridAdapter
@@ -41,7 +42,8 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_grid,container,false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_grid,container,false)
+        binding = bindObj!!
         binding.lifecycleOwner =this
 
         viewmodel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
@@ -93,5 +95,10 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
     override fun moveTopPosition() {
         binding.gridRecyclerView.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj=null
     }
 }

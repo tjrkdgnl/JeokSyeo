@@ -16,6 +16,7 @@ import com.vuforia.engine.wet.databinding.JourneyBoxBinding
 
 class JourneyBoxFragment: Fragment() {
     private lateinit var binding:JourneyBoxBinding
+    private var bindObj:JourneyBoxBinding?=null
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
@@ -23,8 +24,8 @@ class JourneyBoxFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = DataBindingUtil.inflate(inflater, R.layout.journey_box,container,false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.journey_box,container,false)
+        binding = bindObj!!
 
         binding.JourneyBoxWebView.settings.javaScriptEnabled= true
         binding.JourneyBoxWebView.webViewClient = object :WebViewClient() {
@@ -38,5 +39,10 @@ class JourneyBoxFragment: Fragment() {
         binding.JourneyBoxWebView.loadUrl(resources.getString(R.string.journey_box_url))
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj=null
     }
 }

@@ -17,6 +17,8 @@ import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 
 class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     private lateinit var binding:FragmentAlcholCategoryListBinding
+    private var bindObj:FragmentAlcholCategoryListBinding? =null
+
     private var position = 0
     private lateinit var viewmodel:AlcoholCategoryViewModel
     private lateinit var listAdapter:ListAdapter
@@ -39,7 +41,8 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_list,container,false)
+        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_list,container,false)
+        binding = bindObj!!
         binding.lifecycleOwner=this
 
         viewmodel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
@@ -91,5 +94,10 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
     override fun moveTopPosition() {
         binding.listRecyclerView.smoothScrollToPosition(0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj=null
     }
 }

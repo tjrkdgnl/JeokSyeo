@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.adapter.viewholder.AlcoholCategoryListViewHolder
 import com.application.GlobalApplication
@@ -53,7 +54,7 @@ class ListAdapter(private val context: Context,
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             val intent = Intent(context,AlcoholDetail::class.java)
                             intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
-                            val pair = androidx.core.util.Pair.create(
+                            val pair = Pair.create(
                                 holder.getViewBinding().listMainImage as View,
                                 holder.getViewBinding().listMainImage.transitionName
                             )

@@ -26,6 +26,8 @@ import io.reactivex.schedulers.Schedulers
 class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
     private lateinit var viewmodel: SignUpViewModel
     private lateinit var binding: FragmentSignupLocationBinding
+    private var bindObj: FragmentSignupLocationBinding? =null
+
     var item: String = ""
     private lateinit var disposable: Disposable
     private var locationAdapter: LocationAdapter? = null
@@ -47,8 +49,8 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_signup_location, container, false)
+        bindObj =  DataBindingUtil.inflate(inflater, R.layout.fragment_signup_location, container, false)
+        binding = bindObj!!
         binding.lifecycleOwner = this //데이터의 변경을 감지하기 위해서 설정해줘야함.
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
@@ -119,5 +121,10 @@ class Fragment_location : Fragment(), View.OnClickListener, LocationInterface {
 
     override fun getViewModel(): SignUpViewModel {
         return viewmodel
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindObj =null
     }
 }
