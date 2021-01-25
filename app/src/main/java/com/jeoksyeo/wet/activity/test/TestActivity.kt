@@ -33,6 +33,7 @@ class TestActivity : AppCompatActivity() {
         interClass.left
 
 
+
         binding = DataBindingUtil.setContentView(this, R.layout.test_activity)
 
         binding.button.setOnClickListener {

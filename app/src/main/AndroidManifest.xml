@@ -72,6 +72,11 @@
 
         </activity>
 
+
+        <activity android:name="com.jeoksyeo.wet.activity.test.Test">
+
+        </activity>
+
         <activity android:name="com.jeoksyeo.wet.activity.alcohol_detail.AlcoholDetail"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
