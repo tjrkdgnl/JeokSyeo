@@ -137,12 +137,16 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.AlcoholDetail_selectedByMe -> { presenter.executeLike() }
+            R.id.alcoholdetail_likeCount->{presenter.executeLike()}
 
             R.id.AlcoholDetail_evaluateButton->{ presenter.checkReviewDuplicate(this) }
 
             R.id.detail_expandableButton->{ presenter.expandableText()}
 
-            R.id.component_toggle->{presenter.commponentToggle()}
+            R.id.component_toggle->{presenter.commponentToggle() }
+
+            R.id.detail_reviewCount_top->{presenter.moveReview()}
+            R.id.detail_reviewImg_top->{presenter.moveReview()}
         }
     }
 

@@ -44,6 +44,9 @@ interface AlcoholDetailContract {
 
         fun setNetworkUtil()
 
+        fun moveReview()
+
+
         fun detach()
 
     }

@@ -146,6 +146,7 @@ class Presenter :FavoriteContract.BasePresenter {
                     if(list.isNotEmpty()){
                         loading=false
                         favoriteAdapter.pageUpdate(list.toMutableList())
+                        favoriteAdapter.notifyItemChanged(favoriteAdapter.getListSize(), list.size)
                     }
                 }
 

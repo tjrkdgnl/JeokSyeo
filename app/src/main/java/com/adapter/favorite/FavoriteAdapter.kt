@@ -149,11 +149,13 @@ class FavoriteAdapter(
             likeCheckList.add(true)
         }
 
-        val idx = lst.size
+
 
         lst.addAll(list)
-        notifyItemChanged(idx, lst.size)
+
     }
+
+    fun getListSize() = lst.size
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)

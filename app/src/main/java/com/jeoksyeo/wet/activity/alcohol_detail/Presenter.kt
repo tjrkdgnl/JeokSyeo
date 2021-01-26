@@ -47,6 +47,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class Presenter : AlcoholDetailContract.BasePresenter {
     //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정
@@ -129,6 +130,18 @@ class Presenter : AlcoholDetailContract.BasePresenter {
         }
     }
 
+    override fun moveReview() {
+
+        try {
+            val recyclerviewHeight= view.getView().detailReview.recyclerViewReviewList.layoutManager?.height!!
+            val nestedScrollViewHeight = view.getView().detailNestedScrollView.getChildAt(0).height
+
+            view.getView().detailNestedScrollView.smoothScrollTo(0,(nestedScrollViewHeight-recyclerviewHeight),1000)
+        }
+        catch (e:Exception){
+
+        }
+    }
 
     override fun refreshIsLike() {
         GlobalApplication.userInfo.getProvider()?.let {
