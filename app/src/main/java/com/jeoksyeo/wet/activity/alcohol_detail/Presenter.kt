@@ -139,7 +139,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
             view.getView().detailNestedScrollView.smoothScrollTo(0,(nestedScrollViewHeight-recyclerviewHeight),1000)
         }
         catch (e:Exception){
-
+            Log.e("Calculate Error",e.message.toString())
         }
     }
 
@@ -575,8 +575,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                         .getAlcoholReivew(
                             GlobalApplication.userBuilder.createUUID,
                             GlobalApplication.userInfo.getAccessToken(),
-                            alcohol.alcoholId, 1
-                        )
+                            alcohol.alcoholId, 1)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ result ->
@@ -618,8 +617,7 @@ class Presenter : AlcoholDetailContract.BasePresenter {
                                 }
 
                                 view.getView().detailReview.recyclerViewReviewList.setHasFixedSize(false)
-                                view.getView().detailReview.recyclerViewReviewList.layoutManager =
-                                    LinearLayoutManager(context)
+                                view.getView().detailReview.recyclerViewReviewList.layoutManager = LinearLayoutManager(context)
                             }
 
                             result.data?.reviewInfo?.let {

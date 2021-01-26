@@ -1,6 +1,7 @@
 package com.adapter.alcoholdetail
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -105,12 +106,17 @@ class AlcoholReviewAdapter(private val context: Context,
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
+
+
                         result.data?.pageInfo?.page?.let {
                             pageNum = it.toInt() + 1
                         }
                         result.data?.reviewList?.let {
                             if(it.isNotEmpty()){ //리뷰가 있을 때
-                                updateList(it.toMutableList())
+                                result.data?.reviewInfo?.reviewTotalCount?.let {total->
+                                    updateList(it.toMutableList(),total)
+                                }
+
                             }
                             else{ //리뷰가 없을 때,
                                 val lastIdx = lst.size-1
@@ -131,7 +137,7 @@ class AlcoholReviewAdapter(private val context: Context,
     }
 
     //리뷰 더 보기 눌렀을 때, 리스트에 리뷰 추가
-    private fun updateList(list:MutableList<ReviewList>){
+    private fun updateList(list:MutableList<ReviewList>,total:Int){
         lst.removeAt(lst.size-1) // 더보기 칸 지우기
         var duplicateCheck =false
         val size = lst.size
@@ -165,7 +171,10 @@ class AlcoholReviewAdapter(private val context: Context,
             }
             duplicateCheck=false
         }
-        lst.add(ReviewList().apply { checkMore=GlobalApplication.DETAIL_MORE_REVIEW })
+        //더보기 탭 생성여부 결정
+        if(total - lst.size >0){
+            lst.add(ReviewList().apply { checkMore=GlobalApplication.DETAIL_MORE_REVIEW })
+        }
 
         notifyItemChanged(size,lst.size)
     }
