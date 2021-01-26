@@ -20,6 +20,5 @@ class SettingViewHolder(val parent:ViewGroup)
             val version = parent.context.packageManager.getPackageInfo(parent.context.packageName, PackageManager.GET_META_DATA).versionName.split(".")
             binding.settingVersionText.text = "V ${version[0]}.${version[1]}.${version[2]}"
         }
-
     }
 }
