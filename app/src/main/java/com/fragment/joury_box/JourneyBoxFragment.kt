@@ -39,6 +39,7 @@ class JourneyBoxFragment: Fragment() {
         //클라이언트를 할당해야 app안에서 web을 띄울 수 있는 권한이 주어짐. 안그러면 web으로 넘어가버림
         binding.JourneyBoxWebView.webViewClient =WebViewClient()
 
+
         //webview 내에서 팝업창 띄우기
         binding.JourneyBoxWebView.webChromeClient = object :WebChromeClient() {
             override fun onCreateWindow(
@@ -52,6 +53,7 @@ class JourneyBoxFragment: Fragment() {
                 newWebView.settings.apply {
                     javaScriptEnabled = true
                 }
+
 
                 val dialog = Dialog(this@JourneyBoxFragment.requireActivity())
                 dialog.setContentView(newWebView)
