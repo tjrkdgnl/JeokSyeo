@@ -9,7 +9,7 @@
     <color name="light_grey4">#bbbbbb</color>
     <color name="light_grey2">#29000000</color>
     <color name="transparent">#00000000</color>
-    <color name="background">#f8f9fe</color>
+    <color name="background">#ffffff</color>
     <color name="light_yellow">#ffd669</color>
     <color name="tabTextDefaultColor">#3a3a3a</color>
     <color name="orange">#fdb14b</color>
