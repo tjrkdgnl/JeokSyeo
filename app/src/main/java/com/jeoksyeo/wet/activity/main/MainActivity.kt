@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
     private  var bindObj: RealMainActivityBinding? =null
     private lateinit var presenter: Presenter
     private lateinit var viewModel:MainViewModel
+    private var journeyBoxFragment:JourneyBoxFragment? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +64,15 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
 
                 R.id.navigation_journey -> {
                     if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journey){
-                        replaceFragment(JourneyBoxFragment(),"journey")
+
+                        if(journeyBoxFragment ==null){
+                            journeyBoxFragment = JourneyBoxFragment()
+                        }
+
+                        journeyBoxFragment?.let {
+                            replaceFragment(it,"journey")
+                        }
+
                     }
 
                     return@setOnNavigationItemSelectedListener true
@@ -101,9 +110,23 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
         val fragmentName = entry.name
 
         //bottomNavigationView에 있는 목록은 곧장 앱 종료
-        if (fragmentName == "main" || fragmentName == "mypage" || fragmentName == "journey") {
+        if (fragmentName == "main" || fragmentName == "mypage" ) {
             finish()
-        } else {
+        }
+        else if(fragmentName =="journey"){
+
+            journeyBoxFragment?.canGoBack()?.let { canGo->
+                if(canGo){
+                    journeyBoxFragment?.goBack()
+                }
+                else{
+                    finish()
+                }
+
+
+            } ?: finish()
+        }
+        else {
             //depth가 있는 경우에는 fragment stack에서 pop
             CoroutineScope(Dispatchers.IO).launch {
                 fragmentName.let {

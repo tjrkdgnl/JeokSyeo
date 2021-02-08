@@ -40,6 +40,7 @@ class JourneyBoxFragment: Fragment() {
         binding.JourneyBoxWebView.webViewClient =WebViewClient()
 
 
+
         //webview 내에서 팝업창 띄우기
         binding.JourneyBoxWebView.webChromeClient = object :WebChromeClient() {
             override fun onCreateWindow(
@@ -81,6 +82,12 @@ class JourneyBoxFragment: Fragment() {
         //webview 할당
         binding.JourneyBoxWebView.loadUrl(resources.getString(R.string.journey_box_url))
         return binding.root
+    }
+
+    fun canGoBack() = binding.JourneyBoxWebView.canGoBack()
+
+    fun goBack(){
+        binding.JourneyBoxWebView.goBack()
     }
 
 
