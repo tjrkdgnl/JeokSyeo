@@ -10,7 +10,7 @@ interface Contract {
     interface BaseView{
         fun getBinding():RealMainActivityBinding
 
-        fun replaceFragment(fragment: Fragment,name:String)
+        fun replaceFragment(fragment: Fragment,name:String,tag:String?=null)
     }
 
     interface BasePresenter{

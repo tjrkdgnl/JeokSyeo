@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
                 R.id.navigation_journey -> {
                     if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journey){
 
+
                         if(journeyBoxFragment ==null){
                             journeyBoxFragment = JourneyBoxFragment()
                         }
@@ -72,6 +73,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
                         journeyBoxFragment?.let {
                             replaceFragment(it,"journey")
                         }
+
 
                     }
 
@@ -118,6 +120,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
             journeyBoxFragment?.canGoBack()?.let { canGo->
                 if(canGo){
                     journeyBoxFragment?.goBack()
+
                 }
                 else{
                     finish()
@@ -171,8 +174,8 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
     }
 
     //메인 액티비티에 프래그먼트 교체
-    override fun replaceFragment(fragment: Fragment, name: String) {
-        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+    override fun replaceFragment(fragment: Fragment, name: String,tag:String?) {
+        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment,tag)
             .addToBackStack(name).commit()
     }
 }
