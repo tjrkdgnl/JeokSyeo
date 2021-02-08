@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
 
                 R.id.navigation_journey -> {
                     if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journey){
-                        replaceFragment(JourneyBoxFragment(),"journey")
+                        replaceFragment(JourneyBoxFragment(),"journey","JOURNEY_BOX")
                     }
 
                     return@setOnNavigationItemSelectedListener true
@@ -101,9 +101,23 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
         val fragmentName = entry.name
 
         //bottomNavigationView에 있는 목록은 곧장 앱 종료
-        if (fragmentName == "main" || fragmentName == "mypage" || fragmentName == "journey") {
+        if (fragmentName == "main" || fragmentName == "mypage" ) {
             finish()
-        } else {
+        }
+        else if(fragmentName =="journey"){
+
+            (supportFragmentManager.findFragmentByTag("JOURNEY_BOX") as? JourneyBoxFragment)?.canGoBack()?.let { canGo->
+                if(canGo){
+                    (supportFragmentManager.findFragmentByTag("JOURNEY_BOX") as? JourneyBoxFragment)?.goBack()
+                }
+                else{
+                    finish()
+                }
+
+
+            } ?: finish()
+        }
+        else {
             //depth가 있는 경우에는 fragment stack에서 pop
             CoroutineScope(Dispatchers.IO).launch {
                 fragmentName.let {
@@ -148,8 +162,8 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
     }
 
     //메인 액티비티에 프래그먼트 교체
-    override fun replaceFragment(fragment: Fragment, name: String) {
-        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+    override fun replaceFragment(fragment: Fragment, name: String,tag:String?) {
+        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment,tag)
             .addToBackStack(name).commit()
     }
 }
