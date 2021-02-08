@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
         })
 
 
-
-
         binding.navigationBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
 
@@ -77,7 +75,6 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
                             presenter.showTheJourneyLoginToast()
                         }
                     }
-
                     return@setOnNavigationItemSelectedListener true
                 }
 
