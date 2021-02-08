@@ -70,9 +70,8 @@ class JourneyBoxFragment: Fragment() {
 
                 val newWebView = WebView(this@JourneyBoxFragment.requireContext())
                 newWebView.settings.apply {
-                    javaScriptEnabled = true
+                    this.javaScriptEnabled = true
                 }
-
 
                 val dialog = Dialog(this@JourneyBoxFragment.requireActivity())
                 dialog.setContentView(newWebView)
@@ -81,13 +80,6 @@ class JourneyBoxFragment: Fragment() {
                 newWebView.webChromeClient = object :WebChromeClient(){
                     override fun onCloseWindow(window: WebView?) {
                         dialog.dismiss()
-                    }
-
-                }
-
-                newWebView.webViewClient = object :WebViewClient(){
-                    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                        return false
                     }
                 }
 
