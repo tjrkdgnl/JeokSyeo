@@ -19,6 +19,19 @@
             app:layout_constraintTop_toTopOf="parent">
         </FrameLayout>
 
+
+        <include
+            android:id="@+id/journey_login_toast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/journey_toast"
+            android:visibility="invisible"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@id/navigationBottomBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationBottomBar"
             android:layout_width="match_parent"

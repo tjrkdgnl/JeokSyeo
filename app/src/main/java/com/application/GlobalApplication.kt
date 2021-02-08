@@ -157,7 +157,7 @@ class GlobalApplication : MultiDexApplication() {
 
    fun getToastView() :View?{
         if(toastView ==null){
-            toastView =  LayoutInflater.from(this).inflate(R.layout.custom_toast,null)
+            toastView =  LayoutInflater.from(this).inflate(R.layout.journey_toast,null)
         }
 
        return toastView

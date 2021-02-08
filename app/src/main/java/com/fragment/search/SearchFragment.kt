@@ -47,10 +47,9 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
     private var relativeCheck:Boolean =true
     private lateinit var activityContext: Context
     private lateinit var viewModel: MainViewModel
-    private var hintChecking =false
+
 
     companion object{
-
         fun newInstance():Fragment {
             return SearchFragment()
         }
@@ -111,13 +110,10 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
             if(hasFocus){
                 binding.editTextSearch.hint = ""
 
-                viewModel.bottomNavigationViewVisiblity.value= 1
-
-
             } else{
                 if(binding.editTextSearch.text.isEmpty()){
                     binding.editTextSearch.hint = "찾으시는 주류가 있으신가요?"
-                    viewModel.bottomNavigationViewVisiblity.value= 0
+
                 }
             }
         }

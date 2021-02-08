@@ -27,5 +27,7 @@ interface Contract {
 
         fun bottomNavigationVisiblity(check:Int)
 
+        fun showTheJourneyLoginToast()
+
     }
 }

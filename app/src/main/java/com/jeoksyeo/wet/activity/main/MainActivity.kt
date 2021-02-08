@@ -1,9 +1,11 @@
 package com.jeoksyeo.wet.activity.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import com.fragment.mypage.MyPageFragment
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
+import gun0912.tedkeyboardobserver.TedRxKeyboardObserver
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), Contract.BaseView {
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
     private lateinit var viewModel:MainViewModel
     private var journeyBoxFragment:JourneyBoxFragment? =null
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindObj= DataBindingUtil.setContentView(this, R.layout.real_main_activity)
@@ -57,22 +61,21 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
         })
 
 
+
+
         binding.navigationBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
 
                 R.id.navigation_journey -> {
                     if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journey){
-
-
                         if(journeyBoxFragment ==null){
                             journeyBoxFragment = JourneyBoxFragment()
                         }
 
                         journeyBoxFragment?.let {
                             replaceFragment(it,"journey")
+                            presenter.showTheJourneyLoginToast()
                         }
-
-
                     }
 
                     return@setOnNavigationItemSelectedListener true
@@ -82,6 +85,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
                     //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
                     if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journal){
                         replaceFragment(MainFragment(), "main")
+                        binding.journeyLoginToast.root.visibility = View.INVISIBLE
                     }
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -90,6 +94,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
                     //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
                     if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_myPage){
                         replaceFragment(MyPageFragment(), "mypage")
+                        binding.journeyLoginToast.root.visibility = View.INVISIBLE
                     }
 
                     return@setOnNavigationItemSelectedListener true
