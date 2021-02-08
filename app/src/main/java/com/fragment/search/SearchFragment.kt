@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,9 @@ import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SearchBinding
 import gun0912.tedkeyboardobserver.TedRxKeyboardObserver
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew, View.OnClickListener, TextWatcher,
     View.OnKeyListener {
@@ -42,19 +46,13 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
     private val handler = Handler(Looper.getMainLooper())
     private var relativeCheck:Boolean =true
     private lateinit var activityContext: Context
-    private var className:String? =null
     private lateinit var viewModel: MainViewModel
     private var hintChecking =false
 
     companion object{
 
-        fun newInstance(className:String):Fragment {
-            val args = Bundle()
-            args.putString("className",className)
-
-            val fragment = SearchFragment()
-            fragment.arguments = args
-            return fragment
+        fun newInstance():Fragment {
+            return SearchFragment()
         }
 
     }
@@ -64,14 +62,6 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
         this.activityContext = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            className = it.getString("className")
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -252,12 +242,10 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
             }
 
             R.id.imageButton_searchBarBackButton -> {
-                if(className =="main"){
-                    (activity as? MainActivity)?.replaceFragment(MainFragment(),"main")
+                CoroutineScope(Dispatchers.IO).launch {
+                    (activity as FragmentActivity).supportFragmentManager.popBackStack()
                 }
-                else if (className =="category"){
-                    (activity as? MainActivity)?.replaceFragment(AlcoholCategoryFragment(),"category")
-                }
+
             }
 
             R.id.initEditText -> {

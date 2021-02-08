@@ -42,14 +42,14 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
                     presenter.setUserInfo()
                 }
 
-
                 Log.e("버전체크", "버전체크 전")
                 val check = versionCheck()
                 withContext(Dispatchers.Main) {
                     if (check) {
-                        presenter.moveActivity()
-                    } else {
                         CustomDialog.versionDialog(this@Splash)
+
+                    } else {
+                        presenter.moveActivity()
                     }
                     Log.e("버전체크", "버전체크 후")
                 }

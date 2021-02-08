@@ -81,7 +81,7 @@ class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
                 (activity as? MainActivity)?.replaceFragment(
-                    SearchFragment.newInstance("main"),
+                    SearchFragment.newInstance(),
                     "search"
                 )
             }

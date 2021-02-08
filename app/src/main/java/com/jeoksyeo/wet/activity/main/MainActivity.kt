@@ -16,9 +16,7 @@ import com.fragment.mypage.MyPageFragment
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), Contract.BaseView {
     private lateinit var binding: RealMainActivityBinding
@@ -108,36 +106,40 @@ class MainActivity : AppCompatActivity(), Contract.BaseView {
 
     override fun onBackPressed() {
         val idx = this@MainActivity.supportFragmentManager.backStackEntryCount - 1
-        val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
-        val fragmentName = entry.name
-
-        //bottomNavigationView에 있는 목록은 곧장 앱 종료
-        if (fragmentName == "main" || fragmentName == "mypage" ) {
-            finish()
-        }
-        else if(fragmentName =="journey"){
-
-            journeyBoxFragment?.canGoBack()?.let { canGo->
-                if(canGo){
-                    journeyBoxFragment?.goBack()
-
-                }
-                else{
-                    finish()
-                }
 
 
-            } ?: finish()
-        }
-        else {
-            //depth가 있는 경우에는 fragment stack에서 pop
-            CoroutineScope(Dispatchers.IO).launch {
-                fragmentName.let {
-                    this@MainActivity.supportFragmentManager.popBackStack(
-                        it, FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
+        if(idx>=0){
+            val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
+            val fragmentName = entry.name
+
+            //bottomNavigationView에 있는 목록은 곧장 앱 종료
+            if(fragmentName =="journey"){
+
+                journeyBoxFragment?.canGoBack()?.let { canGo->
+                    if(canGo){
+                        journeyBoxFragment?.goBack()
+
+                    }
+                    else{
+                        finish()
+                    }
+
+
+                } ?: finish()
+            }
+            else {
+                //depth가 있는 경우에는 fragment stack에서 pop
+                CoroutineScope(Dispatchers.IO).launch {
+                    fragmentName.let {fgName->
+                        this@MainActivity.supportFragmentManager.popBackStack(
+                            fgName, FragmentManager.POP_BACK_STACK_INCLUSIVE
+                        )
+                    }
                 }
             }
+        }
+        else{
+            finish()
         }
     }
 

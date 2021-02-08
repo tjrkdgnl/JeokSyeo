@@ -52,6 +52,8 @@ class MyPagePresenter:MypageContract.BasePresenter {
         baseView.getViewBinding().myPageRecyclerView.adapter = adapter
         baseView.getViewBinding().myPageRecyclerView.setHasFixedSize(true)
         baseView.getViewBinding().myPageRecyclerView.layoutManager= LinearLayoutManager(activity)
+
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -71,7 +73,7 @@ class MyPagePresenter:MypageContract.BasePresenter {
                     }
                 }
                 GlobalApplication.userInfo.getProfile()?.let { lst->
-                    if(lst.isNotEmpty()){
+                    if(lst.isNotEmpty() and !activity.isFinishing){
                         Glide.with(activity)
                             .load(lst[lst.size - 1].mediaResource?.small?.src.toString())
                             .apply(

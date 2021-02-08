@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -29,6 +30,9 @@ import com.jeoksyeo.wet.activity.main.MainActivity
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
     TabLayout.OnTabSelectedListener
@@ -189,13 +193,15 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
                 (activity as? MainActivity)?.replaceFragment(
-                    SearchFragment.newInstance("category"),
+                    SearchFragment.newInstance(),
                     "search"
                 )
             }
 
             R.id.windowHeader_logo -> {
-                (activity as? MainActivity)?.replaceFragment(MainFragment(), "main")
+                CoroutineScope(Dispatchers.IO).launch {
+                    (activity as FragmentActivity).supportFragmentManager.popBackStack()
+                }
             }
 
             R.id.imageView_listToggle -> {

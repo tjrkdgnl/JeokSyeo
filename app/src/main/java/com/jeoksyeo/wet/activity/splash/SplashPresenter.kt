@@ -76,22 +76,28 @@ class SplashPresenter : SplashContract.BasePresenter {
                             latestVersion = version.split(".")
 
                             try {
-                                //메이저 버전체크
-                                when {
-                                    latestVersion[0].toInt() > currentVersion[0].toInt() -> {
-                                        coroutineResult.resume(false)
+                                if(latestVersion[0].toInt() > currentVersion[0].toInt()){
+                                    coroutineResult.resume(true)
+                                }
+                                else{
+                                    if(latestVersion[0].toInt() == currentVersion[0].toInt()){
+                                        when {
+                                            //마이너 버전체크
+                                            latestVersion[1].toInt() > currentVersion[1].toInt() -> {
+                                                coroutineResult.resume(true)
+                                            }
+                                            //패치 버전체크
+                                            latestVersion[2].toInt() > currentVersion[2].toInt() -> {
+                                                coroutineResult.resume(true)
+                                            }
+                                            else -> {
+                                                coroutineResult.resume(false)
+                                                Log.e("최신버전","최신버전")
+                                            }
+                                        }
                                     }
-                                    //마이너 버전체크
-                                    latestVersion[1].toInt() > currentVersion[1].toInt() -> {
+                                    else{
                                         coroutineResult.resume(false)
-                                    }
-                                    //패치 버전체크
-                                    latestVersion[2].toInt() > currentVersion[2].toInt() -> {
-                                        coroutineResult.resume(false)
-                                    }
-                                    else -> {
-                                        coroutineResult.resume(true)
-                                        Log.e("최신버전","최신버전")
                                     }
                                 }
 
