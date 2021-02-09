@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
                 if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journal){
                     replaceFragment(MainFragment(), "main")
                     cancelTheJourneyLoginToast()
+                    Log.e("메인",supportFragmentManager.backStackEntryCount.toString())
                 }
                 return true
             }
@@ -124,6 +125,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         if(idx >= 0){
             val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
             val fragmentName = entry.name
+            Log.e("fragmentName",fragmentName)
 
             //bottomNavigationView에 있는 목록은 곧장 앱 종료
             if(fragmentName =="journey"){
@@ -134,13 +136,15 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
 
                     }
                     else{
-                        binding.navigationBottomBar.selectedItemId = R.id.navigation_journal
+                        finish()
                     }
-                }
+
+
+                } ?: finish()
             }
             else {
                 //depth가 있는 경우에는 fragment stack에서 pop
-                if(fragmentName =="main"){
+                if(fragmentName =="main" || fragmentName =="mypage"){
                     finish()
                 }
                 else{
@@ -149,19 +153,12 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
                             this@MainActivity.supportFragmentManager.popBackStack(
                                 fgName, FragmentManager.POP_BACK_STACK_INCLUSIVE
                             )
-
-                            withContext(Dispatchers.Main){
-                                if(this@MainActivity.supportFragmentManager.backStackEntryCount ==0){
-                                    binding.navigationBottomBar.selectedItemId = R.id.navigation_journal
-                                }
-                            }
                         }
                     }
                 }
             }
-        }
-        //stack에 아무것도 없는 경우
-        else{
+        } else{
+            Log.e("finish","fin")
             finish()
         }
     }
