@@ -99,7 +99,6 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
                 if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journal){
                     replaceFragment(MainFragment(), "main")
                     cancelTheJourneyLoginToast()
-                    Log.e("메인",supportFragmentManager.backStackEntryCount.toString())
                 }
                 return true
             }
@@ -125,7 +124,6 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         if(idx >= 0){
             val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
             val fragmentName = entry.name
-            Log.e("fragmentName",fragmentName)
 
             //bottomNavigationView에 있는 목록은 곧장 앱 종료
             if(fragmentName =="journey"){
@@ -158,7 +156,6 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
                 }
             }
         } else{
-            Log.e("finish","fin")
             finish()
         }
     }
