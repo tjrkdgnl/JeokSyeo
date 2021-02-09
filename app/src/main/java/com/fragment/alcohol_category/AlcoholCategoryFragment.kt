@@ -23,7 +23,6 @@ import com.adapter.alcohol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
 import com.fragment.alcohol_category.viewpager_items.Fragment_Grid
 import com.fragment.alcohol_category.viewpager_items.Fragment_List
-import com.fragment.main.MainFragment
 import com.fragment.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
 import com.jeoksyeo.wet.activity.main.MainActivity

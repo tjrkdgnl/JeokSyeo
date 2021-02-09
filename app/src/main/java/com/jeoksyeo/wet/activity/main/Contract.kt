@@ -1,6 +1,5 @@
 package com.jeoksyeo.wet.activity.main
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
@@ -11,6 +10,13 @@ interface Contract {
         fun getBinding():RealMainActivityBinding
 
         fun replaceFragment(fragment: Fragment,name:String,tag:String?=null)
+
+        fun cancelTheJourneyLoginToast()
+
+        fun showTheJourneyLoginToast()
+
+        fun bottomNavigationVisiblity(check:Int)
+
     }
 
     interface BasePresenter{
@@ -24,10 +30,6 @@ interface Contract {
         fun getAlcohol(alcoholId: String)
 
         fun handleDeepLink()
-
-        fun bottomNavigationVisiblity(check:Int)
-
-        fun showTheJourneyLoginToast()
 
     }
 }

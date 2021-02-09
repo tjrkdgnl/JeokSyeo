@@ -21,9 +21,6 @@ import com.adapter.search.SearchResultAdapter
 import com.adapter.viewholder.NoRelativeSearchViewHolder
 import com.adapter.viewholder.NoResentViewholder
 import com.application.GlobalApplication
-import com.fragment.alcohol_category.AlcoholCategoryFragment
-import com.fragment.main.MainFragment
-import com.jeoksyeo.wet.activity.main.MainActivity
 import com.model.alcohol_category.AlcoholList
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R

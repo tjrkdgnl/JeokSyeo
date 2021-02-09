@@ -2,17 +2,13 @@ package com.jeoksyeo.wet.activity.main
 
 import android.animation.Animator
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.FragmentActivity
 import com.application.GlobalApplication
 import com.error.ErrorManager
@@ -34,80 +30,6 @@ class Presenter:Contract.BasePresenter {
     lateinit var networkUtil:NetworkUtil
 
     val compositeDisposable =CompositeDisposable()
-
-    override fun showTheJourneyLoginToast() {
-        view.getBinding().journeyLoginToast.root.visibility = View.VISIBLE
-
-        val alphaAnimation = AlphaAnimation(1f, 0f)
-        alphaAnimation.startOffset =10000
-        alphaAnimation.duration = 500
-        alphaAnimation.interpolator = AccelerateInterpolator()
-        view.getBinding().journeyLoginToast.root.animation = alphaAnimation
-
-        view.getBinding().journeyLoginToast.root.animation.start()
-
-        view.getBinding().journeyLoginToast.root.animation.setAnimationListener(object :
-            Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) {
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                view.getBinding().journeyLoginToast.root.visibility = View.INVISIBLE
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-        })
-    }
-
-    override fun bottomNavigationVisiblity(check: Int) {
-        if(check ==1){
-            view.getBinding().navigationBottomBar
-                .animate()
-                .translationY(300f)
-                .setDuration(300)
-                .setListener(object : Animator.AnimatorListener{
-                    override fun onAnimationStart(animation: Animator?) {
-                    }
-
-                    override fun onAnimationEnd(animation: Animator?) {
-                        view.getBinding().navigationBottomBar.visibility= View.GONE
-                    }
-
-                    override fun onAnimationCancel(animation: Animator?) {
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator?) {
-                    }
-                })
-                .startDelay =300
-
-        }
-        else if(check ==0) {
-            view.getBinding().navigationBottomBar
-                .animate()
-                .translationY(0f)
-                .setDuration(300)
-                .setListener(object : Animator.AnimatorListener{
-                    override fun onAnimationStart(animation: Animator?) {
-                        view.getBinding().navigationBottomBar.visibility= View.VISIBLE
-                    }
-
-                    override fun onAnimationEnd(animation: Animator?) {
-
-                    }
-
-                    override fun onAnimationCancel(animation: Animator?) {
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator?) {
-                    }
-                })
-                .start()
-        }
-
-
-    }
 
     override fun setNetworkUtil() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

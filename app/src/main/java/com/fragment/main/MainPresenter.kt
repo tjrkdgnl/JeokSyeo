@@ -1,7 +1,6 @@
 package com.fragment.main
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.View
@@ -15,12 +14,10 @@ import com.application.GlobalApplication
 import com.custom.ViewPagerTransformer
 import com.error.ErrorManager
 import com.model.banner.Banner
-import com.model.navigation.NavigationItem
 import com.model.recommend_alcohol.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
-import com.vuforia.engine.wet.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

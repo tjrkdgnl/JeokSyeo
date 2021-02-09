@@ -2,7 +2,6 @@ package com.adapter.viewholder
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup

@@ -1,6 +1,5 @@
 package com.fragment.alcohol_category
 
-import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding

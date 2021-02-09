@@ -2,7 +2,6 @@ package com.jeoksyeo.wet.activity.login.google
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

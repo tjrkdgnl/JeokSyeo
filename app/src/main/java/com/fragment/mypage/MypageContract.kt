@@ -1,7 +1,6 @@
 package com.fragment.mypage
 
 import android.app.Activity
-import android.content.Context
 import com.vuforia.engine.wet.databinding.MypageBinding
 
 interface MypageContract {

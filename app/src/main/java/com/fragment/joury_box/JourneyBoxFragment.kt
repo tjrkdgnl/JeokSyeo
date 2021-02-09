@@ -2,25 +2,20 @@ package com.fragment.joury_box
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Message
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
-import com.vuforia.engine.wet.databinding.CustomToastBinding
 import com.vuforia.engine.wet.databinding.JourneyBoxBinding
-import com.vuforia.engine.wet.databinding.JourneyToastBinding
 import gun0912.tedkeyboardobserver.TedRxKeyboardObserver
 
 class JourneyBoxFragment: Fragment() {
