@@ -21,7 +21,6 @@ class Presenter :FragmentRated_Contract.BasePresenter {
     override var position: Int =0
     override lateinit var activity: Activity
     override lateinit var view: FragmentRated_Contract.BaseView
-    override lateinit var smoothScrollListener: Fragment_alcoholRated.SmoothScrollListener
     override lateinit var viewmodel: RatedViewModel
 
     private val compositeDisposable = CompositeDisposable()
@@ -55,12 +54,12 @@ class Presenter :FragmentRated_Contract.BasePresenter {
                         if(lst.isEmpty()){
                             lst.toMutableList().let { mlst->
                                 mlst.add(ReviewList())
-                                alcoholRatedAdapter = AlcoholRatedAdapter(activity,mlst,smoothScrollListener,progressbar = settingProgressbar)
+                                alcoholRatedAdapter = AlcoholRatedAdapter(activity,mlst,progressbar = settingProgressbar)
                                 view.getBinding().ratedRecyclerView.adapter =alcoholRatedAdapter
                             }
                         }
                         else {
-                            alcoholRatedAdapter = AlcoholRatedAdapter(activity,lst.toMutableList(),smoothScrollListener,progressbar = settingProgressbar)
+                            alcoholRatedAdapter = AlcoholRatedAdapter(activity,lst.toMutableList(),progressbar = settingProgressbar)
                             view.getBinding().ratedRecyclerView.adapter =alcoholRatedAdapter
                             initScrollListener()
                         }

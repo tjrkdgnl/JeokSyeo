@@ -50,21 +50,21 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
 
 
         //아이템 클릭 시, 해당 아이템으로 스크롤 이동
-        smoothScrollListener = object : SmoothScrollListener {
-            override fun moveScroll(position: Int) {
-                with(Handler(Looper.getMainLooper())){
-                    this.postDelayed( {
-                        binding.ratedRecyclerView.smoothScrollToPosition(position)
-                    },300L)
-                }
-            }
-        }
+//        smoothScrollListener = object : SmoothScrollListener {
+//            override fun moveScroll(position: Int) {
+//                with(Handler(Looper.getMainLooper())){
+//                    this.postDelayed( {
+//                        binding.ratedRecyclerView.smoothScrollToPosition(position)
+//                    },300L)
+//                }
+//            }
+//        }
 
         presenter = Presenter().apply {
             view =this@Fragment_alcoholRated
             activity = requireActivity()
             position =this@Fragment_alcoholRated.position
-            smoothScrollListener = this@Fragment_alcoholRated.smoothScrollListener
+//            smoothScrollListener = this@Fragment_alcoholRated.smoothScrollListener
             viewmodel = ViewModelProvider(requireActivity()).get(RatedViewModel::class.java)
         }
 

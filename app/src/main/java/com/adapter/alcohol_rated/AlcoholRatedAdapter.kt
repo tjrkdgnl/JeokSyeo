@@ -28,7 +28,6 @@ import io.reactivex.schedulers.Schedulers
 
 class AlcoholRatedAdapter(private val activity: Activity,
                          private val lst:MutableList<ReviewList>,
-                         private val smoothScrollPosition: Fragment_alcoholRated.SmoothScrollListener,
                           private val progressbar:(Boolean) ->Unit
 ):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val checkList = mutableListOf<Boolean>()
@@ -64,7 +63,6 @@ class AlcoholRatedAdapter(private val activity: Activity,
                 if(!checkList[position] && !holder.getViewBinding().ratedItemComment.isExpanded){
                     checkList[position] =true
                     holder.getViewBinding().ratedItemComment.expand()
-                    smoothScrollPosition.moveScroll(position)
                     holder.getViewBinding().ratedItemArrow.setImageResource(R.mipmap.up_errow)
                     holder.getViewBinding().ratedItemExpandableText.text = "접기"
                 }

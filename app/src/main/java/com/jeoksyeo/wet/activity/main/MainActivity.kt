@@ -13,7 +13,6 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -22,7 +21,6 @@ import com.application.GlobalApplication
 import com.fragment.joury_box.JourneyBoxFragment
 import com.fragment.main.MainFragment
 import com.fragment.mypage.MyPageFragment
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
@@ -30,6 +28,7 @@ import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: RealMainActivityBinding
@@ -120,10 +119,9 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
     }
 
     override fun onBackPressed() {
-        val idx = this@MainActivity.supportFragmentManager.backStackEntryCount - 1
+        val idx = this@MainActivity.supportFragmentManager.backStackEntryCount -1
 
-
-        if(idx>=0){
+        if(idx >= 0){
             val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
             val fragmentName = entry.name
 
@@ -136,23 +134,33 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
 
                     }
                     else{
-                        finish()
+                        binding.navigationBottomBar.selectedItemId = R.id.navigation_journal
                     }
-
-
-                } ?: finish()
+                }
             }
             else {
                 //depth가 있는 경우에는 fragment stack에서 pop
-                CoroutineScope(Dispatchers.IO).launch {
-                    fragmentName.let {fgName->
-                        this@MainActivity.supportFragmentManager.popBackStack(
-                            fgName, FragmentManager.POP_BACK_STACK_INCLUSIVE
-                        )
+                if(fragmentName =="main"){
+                    finish()
+                }
+                else{
+                    CoroutineScope(Dispatchers.IO).launch {
+                        fragmentName.let {fgName->
+                            this@MainActivity.supportFragmentManager.popBackStack(
+                                fgName, FragmentManager.POP_BACK_STACK_INCLUSIVE
+                            )
+
+                            withContext(Dispatchers.Main){
+                                if(this@MainActivity.supportFragmentManager.backStackEntryCount ==0){
+                                    binding.navigationBottomBar.selectedItemId = R.id.navigation_journal
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+        //stack에 아무것도 없는 경우
         else{
             finish()
         }
