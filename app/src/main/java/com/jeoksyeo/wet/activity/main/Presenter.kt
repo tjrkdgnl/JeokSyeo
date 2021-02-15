@@ -1,14 +1,9 @@
 package com.jeoksyeo.wet.activity.main
 
-import android.animation.Animator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import androidx.fragment.app.FragmentActivity
 import com.application.GlobalApplication
 import com.error.ErrorManager

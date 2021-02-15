@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -28,7 +27,6 @@ import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: RealMainActivityBinding
@@ -57,7 +55,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         this.supportFragmentManager
             .beginTransaction()
             .add(R.id.fragment_container, MainFragment())
-            .commit()
+            .commitAllowingStateLoss()
 
         //링크로 들어왔을 때 핸들링
         with(Handler(Looper.getMainLooper())) {
@@ -195,7 +193,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
     //메인 액티비티에 프래그먼트 교체
     override fun replaceFragment(fragment: Fragment, name: String,tag:String?) {
         this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment,tag)
-            .addToBackStack(name).commit()
+            .addToBackStack(name).commitAllowingStateLoss()
     }
 
     //저니박스 로그인 토스트 띄우기

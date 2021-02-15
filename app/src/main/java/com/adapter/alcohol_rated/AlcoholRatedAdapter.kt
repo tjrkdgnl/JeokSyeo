@@ -14,7 +14,6 @@ import com.adapter.viewholder.AlcoholRatedViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.error.ErrorManager
-import com.fragment.alcohol_rated.Fragment_alcoholRated
 import com.jeoksyeo.wet.activity.alcohol_rated.AlcoholRated
 import com.jeoksyeo.wet.activity.comment.CommentActivity
 import com.model.rated.ReviewList
