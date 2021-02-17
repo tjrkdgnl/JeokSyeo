@@ -263,7 +263,6 @@ class GlobalApplication : MultiDexApplication() {
                 )
             }
         }
-
     }
 
 

@@ -109,6 +109,8 @@ android {
         javaMaxHeapSize = "4g"
     }
 
+    useLibrary 'org.apache.http.legacy'
+
 }
 
 
@@ -231,7 +233,6 @@ dependencies {
 
     //키보드 감지
     implementation 'gun0912.ted:tedkeyboardobserver:1.0.1'
-
 
 }
 

@@ -191,8 +191,8 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
     }
 
     //메인 액티비티에 프래그먼트 교체
-    override fun replaceFragment(fragment: Fragment, name: String,tag:String?) {
-        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment,tag)
+    override fun replaceFragment(fragment: Fragment, name: String) {
+        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
             .addToBackStack(name).commitAllowingStateLoss()
     }
 
