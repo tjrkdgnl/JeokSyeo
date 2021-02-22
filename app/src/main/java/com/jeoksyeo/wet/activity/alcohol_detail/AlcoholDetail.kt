@@ -1,32 +1,24 @@
 package com.jeoksyeo.wet.activity.alcohol_detail
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.model.alcohol_detail.Alcohol
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholDetailBinding
 
-class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.OnClickListener,ViewTreeObserver.OnPreDrawListener {
-    private lateinit var binding: AlcoholDetailBinding
-    private var bindObj:AlcoholDetailBinding? =null
+class AlcoholDetail :BaseActivity<AlcoholDetailBinding>(), AlcoholDetailContract.BaseView, View.OnClickListener,ViewTreeObserver.OnPreDrawListener {
+
+    override val layoutResID: Int = R.layout.alcohol_detail
+
     private lateinit var presenter: Presenter
     private var alcohol:Alcohol? =null
-    private var refreshLikeCheck =false
 
     @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.alcohol_detail)
-        binding = bindObj!!
-        binding.lifecycleOwner = this
-
+    override fun setOnCreate() {
         //shared element를 통해 이동할 이미지가 set되는 것 지연시켜줌
         //호출된 액티비티로 넘어온 이미지는 자신이 들어갈 이미지뷰의 사이즈를 측정알아야 자연스러운 애니메이션이 형성되므로
         //사이즈 측정이 끝날 때 까지 지연되야한다.
@@ -35,8 +27,8 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
         //이미지 측정이 끝났을 때 지연되었던 이미지를 setting 진행
         binding.detailMainImg.viewTreeObserver.addOnPreDrawListener {
             //넘어온 이미지를 통해 셋팅되야하므로 현재 이미지로 그려지는 것을 제거해야한다.
-           binding.detailMainImg.viewTreeObserver.removeOnPreDrawListener(this@AlcoholDetail)
-           supportStartPostponedEnterTransition()
+            binding.detailMainImg.viewTreeObserver.removeOnPreDrawListener(this@AlcoholDetail)
+            supportStartPostponedEnterTransition()
             true
         }
 
@@ -46,7 +38,6 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
             binding.alcohol =alcohol //주류 이미지
             binding.detailAlcoholinfo.alcohol =alcohol //주류에 대한 기본정보
             binding.detailDescription.alcohol =alcohol //주류 설명
-            Log.e("alcoholId", binding.detailAlcoholinfo.alcohol!!.alcoholId.toString())
         }
 
         alcohol?.abv?.let {
@@ -63,35 +54,17 @@ class AlcoholDetail : AppCompatActivity(), AlcoholDetailContract.BaseView, View.
 
         presenter.init()
         presenter.checkCountLine()
+        presenter.initReview(this)
+
+    }
+
+    override fun destroyPresenter() {
+        presenter.detach()
     }
 
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = AlcoholDetail::class.java
-        if(refreshLikeCheck){
-            refreshLikeCheck=false
-            presenter.refreshIsLike()
-        }
-        presenter.initReview(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onPause() {
-        super.onPause()
-        refreshLikeCheck = true
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-        presenter.detach()
     }
 
     override fun onPreDraw(): Boolean {

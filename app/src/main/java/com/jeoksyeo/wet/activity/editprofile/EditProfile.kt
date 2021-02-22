@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,10 +15,9 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -33,21 +31,16 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDateChangedListener,
+class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, DatePicker.OnDateChangedListener,
     EditProfileContract.BaseView, View.OnKeyListener, TextWatcher {
-    private lateinit var binding: EditProfileBinding
-    private var bindObj: EditProfileBinding? =null
     private val PICK_FROM_ALBUM = 1
     private var tempFile: File? = null
     private lateinit var presenter: Presenter
     private lateinit var gender: String
     private lateinit var birthday: String
+    override val layoutResID: Int = R.layout.edit_profile
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj= DataBindingUtil.setContentView(this, R.layout.edit_profile)
-        binding = bindObj!!
-
+    override fun setOnCreate() {
         presenter = Presenter().apply {
             view = this@EditProfile
             activity = this@EditProfile
@@ -80,23 +73,14 @@ class EditProfile : AppCompatActivity(), View.OnClickListener, DatePicker.OnDate
         }
     }
 
+
+    override fun destroyPresenter() {
+        presenter.detach()
+    }
+
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = EditProfile::class.java
-    }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detach()
-        bindObj =null
     }
 
     private fun CameraPermission() {

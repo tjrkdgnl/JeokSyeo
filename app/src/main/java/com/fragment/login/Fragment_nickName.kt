@@ -9,14 +9,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.base.BaseFragment
 import com.error.ErrorManager
 import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.service.ApiGenerator
@@ -30,10 +27,10 @@ import io.reactivex.schedulers.Schedulers
 import java.util.regex.Pattern
 
 @SuppressLint("UseCompatLoadingForDrawables")
-class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnClickListener {
+class Fragment_nickName : BaseFragment<FragmentSignupNicknameBinding>(), TextWatcher, View.OnKeyListener, View.OnClickListener {
+    override val layoutResID: Int =  R.layout.fragment_signup_nickname
+
     private lateinit var viewmodel: SignUpViewModel
-    private lateinit var binding: FragmentSignupNicknameBinding
-    private var bindObj: FragmentSignupNicknameBinding? =null
     private var checkPrivateAgreement = false
     private var checkAppAgreement = false
     private var checkTotalAgreement = false
@@ -48,16 +45,9 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_nickname, container, false)
-        binding = bindObj!!
-        binding.lifecycleOwner = this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
         binding.insertInfoEditText.addTextChangedListener(this)
@@ -72,7 +62,7 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
 
         //화면을 터치할 시, 키패드 삭제
         GlobalApplication.instance.removeEditextFocus(binding.insertInfoEditText,binding.nickNameParentLayout)
-        return binding.root
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -292,8 +282,4 @@ class Fragment_nickName : Fragment(), TextWatcher, View.OnKeyListener, View.OnCl
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj =null
-    }
 }

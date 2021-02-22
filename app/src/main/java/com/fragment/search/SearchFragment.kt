@@ -7,10 +7,11 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +22,7 @@ import com.adapter.search.SearchResultAdapter
 import com.adapter.viewholder.NoRelativeSearchViewHolder
 import com.adapter.viewholder.NoResentViewholder
 import com.application.GlobalApplication
+import com.base.BaseFragment
 import com.model.alcohol_category.AlcoholList
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
@@ -31,10 +33,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew, View.OnClickListener, TextWatcher,
+class SearchFragment private constructor() : BaseFragment<SearchBinding>(), SearchContract.BaseVIew, View.OnClickListener, TextWatcher,
     View.OnKeyListener {
-    private lateinit var binding:SearchBinding
-    private var bindObj:SearchBinding?=null
+    override val layoutResID: Int =  R.layout.search
+
     private lateinit var searchPresenter: Presenter
     private val compositeDisposable = CompositeDisposable()
     private var searchAdapter: SearchAdapter? = null
@@ -50,7 +52,6 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
         fun newInstance():Fragment {
             return SearchFragment()
         }
-
     }
 
     override fun onAttach(context: Context) {
@@ -59,13 +60,9 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj = DataBindingUtil.inflate(layoutInflater, R.layout.search,container,false)
-        binding = bindObj!!
+    @SuppressLint("CheckResult")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.initEditText.setOnClickListener(this)
         binding.imageButtonSearchBarBackButton.setOnClickListener(this)
@@ -75,17 +72,10 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
 
         layoutManager = LinearLayoutManager(activityContext)
         searchPresenter = Presenter().apply {
-            view = this@SearchFragment
+           this.view = this@SearchFragment
             layoutManager = this@SearchFragment.layoutManager
             activity = requireActivity()
         }
-
-        return binding.root
-    }
-
-    @SuppressLint("CheckResult")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.editTextSearch.setOnKeyListener(this)
         binding.editTextSearch.addTextChangedListener(this)
@@ -288,7 +278,6 @@ class SearchFragment private constructor() : Fragment(), SearchContract.BaseVIew
 
     override fun onDestroy() {
         super.onDestroy()
-        bindObj=null
         searchPresenter.detach()
         compositeDisposable.dispose()
     }

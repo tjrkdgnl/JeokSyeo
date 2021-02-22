@@ -2,33 +2,28 @@ package com.fragment.main
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.application.GlobalApplication
+import com.base.BaseFragment
 import com.fragment.alcohol_category.AlcoholCategoryFragment
 import com.fragment.search.SearchFragment
+import com.jeoksyeo.wet.activity.agreement.Agreement
 import com.jeoksyeo.wet.activity.main.MainActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
-class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
-    private lateinit var binding: MainBinding
-    private var bindObj: MainBinding? = null
+class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.OnClickListener {
+
+    override val layoutResID = R.layout.main
+
     lateinit var mainPresenter: MainPresenter
     private val postionBundle: Bundle = Bundle()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj = DataBindingUtil.inflate(inflater, R.layout.main, container, false)
-        binding = bindObj!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
@@ -36,18 +31,14 @@ class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
         binding.activityMainWhisky.setOnClickListener(this)
         binding.activityMainSake.setOnClickListener(this)
         binding.basicHeader.windowHeaderSearchButton.setOnClickListener(this)
+        binding.businessInfo.activityMainTermsOfService.setOnClickListener(this)
+        binding.businessInfo.activityMainPrivacyPolicyText.setOnClickListener(this)
 
 
         mainPresenter = MainPresenter().apply {
-            view = this@MainFragment
+            this.view = this@MainFragment
             activity = requireActivity()
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         mainPresenter.initBanner(view.context)
         mainPresenter.autoSlide()
@@ -60,11 +51,12 @@ class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.bannerCount.text =
-                    "${position % mainPresenter.bannerItem + 1} / ${mainPresenter.bannerItem}"
+                if(mainPresenter.bannerItem !=0){
+                    binding.bannerCount.text =
+                        "${position % mainPresenter.bannerItem + 1} / ${mainPresenter.bannerItem}"
+                }
             }
         })
-
     }
 
     override fun getViewBinding(): MainBinding {
@@ -84,6 +76,24 @@ class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
                     SearchFragment.newInstance(),
                     "search"
                 )
+            }
+
+            R.id.activityMain_termsOfService->{
+                val intent = Intent(v.context,Agreement::class.java)
+                val bundle = Bundle()
+                bundle.putInt(GlobalApplication.AGREEMENT_INFO,0)
+                intent.putExtra(GlobalApplication.AGREEMENT,bundle)
+
+                startActivity(intent)
+            }
+
+            R.id.activityMain_PrivacyPolicyText->{
+                val intent = Intent(v.context,Agreement::class.java)
+                val bundle = Bundle()
+                bundle.putInt(GlobalApplication.AGREEMENT_INFO,1)
+                intent.putExtra(GlobalApplication.AGREEMENT,bundle)
+
+                startActivity(intent)
             }
 
             R.id.activityMain_koreanAlcohol -> {
@@ -131,6 +141,5 @@ class MainFragment : Fragment(), MainContract.BaseView, View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         mainPresenter.detachView()
-        bindObj = null
     }
 }

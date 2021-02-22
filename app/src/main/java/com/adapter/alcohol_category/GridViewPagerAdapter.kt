@@ -1,12 +1,11 @@
 package com.adapter.alcohol_category
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.application.GlobalApplication
 import com.fragment.alcohol_category.viewpager_items.Fragment_Grid
 
-class GridViewPagerAdapter(val activity:FragmentActivity):FragmentStateAdapter(activity) {
+class GridViewPagerAdapter(val fragment: Fragment):FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int {
         return GlobalApplication.CATEGORY_SIZE
@@ -17,7 +16,7 @@ class GridViewPagerAdapter(val activity:FragmentActivity):FragmentStateAdapter(a
     }
 
     fun getFragment(position:Int):Fragment? {
-        return activity.supportFragmentManager.findFragmentByTag("f"+position)
+        return fragment.childFragmentManager.findFragmentByTag("f$position")
     }
 
 }

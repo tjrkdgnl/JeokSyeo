@@ -1,24 +1,19 @@
 package com.fragment.alcohol_category.viewpager_items
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.alcohol_category.ListAdapter
+import com.base.BaseFragment
 import com.model.alcohol_category.AlcoholList
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 
-class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
-    private lateinit var binding:FragmentAlcholCategoryListBinding
-    private var bindObj:FragmentAlcholCategoryListBinding? =null
-
+class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>(), Fg_AlcoholCategoryContact.BaseView {
+    override val layoutResID: Int =  R.layout.fragment_alchol_category_list
     private var position = 0
     private lateinit var viewmodel:AlcoholCategoryViewModel
     private lateinit var listAdapter:ListAdapter
@@ -40,15 +35,16 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_list,container,false)
-        binding = bindObj!!
-        binding.lifecycleOwner=this
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        viewmodel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
+        parentFragment?.let {
+            viewmodel = ViewModelProvider(it).get(AlcoholCategoryViewModel::class.java)
+
+        }
 
         listPresenter = ListPresenter().apply {
-            view=this@Fragment_List
+            this.view=this@Fragment_List
             position =this@Fragment_List.position
             linearLayoutManager= LinearLayoutManager(requireContext())
             sort=viewmodel.currentSort
@@ -58,7 +54,6 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
 
         listPresenter.initRecyclerView(requireContext())
 
-        return binding.root
     }
 
     fun changeSort(sort:String){
@@ -96,8 +91,4 @@ class Fragment_List:Fragment(), Fg_AlcoholCategoryContact.BaseView {
         binding.listRecyclerView.smoothScrollToPosition(0)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-    }
 }

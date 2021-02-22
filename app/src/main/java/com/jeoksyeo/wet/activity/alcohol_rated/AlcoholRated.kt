@@ -1,34 +1,26 @@
 package com.jeoksyeo.wet.activity.alcohol_rated
 
-import android.annotation.SuppressLint
 import android.os.Build
-import android.os.Bundle
 import android.util.TypedValue
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.google.android.material.tabs.TabLayout
 import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholRatedBinding
 
-class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
+class AlcoholRated :BaseActivity<AlcoholRatedBinding>(), AlcoholRatedContact.BaseView
     ,TabLayout.OnTabSelectedListener{
-    private lateinit var binding:AlcoholRatedBinding
-    private var bindObj:AlcoholRatedBinding?=null
+
+    override val layoutResID: Int = R.layout.alcohol_rated
 
     private lateinit var presenter:Presenter
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.alcohol_rated)
-        binding =bindObj!!
-        binding.lifecycleOwner =this
 
+    override fun setOnCreate() {
         presenter = Presenter().apply {
             view=this@AlcoholRated
             context =this@AlcoholRated
@@ -48,28 +40,20 @@ class AlcoholRated :AppCompatActivity(), AlcoholRatedContact.BaseView
         val viewmodel = ViewModelProvider(this).get(RatedViewModel::class.java)
 
         viewmodel.reviewCount.observe(this, Observer {
-           binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
+            binding.profileHeader.ratedCountText.text = "총  ${it}개의 주류를 평가하셨습니다."
         })
+    }
+
+    override fun destroyPresenter() {
+        presenter.detach()
+
     }
 
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = AlcoholRated::class.java
     }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-        presenter.detach()
-    }
 
     override fun getView(): AlcoholRatedBinding {
         return binding

@@ -2,23 +2,20 @@ package com.fragment.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.DatePicker
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.base.BaseFragment
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentSignupBirthdayBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnClickListener {
+class Fragment_birthDay : BaseFragment<FragmentSignupBirthdayBinding>(), DatePicker.OnDateChangedListener, View.OnClickListener {
+
+    override val layoutResID: Int = R.layout.fragment_signup_birthday
     private lateinit var viewmodel: SignUpViewModel
-    private lateinit var binding: FragmentSignupBirthdayBinding
-    private var bindObj: FragmentSignupBirthdayBinding?=null
     private lateinit var date:String
 
     companion object {
@@ -29,15 +26,9 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_signup_birthday, container, false)
-        binding = bindObj!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding.lifecycleOwner = this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault())
@@ -62,7 +53,6 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         binding.birthdayMonth.text = (binding.basicDatePicker.datePicker.month +1).toString()
         binding.birthdayDay.text = binding.basicDatePicker.datePicker.dayOfMonth.toString()
 
-        return binding.root
     }
 
     @SuppressLint("SetTextI18n")
@@ -98,8 +88,4 @@ class Fragment_birthDay : Fragment(), DatePicker.OnDateChangedListener, View.OnC
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj =null
-    }
 }

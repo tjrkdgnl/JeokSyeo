@@ -1,10 +1,8 @@
 package com.jeoksyeo.wet.activity.splash
 
-import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.service.JWTUtil
@@ -15,17 +13,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Splash : AppCompatActivity(), SplashContract.BaseView {
+class Splash : BaseActivity<SplashBinding>(), SplashContract.BaseView {
 
     private lateinit var presenter:SplashPresenter
-    private lateinit var binding: SplashBinding
-    private var bindObj: SplashBinding? =null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.splash)
-        binding = bindObj!!
+    override val layoutResID: Int = R.layout.splash
 
+    override fun setOnCreate() {
         //디바이스별의 크기 얻기
         GlobalApplication.instance.getStandardSize(this)
 
@@ -61,23 +55,12 @@ class Splash : AppCompatActivity(), SplashContract.BaseView {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
+    override fun destroyPresenter() {
+        presenter.detach()
     }
 
     private suspend fun versionCheck():Boolean{
        return  presenter.versionCheck()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detach()
-        bindObj =null
     }
 
     override fun getBinding(): SplashBinding {

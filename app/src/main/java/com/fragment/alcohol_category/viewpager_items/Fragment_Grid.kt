@@ -1,24 +1,20 @@
 package com.fragment.alcohol_category.viewpager_items
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adapter.alcohol_category.GridAdapter
+import com.base.BaseFragment
 import com.model.alcohol_category.AlcoholList
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryGridBinding
 
-class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
+class Fragment_Grid: BaseFragment<FragmentAlcholCategoryGridBinding>(), Fg_AlcoholCategoryContact.BaseView {
+    override val layoutResID: Int = R.layout.fragment_alchol_category_grid
 
-    private lateinit var binding: FragmentAlcholCategoryGridBinding
-    private var bindObj: FragmentAlcholCategoryGridBinding? =null
     var position =0
     private lateinit var viewmodel:AlcoholCategoryViewModel
     private lateinit var gridAdapter:GridAdapter
@@ -41,16 +37,16 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bindObj = DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_category_grid,container,false)
-        binding = bindObj!!
-        binding.lifecycleOwner =this
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        viewmodel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
+        parentFragment?.let {
+            viewmodel = ViewModelProvider(it).get(AlcoholCategoryViewModel::class.java)
 
+        }
 
         gridPresenter = GridPresenter().apply {
-            view =this@Fragment_Grid
+            this.view =this@Fragment_Grid
             gridLayoutManager =GridLayoutManager(requireActivity(), 2)
             position =this@Fragment_Grid.position
             viewModel = viewmodel
@@ -59,7 +55,7 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
         }
 
         gridPresenter.initRecyclerView(requireActivity())
-        return binding.root
+
     }
 
     fun changeSort(sort:String){
@@ -97,8 +93,4 @@ class Fragment_Grid:Fragment(), Fg_AlcoholCategoryContact.BaseView {
         binding.gridRecyclerView.smoothScrollToPosition(0)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-    }
 }

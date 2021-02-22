@@ -19,7 +19,7 @@ interface AlcoholCategoryContact {
         var view: BaseView
         var context:Context
 
-        fun inintTabLayout(context: Context,currentItem:Int)
+        fun inintTabLayout(fragment: Fragment,currentItem:Int,toggle:String)
 
         fun getFragement(position:Int): Fragment?
 

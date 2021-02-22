@@ -1,26 +1,19 @@
 package com.jeoksyeo.wet.activity.setting
 
 import android.os.Build
-import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SettingBinding
 
-class SettingActivity: AppCompatActivity(), SettingContract.BaseView{
+class SettingActivity: BaseActivity<SettingBinding>(), SettingContract.BaseView{
     private lateinit var presenter:Presenter
-    private lateinit var binding:SettingBinding
-    private var bindObj:SettingBinding? =null
+    override val layoutResID: Int = R.layout.setting
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.setting)
-        binding = bindObj!!
-
+    override fun setOnCreate() {
         presenter = Presenter().apply {
             view =this@SettingActivity
         }
@@ -30,22 +23,13 @@ class SettingActivity: AppCompatActivity(), SettingContract.BaseView{
         presenter.initItem(this,this)
     }
 
+    override fun destroyPresenter() {
+        presenter.detachView()
+    }
+
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = SettingActivity::class.java
-    }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj =null
     }
 
     override fun getView(): SettingBinding {

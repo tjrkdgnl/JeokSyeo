@@ -22,6 +22,10 @@
     <string name="explainAppearance">시각적 특징은 색깔과 투명성, 헤드 등으로 구분되며, 원료의 볶음 ·숙성 정도,\n효모의 여과 여부로 차이가 발생합니다.</string>
     <string name="explainOverall">아로마, 맛, 마우스필 등 플레이버의 복\n합적인 조화를 의미합니다. 직감적으로\n알 수 있는 개인의 호불호를 평가합니다.</string>
     <string name="transitionName">main_img</string>
+    <string name="network_fail">네트워크 상태가 좋지않습니다.\n
+       기기의 네트워크 상태를 확인해 주세요.
+    </string>
+
     <string name="journeyBox_login">‘저니박스’와 ‘테이스트 저널’은 현재 분리된 서비스로\n
         각 서비스를 이용하려면 회원가입 절차를\n
         모두 진행해주셔야 합니다. </string>

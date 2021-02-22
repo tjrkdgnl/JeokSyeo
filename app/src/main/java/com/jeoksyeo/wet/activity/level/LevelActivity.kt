@@ -3,30 +3,23 @@ package com.jeoksyeo.wet.activity.level
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
-import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LevelBinding
 
-class LevelActivity:AppCompatActivity(), LevelContract.BaseView {
-    private lateinit var binding:LevelBinding
-    private var bindObj:LevelBinding? =null
+class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.BaseView {
     private lateinit var presenter: Presenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.level)
-        binding =bindObj!!
+    override val layoutResID: Int = R.layout.level
 
-
+    override fun setOnCreate() {
         presenter = Presenter().apply {
             view = this@LevelActivity
             context = this@LevelActivity.baseContext
@@ -38,22 +31,16 @@ class LevelActivity:AppCompatActivity(), LevelContract.BaseView {
 
         presenter.initMiniImageArray()
         presenter.getMyLevel()
+    }
 
+    override fun destroyPresenter() {
+        presenter.detach()
     }
 
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = LevelActivity::class.java
     }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
-
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -133,11 +120,5 @@ class LevelActivity:AppCompatActivity(), LevelContract.BaseView {
         binding.bottomWave.waveParentLayout.setBackgroundColor(Color.parseColor("#f8f8f8"))
 
         binding.bottomWave.ranking5level.text = "${presenter.rankCount} 번째 선주(酒)자가"
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detach()
-        bindObj =null
     }
 }

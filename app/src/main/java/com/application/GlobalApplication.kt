@@ -29,25 +29,26 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GlobalApplication : MultiDexApplication() {
-    var activityClass:Class<*>? =null
-    var device_width =0f
+    var activityClass: Class<*>? = null
+    var device_width = 0f
     var device_height = 0f
     private var activityBackground = false
-    private var toastView:View? =null
-    private val banWord =  listOf("개발","운영","관리자","적셔")
+    private var toastView: View? = null
+    private val banWord = listOf("개발", "운영", "관리자", "적셔")
     private val typeList = listOf("TR", "BE", "WI", "FO", "SA")
     private val ratedList = listOf("ALL", "TR", "BE", "WI", "SA", "FO")
     private val levelList = listOf(
-        "마시는 척 하는 사람", "술을 즐기는 사람"
-        , "술독에 빠진 사람", "주도를 수련하는 사람", "술로 해탈한 사람"
+        "마시는 척 하는 사람", "술을 즐기는 사람", "술독에 빠진 사람", "주도를 수련하는 사람", "술로 해탈한 사람"
     )
 
-    lateinit var context:Context
+    lateinit var context: Context
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
+
+
 
     override fun onCreate() {
         super.onCreate()
@@ -70,7 +71,7 @@ class GlobalApplication : MultiDexApplication() {
 
     companion object {
         //싱글턴 객체 생성
-        lateinit var instance : GlobalApplication
+        lateinit var instance: GlobalApplication
 
         //유저 정보
         lateinit var userInfo: UserInfo
@@ -116,25 +117,29 @@ class GlobalApplication : MultiDexApplication() {
         const val AGREEMENT = "agreement"
         const val AGREEMENT_INFO = "agreement_info"
 
-        const val PAGE_REVIEW_COUNT =3
+        const val PAGE_REVIEW_COUNT = 3
     }
 
-    fun getCalculatorTextSize(spValue:Float, tabSizeCheck:Boolean =false,tabCount:Int =1):Float{
+    fun getCalculatorTextSize(
+        spValue: Float,
+        tabSizeCheck: Boolean = false,
+        tabCount: Int = 1
+    ): Float {
 
-        return if(!tabSizeCheck) {
-            (spValue/360f*device_width)
+        return if (!tabSizeCheck) {
+            (spValue / 360f * device_width)
         } else {
-            (spValue/(410f/tabCount)*(device_width/tabCount))
+            (spValue / (410f / tabCount) * (device_width / tabCount))
         }
     }
 
-    fun setActivityBackground(check:Boolean){
+    fun setActivityBackground(check: Boolean) {
         activityBackground = check
     }
 
     fun getActivityBackground() = activityBackground
 
-    fun getScreenSize(activity: Activity):Point{
+    fun getScreenSize(activity: Activity): Point {
         val display = activity.windowManager.defaultDisplay
         val size = Point()
         display.getSize(size)
@@ -142,29 +147,26 @@ class GlobalApplication : MultiDexApplication() {
         return size
     }
 
-    fun getStandardSize(activity: Activity){
+    fun getStandardSize(activity: Activity) {
         val screenSize = getScreenSize(activity)
         val density = activity.resources.displayMetrics.density
-
 
         device_width = (screenSize.x / density)
         device_height = (screenSize.y / density)
 
-        Log.e("width",device_width.toString())
-        Log.e("height",device_height.toString())
     }
 
 
-   fun getToastView() :View?{
-        if(toastView ==null){
-            toastView =  LayoutInflater.from(this).inflate(R.layout.journey_toast,null)
+    fun getToastView(): View? {
+        if (toastView == null) {
+            toastView = LayoutInflater.from(this).inflate(R.layout.network_toast, null)
         }
 
-       return toastView
+        return toastView
     }
 
 
-    fun getDate(utc:Long):String{
+    fun getDate(utc: Long): String {
         val date = Date(utc)
 
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
@@ -194,12 +196,12 @@ class GlobalApplication : MultiDexApplication() {
                 context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(editText.windowToken, 0)
         } else {
-            editText.post(Runnable {
+            editText.post {
                 editText.requestFocus()
                 val inputMethodManager =
                     context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.showSoftInput(editText, 0)
-            })
+            }
         }
     }
 
@@ -266,14 +268,12 @@ class GlobalApplication : MultiDexApplication() {
     }
 
 
-
-
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     private fun RxjavaErrorHandling() {
         RxJavaPlugins.setErrorHandler { e: Throwable? ->
             var error = e
             if (e is UndeliverableException) {
-               error= e.cause
+                error = e.cause
             }
             if (e is IOException) {
                 return@setErrorHandler
@@ -291,7 +291,10 @@ class GlobalApplication : MultiDexApplication() {
                     .uncaughtException(Thread.currentThread(), e)
                 return@setErrorHandler
             }
-            Log.e("RxJava_HOOK", "Undeliverable exception received, not sure what to do" + error?.message)
+            Log.e(
+                "RxJava_HOOK",
+                "Undeliverable exception received, not sure what to do" + error?.message
+            )
         }
     }
 }

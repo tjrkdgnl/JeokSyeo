@@ -4,33 +4,25 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Message
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.base.BaseFragment
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.JourneyBoxBinding
 import gun0912.tedkeyboardobserver.TedRxKeyboardObserver
 
-class JourneyBoxFragment: Fragment() {
-    private lateinit var binding:JourneyBoxBinding
-    private var bindObj:JourneyBoxBinding?=null
+class JourneyBoxFragment: BaseFragment<JourneyBoxBinding>() {
+    override val layoutResID: Int = R.layout.journey_box
     private lateinit var viewModel: MainViewModel
 
+
     @SuppressLint("SetJavaScriptEnabled", "CheckResult")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj = DataBindingUtil.inflate(inflater, R.layout.journey_box,container,false)
-        binding = bindObj!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         TedRxKeyboardObserver(requireActivity())
@@ -86,7 +78,7 @@ class JourneyBoxFragment: Fragment() {
 
         //webview 할당
         binding.JourneyBoxWebView.loadUrl(resources.getString(R.string.journey_box_url))
-        return binding.root
+
     }
 
     fun canGoBack() = binding.JourneyBoxWebView.canGoBack()
@@ -95,9 +87,4 @@ class JourneyBoxFragment: Fragment() {
         binding.JourneyBoxWebView.goBack()
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-    }
 }

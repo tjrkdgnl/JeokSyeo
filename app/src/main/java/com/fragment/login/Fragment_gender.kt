@@ -1,22 +1,18 @@
 package com.fragment.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.base.BaseFragment
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentSignupGenderBinding
 
-class Fragment_gender : Fragment(),View.OnClickListener{
-    private lateinit var viewmodel: SignUpViewModel
-    private lateinit var binding: FragmentSignupGenderBinding
-    private var bindObj: FragmentSignupGenderBinding?=null
+class Fragment_gender : BaseFragment<FragmentSignupGenderBinding>(),View.OnClickListener{
+    override val layoutResID: Int =  R.layout.fragment_signup_gender
 
+    private lateinit var viewmodel: SignUpViewModel
     private var maleCheck = false
     private var femaleCheck = false
 
@@ -27,25 +23,13 @@ class Fragment_gender : Fragment(),View.OnClickListener{
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj =DataBindingUtil.inflate(inflater, R.layout.fragment_signup_gender, container, false)
-        binding = bindObj!!
-
-        binding.lifecycleOwner =this
         viewmodel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
         binding.maleLinearLayout.setOnClickListener(this)
         binding.femaleLinearLayout.setOnClickListener(this)
-
-        return binding.root
     }
 
     override fun onClick(v: View?) {
@@ -86,8 +70,4 @@ class Fragment_gender : Fragment(),View.OnClickListener{
         viewmodel.buttonState.value=true
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-    }
 }

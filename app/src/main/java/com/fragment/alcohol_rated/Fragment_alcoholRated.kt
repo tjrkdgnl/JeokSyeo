@@ -1,27 +1,19 @@
 package com.fragment.alcohol_rated
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.base.BaseFragment
 import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 
-class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
+class Fragment_alcoholRated: BaseFragment<FragmentAlcholRatedBinding>(), FragmentRated_Contract.BaseView {
+    override val layoutResID: Int = R.layout.fragment_alchol_rated
     private var position =0
-    private lateinit var binding:FragmentAlcholRatedBinding
-    private var bindObj:FragmentAlcholRatedBinding? =null
-    private lateinit var smoothScrollListener: SmoothScrollListener
     private lateinit var presenter:Presenter
 
-
-    interface  SmoothScrollListener{
-        fun moveScroll(position:Int)
-    }
 
     companion object{
         fun newInstance(posittion:Int):Fragment{
@@ -41,25 +33,11 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bindObj =DataBindingUtil.inflate(inflater, R.layout.fragment_alchol_rated,container,false)
-        binding = bindObj!!
-        binding.lifecycleOwner =this
-
-
-        //아이템 클릭 시, 해당 아이템으로 스크롤 이동
-//        smoothScrollListener = object : SmoothScrollListener {
-//            override fun moveScroll(position: Int) {
-//                with(Handler(Looper.getMainLooper())){
-//                    this.postDelayed( {
-//                        binding.ratedRecyclerView.smoothScrollToPosition(position)
-//                    },300L)
-//                }
-//            }
-//        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         presenter = Presenter().apply {
-            view =this@Fragment_alcoholRated
+            this.view =this@Fragment_alcoholRated
             activity = requireActivity()
             position =this@Fragment_alcoholRated.position
 //            smoothScrollListener = this@Fragment_alcoholRated.smoothScrollListener
@@ -68,15 +46,10 @@ class Fragment_alcoholRated:Fragment(), FragmentRated_Contract.BaseView {
 
         presenter.initRatedList()
 
-        return binding.root
     }
 
     override fun getBinding(): FragmentAlcholRatedBinding {
         return binding
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj =null
-    }
 }

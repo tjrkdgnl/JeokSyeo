@@ -2,25 +2,19 @@ package com.jeoksyeo.wet.activity.agreement
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.CustomAgreementBinding
 
-class Agreement : AppCompatActivity(){
+class Agreement : BaseActivity<CustomAgreementBinding>(){
 
+    override val layoutResID: Int = R.layout.custom_agreement
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val binding =
-            DataBindingUtil.setContentView<CustomAgreementBinding>(this, R.layout.custom_agreement)
-
+    override fun setOnCreate() {
         //html파일도 허용
         val setting = binding.webView.settings
         setting.javaScriptEnabled =true
@@ -56,17 +50,8 @@ class Agreement : AppCompatActivity(){
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
+    override fun destroyPresenter() {
     }
-
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
-
-
 
     override fun onBackPressed() {
         super.onBackPressed()

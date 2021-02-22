@@ -2,7 +2,6 @@ package com.jeoksyeo.wet.activity.comment
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,9 +9,8 @@ import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.custom.CustomDialog
 import com.model.alcohol_detail.Alcohol
 import com.model.my_comment.Comment
@@ -22,20 +20,17 @@ import com.xw.repo.BubbleSeekBar
 import com.xw.repo.BubbleSeekBar.OnProgressChangedListener
 
 @RequiresApi(Build.VERSION_CODES.M)
-class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnScrollChangeListener,
+class CommentActivity :BaseActivity<CommentWindowBinding>(), OnProgressChangedListener, View.OnScrollChangeListener,
     View.OnClickListener, TextWatcher, CommentContract.BaseView,ViewTreeObserver.OnPreDrawListener {
-    private lateinit var binding:CommentWindowBinding
-    private var bindObj:CommentWindowBinding? =null
+
     private var calculateScore:Float =0f
     private var alcohol:Alcohol? =null
     private var myComment:Comment? = null
-
     private lateinit var commentPresenter: CommentPresenter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.comment_window)
-        binding = bindObj!!
+    override val layoutResID: Int = R.layout.comment_window
 
+
+    override fun setOnCreate() {
         supportPostponeEnterTransition()
 
         binding.commentAlcoholImg.viewTreeObserver.addOnPreDrawListener{
@@ -56,7 +51,7 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
             val bundle = intent.getBundleExtra(GlobalApplication.ALCHOL_BUNDLE)
 
             bundle?.let { bun->
-               alcohol = bun.getParcelable(GlobalApplication.MOVE_ALCHOL)
+                alcohol = bun.getParcelable(GlobalApplication.MOVE_ALCHOL)
                 alcohol?.let {
                     binding.alcohol = it
                 }
@@ -82,18 +77,16 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
 
     }
 
+    override fun destroyPresenter() {
+        commentPresenter.detachView()
+
+    }
+
     override fun onStart() {
         super.onStart()
-        GlobalApplication.instance.activityClass = CommentActivity::class.java
+        GlobalApplication.instance.activityClass = this::class.java
     }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
+
 
     override fun onBackPressed() {
         val dialog = CustomDialog.createCustomDialog(this)
@@ -206,11 +199,4 @@ class CommentActivity :AppCompatActivity(), OnProgressChangedListener, View.OnSc
        return binding
     }
 
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        commentPresenter.detachView()
-        bindObj=null
-    }
 }

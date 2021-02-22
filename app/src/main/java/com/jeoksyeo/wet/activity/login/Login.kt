@@ -10,9 +10,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -38,9 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class Login : AppCompatActivity(), View.OnClickListener {
-    private lateinit var binding: LoginBinding
-    private var bindObj: LoginBinding? =null
+class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
     private val GOOGLE_SIGN = 1
     private lateinit var googleLogin: GoogleLogin
     private lateinit var kakaoLogin: KakaoLogin
@@ -52,7 +49,6 @@ class Login : AppCompatActivity(), View.OnClickListener {
     private val executeProgressBar: (Boolean) -> Unit = { status ->
         progressbarStatus(this, status)
     }
-
     //executeProgressBar를 다르게 사용할 수 있는 패턴들
 //    private val exe = fun(){}
 //
@@ -64,6 +60,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
 //        return check
 //    }
 
+    override val layoutResID: Int = R.layout.login
+
     init {
         loginObj = this
     }
@@ -72,13 +70,9 @@ class Login : AppCompatActivity(), View.OnClickListener {
         lateinit var loginObj: Login
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.login)
-        binding = bindObj!!
 
-
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    override fun setOnCreate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             networkUtil = NetworkUtil(this)
             networkUtil.register()
         }
@@ -90,18 +84,18 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun destroyPresenter() {
+        compositdisposable.dispose()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = Login::class.java
     }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
-    }
+
 
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)
@@ -355,14 +349,5 @@ class Login : AppCompatActivity(), View.OnClickListener {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
-        compositdisposable.dispose()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
     }
 }

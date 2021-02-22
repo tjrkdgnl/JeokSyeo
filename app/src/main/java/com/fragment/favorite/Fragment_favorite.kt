@@ -1,20 +1,16 @@
 package com.fragment.favorite
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.base.BaseFragment
 import com.viewmodel.FavoriteViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentFavoriteBinding
 
-class Fragment_favorite : Fragment(), FavoriteContract.BaseView {
-    private lateinit var binding: FragmentFavoriteBinding
-    private var bindObj: FragmentFavoriteBinding? =null
-
+class Fragment_favorite : BaseFragment<FragmentFavoriteBinding>(), FavoriteContract.BaseView {
+    override val layoutResID: Int = R.layout.fragment_favorite
     private var position = 0
     private lateinit var presenter: Presenter
 
@@ -36,18 +32,11 @@ class Fragment_favorite : Fragment(), FavoriteContract.BaseView {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        bindObj =  DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
-        binding =bindObj!!
-        binding.lifecycleOwner = this
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         presenter = Presenter().apply {
-            view = this@Fragment_favorite
+            this.view = this@Fragment_favorite
             viewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
             context = requireContext()
             position = this@Fragment_favorite.position
@@ -55,7 +44,6 @@ class Fragment_favorite : Fragment(), FavoriteContract.BaseView {
 
         presenter.getMyAlcohol()
 
-        return binding.root
     }
 
     override fun getBinding(): FragmentFavoriteBinding {
@@ -65,6 +53,5 @@ class Fragment_favorite : Fragment(), FavoriteContract.BaseView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
-        bindObj =null
     }
 }

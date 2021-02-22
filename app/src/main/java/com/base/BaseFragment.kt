@@ -12,16 +12,26 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     abstract val layoutResID: Int
 
-    protected lateinit var binding: T
+    private  var bindingObj:T? = null
+    protected val binding by lazy {
+        bindingObj!!
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, layoutResID, container, false)
+        bindingObj = DataBindingUtil.inflate(layoutInflater, layoutResID, container, false)
         binding.lifecycleOwner = this
 
         return binding.root
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        bindingObj =null
+    }
+
 }

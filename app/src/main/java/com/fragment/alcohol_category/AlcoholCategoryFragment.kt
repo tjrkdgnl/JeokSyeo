@@ -1,26 +1,21 @@
 package com.fragment.alcohol_category
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.adapter.alcohol_category.GridViewPagerAdapter
 import com.adapter.alcohol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
+import com.base.BaseFragment
 import com.fragment.alcohol_category.viewpager_items.Fragment_Grid
 import com.fragment.alcohol_category.viewpager_items.Fragment_List
 import com.fragment.search.SearchFragment
@@ -33,20 +28,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
-    TabLayout.OnTabSelectedListener
-    , View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-    private lateinit var binding: AlcoholCategoryBinding
+class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
+    AlcoholCategoryContact.BaseView,
+    TabLayout.OnTabSelectedListener, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    override val layoutResID: Int = R.layout.alcohol_category
     private lateinit var categoryPresenter: Presenter
-    private lateinit var activityContext: Context
     private lateinit var viewModel: AlcoholCategoryViewModel
     private var currentItem: Int = 0
     private var popupMenu: PopupMenu? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        this.activityContext = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,19 +44,16 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
             currentItem = it.getInt(GlobalApplication.MOVE_TYPE)
         }
 
+        viewModel = ViewModelProvider(this).get(AlcoholCategoryViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.alcohol_category, container, false)
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         categoryPresenter = Presenter().apply {
-            view = this@AlcoholCategoryFragment
-            this.context = activityContext
+            this.view = this@AlcoholCategoryFragment
+            this.context = requireContext()
         }
 
         binding.tabLayoutAlcoholList.addOnTabSelectedListener(this)
@@ -78,19 +64,6 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
         binding.sortingConstraintLayout.setOnClickListener(this)
         binding.windowHeader.windowHeaderLogo.setOnClickListener(this)
 
-
-        viewModel = ViewModelProvider(requireActivity()).get(AlcoholCategoryViewModel::class.java)
-
-        return binding.root
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        //뷰페이저 초기화
-        categoryPresenter.inintTabLayout(activityContext, currentItem)
 
         binding.viewPager2Container.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
@@ -106,15 +79,21 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
                     )
                 } else {
                     (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(
-                        ContextCompat.getColor(activityContext, R.color.orange)
+                        ContextCompat.getColor(requireContext(), R.color.orange)
                     )
                 }
             }
         })
 
-        viewModel.changePosition.observe(requireActivity(), Observer {
-            setTotalCount(viewModel.totalCountList[binding.viewPager2Container.currentItem]) }
-        )
+        viewModel.changePosition.observe(requireActivity(), {
+            setTotalCount(viewModel.totalCountList[binding.viewPager2Container.currentItem])
+        })
+
+
+        //뷰페이저 초기화
+        categoryPresenter.inintTabLayout(this, currentItem, viewModel.lastToggle)
+
+
     }
 
     override fun onDestroy() {
@@ -145,7 +124,8 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
             binding.imageViewViewToggle.setImageResource(R.mipmap.grid_on)
 
             activity?.let {
-                binding.viewPager2Container.adapter = GridViewPagerAdapter(it)
+                binding.viewPager2Container.adapter = GridViewPagerAdapter(this)
+                viewModel.lastToggle = AlcoholCategoryViewModel.GRID_TOGGLE
             }
 
         } else {
@@ -153,7 +133,8 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
             binding.imageViewViewToggle.setImageResource(R.mipmap.grid_off)
 
             activity?.let {
-                binding.viewPager2Container.adapter = ListViewPagerAdapter(it)
+                binding.viewPager2Container.adapter = ListViewPagerAdapter(this)
+                viewModel.lastToggle = AlcoholCategoryViewModel.LIST_TOGGLE
             }
         }
         binding.viewPager2Container.currentItem = offset
@@ -162,7 +143,10 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
 
     @SuppressLint("SetTextI18n")
     override fun setTotalCount(alcoholCount: Int) {
-        binding.textViewTotalProduct.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(11f))
+        binding.textViewTotalProduct.setTextSize(
+            TypedValue.COMPLEX_UNIT_DIP,
+            GlobalApplication.instance.getCalculatorTextSize(11f)
+        )
         binding.textViewTotalProduct.text = "총  ${alcoholCount}개의 주류가 있습니다."
     }
 
@@ -176,7 +160,7 @@ class AlcoholCategoryFragment : Fragment(), AlcoholCategoryContact.BaseView,
         } else {
             (tab?.customView as? TextView)?.setTextColor(
                 ContextCompat.getColor(
-                    activityContext,
+                    requireContext(),
                     R.color.tabColor
                 )
             )

@@ -1,9 +1,7 @@
 package com.jeoksyeo.wet.activity.main
 
 import android.animation.Animator
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
@@ -11,12 +9,10 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.fragment.joury_box.JourneyBoxFragment
 import com.fragment.main.MainFragment
 import com.fragment.mypage.MyPageFragment
@@ -28,19 +24,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView.OnNavigationItemSelectedListener {
-    private lateinit var binding: RealMainActivityBinding
-    private  var bindObj: RealMainActivityBinding? =null
+class MainActivity : BaseActivity<RealMainActivityBinding>(), Contract.BaseView,
+    BottomNavigationView.OnNavigationItemSelectedListener {
+
+    override val layoutResID: Int = R.layout.real_main_activity
+
     private lateinit var presenter: Presenter
-    private lateinit var viewModel:MainViewModel
-    private var journeyBoxFragment:JourneyBoxFragment? =null
+    private lateinit var viewModel: MainViewModel
+    private var journeyBoxFragment: JourneyBoxFragment? = null
 
-    @SuppressLint("CheckResult")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj= DataBindingUtil.setContentView(this, R.layout.real_main_activity)
-        binding = bindObj!!
-
+    override fun setOnCreate() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         presenter = Presenter().apply {
@@ -52,7 +45,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         presenter.setNetworkUtil()
 
         //main fragment set
-        this.supportFragmentManager
+        supportFragmentManager
             .beginTransaction()
             .add(R.id.fragment_container, MainFragment())
             .commitAllowingStateLoss()
@@ -74,90 +67,6 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         binding.navigationBottomBar.selectedItemId = R.id.navigation_journal
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-
-            R.id.navigation_journey -> {
-                if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journey){
-                    if(journeyBoxFragment ==null){
-                        journeyBoxFragment = JourneyBoxFragment()
-                    }
-
-                    journeyBoxFragment?.let {
-                        replaceFragment(it,"journey")
-                        showTheJourneyLoginToast()
-
-                    }
-                }
-                return true
-            }
-
-            R.id.navigation_journal -> {
-                //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
-                if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_journal){
-                    replaceFragment(MainFragment(), "main")
-                    cancelTheJourneyLoginToast()
-                }
-                return true
-            }
-
-            R.id.navigation_myPage -> {
-                //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
-                if(  binding.navigationBottomBar.selectedItemId != R.id.navigation_myPage){
-                    replaceFragment(MyPageFragment(), "mypage")
-                    cancelTheJourneyLoginToast()
-                }
-                return true
-            }
-
-            else -> {
-                return  false
-            }
-        }
-    }
-
-    override fun onBackPressed() {
-        val idx = this@MainActivity.supportFragmentManager.backStackEntryCount -1
-
-        if(idx >= 0){
-            val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
-            val fragmentName = entry.name
-
-            //bottomNavigationView에 있는 목록은 곧장 앱 종료
-            if(fragmentName =="journey"){
-
-                journeyBoxFragment?.canGoBack()?.let { canGo->
-                    if(canGo){
-                        journeyBoxFragment?.goBack()
-
-                    }
-                    else{
-                        finish()
-                    }
-
-
-                } ?: finish()
-            }
-            else {
-                //depth가 있는 경우에는 fragment stack에서 pop
-                if(fragmentName =="main" || fragmentName =="mypage"){
-                    finish()
-                }
-                else{
-                    CoroutineScope(Dispatchers.IO).launch {
-                        fragmentName.let {fgName->
-                            this@MainActivity.supportFragmentManager.popBackStack(
-                                fgName, FragmentManager.POP_BACK_STACK_INCLUSIVE
-                            )
-                        }
-                    }
-                }
-            }
-        } else{
-            finish()
-        }
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
@@ -170,21 +79,92 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-
+    override fun destroyPresenter() {
+        presenter.detachView()
     }
 
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+
+            R.id.navigation_journey -> {
+                if (binding.navigationBottomBar.selectedItemId != R.id.navigation_journey) {
+                    if (journeyBoxFragment == null) {
+                        journeyBoxFragment = JourneyBoxFragment()
+                    }
+
+                    journeyBoxFragment?.let {
+                        replaceFragment(it, "journey")
+                        showTheJourneyLoginToast()
+
+                    }
+                }
+                return true
+            }
+
+            R.id.navigation_journal -> {
+                //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
+                if (binding.navigationBottomBar.selectedItemId != R.id.navigation_journal) {
+                    replaceFragment(MainFragment(), "main")
+                    cancelTheJourneyLoginToast()
+                }
+                return true
+            }
+
+            R.id.navigation_myPage -> {
+                //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
+                if (binding.navigationBottomBar.selectedItemId != R.id.navigation_myPage) {
+                    replaceFragment(MyPageFragment(), "mypage")
+                    cancelTheJourneyLoginToast()
+                }
+                return true
+            }
+
+            else -> {
+                return false
+            }
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        bindObj=null
+    override fun onBackPressed() {
+        val idx = this@MainActivity.supportFragmentManager.backStackEntryCount - 1
+
+        if (idx >= 0) {
+            val entry = this@MainActivity.supportFragmentManager.getBackStackEntryAt(idx)
+            val fragmentName = entry.name
+
+            //bottomNavigationView에 있는 목록은 곧장 앱 종료
+            if (fragmentName == "journey") {
+
+                journeyBoxFragment?.canGoBack()?.let { canGo ->
+                    if (canGo) {
+                        journeyBoxFragment?.goBack()
+
+                    } else {
+                        finish()
+                    }
+
+
+                } ?: finish()
+            } else {
+                //depth가 있는 경우에는 fragment stack에서 pop
+                if (fragmentName == "main" || fragmentName == "mypage") {
+                    finish()
+                } else {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        fragmentName.let { fgName ->
+                            this@MainActivity.supportFragmentManager.popBackStack(
+                                fgName, FragmentManager.POP_BACK_STACK_INCLUSIVE
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            finish()
+        }
     }
+
 
     override fun getBinding(): RealMainActivityBinding {
         return binding
@@ -201,7 +181,7 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
         binding.journeyLoginToast.root.visibility = View.VISIBLE
 
         val alphaAnimation = AlphaAnimation(1f, 0f)
-        alphaAnimation.startOffset =10000
+        alphaAnimation.startOffset = 10000
         alphaAnimation.duration = 500
         alphaAnimation.interpolator = AccelerateInterpolator()
         binding.journeyLoginToast.root.animation = alphaAnimation
@@ -230,17 +210,17 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
 
     //바텀 네비게이션 뷰 show or hide 설정
     override fun bottomNavigationVisiblity(check: Int) {
-        if(check ==1){
+        if (check == 1) {
             binding.navigationBottomBar
                 .animate()
                 .translationY(300f)
                 .setDuration(300)
-                .setListener(object : Animator.AnimatorListener{
+                .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator?) {
                     }
 
                     override fun onAnimationEnd(animation: Animator?) {
-                        binding.navigationBottomBar.visibility= View.GONE
+                        binding.navigationBottomBar.visibility = View.GONE
                     }
 
                     override fun onAnimationCancel(animation: Animator?) {
@@ -249,17 +229,16 @@ class MainActivity : AppCompatActivity(), Contract.BaseView,BottomNavigationView
                     override fun onAnimationRepeat(animation: Animator?) {
                     }
                 })
-                .startDelay =300
+                .startDelay = 300
 
-        }
-        else if(check ==0) {
+        } else if (check == 0) {
             binding.navigationBottomBar
                 .animate()
                 .translationY(0f)
                 .setDuration(300)
-                .setListener(object : Animator.AnimatorListener{
+                .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator?) {
-                        binding.navigationBottomBar.visibility= View.VISIBLE
+                        binding.navigationBottomBar.visibility = View.VISIBLE
                     }
 
                     override fun onAnimationEnd(animation: Animator?) {

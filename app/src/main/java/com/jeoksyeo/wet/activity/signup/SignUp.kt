@@ -3,32 +3,25 @@ package com.jeoksyeo.wet.activity.signup
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication
+import com.base.BaseActivity
 import com.jeoksyeo.wet.activity.login.Login
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.ActivitySignupBinding
 
-class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseView {
-    private lateinit var binding: ActivitySignupBinding
-    private var bindObj: ActivitySignupBinding? =null
+class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, SignUpContract.BaseView {
     private var idx = 0
     private lateinit var viewModel: SignUpViewModel
     private lateinit var presenter: SignUpPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bindObj = DataBindingUtil.setContentView(this, R.layout.activity_signup)
-        binding = bindObj!!
-        binding.lifecycleOwner = this
+    override val layoutResID: Int = R.layout.activity_signup
 
+    override fun setOnCreate() {
         presenter = SignUpPresenter().apply {
             view = this@SignUp
             activity = this@SignUp
@@ -47,21 +40,15 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
         viewModel.buttonState.observe(this, Observer {
             binding.infoConfirmButton.isEnabled = it
         })
+    }
 
-
+    override fun destroyPresenter() {
+        presenter.detachView()
     }
 
     override fun onStart() {
         super.onStart()
         GlobalApplication.instance.activityClass = SignUp::class.java
-    }
-    override fun onResume() {
-        super.onResume()
-        GlobalApplication.instance.setActivityBackground(true)
-    }
-    override fun onStop() {
-        super.onStop()
-        GlobalApplication.instance.setActivityBackground(false)
     }
 
     override fun onClick(v: View?) {
@@ -142,11 +129,5 @@ class SignUp : AppCompatActivity(), View.OnClickListener, SignUpContract.BaseVie
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detachView()
-        bindObj =null
     }
 }
