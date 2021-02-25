@@ -29,9 +29,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GlobalApplication : MultiDexApplication() {
-    var activityClass: Class<*>? = null
     var device_width = 0f
     var device_height = 0f
+    private var currentActivty:Activity? =null
     private var activityBackground = false
     private var toastView: View? = null
     private val banWord = listOf("개발", "운영", "관리자", "적셔")
@@ -47,7 +47,6 @@ class GlobalApplication : MultiDexApplication() {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
-
 
 
     override fun onCreate() {
@@ -67,7 +66,12 @@ class GlobalApplication : MultiDexApplication() {
 
         //오류보고 툴
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+
+        //액티비티감지
+        attachedActivity()
     }
+
+
 
     companion object {
         //싱글턴 객체 생성
@@ -119,6 +123,11 @@ class GlobalApplication : MultiDexApplication() {
 
         const val PAGE_REVIEW_COUNT = 3
     }
+
+    fun setCurrentActivity(activity: Activity?){
+        currentActivty = activity
+    }
+    fun getCurrentActivity() = currentActivty
 
     fun getCalculatorTextSize(
         spValue: Float,
@@ -265,6 +274,36 @@ class GlobalApplication : MultiDexApplication() {
                 )
             }
         }
+    }
+
+
+    fun attachedActivity(){
+           registerActivityLifecycleCallbacks(object :ActivityLifecycleCallbacks{
+            override fun onActivityCreated(
+                activity: Activity,
+                savedInstanceState: Bundle?
+            ) {
+            }
+
+            override fun onActivityStarted(activity: Activity) {
+            }
+
+            override fun onActivityResumed(activity: Activity) {
+                currentActivty = activity
+            }
+
+            override fun onActivityPaused(activity: Activity) {
+            }
+
+            override fun onActivityStopped(activity: Activity) {
+            }
+
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+            }
+
+            override fun onActivityDestroyed(activity: Activity) {
+            }
+        })
     }
 
 

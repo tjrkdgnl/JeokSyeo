@@ -1,17 +1,18 @@
 package com.base
 
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.application.GlobalApplication
+import com.service.NetworkUtil
 
 abstract class BaseActivity<T:ViewDataBinding> :AppCompatActivity() {
+    private lateinit var networkUtil: NetworkUtil
+
     abstract val layoutResID:Int
-
     private var bindingObj: T? =null
-
     protected val binding by lazy {
         bindingObj!!
     }
@@ -25,13 +26,22 @@ abstract class BaseActivity<T:ViewDataBinding> :AppCompatActivity() {
         bindingObj = DataBindingUtil.setContentView(this,layoutResID)
         binding.lifecycleOwner =this
 
+
+        setNetworkUtil()
+
         setOnCreate()
+    }
+
+    fun setNetworkUtil() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil = NetworkUtil(this)
+            networkUtil.register()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         GlobalApplication.instance.setActivityBackground(false)
-
     }
 
     override fun onStop() {
@@ -41,7 +51,11 @@ abstract class BaseActivity<T:ViewDataBinding> :AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        GlobalApplication.instance.activityClass=null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkUtil.unRegister()
+        }
+
+        GlobalApplication.instance.setCurrentActivity(null)
         destroyPresenter()
         bindingObj=null
     }

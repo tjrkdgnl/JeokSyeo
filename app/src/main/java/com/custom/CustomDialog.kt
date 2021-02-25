@@ -13,7 +13,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import com.application.GlobalApplication
-import com.jeoksyeo.wet.activity.login.Login
+import com.activities.login.Login
 import com.vuforia.engine.wet.R
 
 
@@ -47,14 +47,13 @@ object CustomDialog {
         }
 
         okButton.setOnClickListener {
+            dialog.dismiss()
             val bundle = Bundle()
             bundle.putInt(GlobalApplication.ACTIVITY_HANDLING, activityHandle)
             GlobalApplication.instance.moveActivity(
                 context, Login::class.java,
                 0, bundle, GlobalApplication.ACTIVITY_HANDLING_BUNDLE
             )
-
-            dialog.dismiss()
         }
         cancelButton.setOnClickListener { dialog.dismiss() }
     }

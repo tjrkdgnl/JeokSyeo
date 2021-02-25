@@ -22,6 +22,7 @@ import com.model.version.GetVersionInfo
 import io.reactivex.Flowable
 import io.reactivex.Single
 import okhttp3.MultipartBody
+import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
@@ -61,6 +62,10 @@ interface ApiService {
 
     @GET("v1/area")
     fun getArea(@Header("X-Request-ID")UUID: String,@Query("c")code:String? ) : Flowable<GetAreaData>
+
+    @GET("v1/area")
+    fun callbackGetArea(@Header("X-Request-ID")UUID: String,@Query("c")code:String? ) : Call<GetAreaData>
+
 
     @GET("v1/auth/check-nickname")
     fun checkNickName(@Header("X-Request-ID")UUID: String,@Query("n")name:String ) : Single<GetResult>

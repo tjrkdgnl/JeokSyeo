@@ -143,7 +143,7 @@ object JWTUtil {
 
 
     //한번 회원가입을 진행하고나서 로그인을 계속 유지시키기 위한 method
-    suspend fun checkToken(): Boolean {
+    suspend fun checkAccessToken(): Boolean {
         //엑세스 토큰이 내장 DB에 저장되어져 있다면 로그인을 한 상태.
         var check = false
 
