@@ -1,13 +1,13 @@
 package com.activities.level
 
 import android.content.Context
+import com.base.BasePresenter
+import com.base.BaseView
 import com.vuforia.engine.wet.databinding.LevelBinding
 
 interface LevelContract {
 
-    interface BaseView{
-        fun getView():LevelBinding
-
+    interface LevelView: BaseView<LevelBinding> {
         fun settingMainAlcholGIF(level:Int)
 
         fun settingExperience(reviewCount:Int,level: Int)
@@ -18,17 +18,13 @@ interface LevelContract {
 
     }
 
-    interface BasePresenter{
-        var view:BaseView
-        var context:Context
+    interface LevelPresenter:BasePresenter<LevelBinding>{
+        var view:LevelView
 
         fun getMyLevel()
 
         fun initMiniImageArray()
 
         fun detach()
-
-        fun setNetworkUtil()
-
     }
 }

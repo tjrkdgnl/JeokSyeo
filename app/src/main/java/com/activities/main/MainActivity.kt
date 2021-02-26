@@ -19,12 +19,13 @@ import com.fragments.mypage.MyPageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
+import com.vuforia.engine.wet.databinding.MainBinding
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : BaseActivity<RealMainActivityBinding>(), Contract.BaseView,
+class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainView,
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     override val layoutResID: Int = R.layout.real_main_activity
@@ -40,9 +41,6 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), Contract.BaseView,
             view = this@MainActivity
             activity = this@MainActivity
         }
-
-        //네트워크 감지
-        presenter.setNetworkUtil()
 
         //main fragment set
         supportFragmentManager
@@ -166,7 +164,7 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), Contract.BaseView,
     }
 
 
-    override fun getBinding(): RealMainActivityBinding {
+    override fun getBindingObj(): RealMainActivityBinding {
         return binding
     }
 

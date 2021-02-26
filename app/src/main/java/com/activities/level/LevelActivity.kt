@@ -14,7 +14,7 @@ import com.base.BaseActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.LevelBinding
 
-class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.BaseView {
+class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.LevelView {
     private lateinit var presenter: Presenter
 
     override val layoutResID: Int = R.layout.level
@@ -22,12 +22,10 @@ class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.BaseView {
     override fun setOnCreate() {
         presenter = Presenter().apply {
             view = this@LevelActivity
-            context = this@LevelActivity.baseContext
+            activity = this@LevelActivity
         }
 
         setHeaderInit()
-
-        presenter.setNetworkUtil()
 
         presenter.initMiniImageArray()
         presenter.getMyLevel()
@@ -43,7 +41,7 @@ class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.BaseView {
         overridePendingTransition(R.anim.left_to_current,R.anim.current_to_right)
     }
 
-    override fun getView(): LevelBinding {
+    override fun getBindingObj(): LevelBinding {
         return binding
     }
 

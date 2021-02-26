@@ -1,7 +1,7 @@
 package com.activities.main
 
+import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
@@ -11,27 +11,14 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.activities.alcohol_detail.AlcoholDetail
 import com.service.ApiGenerator
 import com.service.ApiService
-import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class Presenter:Contract.BasePresenter {
-
-    override lateinit var view: Contract.BaseView
-
-    override lateinit var activity: FragmentActivity
-
-    lateinit var networkUtil:NetworkUtil
-
+class Presenter:MainContract.MainPresenter {
+    override lateinit var view: MainContract.MainView
+    override lateinit var activity: Activity
     val compositeDisposable =CompositeDisposable()
-
-    override fun setNetworkUtil() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(activity)
-            networkUtil.register()
-        }
-    }
 
     override fun getAlcohol(alcoholId: String) {
         compositeDisposable.add(
@@ -113,8 +100,5 @@ class Presenter:Contract.BasePresenter {
     override fun detachView() {
         compositeDisposable.dispose()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
     }
 }

@@ -14,7 +14,7 @@ import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.ActivitySignupBinding
 
-class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, SignUpContract.BaseView {
+class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, SignUpContract.SignUpView {
     private var idx = 0
     private lateinit var viewModel: SignUpViewModel
     private lateinit var presenter: SignUpPresenter
@@ -27,7 +27,6 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
             activity = this@SignUp
             intent = this@SignUp.intent
         }
-        presenter.setNetworkUtil()
 
         presenter.initViewpager()
 
@@ -56,7 +55,7 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
         }
     }
 
-    override fun getBinding(): ActivitySignupBinding {
+    override fun getBindingObj(): ActivitySignupBinding {
         return binding
     }
 

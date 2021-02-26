@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Splash : BaseActivity<SplashBinding>(), SplashContract.BaseView {
+class Splash : BaseActivity<SplashBinding>(), SplashContract.SplashView {
 
     private lateinit var presenter:SplashPresenter
 
@@ -63,7 +63,7 @@ class Splash : BaseActivity<SplashBinding>(), SplashContract.BaseView {
        return  presenter.versionCheck()
     }
 
-    override fun getBinding(): SplashBinding {
+    override fun getBindingObj(): SplashBinding {
         return binding
     }
 }

@@ -7,11 +7,11 @@ import com.adapters.navigation.SettingAdapter
 import com.application.GlobalApplication
 import com.model.setting.SettingItem
 
-class Presenter : SettingContract.BasePresenter {
-    override lateinit var view: SettingContract.BaseView
+class Presenter : SettingContract.SettingPresenter {
+    override lateinit var view: SettingContract.SettingView
+    override lateinit var activity: Activity
 
-
-    override fun initItem(context: Context,activity:Activity) {
+    override fun initItem(context: Context, activity:Activity) {
         val lst = listOf<SettingItem>(
             SettingItem("회원정보 수정", 1),
             SettingItem("이용약관", 1),
@@ -19,9 +19,9 @@ class Presenter : SettingContract.BasePresenter {
             SettingItem("앱버전",0),
             SettingItem("회원탈퇴", 0))
 
-        view.getView().settingRecylcerView.adapter = SettingAdapter(context,activity,lst.toMutableList(),GlobalApplication.userInfo.getProvider())
-        view.getView().settingRecylcerView.setHasFixedSize(true)
-        view.getView().settingRecylcerView.layoutManager = LinearLayoutManager(context)
+        view.getBindingObj().settingRecylcerView.adapter = SettingAdapter(context,activity,lst.toMutableList(),GlobalApplication.userInfo.getProvider())
+        view.getBindingObj().settingRecylcerView.setHasFixedSize(true)
+        view.getBindingObj().settingRecylcerView.layoutManager = LinearLayoutManager(context)
 
     }
 

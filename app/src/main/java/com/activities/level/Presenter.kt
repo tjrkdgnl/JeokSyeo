@@ -1,7 +1,7 @@
 package com.activities.level
 
+import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -11,7 +11,6 @@ import com.error.ErrorManager
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
-import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -20,46 +19,30 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Presenter :LevelContract.BasePresenter{
+class Presenter :LevelContract.LevelPresenter{
 
-    override lateinit var view: LevelContract.BaseView
+    override lateinit var view: LevelContract.LevelView
 
-    override lateinit var context: Context
+    override lateinit var activity: Activity
 
     private val compositeDisposable = CompositeDisposable()
 
-     val miniAlcoholList = mutableListOf<ImageView>()
-
-    lateinit var networkUtil: NetworkUtil
+    val miniAlcoholList = mutableListOf<ImageView>()
 
     var rankCount:Int =0
 
-    override fun setNetworkUtil() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(context)
-            networkUtil.register()
-        }
-    }
 
     override fun initMiniImageArray(){
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv1)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv2)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv3)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv4)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv5)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv6)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv7)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv8)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv9)
-        miniAlcoholList.add(view.getView().levelBottomBottle.imageViewEvaluationByMeBottleLv10)
-    }
-
-    override fun detach() {
-        compositeDisposable.dispose()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv1)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv2)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv3)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv4)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv5)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv6)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv7)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv8)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv9)
+        miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv10)
     }
 
     override fun getMyLevel() {
@@ -76,20 +59,24 @@ class Presenter :LevelContract.BasePresenter{
                             it.data?.let {info->
                                 view.settingMainAlcholGIF(info.level)
                                 view.settingExperience(info.reviewCount,info.level)
-                                view.getView().defaultMainBottle.visibility = View.INVISIBLE
+                                view.getBindingObj().defaultMainBottle.visibility = View.INVISIBLE
 
                                 rankCount = info.level5Rank
 
                             }
                         },{ t ->
-                            CustomDialog.networkErrorDialog(context)
+                            CustomDialog.networkErrorDialog(activity)
                             Log.e(ErrorManager.LEVEL_INFO,t.message.toString())
                         }))
                 }
                 else{
-                    view.getView().imageViewEvaluationByMeMainBottle.visibility = View.INVISIBLE
+                    view.getBindingObj().imageViewEvaluationByMeMainBottle.visibility = View.INVISIBLE
                 }
             }
         }
+    }
+
+    override fun detach() {
+        compositeDisposable.dispose()
     }
 }

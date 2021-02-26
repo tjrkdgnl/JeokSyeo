@@ -9,13 +9,14 @@ import com.base.BaseActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.SettingBinding
 
-class SettingActivity: BaseActivity<SettingBinding>(), SettingContract.BaseView{
+class SettingActivity: BaseActivity<SettingBinding>(), SettingContract.SettingView{
     private lateinit var presenter:Presenter
     override val layoutResID: Int = R.layout.setting
 
     override fun setOnCreate() {
         presenter = Presenter().apply {
             view =this@SettingActivity
+            activity =this@SettingActivity
         }
 
         setStatusBarInit()
@@ -28,7 +29,7 @@ class SettingActivity: BaseActivity<SettingBinding>(), SettingContract.BaseView{
     }
 
 
-    override fun getView(): SettingBinding {
+    override fun getBindingObj(): SettingBinding {
         return binding
     }
 

@@ -2,13 +2,14 @@ package com.activities.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.base.BasePresenter
+import com.base.BaseView
+import com.vuforia.engine.wet.databinding.MainBinding
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 
-interface Contract {
+interface MainContract {
 
-    interface BaseView{
-        fun getBinding():RealMainActivityBinding
-
+    interface MainView:BaseView<RealMainActivityBinding>{
         fun replaceFragment(fragment: Fragment,name:String)
 
         fun cancelTheJourneyLoginToast()
@@ -19,13 +20,10 @@ interface Contract {
 
     }
 
-    interface BasePresenter{
-        var view:BaseView
-        var activity: FragmentActivity
+    interface MainPresenter: BasePresenter<RealMainActivityBinding>{
+        var view:MainView
 
         fun detachView()
-
-        fun setNetworkUtil()
 
         fun getAlcohol(alcoholId: String)
 

@@ -25,9 +25,6 @@ class Presenter : FavoriteContract.FavoritePresenter {
 
     private val compositeDisposable = CompositeDisposable()
 
-    private lateinit var networkUtil: NetworkUtil
-
-
 
     override fun initTabLayout() {
         val tabList = listOf("전체","전통주","맥주","와인","양주","사케")
@@ -60,8 +57,6 @@ class Presenter : FavoriteContract.FavoritePresenter {
 
     }
 
-
-
     override fun initProfile() {
         GlobalApplication.userInfo.getProfile()?.let { lst->
             if(lst.isNotEmpty()){
@@ -80,15 +75,7 @@ class Presenter : FavoriteContract.FavoritePresenter {
         view.getBindingObj().profileHeader.alcoholRatedName.text = GlobalApplication.userInfo.nickName
     }
 
-
-
-
-
     override fun detach() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
-
         compositeDisposable.dispose()
     }
 }

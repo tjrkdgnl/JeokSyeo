@@ -23,18 +23,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class SignUpPresenter : SignUpContract.BasePresenter {
-    override lateinit var view: SignUpContract.BaseView
-    override lateinit var activity: FragmentActivity
+class SignUpPresenter : SignUpContract.SignUpPresenter {
+    override lateinit var view: SignUpContract.SignUpView
+    override lateinit var activity: Activity
     private var compositDisposable =CompositeDisposable()
-    private lateinit var networkUtil: NetworkUtil
 
-    override fun setNetworkUtil() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(activity)
-            networkUtil.register()
-        }
-    }
 
     override fun initViewpager() {
       val  mutableList = mutableListOf<String>()
@@ -54,13 +47,13 @@ class SignUpPresenter : SignUpContract.BasePresenter {
         mutableList.add("location")
 
         //progressbar init
-        view.getBinding().signupHeader.signUpHeaderProgressbar.max = mutableList.size
+        view.getBindingObj().signupHeader.signUpHeaderProgressbar.max = mutableList.size
 
         //viewPager2 init
-        val signUpViewPagerAdapter = SignUpViewPagerAdapter(activity, mutableList)
-        view.getBinding().viewPager2.adapter = signUpViewPagerAdapter
-        view.getBinding().viewPager2.isUserInputEnabled = false //viewpager2 스와이프off
-        view.getBinding().viewPager2.offscreenPageLimit = 1
+        val signUpViewPagerAdapter = SignUpViewPagerAdapter((activity as FragmentActivity), mutableList)
+        view.getBindingObj().viewPager2.adapter = signUpViewPagerAdapter
+        view.getBindingObj().viewPager2.isUserInputEnabled = false //viewpager2 스와이프off
+        view.getBindingObj().viewPager2.offscreenPageLimit = 1
     }
 
     @SuppressLint("HardwareIds")
@@ -115,8 +108,5 @@ class SignUpPresenter : SignUpContract.BasePresenter {
 
     override fun detachView() {
         compositDisposable.dispose()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
     }
 }

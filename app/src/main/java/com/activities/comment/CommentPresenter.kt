@@ -29,8 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CommentPresenter :
-    CommentContract.CommentPresenter {
+class CommentPresenter : CommentContract.CommentPresenter {
     override lateinit var view: CommentContract.CommentView
     override lateinit var activity: Activity
     override lateinit var lifecycleOwner: LifecycleOwner

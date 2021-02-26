@@ -10,7 +10,6 @@ import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.error.ErrorManager
 import com.activities.main.MainActivity
-import com.activities.test.Test
 import com.model.user.UserInfo
 import com.service.ApiGenerator
 import com.service.ApiService
@@ -20,9 +19,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class SplashPresenter : SplashContract.BasePresenter {
+class SplashPresenter : SplashContract.SplashPresenter {
     private val compositedisposable =CompositeDisposable()
-    override lateinit var view: SplashContract.BaseView
+    override lateinit var view: SplashContract.SplashView
     override lateinit var activity: Activity
     private var retrofit = ApiGenerator.retrofit.create(ApiService::class.java)
     private val handler = Handler(Looper.getMainLooper())
