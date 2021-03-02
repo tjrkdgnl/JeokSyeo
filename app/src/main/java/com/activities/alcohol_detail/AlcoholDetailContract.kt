@@ -48,7 +48,8 @@ interface AlcoholDetailContract {
          * 액티비티로부터 구현된 AlcoholDetailView 인터페이스를 presenter가 얻도록합니다.
          * 이를 통해 presenter는 액티비티에서 구현한 baseView의 모든 메서드를 사용할 수 있습니다.
          */
-         var view:AlcoholDetailView
+        val view:AlcoholDetailView
+        var viewObj:AlcoholDetailView?
 
         /**
          * '주류상세정보'화면은 언제나 이전 화면으로부터 alcohol 객체를 넘겨받습니다. 이 객체가 갖고 있는 정보를 통해

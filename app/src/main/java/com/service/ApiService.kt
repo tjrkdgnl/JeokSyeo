@@ -148,7 +148,7 @@ interface ApiService {
     //수정
     @PUT("v1/alcohols/{alcohol_id}/reviews/{review_id}")
     fun editMyRatedReview(@Header("X-Request-ID")UUID: String,@Header("Authorization")token: String?,
-                          @Path("alcohol_id") alcoholId: String,@Path("review_id") commentId:String,
+                          @Path("alcohol_id") alcoholId: String?,@Path("review_id") commentId:String?,
                           @Body map:HashMap<String,Any>) : Single<com.model.result.GetResult>
 
     @PUT("v1/users")

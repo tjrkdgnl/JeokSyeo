@@ -16,7 +16,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class Presenter:MainContract.MainPresenter {
-    override lateinit var view: MainContract.MainView
+    override  val view: MainContract.MainView by lazy {
+        viewObj!!
+    }
+    override var viewObj: MainContract.MainView? =null
+
     override lateinit var activity: Activity
     val compositeDisposable =CompositeDisposable()
 
@@ -37,6 +41,7 @@ class Presenter:MainContract.MainPresenter {
                 )
                 intent.putExtra(GlobalApplication.ALCHOL_BUNDLE, bundle)
 
+                //애니메이션을 통한 화면 전환을 위해서 app단의 클래스로 이동을 관리한다.
                 GlobalApplication.instance.moveActivity(activity
                     , AlcoholDetail::class.java,
                     0,bundle, GlobalApplication.ALCHOL_BUNDLE,0)
@@ -99,6 +104,6 @@ class Presenter:MainContract.MainPresenter {
 
     override fun detachView() {
         compositeDisposable.dispose()
-
+        viewObj=null
     }
 }

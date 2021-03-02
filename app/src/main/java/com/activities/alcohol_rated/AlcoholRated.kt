@@ -23,7 +23,7 @@ class AlcoholRated :BaseActivity<AlcoholRatedBinding>(), AlcoholRatedContact.Rat
 
     override fun setOnCreate() {
         presenter = Presenter().apply {
-            view=this@AlcoholRated
+            viewObj=this@AlcoholRated
             activity =this@AlcoholRated
         }
 
@@ -53,12 +53,9 @@ class AlcoholRated :BaseActivity<AlcoholRatedBinding>(), AlcoholRatedContact.Rat
         }
     }
 
-
     override fun destroyPresenter() {
-
-
+        presenter.detach()
     }
-
 
     override fun getBindingObj(): AlcoholRatedBinding {
         return binding

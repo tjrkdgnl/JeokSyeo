@@ -1,7 +1,6 @@
 package com.activities.level
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -20,8 +19,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Presenter :LevelContract.LevelPresenter{
-
-    override lateinit var view: LevelContract.LevelView
+    override  val view: LevelContract.LevelView by lazy {
+        viewObj!!
+    }
+    override var viewObj: LevelContract.LevelView? =null
 
     override lateinit var activity: Activity
 
@@ -30,7 +31,6 @@ class Presenter :LevelContract.LevelPresenter{
     val miniAlcoholList = mutableListOf<ImageView>()
 
     var rankCount:Int =0
-
 
     override fun initMiniImageArray(){
         miniAlcoholList.add(view.getBindingObj().levelBottomBottle.imageViewEvaluationByMeBottleLv1)
@@ -61,8 +61,8 @@ class Presenter :LevelContract.LevelPresenter{
                                 view.settingExperience(info.reviewCount,info.level)
                                 view.getBindingObj().defaultMainBottle.visibility = View.INVISIBLE
 
+                                //5레벨일 때, 5레벨을 달성한 순서를 저장
                                 rankCount = info.level5Rank
-
                             }
                         },{ t ->
                             CustomDialog.networkErrorDialog(activity)
@@ -78,5 +78,6 @@ class Presenter :LevelContract.LevelPresenter{
 
     override fun detach() {
         compositeDisposable.dispose()
+        viewObj =null
     }
 }

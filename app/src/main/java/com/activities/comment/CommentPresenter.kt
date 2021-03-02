@@ -30,7 +30,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CommentPresenter : CommentContract.CommentPresenter {
-    override lateinit var view: CommentContract.CommentView
+    override var viewObj: CommentContract.CommentView? =null
+
+    override  val view: CommentContract.CommentView by lazy {
+        viewObj!!
+    }
+
     override lateinit var activity: Activity
     override lateinit var lifecycleOwner: LifecycleOwner
     private var compositDisposable = CompositeDisposable()
@@ -80,10 +85,12 @@ class CommentPresenter : CommentContract.CommentPresenter {
             .build()
     }
 
-    //주류에 대한 코멘트를 작성하는 메소드
     override fun setComment(context: Context, alcoholId: String?, alcoholName: String?) {
+        //API에 전송할 파라미터값 셋팅
         val map = HashMap<String, Any>()
-        map.put("contents", view.getBindingObj().commentWindowCommentEditText.text.toString())
+        map.put(
+            "contents",
+            view.getBindingObj().commentWindowCommentEditText.text.toString())
         map.put(
             "aroma",
             view.getBindingObj().commentWindowBottomInclude.commentWindowAromaSeekbar.progressFloat
@@ -111,40 +118,42 @@ class CommentPresenter : CommentContract.CommentPresenter {
             withContext(Dispatchers.Main) {
                 if (check) {
                     settingProgressbar(true)
-                    compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                        .setComment(
-                            GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(),
-                            alcoholId,
-                            map
-                        )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            settingProgressbar(false)
-                            it.data?.let { result ->
-                                result.result?.let {
-                                    if (it.equals("SUCCESS")) {
-                                        Toast.makeText(
-                                            context,
-                                            alcoholName + "에 리뷰를 남기셨습니다.",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        (context as Activity).finish()
-                                    } else
-                                        Toast.makeText(
-                                            context,
-                                            "주류 작성을 실패했습니다. 다시 시도해 주세요",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                    //api 호출
+                    compositDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .setComment(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(),
+                                alcoholId,
+                                map
+                            )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({    //api 호출 결과
+                                settingProgressbar(false)
+                                it.data?.let { result ->
+                                    result.result?.let {
+                                        if (it == "SUCCESS") {
+                                            Toast.makeText(
+                                                context,
+                                                alcoholName + "에 리뷰를 남기셨습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            (context as Activity).finish()
+                                        } else
+                                            Toast.makeText(
+                                                context,
+                                                "주류 작성을 실패했습니다. 다시 시도해 주세요",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                    }
                                 }
-                            }
 
-                        }, { t ->
-                            CustomDialog.networkErrorDialog(context)
-                            settingProgressbar(false)
-                            Log.e(ErrorManager.COMMENT, t.message.toString())
-                        })
+                            }, { t -> //api 호출 에러
+                                CustomDialog.networkErrorDialog(context)
+                                settingProgressbar(false)
+                                Log.e(ErrorManager.COMMENT, t.message.toString())
+                            })
                     )
                 } else {
                     CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
@@ -153,22 +162,22 @@ class CommentPresenter : CommentContract.CommentPresenter {
         }
     }
 
-    override fun detachView() {
-        compositDisposable.dispose()
-
-    }
-
-    //내가 남긴 코멘트 셋팅하는 메서드
     override fun setMyComment(myComment: Comment) {
-        view.getBindingObj().commentWindowBottomInclude.commentWindowAromaSeekbar.setProgress(myComment.aroma?.toFloat()!!)
+        view.getBindingObj().commentWindowBottomInclude.commentWindowAromaSeekbar.setProgress(
+            myComment.aroma?.toFloat()!!
+        )
         view.getBindingObj().commentWindowBottomInclude.commentWindowMourhfeelSeekbar.setProgress(
             myComment.mouthfeel?.toFloat()!!
         )
         view.getBindingObj().commentWindowBottomInclude.commentWindowAppearanceSeekbar.setProgress(
             myComment.appearance?.toFloat()!!
         )
-        view.getBindingObj().commentWindowBottomInclude.commentWindowTasteSeekbar.setProgress(myComment.taste?.toFloat()!!)
-        view.getBindingObj().commentWindowBottomInclude.commentWindowOverallSeekbar.setProgress(myComment.overall?.toFloat()!!)
+        view.getBindingObj().commentWindowBottomInclude.commentWindowTasteSeekbar.setProgress(
+            myComment.taste?.toFloat()!!
+        )
+        view.getBindingObj().commentWindowBottomInclude.commentWindowOverallSeekbar.setProgress(
+            myComment.overall?.toFloat()!!
+        )
         myComment.contents?.let { content ->
             view.getBindingObj().commentWindowCommentEditText.setText(content)
         }
@@ -181,7 +190,8 @@ class CommentPresenter : CommentContract.CommentPresenter {
         view.getBindingObj().commentWindowEvaluateButton.isEnabled = true
     }
 
-    override fun editMyComment(context: Context, alcoholId: String, commentId: String) {
+    override fun editMyComment(context: Context, alcoholId: String?, commentId: String?) {
+        //api에 전송할 데이터값 map에 삽입
         val map = HashMap<String, Any>()
         map["contents"] = view.getBindingObj().commentWindowCommentEditText.text.toString()
         map["aroma"] =
@@ -197,45 +207,46 @@ class CommentPresenter : CommentContract.CommentPresenter {
 
 
         CoroutineScope(Dispatchers.IO).launch {
+            //엑세스 토큰이 유효한 경우에만 호출
             val check = JWTUtil.checkAccessToken()
 
             withContext(Dispatchers.Main) {
                 if (check) {
                     settingProgressbar(true)
-
-                    compositDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
-                        .editMyRatedReview(
-                            GlobalApplication.userBuilder.createUUID,
-                            GlobalApplication.userInfo.getAccessToken(),
-                            alcoholId,
-                            commentId,
-                            map
-                        )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            settingProgressbar(false)
-
-                            it.data?.let { result ->
-                                result.result?.let {
-                                    if (it == "SUCCESS") {
-                                        Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT)
-                                            .show()
-                                        (context as Activity).finish()
-                                    } else
-                                        Toast.makeText(
-                                            context,
-                                            "리뷰 수정을 실패했습니다. 다시 시도해 주세요",
-                                            Toast.LENGTH_SHORT
-                                        )
-                                            .show()
+                    //api 호출
+                    compositDisposable.add(
+                        ApiGenerator.retrofit.create(ApiService::class.java)
+                            .editMyRatedReview(
+                                GlobalApplication.userBuilder.createUUID,
+                                GlobalApplication.userInfo.getAccessToken(),
+                                alcoholId,
+                                commentId,
+                                map
+                            )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({        //api 결과
+                                settingProgressbar(false)
+                                it.data?.let { result ->
+                                    result.result?.let {
+                                        if (it == "SUCCESS") {
+                                            Toast.makeText(context, " 수정되었습니다.", Toast.LENGTH_SHORT)
+                                                .show()
+                                            (context as Activity).finish()
+                                        } else
+                                            Toast.makeText(
+                                                context,
+                                                "리뷰 수정을 실패했습니다. 다시 시도해 주세요",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                    }
                                 }
-                            }
-                        }, { t ->
-                            CustomDialog.networkErrorDialog(context)
-                            settingProgressbar(false)
-                            Log.e(ErrorManager.COMMENT_EDIT, t.message.toString())
-                        })
+                            }, { t ->//api 호출 실패
+                                CustomDialog.networkErrorDialog(context)
+                                settingProgressbar(false)
+                                Log.e(ErrorManager.COMMENT_EDIT, t.message.toString())
+                            })
                     )
                 } else {
                     CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL)
@@ -244,6 +255,7 @@ class CommentPresenter : CommentContract.CommentPresenter {
         }
     }
 
+    //로딩화면의 유무 표시
     private fun settingProgressbar(check: Boolean) {
         if (check) {
             view.getBindingObj().progressbar.root.visibility = View.VISIBLE
@@ -251,8 +263,11 @@ class CommentPresenter : CommentContract.CommentPresenter {
         } else {
             view.getBindingObj().progressbar.root.visibility = View.INVISIBLE
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-
         }
     }
 
+    override fun detachView() {
+        compositDisposable.dispose()
+        viewObj=null
+    }
 }

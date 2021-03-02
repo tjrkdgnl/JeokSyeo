@@ -23,7 +23,7 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
 
     override fun setOnCreate() {
         presenter = SignUpPresenter().apply {
-            view = this@SignUp
+            viewObj = this@SignUp
             activity = this@SignUp
             intent = this@SignUp.intent
         }
@@ -34,8 +34,9 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
 
         setStatusBarInit()
 
-        //확인 enable setting
         viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
+
+        //유저가 정보를 기입한 경우 '확인'버튼 활성화 및 비활성화 설정
         viewModel.buttonState.observe(this, Observer {
             binding.infoConfirmButton.isEnabled = it
         })
@@ -81,9 +82,14 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
     @SuppressLint("HardwareIds")
     override fun nextView() {
         viewModel.buttonState.value = false
+        //horizontal viewpager로 '확인'버튼 클릭 시, 다음 페이지로 이동
         binding.viewPager2.currentItem = ++idx
+
+        //프로그래스바로 진행상태 표시
         binding.signupHeader.signUpHeaderProgressbar.progress = idx + 1
-        presenter.hideKeypad(this, binding.infoConfirmButton)
+
+        //키패드 숨기기
+        presenter.hideKeypad(binding.infoConfirmButton)
 
         if (viewModel.checkRequest) { //에러가 발생하면 핸들링하는 화면
             startActivity(Intent(this, Login::class.java))
@@ -91,22 +97,24 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
         } else if (viewModel.nickname != null) {
             viewModel.nickname?.let { nic ->
                 GlobalApplication.userBuilder.setNickName(nic)
-                viewModel.nickname = null
+                viewModel.nickname = null       //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
             }
         }
         else if (viewModel.birthDay !=null){
             viewModel.birthDay?.let { birth->
                 GlobalApplication.userBuilder.setBirthDay(birth)
-                viewModel.birthDay =null
+                viewModel.birthDay =null         //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
             }
         }
         else if (viewModel.gender !=null){
             viewModel.gender?.let { gen ->
                 GlobalApplication.userBuilder.setGender(gen)
-                viewModel.gender =null
+                viewModel.gender =null           //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
             }
         }
         else if (viewModel.OkButtonEnabled) { //지역선택
+            //첫번째 depth는 가장 큰 범주인 지역이다. 해당 지역의 코드가 저장이 되며, 이 코드를 통해서
+            //두번째 depth에서는 해당 지역의 작은 범주의 지역들이 나타난다.
             if (viewModel.depth == 1) {
                 GlobalApplication.userBuilder.setAddress(
                     viewModel.countryArea.value?.code ?: ""

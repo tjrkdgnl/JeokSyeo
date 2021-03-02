@@ -47,10 +47,12 @@ import kotlinx.coroutines.*
 
 class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
     //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정
-
-    override lateinit var view: AlcoholDetailContract.AlcoholDetailView
-
     private val WEB_LINE_MAX = 4.9f
+
+    override var viewObj: AlcoholDetailContract.AlcoholDetailView? =null
+    override  val view: AlcoholDetailContract.AlcoholDetailView by lazy {
+        viewObj!!
+    }
 
     override lateinit var activity: Activity
     override lateinit var alcohol: Alcohol
@@ -636,6 +638,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
 
                     view.getBindingObj().detailReview.recyclerViewReviewList.adapter =
                         AlcoholReviewAdapter(activity, alcohol.alcoholId, muLst)
+                    view.getBindingObj().detailReview.recyclerViewReviewList.setHasFixedSize(false)
+                    view.getBindingObj().detailReview.recyclerViewReviewList.layoutManager = LinearLayoutManager(activity)
                 }
             }
             else {
@@ -924,5 +928,6 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
     override fun detach() {
         //subscribe가 끝난 객체들을 메모리에서 할당해제
         compositeDisposable.dispose()
+        viewObj =null
     }
 }

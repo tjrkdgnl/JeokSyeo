@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Splash : BaseActivity<SplashBinding>(), SplashContract.SplashView {
-
     private lateinit var presenter:SplashPresenter
 
     override val layoutResID: Int = R.layout.splash
@@ -24,13 +23,15 @@ class Splash : BaseActivity<SplashBinding>(), SplashContract.SplashView {
         GlobalApplication.instance.getStandardSize(this)
 
         presenter = SplashPresenter().apply {
-            view = this@Splash
+            viewObj = this@Splash
             activity = this@Splash
         }
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val tokenCheck = JWTUtil.checkAccessToken()
+
+                //토큰이 유효한지 확인 후, 유저 정보 셋팅 유무 결정
                 if (tokenCheck) {
                     Log.e("tokenCheck", tokenCheck.toString())
                     presenter.setUserInfo()
@@ -40,9 +41,11 @@ class Splash : BaseActivity<SplashBinding>(), SplashContract.SplashView {
                 val check = versionCheck()
                 withContext(Dispatchers.Main) {
                     if (check) {
+                        //업데이트 필요성이 있는 경우, 스토어 안내 다이얼로그 띄움
                         CustomDialog.versionDialog(this@Splash)
 
                     } else {
+                        //업데이트가 필요없는 경우, 메인화면으로 이동
                         presenter.moveActivity()
                     }
                     Log.e("버전체크", "버전체크 후")

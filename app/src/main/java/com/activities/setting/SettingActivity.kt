@@ -15,13 +15,13 @@ class SettingActivity: BaseActivity<SettingBinding>(), SettingContract.SettingVi
 
     override fun setOnCreate() {
         presenter = Presenter().apply {
-            view =this@SettingActivity
+            viewObj =this@SettingActivity
             activity =this@SettingActivity
         }
 
         setStatusBarInit()
 
-        presenter.initItem(this,this)
+        presenter.initItem(this)
     }
 
     override fun destroyPresenter() {

@@ -44,7 +44,7 @@ class AlcoholDetail :BaseActivity<AlcoholDetailBinding>(), AlcoholDetailContract
 
 
         presenter = Presenter().apply {
-            view = this@AlcoholDetail
+            viewObj = this@AlcoholDetail
             activity=this@AlcoholDetail
             alcohol =this@AlcoholDetail.alcohol ?: Alcohol()
         }

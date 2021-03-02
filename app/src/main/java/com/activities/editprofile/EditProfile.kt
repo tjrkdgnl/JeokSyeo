@@ -28,24 +28,24 @@ import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.EditProfileBinding
 import com.yalantis.ucrop.UCrop
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
-class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, DatePicker.OnDateChangedListener,
+class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener,
+    DatePicker.OnDateChangedListener,
     EditProfileContract.EditProfileView, View.OnKeyListener, TextWatcher {
     private val PICK_FROM_ALBUM = 1
     private var tempFile: File? = null
     private lateinit var presenter: Presenter
     private lateinit var gender: String
     private lateinit var birthday: String
+    private var savingUri: Uri? = null
     override val layoutResID: Int = R.layout.edit_profile
 
     override fun setOnCreate() {
         presenter = Presenter().apply {
-            view = this@EditProfile
+            viewObj = this@EditProfile
             activity = this@EditProfile
         }
-
 
         //최대 날짜 지정
         val calendar = Calendar.getInstance()
@@ -60,24 +60,22 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
             this
         )
 
-        presenter.settingUserInfo(this, GlobalApplication.userInfo.getProvider())
+        presenter.initUserInfo(GlobalApplication.userInfo.getProvider())
 
         setStatusBarInit()
 
-
         binding.insertInfoEditText.setOnKeyListener(this)
         binding.insertInfoEditText.addTextChangedListener(this)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.editProfileBasicDatePicker.datePicker.setOnDateChangedListener(this)
         }
     }
-
 
     override fun destroyPresenter() {
         presenter.detach()
     }
 
-
+    //카메라 접근 시, 유저에게 동의를 구하는 다이얼로그 띄움
     private fun CameraPermission() {
         val permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
@@ -85,7 +83,6 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
             }
 
             override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-
             }
         }
 
@@ -97,9 +94,10 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
             .check()
     }
 
+    //앨범으로 이동하여 유저가 선택한 이미지를 불러옴.
     private fun goAlbum() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
+        intent.type = MediaStore.Images.Media.CONTENT_TYPE
         startActivityForResult(intent, PICK_FROM_ALBUM)
     }
 
@@ -121,11 +119,13 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
         }
 
         when (requestCode) {
+            //유저가 앨범에서 이미지를 선택한 경우, 돌아오는 콜백
             PICK_FROM_ALBUM -> {
                 val photoUri = data?.data
                 cropImage(photoUri)
             }
 
+            //크롭 화면이 모두 완료된 이후, 다시 돌아오는 콜백
             UCrop.REQUEST_CROP -> {
                 setImage()
             }
@@ -133,17 +133,20 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
             UCrop.RESULT_ERROR -> {
                 data?.let {
                     val throwable = UCrop.getError(it)
-
                     throwable?.printStackTrace()
                 }
             }
         }
     }
 
+    /**
+     * 유저가 이미지를 크롭하면 임시로 만들어놓은 파일을 통해서 uri가 생성된다.
+     * 이것이 {saveUri}이며 이를 통해서 이미지를 로딩한다.
+     */
     private fun setImage() {
-        presenter.imageUpload(this, tempFile)
+        presenter.imageUpload(savingUri)
         Glide.with(this)
-            .load(tempFile?.absolutePath)
+            .load(savingUri?.path)
             .apply(
                 RequestOptions()
                     .signature(ObjectKey(System.currentTimeMillis()))
@@ -154,10 +157,13 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
             .into(binding.editProfileImg)
     }
 
+    /**
+     * 앨범에서 선택한 이미지를 크롭화면에서 전달받는다. 또한 크롭하게 되는 이미지 저장은 uri에 하게된다.
+     */
     private fun cropImage(photoUri: Uri?) {
         if (tempFile == null) {
             try {
-                tempFile = createImageFile()
+                tempFile = presenter.createImageFile()
             } catch (e: Exception) {
                 Toast.makeText(this, "이미지 처리 오류! 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                 finish()
@@ -167,54 +173,49 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
         //크롭 후 저장할 Uri
         val options = UCrop.Options()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            options.setStatusBarColor(getColor(R.color.orange))//상태바 배경색
-            options.setToolbarColor(getColor(R.color.orange)) // toolbar의 배경색상
-            options.setToolbarWidgetColor(getColor(R.color.white)) //toolbar 내에 있는 view들의 색상
-        }
-        else{
-            options.setStatusBarColor(ContextCompat.getColor(this,R.color.orange))//상태바 배경색
-            options.setToolbarColor(ContextCompat.getColor(this,R.color.orange)) // toolbar의 배경색상
-            options.setToolbarWidgetColor(ContextCompat.getColor(this,R.color.white)) //toolbar 내에 있는 view들의 색상
-        }
-
-        options.setCircleDimmedLayer(true) // crop shape
-        options.setToolbarTitle("Edit Profile") //title 지정
-        options.setShowCropGrid(false) // 격자표시
-        options.setShowCropFrame(false) //crop의 사각형 틀 유무
-
-        val savingUri = Uri.fromFile(tempFile)
-        photoUri?.let {
-            UCrop.of(it, savingUri)
-                .withAspectRatio(1f, 1f)
-                .withMaxResultSize(
-                    GlobalApplication.instance.device_width.toInt(),
-                    GlobalApplication.instance.device_height.toInt()
+            options.setStatusBarColor(getColor(R.color.orange))         //상태바 배경색
+            options.setToolbarColor(getColor(R.color.orange))           // toolbar의 배경색상
+            options.setToolbarWidgetColor(getColor(R.color.white))      //toolbar 내에 있는 view들의 색상
+        } else {
+            options.setStatusBarColor(
+                ContextCompat
+                    .getColor(this, R.color.orange)
+            )                                                           //상태바 배경색
+            options.setToolbarColor(
+                ContextCompat
+                    .getColor(this, R.color.orange)
+            )                                                           // toolbar의 배경색상
+            options.setToolbarWidgetColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.white
                 )
-                .withOptions(options)
-                .start(this)
+            )                                                           //toolbar 내에 있는 view들의 색상
         }
-    }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun createImageFile(): File? {
-        // 이미지 파일 이름 ( JeokSyeo_{시간}_ )
-        val timeStamp = SimpleDateFormat("HHmmss").format(Date())
-        val imageFileName = "JeokSyeo_" + timeStamp + "_"
+        options.setCircleDimmedLayer(true)                              // crop shape
+        options.setToolbarTitle("Edit Profile")                         //title 지정
+        options.setShowCropGrid(false)                                  // 격자표시
+        options.setShowCropFrame(false)                                 //crop의 사각형 틀 유무
 
-        // 이미지가 저장될 폴더 이름 ( JeokSyeo_ )
-        val storageDir = File(getExternalFilesDir(null).toString() + "/JeokSyeo/")
-        if (!storageDir.exists()) storageDir.mkdirs()
+        savingUri = Uri.fromFile(tempFile)                              //임시 파일을 통해 이미지를 가르키는 uri 생성
 
-        // 빈 파일 생성
-        val image = File.createTempFile(imageFileName, ".jpg", storageDir)
-        tempFile = image.absoluteFile
-        Log.e("파일생성", tempFile?.name.toString())
-        return image
+        photoUri?.let { resource ->
+            savingUri?.let { destination ->
+                UCrop.of(resource, destination)                         //크롭한 이미지를 저장할 곳 설정
+                    .withAspectRatio(1f, 1f)
+                    .withMaxResultSize(
+                        GlobalApplication.instance.device_width.toInt(),
+                        GlobalApplication.instance.device_height.toInt()
+                    )
+                    .withOptions(options)
+                    .start(this)
+            }
+        }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-
             R.id.editProfile_G_album -> CameraPermission()
 
             R.id.editProfile_G_imageButton_gender_man -> setGender_Man()
@@ -222,23 +223,26 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
             R.id.editProfile_G_imageButton_gender_woman -> setGender_Woman()
 
             R.id.birthdayLinearLayout -> binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
+
             R.id.button_datePicker_ok -> binding.editProfileBasicDatePicker.ExpandableDatePicker.toggle()
 
             R.id.editProfile_G_okButton -> presenter.executeEditProfile(
-                this,
                 binding.insertInfoEditText.text.toString(), gender, birthday
             )
         }
     }
 
     override fun checkOkButton() {
-        //프로필 여부와 상관없을때
-        binding.editProfileGOkButton.isEnabled = !presenter.checkDuplicate && (
+        if (presenter.enableToNickName) {
+            binding.editProfileGOkButton.isEnabled =
                 GlobalApplication.userInfo.nickName != binding.insertInfoEditText.text.toString() ||
                         GlobalApplication.userInfo.birthDay != birthday ||
                         GlobalApplication.userInfo.gender != gender ||
-                        presenter.profile != null)
-
+                        presenter.imageData != null
+        }
+        else{
+            binding.editProfileGOkButton.isEnabled =false
+        }
     }
 
     override fun setGender_Man() {
@@ -258,63 +262,80 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
     override fun setBirthDay() {
         GlobalApplication.userInfo.birthDay.let {
             val birth = it.split("-")
-            binding.birthdayYear.text = birth.get(0)
-            binding.birthdayMonth.text = birth.get(1)
-            binding.birthdayDay.text = birth.get(2)
+            binding.birthdayYear.text = birth[0]
+            binding.birthdayMonth.text = birth[1]
+            binding.birthdayDay.text = birth[2]
         }
         birthday = GlobalApplication.userInfo.birthDay
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    override fun resultNickNameCheck(result: Boolean) {
-        if (result) {
-            binding.checkNickNameText.visibility = View.VISIBLE
-            binding.checkNickNameText.text = getString(R.string.dontUseNickName)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.insertNameLinearLayout.background =
-                    resources.getDrawable(R.drawable.bottom_line_red, null)
-            } else{
-                binding.insertNameLinearLayout.background =
-                    ContextCompat.getDrawable(this,R.drawable.bottom_line_red)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
-            } else{
-                binding.checkNickNameText.setTextColor(ContextCompat.getColor(this,R.color.red))
-            }
-        } else {
-            binding.checkNickNameText.visibility = View.VISIBLE
-            binding.checkNickNameText.text = getString(R.string.useNickName)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.insertNameLinearLayout.background =
-                    resources.getDrawable(R.drawable.bottom_line_green, null)
-            } else{
-                binding.insertNameLinearLayout.background =
-                    ContextCompat.getDrawable(this,R.drawable.bottom_line_green)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                binding.checkNickNameText.setTextColor(resources.getColor(R.color.green, null))
-            } else{
-                binding.checkNickNameText.setTextColor(ContextCompat.getColor(this,R.color.green))
-            }
-        }
-    }
 
     override fun getBindingObj(): EditProfileBinding {
         return binding
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    override fun confirmNickname(confirm: Boolean) {
+        if (confirm) {
+            checkOkButton()
+            binding.checkNickNameText.visibility = View.VISIBLE
+            binding.checkNickNameText.text = resources.getString(R.string.useNickName)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.insertNameLinearLayout.background =
+                    resources.getDrawable(R.drawable.bottom_line_green, null)
+            } else {
+                binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(this, R.drawable.bottom_line_green)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.checkNickNameText.setTextColor(
+                    resources.getColor(R.color.green, null)
+                )
+            } else {
+                binding.checkNickNameText.setTextColor(
+                    ContextCompat.getColor(this, R.color.green)
+                )
+            }
+
+        } else {
+            binding.checkNickNameText.visibility = View.VISIBLE
+            binding.checkNickNameText.text = resources.getString(R.string.dontUseNickName)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.insertNameLinearLayout.background =
+                    resources.getDrawable(R.drawable.bottom_line_red, null)
+            } else {
+                binding.insertNameLinearLayout.background =
+                    ContextCompat.getDrawable(this, R.drawable.bottom_line_red)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.checkNickNameText.setTextColor(resources.getColor(R.color.red, null))
+            } else {
+                binding.checkNickNameText.setTextColor(
+                    ContextCompat.getColor(this, R.color.red)
+                )
+            }
+        }
+    }
+
     override fun setStatusBarInit() {
+        //타이틀 변경
         binding.editBasicHeader.basicHeaderWindowName.text = "개인정보 수정"
-        binding.editBasicHeader.basicHeaderWindowName.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(16f))
+
+        //디바이스에 따라 텍스트 사이즈 셋팅
+        binding.editBasicHeader.basicHeaderWindowName.setTextSize(
+            TypedValue.COMPLEX_UNIT_DIP,
+            GlobalApplication.instance.getCalculatorTextSize(16f)
+        )
 
         //status bar 배경변경
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.statusBarColor = resources.getColor(R.color.white,null)
-            }else{
+                window.statusBarColor = resources.getColor(R.color.white, null)
+            } else {
                 window.statusBarColor = ContextCompat.getColor(this, R.color.white)
             }
         }
@@ -322,12 +343,14 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
         //status bar의 icon 색상 변경
         val decor = window.decorView
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
-        }else{
-            decor.systemUiVisibility =0
+            decor.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
+        } else {
+            decor.systemUiVisibility = 0
         }
     }
 
+    //키패드에서 엔터를 클릭 시, 키패드 내려가도록 구현
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
             GlobalApplication.instance.keyPadSetting(binding.insertInfoEditText, this)
@@ -340,15 +363,16 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        presenter.checkNickName(this)
+        presenter.checkNickName()
     }
 
     override fun afterTextChanged(s: Editable?) {
     }
 
-
+    //dataPicker에서 입력하는 값으로 birthday 객체 생성
     @SuppressLint("SetTextI18n")
     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+
         birthday = year.toString()
 
         binding.birthdayYear.text = year.toString()
@@ -356,7 +380,7 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
         if (monthOfYear + 1 < 10) binding.birthdayMonth.text = "0${monthOfYear + 1}"
         else binding.birthdayMonth.text = (monthOfYear + 1).toString()
 
-        if (dayOfMonth < 10) binding.birthdayDay.setText("0$dayOfMonth")
+        if (dayOfMonth < 10) binding.birthdayDay.text = "0$dayOfMonth"
         else binding.birthdayDay.text = dayOfMonth.toString()
 
         birthday += "-" + binding.birthdayMonth.text + "-" + binding.birthdayDay.text
@@ -367,5 +391,4 @@ class EditProfile : BaseActivity<EditProfileBinding>(), View.OnClickListener, Da
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_current, R.anim.current_to_right)
     }
-
 }

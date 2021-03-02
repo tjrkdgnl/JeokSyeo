@@ -14,9 +14,17 @@ interface SettingContract {
     }
 
     interface SettingPresenter:BasePresenter<SettingBinding>{
-        var view:SettingView
+        /**
+         * 액티비티로부터 구현된 SettingView 인터페이스를 presenter가 얻도록합니다.
+         * 이를 통해 presenter는 액티비티에서 구현한 baseView의 모든 메서드를 사용할 수 있습니다.
+         */
+        val view:SettingView
+        var viewObj:SettingView?
 
-        fun initItem(context: Context,activity:Activity)
+        /**
+         * 설정화면에서 보여질 아이템 초기화
+         */
+        fun initItem(context: Context)
 
         fun detachView()
     }

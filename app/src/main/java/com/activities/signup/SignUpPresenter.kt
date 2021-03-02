@@ -24,15 +24,23 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class SignUpPresenter : SignUpContract.SignUpPresenter {
-    override lateinit var view: SignUpContract.SignUpView
+    override val view: SignUpContract.SignUpView by lazy {
+        viewObj!!
+    }
+    override var viewObj: SignUpContract.SignUpView? =null
+
     override lateinit var activity: Activity
     private var compositDisposable =CompositeDisposable()
 
 
     override fun initViewpager() {
       val  mutableList = mutableListOf<String>()
+        //유저로부터 기입받아야 할 값들을 순서대로 리스트에 담는다.
         mutableList.add(GlobalApplication.NICKNAME)
 
+        //소셜 로그인으로부터 받은 정보가 있는지 판단
+        //만약 받았다면 해당 부분은 유저로부터 기입받을 필요가 없으므로 생략
+        // 받지 않았다면 유저로부터 기입받아야하므로 추가
         activity.intent.let {
             val bundle = it.getBundleExtra(GlobalApplication.USER_BUNDLE)
             bundle?.let { bun ->
@@ -44,6 +52,7 @@ class SignUpPresenter : SignUpContract.SignUpPresenter {
                 )
             }
         }
+        //유저가 살고 있는 동네 위치
         mutableList.add("location")
 
         //progressbar init
@@ -52,7 +61,7 @@ class SignUpPresenter : SignUpContract.SignUpPresenter {
         //viewPager2 init
         val signUpViewPagerAdapter = SignUpViewPagerAdapter((activity as FragmentActivity), mutableList)
         view.getBindingObj().viewPager2.adapter = signUpViewPagerAdapter
-        view.getBindingObj().viewPager2.isUserInputEnabled = false //viewpager2 스와이프off
+        view.getBindingObj().viewPager2.isUserInputEnabled = false //스와이프off
         view.getBindingObj().viewPager2.offscreenPageLimit = 1
     }
 
@@ -67,6 +76,7 @@ class SignUpPresenter : SignUpContract.SignUpPresenter {
 
                 val userMap = GlobalApplication.userInfo.getMap()
 
+                //추후에 푸시알람을 위해 유저의 디바이스 정보를 같이 전송
                 userMap["device_platform"] = "AOS"
                 userMap["device_model"] = Build.MODEL
                 userMap["device_id"] =Settings.Secure.getString(activity.contentResolver, Settings.Secure.ANDROID_ID)
@@ -100,7 +110,7 @@ class SignUpPresenter : SignUpContract.SignUpPresenter {
         }
     }
 
-    override fun hideKeypad(activity: Activity, buttonName: Button) {
+    override fun hideKeypad( buttonName: Button) {
         val inputMethodManager =
             activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(buttonName.windowToken, 0)
@@ -108,5 +118,6 @@ class SignUpPresenter : SignUpContract.SignUpPresenter {
 
     override fun detachView() {
         compositDisposable.dispose()
+        viewObj =null
     }
 }

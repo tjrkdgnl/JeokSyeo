@@ -21,7 +21,7 @@ class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.LevelView {
 
     override fun setOnCreate() {
         presenter = Presenter().apply {
-            view = this@LevelActivity
+            viewObj = this@LevelActivity
             activity = this@LevelActivity
         }
 
@@ -65,7 +65,6 @@ class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.LevelView {
         }else{
             decor.systemUiVisibility =0
         }
-
     }
 
     override fun settingMainAlcholGIF(level: Int) {
@@ -80,39 +79,49 @@ class LevelActivity:BaseActivity<LevelBinding>(), LevelContract.LevelView {
 
     @SuppressLint("SetTextI18n")
     override fun settingExperience(reviewCount: Int,level: Int) {
-        val rest = reviewCount % 10
-        val ssb = SpannableStringBuilder("현재 당신은 ${GlobalApplication.instance.getLevelName(level-1)} 입니다")
-
-        ssb.setSpan(ForegroundColorSpan(Color.parseColor("#fdb14b")),7,7+(GlobalApplication.instance.getLevelName(level-1).length),
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
+        //기본적인 텍스트색상 셋팅
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.textViewCurrentLevel.setTextColor(resources.getColor(R.color.black,null))
         }else{
             binding.textViewCurrentLevel.setTextColor(ContextCompat.getColor(this,R.color.black))
         }
+
+        //텍스트 특정부분만 색을 변경하기 위해서 spannableString 객체 생성
+        val ssb = SpannableStringBuilder("현재 당신은 ${GlobalApplication.instance.getLevelName(level-1)} 입니다")
+
+        //레벨 부분의 텍스트 색상 변경
+        ssb.setSpan(ForegroundColorSpan(Color.parseColor("#fdb14b")),7,7+(GlobalApplication.instance.getLevelName(level-1).length),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         binding.textViewCurrentLevel.text = ssb
 
         if(level <5){
-            binding.levelBottomBottle.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level) //다음레벨
+            //다음레벨 텍스트 셋팅
+            binding.levelBottomBottle.textViewEvaluationNoticeNextLevelText.text = GlobalApplication.instance.getLevelName(level)
         }
         else{
             finalLevel()
         }
 
-        binding.levelBottomBottle.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-rest}병 남았습니다." // 다음 레벨까지 남은 리뷰 개수
+        //현재 리뷰 개수를 통한 경험치 계산
+        val rest = reviewCount % 10
 
+        // 다음 레벨까지 남은 리뷰 개수
+        binding.levelBottomBottle.textViewEvaluationNoticeNextLevelCountText.text = "까지 ${11-rest}병 남았습니다."
+
+        //경험치를 의미하는 full bottle 이미지 셋팅
         for(i in 0 until rest){
             presenter.miniAlcoholList[i].setImageResource(R.mipmap.mini_bottle_full)
         }
     }
 
+    //마지막 레벨일 때, 숨겨져있는 로티 실행
     @SuppressLint("SetTextI18n")
     override fun finalLevel() {
         binding.levelBottomBottle.root.visibility = View.INVISIBLE
         binding.bottomWave.root.visibility=View.VISIBLE
         binding.bottomWave.waveParentLayout.setBackgroundColor(Color.parseColor("#f8f8f8"))
 
-        binding.bottomWave.ranking5level.text = "${presenter.rankCount} 번째 선주(酒)자가"
+        binding.bottomWave.ranking5level.text = "${presenter.rankCount} 번째 선주(酒)자가 되셨습니다."
     }
 }

@@ -38,46 +38,48 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
+    override val layoutResID: Int = R.layout.login
+
     private val GOOGLE_SIGN = 1
-    private lateinit var googleLogin: GoogleLogin
-    private lateinit var kakaoLogin: KakaoLogin
-    private lateinit var naverLogin: NaverLogin
-    private lateinit var appleLogin: AppleLogin
+    private lateinit var googleLogin: GoogleLogin                                    //구글 로그인 객체
+    private lateinit var kakaoLogin: KakaoLogin                                      //카카오 로그인 객체
+    private lateinit var naverLogin: NaverLogin                                      //네이버 로그인 객체
+    private lateinit var appleLogin: AppleLogin                                      //애플 로그인 객체
     private var compositdisposable = CompositeDisposable()
-    private var handlingNumber = 0
-    private lateinit var networkUtil: NetworkUtil
-    private val executeProgressBar: (Boolean) -> Unit = { status ->
+    private var handlingNumber = 0                                                   //액티비티 핸들링번호
+
+    private val executeProgressBar: (Boolean) -> Unit = { status ->                  //로딩화면 유무
         progressbarStatus(this, status)
     }
-    //executeProgressBar를 다르게 사용할 수 있는 패턴들
-//    private val exe = fun(){}
-//
-//    private val exe1 = fun():Boolean {
-//        return false
-//    }
-//
-//    private val exe2 = fun(check:Boolean):Boolean{
-//        return check
-//    }
 
-    override val layoutResID: Int = R.layout.login
+    /***
+     *    executeProgressBar를 다르게 사용할 수 있는 패턴들
+     *    private val exe = fun(){}
+     *
+     *    private val exe1 = fun():Boolean {
+     *    return false
+     *    }
+     *
+     *    private val exe2 = fun(check:Boolean):Boolean{
+     *    return check
+     *    }
+     */
+
 
     init {
         loginObj = this
     }
 
     companion object {
+        /**
+         * 다른 클래스에서 쉽게 접근할 수 있도록 singleTon pattern을 적용
+         */
         lateinit var loginObj: Login
     }
 
 
     override fun setOnCreate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil = NetworkUtil(this)
-            networkUtil.register()
-        }
-
-
+        //액티비티를 핸들링하기 위한 넘버 get
         if (intent.hasExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)) {
             val bundle = intent.getBundleExtra(GlobalApplication.ACTIVITY_HANDLING_BUNDLE)
             handlingNumber = bundle?.getInt(GlobalApplication.ACTIVITY_HANDLING, 0)!!
@@ -86,23 +88,29 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
 
     override fun destroyPresenter() {
         compositdisposable.dispose()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkUtil.unRegister()
-        }
     }
 
 
+    /**
+     * 카카오 로그인 객체 초기화
+     */
     private fun kakaoExcute() {
         kakaoLogin = KakaoLogin(this)
         kakaoLogin.executeProgressBar = executeProgressBar
 
         executeProgressBar(true)
+        //카카오톡 어플이 있는 경우 자동 정보를 얻어옴
         if (kakaoLogin.instance.isKakaoTalkLoginAvailable(this))
             kakaoLogin.instance.loginWithKakaoTalk(this, callback = kakaoLogin.callback)
+
+        //무조건 웹뷰를 통해 로그인을 강제하도록하여 이후 정보를 얻어옴
         else
             kakaoLogin.instance.loginWithKakaoAccount(this, callback = kakaoLogin.callback)
     }
 
+    /**
+     * 네이버 로그인 객체 초기화
+     */
     private fun naverExecute() {
         naverLogin = NaverLogin(this)
         naverLogin.executeProgressBar = executeProgressBar
@@ -111,12 +119,22 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
         naverLogin.instance.startOauthLoginActivity(this, naverLogin.naverLoginHandler)
     }
 
+    /**
+     * 구글 로그인 객체 초기화
+     * 애플과 구글 로그인은 파이어베이스로 권한을 양도하여 파이어베이스에서 관리하도록함
+     * 때문에 기존의 로그인이 있다면 로그아웃하고 현재 로그인 객체로 할당
+     */
     private fun googleExecute() {
         FirebaseAuth.getInstance().signOut()
         googleLogin = GoogleLogin(this)
         startActivityForResult(googleLogin.instance.signInIntent, GOOGLE_SIGN)
     }
 
+    /**
+     * 애플 로그인 객체 초기화
+     * 애플과 구글 로그인은 파이어베이스로 권한을 양도하여 파이어베이스에서 관리하도록함
+     * 때문에 기존의 로그인이 있다면 로그아웃하고 현재 로그인 객체로 할당
+     */
     private fun appleExecute() {
         FirebaseAuth.getInstance().signOut()
         appleLogin = AppleLogin(this)
@@ -126,6 +144,10 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
         executeProgressBar(true)
     }
 
+    /**
+     * 로딩화면 유무 판단
+     * 로딩화면 진행 중일때, 화면 터치 작동 x
+     */
     private fun progressbarStatus(activity: Activity, setting: Boolean) {
         if (setting) {
             binding.loginProgressBar.root.visibility = View.VISIBLE
@@ -154,6 +176,9 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
         }
     }
 
+    /**
+     * 소셜 로그인이 진행되고서, 다시 화면으로 돌아올 경우
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -161,6 +186,7 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
             executeProgressBar(false)
         }
 
+        //구글인 경우
         if (requestCode == GOOGLE_SIGN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
@@ -177,12 +203,14 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
         executeProgressBar(true)
         //구글 소셜 로그인을 파이어베이스에 넘겨줌.
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+        //넘겨받은 권한으로 로그인 진행
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { result ->
                 if (result.isSuccessful) {
                     FirebaseAuth.getInstance().currentUser?.getIdToken(true)
                         ?.addOnCompleteListener(this) {
-
+                            //유저 정보 셋팅
                             setUserInfo("GOOGLE", it.result?.token.toString())
 
                         }?.addOnFailureListener {
@@ -200,6 +228,9 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
             }
     }
 
+    /**
+     * 유저 정보 일부를 셋팅
+     */
     fun setUserInfo(provider: String?, oauth_token: String?) {
         GlobalApplication.userBuilder
             .setProvider(provider)
@@ -222,7 +253,11 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
                 //프로그래스바 종료
                 executeProgressBar(false)
 
-                //토큰이 있다는 것은 로그인 정보가 있다는 것. 여기서 액티비티 핸들링하기.
+                /**
+                 * 서버로부터 받은 토큰이 존재한다면, 이는 해당 소셜 로그인을 통해 회원가입을
+                 * 진행한 적이 있는 것이므로 서버에 저장된 유저데이터를 할당하고 액티비티를 전환시킨다.
+                 * 이때 {@param handlingNumber}를 사용하여 로그인 전의 화면으로 핸들링 될 수 있도록한다.
+                 */
                 if (result.data?.token != null) {
                     //토큰 내장디비에 저장
                     GlobalApplication.userDataBase.setAccessToken(result.data?.token?.accessToken)
@@ -235,7 +270,9 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
                     compositdisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                         .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
                         .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ user ->
+                                //유저 정보 셋팅
                                 GlobalApplication.userInfo = UserInfo.Builder().apply {
                                 setProvider(user.data?.userInfo?.provider)
                                 setNickName(user.data?.userInfo?.nickname ?: "")
@@ -246,6 +283,8 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
                                 setLevel(user.data?.userInfo?.level ?: 0)
                                 setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                             }.build()
+
+                            //로그인 액티비티 이전으로 이동
                             moveActivity()
                         }, { e ->
                             Log.e("유저정보 셋팅 문제", e.message.toString())
@@ -253,21 +292,28 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
                         })
                     )
                 }
-                //회원가입
+                /**
+                 * 서버로부터 받은 결과 값에 토큰이 없다면 회원가입을 진행한다.
+                 * 소셜 로그인으로부터 제공받은 개인정보들은 해당 클래스에서 입력받고 회원가입
+                 * 진행절차에서는 제외시킨다.
+                 */
                 else {
                     GlobalApplication.userBuilder.setOAuthId(result.data?.user?.userId)
                     val bundle = Bundle()
 
                     result.data?.user?.hasEmail?.let { hasEmail->
-                        if(hasEmail){ //이메일을 제공 받는 경우
+                        if(hasEmail){ //소셜 로그인으로부터 이메일을 제공 받는 경우
+
+                            //소셜 로그인으로부터 생년월일을 제공 받는 경우
                             result.data?.user?.hasBirth?.let {
                                 bundle.putBoolean(GlobalApplication.BIRTHDAY, it)
                                 Log.e("생일체크", it.toString())
                                 result.data?.user?.birth?.let { birth->
                                     GlobalApplication.userBuilder.setBirthDay(birth)
                                 }
-
                             }
+
+                            //소셜 로그인으로부터 성별을 제공 받는 경우
                             result.data?.user?.hasGender?.let {
                                 bundle.putBoolean(GlobalApplication.GENDER, it)
                                 Log.e("성별체크", it.toString())
@@ -275,10 +321,15 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
                                     GlobalApplication.userBuilder.setGender(gender)
                                 }
                             }
+
+                            //회원가입 액티비티로 전환
                             GlobalApplication.instance.moveActivity(this,SignUp::class.java
                                 ,0,bundle,GlobalApplication.USER_BUNDLE)
                         }
-                        else{ //이메일을 제공받지 않는 경우
+                        else{
+                            /**
+                             * 반드시 소셜로그인에서 이메일을 제공받은 후, 회원가입을 진행하는 것을 원칙으로 한다.
+                             */
 
                             //연결한 소셜 로그인 링크제거
                             GlobalApplication.userBuilder.getProvider()?.let { providerId->
@@ -305,6 +356,10 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
 
     private fun moveActivity() {
         finish()
+
+        /**
+         * handling 유무에 따라서 액티비티 이동
+         */
         when (handlingNumber) {
             GlobalApplication.ACTIVITY_HANDLING_MAIN -> {
                 GlobalApplication.instance.moveActivity(
@@ -324,6 +379,9 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
         }
     }
 
+    /**
+     * 소셜로그인 로그아웃을 처리하는 메서드
+     */
     private fun loginUnlink(provider: String) {
         when (provider) {
             "KAKAO" -> {

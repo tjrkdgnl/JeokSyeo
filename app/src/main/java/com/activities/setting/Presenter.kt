@@ -8,11 +8,15 @@ import com.application.GlobalApplication
 import com.model.setting.SettingItem
 
 class Presenter : SettingContract.SettingPresenter {
-    override lateinit var view: SettingContract.SettingView
+    override  val view: SettingContract.SettingView by lazy {
+        viewObj!!
+    }
+    override  var viewObj: SettingContract.SettingView? =null
+
     override lateinit var activity: Activity
 
-    override fun initItem(context: Context, activity:Activity) {
-        val lst = listOf<SettingItem>(
+    override fun initItem(context: Context) {
+        val lst = listOf(
             SettingItem("회원정보 수정", 1),
             SettingItem("이용약관", 1),
             SettingItem("개인정보 취급방침", 1),
@@ -26,6 +30,6 @@ class Presenter : SettingContract.SettingPresenter {
     }
 
     override fun detachView() {
-
+        viewObj =null
     }
 }

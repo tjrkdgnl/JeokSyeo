@@ -21,11 +21,21 @@ import kotlin.coroutines.suspendCoroutine
 
 class SplashPresenter : SplashContract.SplashPresenter {
     private val compositedisposable =CompositeDisposable()
-    override lateinit var view: SplashContract.SplashView
+
+    override val view: SplashContract.SplashView by lazy {
+        viewObj!!
+    }
+    override var viewObj: SplashContract.SplashView? =null
+
     override lateinit var activity: Activity
     private var retrofit = ApiGenerator.retrofit.create(ApiService::class.java)
     private val handler = Handler(Looper.getMainLooper())
 
+
+    /**
+     * 2초뒤에 메인화면으로 이동. 시간을 지연시켜 액티비티를 전환하는 이유는 단순히 스플레쉬 화면을
+     * 노출하는 데에 있다.
+     */
     override fun moveActivity() {
         handler.postDelayed({
             activity.startActivity(Intent(activity, MainActivity::class.java))
@@ -33,13 +43,13 @@ class SplashPresenter : SplashContract.SplashPresenter {
         }, 2000)
     }
 
-
     override suspend fun setUserInfo():Boolean = suspendCoroutine { coroutineResult ->
 
         compositedisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
             .getUserInfo(GlobalApplication.userBuilder.createUUID, "Bearer " + GlobalApplication.userDataBase.getAccessToken())
             .subscribeOn(Schedulers.io())
             .subscribe({ user ->
+                //유저정보 셋팅 app단에서 singleTon으로 관리하여 어느 클래스에서든 같은 데이터에 접근
                 GlobalApplication.userInfo = UserInfo.Builder().apply {
                     setProvider(user.data?.userInfo?.provider)
                     setNickName(user.data?.userInfo?.nickname ?: "")
@@ -49,11 +59,10 @@ class SplashPresenter : SplashContract.SplashPresenter {
                     setAddress("") //추후에 셋팅하기
                     setLevel(user.data?.userInfo?.level ?: 0)
                     setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
-                    Log.e("유저정보 셋팅","유저정보")
-                    coroutineResult.resume(true)
+                    coroutineResult.resume(true)        //suspend 끝내고 다음 로직 실행
                 }.build()
             }, {t->
-                coroutineResult.resume(false)
+                coroutineResult.resume(false)           //suspend 끝내고 다음 로직 실행
                 CustomDialog.networkErrorDialog(activity)
                 Log.e(ErrorManager.USERINFO,t.message.toString())})
         )
@@ -75,6 +84,7 @@ class SplashPresenter : SplashContract.SplashPresenter {
                             latestVersion = version.split(".")
 
                             try {
+                                //메인 패치일 경우 바로 업데이트 안내
                                 if(latestVersion[0].toInt() > currentVersion[0].toInt()){
                                     coroutineResult.resume(true)
                                 }
@@ -91,7 +101,6 @@ class SplashPresenter : SplashContract.SplashPresenter {
                                             }
                                             else -> {
                                                 coroutineResult.resume(false)
-                                                Log.e("최신버전","최신버전")
                                             }
                                         }
                                     }
@@ -117,5 +126,6 @@ class SplashPresenter : SplashContract.SplashPresenter {
 
     override fun detach() {
         compositedisposable.dispose()
+        viewObj =null
     }
 }

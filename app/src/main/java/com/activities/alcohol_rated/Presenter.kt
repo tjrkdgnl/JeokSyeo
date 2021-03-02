@@ -16,7 +16,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.vuforia.engine.wet.R
 
 class Presenter :AlcoholRatedContact.RatedPresenter {
-    override lateinit var view: AlcoholRatedContact.RatedView
+    override var viewObj: AlcoholRatedContact.RatedView? =null
+    override  val view: AlcoholRatedContact.RatedView by lazy {
+        viewObj!!
+    }
+
     override lateinit var activity: Activity
 
     @SuppressLint("SetTextI18n")
@@ -53,4 +57,7 @@ class Presenter :AlcoholRatedContact.RatedPresenter {
         }
     }
 
+    override fun detach() {
+        viewObj =null
+    }
 }
