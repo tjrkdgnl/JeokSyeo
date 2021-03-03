@@ -2,22 +2,19 @@ package com.fragments.alcohol_category.viewpager_items
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.adapters.alcohol_category.ListAdapter
 import com.base.BaseFragment
-import com.model.alcohol_category.AlcoholList
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholCategoryListBinding
 
-class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>(), Fg_AlcoholCategoryContact.BaseView {
+class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>()
+    , ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryListBinding> {
     override val layoutResID: Int =  R.layout.fragment_alchol_category_list
-    private var position = 0
+    private var typePosition = 0
     private lateinit var viewmodel:AlcoholCategoryViewModel
-    private lateinit var listAdapter:ListAdapter
-    private lateinit var listPresenter: ListPresenter
+    lateinit var listPresenter: ListPresenter
 
     companion object{
         fun newInstance(position:Int): Fragment_List {
@@ -31,7 +28,7 @@ class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>(), Fg_Alcoh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            position = it.getInt("position")
+            typePosition = it.getInt("position")
         }
     }
 
@@ -45,50 +42,23 @@ class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>(), Fg_Alcoh
 
         listPresenter = ListPresenter().apply {
             this.view=this@Fragment_List
-            position =this@Fragment_List.position
-            linearLayoutManager= LinearLayoutManager(requireContext())
-            sort=viewmodel.currentSort
+            typePosition =this@Fragment_List.typePosition
             viewModel = this@Fragment_List.viewmodel
-            context =this@Fragment_List.requireActivity()
+            activity =this@Fragment_List.requireActivity()
         }
 
         listPresenter.initRecyclerView(requireContext())
 
+        viewmodel.currentSort.observe(viewLifecycleOwner, Observer {
+            changeSort(it)
+        })
     }
 
     fun changeSort(sort:String){
         listPresenter.changeSort(sort)
     }
 
-    override fun getbinding(): ViewDataBinding {
+    override fun getbinding(): FragmentAlcholCategoryListBinding {
         return binding
     }
-
-    override fun setAdapter(list: MutableList<AlcoholList>) {
-        listAdapter = ListAdapter(requireContext(),list,
-            executeProgressBar = listPresenter.executeProgressBar)
-        binding.listRecyclerView.adapter= listAdapter
-    }
-
-    override fun updateList(list: MutableList<AlcoholList>) {
-        listAdapter.updateList(list)
-    }
-
-    override fun changeSort(list: MutableList<AlcoholList>) {
-        listPresenter.pageNum=1
-        listAdapter.changeSort(list)
-    }
-
-    override fun getLastAlcoholId(): String? {
-        return listAdapter.getLastAlcoholId()
-    }
-
-    override fun getSort(): String {
-        return listPresenter.sort
-    }
-
-    override fun moveTopPosition() {
-        binding.listRecyclerView.smoothScrollToPosition(0)
-    }
-
 }

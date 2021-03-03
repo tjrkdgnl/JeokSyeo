@@ -10,15 +10,14 @@ import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.fragment.app.FragmentActivity
+import com.activities.main.MainActivity
 import com.adapters.signup.SignUpViewPagerAdapter
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.google.firebase.messaging.FirebaseMessaging
-import com.activities.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.service.JWTUtil
-import com.service.NetworkUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

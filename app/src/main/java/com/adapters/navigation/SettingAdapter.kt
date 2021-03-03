@@ -5,15 +5,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.adapters.viewholder.SettingAgreementViewHolder
-import com.adapters.viewholder.SettingViewHolder
-import com.application.GlobalApplication
 import com.activities.agreement.Agreement
 import com.activities.editprofile.EditProfile
 import com.activities.login.apple.AppleLogin
 import com.activities.login.google.GoogleLogin
 import com.activities.login.kakao.KakaoLogin
 import com.activities.login.naver.NaverLogin
+import com.adapters.viewholder.SettingAgreementViewHolder
+import com.adapters.viewholder.SettingViewHolder
+import com.application.GlobalApplication
 import com.model.setting.SettingItem
 
 class SettingAdapter(

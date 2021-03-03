@@ -1,7 +1,6 @@
 package com.base
 
 import android.app.Activity
-import android.content.Context
 import androidx.databinding.ViewDataBinding
 
 interface BasePresenter<T:ViewDataBinding> {

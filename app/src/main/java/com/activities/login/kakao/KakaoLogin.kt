@@ -12,10 +12,10 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.application.GlobalApplication
-import com.error.ErrorManager
 import com.activities.login.Login
 import com.activities.main.MainActivity
+import com.application.GlobalApplication
+import com.error.ErrorManager
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient

@@ -4,11 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
+import com.activities.alcohol_detail.AlcoholDetail
 import com.application.GlobalApplication
 import com.error.ErrorManager
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.activities.alcohol_detail.AlcoholDetail
 import com.service.ApiGenerator
 import com.service.ApiService
 import io.reactivex.android.schedulers.AndroidSchedulers

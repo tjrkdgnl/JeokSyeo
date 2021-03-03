@@ -20,7 +20,6 @@ import com.fragments.mypage.MyPageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.viewmodel.MainViewModel
 import com.vuforia.engine.wet.R
-import com.vuforia.engine.wet.databinding.MainBinding
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +57,7 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainV
         }
 
         //키패드 유무에 따라 바텀네비게이션 hide or show
-        viewModel.bottomNavigationViewVisiblity.observe(this, Observer{
+        viewModel.bottomNavigationViewVisiblity.observe(this, Observer {
             bottomNavigationVisiblity(it)
         })
 
@@ -93,7 +92,7 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainV
                     }
 
                     journeyBoxFragment?.let {
-                        replaceFragment(it, "journey")
+                        addToFragment(it, "journey")
                         showTheJourneyLoginToast()
 
                     }
@@ -104,7 +103,7 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainV
             R.id.navigation_journal -> {
                 //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
                 if (binding.navigationBottomBar.selectedItemId != R.id.navigation_journal) {
-                    replaceFragment(MainFragment(), "main")
+                    addToFragment(MainFragment(), "main")
                     cancelTheJourneyLoginToast()
                 }
                 return true
@@ -113,7 +112,7 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainV
             R.id.navigation_myPage -> {
                 //현재 보여지는 페이지라면 재 셋팅을 하지 않기위해서 핸들링
                 if (binding.navigationBottomBar.selectedItemId != R.id.navigation_myPage) {
-                    replaceFragment(MyPageFragment(), "mypage")
+                    addToFragment(MyPageFragment(), "mypage")
                     cancelTheJourneyLoginToast()
                 }
                 return true
@@ -170,9 +169,14 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainV
     }
 
     //메인 액티비티에 프래그먼트 교체
-    override fun replaceFragment(fragment: Fragment, name: String) {
-        this.supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+    override fun addToFragment(fragment: Fragment, name: String) {
+        if (fragment.isAdded) {
+            this.supportFragmentManager.beginTransaction().remove(fragment).commit()
+        }
+
+        this.supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment)
             .addToBackStack(name).commitAllowingStateLoss()
+
     }
 
     //저니박스 탭에서 로그인 관련 공지 토스트 띄우기

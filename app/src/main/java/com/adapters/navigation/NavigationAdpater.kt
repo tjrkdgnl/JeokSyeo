@@ -3,10 +3,6 @@ package com.adapters.navigation
 import android.app.Activity
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.adapters.viewholder.NavigationEmptyViewHolder
-import com.adapters.viewholder.NavigationViewHolder
-import com.application.GlobalApplication
-import com.custom.CustomDialog
 import com.activities.alcohol_rated.AlcoholRated
 import com.activities.favorite.FavoriteActivity
 import com.activities.level.LevelActivity
@@ -16,6 +12,10 @@ import com.activities.login.google.GoogleLogin
 import com.activities.login.kakao.KakaoLogin
 import com.activities.login.naver.NaverLogin
 import com.activities.setting.SettingActivity
+import com.adapters.viewholder.NavigationEmptyViewHolder
+import com.adapters.viewholder.NavigationViewHolder
+import com.application.GlobalApplication
+import com.custom.CustomDialog
 import com.model.navigation.NavigationItem
 
 class NavigationAdpater(

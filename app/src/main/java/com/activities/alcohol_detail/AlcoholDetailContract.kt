@@ -1,6 +1,5 @@
 package com.activities.alcohol_detail
 
-import android.app.Activity
 import android.content.Context
 import com.base.BasePresenter
 import com.base.BaseView

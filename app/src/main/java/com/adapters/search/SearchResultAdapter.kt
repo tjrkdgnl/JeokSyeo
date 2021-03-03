@@ -6,12 +6,12 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.activities.alcohol_detail.AlcoholDetail
 import com.adapters.viewholder.SearchListViewholder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
-import com.activities.alcohol_detail.AlcoholDetail
 import com.model.alcohol_category.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService

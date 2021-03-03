@@ -1,13 +1,16 @@
 package com.fragments.alcohol_category.viewpager_items
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.adapters.alcohol_category.ListAdapter
 import com.application.GlobalApplication
 import com.error.ErrorManager
+import com.model.alcohol_category.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.AlcoholCategoryViewModel
@@ -16,22 +19,25 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
-    override lateinit var view: Fg_AlcoholCategoryContact.BaseView
-    override lateinit var context: Context
+class ListPresenter : ViewPagerCategoryContact.BasePresenter<FragmentAlcholCategoryListBinding> {
+    override lateinit var view: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryListBinding>
+
+    override lateinit var activity: Activity
+
     lateinit var viewModel: AlcoholCategoryViewModel
 
-    private val binding by lazy {
-        view.getbinding() as FragmentAlcholCategoryListBinding
-    }
-    lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var listAdapter: ListAdapter
+
+    private lateinit var linearLayoutManager: LinearLayoutManager
+
     val type: String by lazy {
-        GlobalApplication.instance.getAlcoholType(position)
+        GlobalApplication.instance.getAlcoholType(typePosition)
     }
-    lateinit var sort: String
-    var position = 0
+    var typePosition = 0
 
     private val compositeDisposable = CompositeDisposable()
+
+    //페이징을 위한 변수들
     private var visibleItemCount = 0
     private var totalItemCount = 0
     private var pastVisibleItem = 0
@@ -46,7 +52,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                     GlobalApplication.userInfo.getAccessToken(),
                     type,
                     GlobalApplication.PAGINATION_SIZE,
-                    sort,
+                    viewModel.currentSort.value!!,
                     pageNum.toString()
                 )
                 .subscribeOn(Schedulers.io())
@@ -55,8 +61,12 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                     //주류 총 개수
                     it.data?.pagingInfo?.let { info ->
                         info.alcoholTotalCount?.let { total ->
-                            viewModel.totalCountList[position] = total
-                            viewModel.changePosition.value = position
+                            //서버로부터 데이터가 셋팅되는 딜레이가 존재하기 때문에
+                            //AlcoholCategoryFragment에서 총 개수를 표시하는 옵저버에 걸리지 않는다.
+                            //때문에 서버에서 받아온 데이터 셋팅이 끝나면 다시 옵저버가 호출될 수 있도록 하기위해서
+                            //liveData의 값을 변경한다.
+                            viewModel.totalCountList[typePosition] = total
+                            viewModel.changePosition.value = typePosition
                         }
                         info.page?.let { pageNumber ->
                             pageNum = pageNumber.toInt()
@@ -65,19 +75,18 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
 
                     it.data?.alcoholList?.let { list ->
                         //어댑터 셋팅
-                        view.setAdapter(list.toMutableList())
-                        //리싸이클러뷰 셋팅
-                        binding.listRecyclerView.setHasFixedSize(false)
-                        binding.listRecyclerView.layoutManager = linearLayoutManager
+                        setAdapter(list.toMutableList())
+
                         initScrollListener()
                     }
                 }, { t ->
-                    Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString()) })
+                    Log.e(ErrorManager.ALCHOL_CATEGORY, t.message.toString())
+                })
         )
     }
 
     override fun initScrollListener() {
-        binding.listRecyclerView.addOnScrollListener(object :
+        view.getbinding().listRecyclerView.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 visibleItemCount = linearLayoutManager.childCount
@@ -88,7 +97,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                     if (!loading) {
                         if ((visibleItemCount + pastVisibleItem) >= totalItemCount) {
                             loading = true
-                            pagination(view.getLastAlcoholId())
+                            pagination()
                         }
                     }
                 }
@@ -96,13 +105,13 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
         })
     }
 
-    override fun pagination(alcoholId: String?) {
+    override fun pagination() {
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcoholCategory(
                     GlobalApplication.userBuilder.createUUID,
                     GlobalApplication.userInfo.getAccessToken(), type
-                    , GlobalApplication.PAGINATION_SIZE, sort, (pageNum + 1).toString()
+                    , GlobalApplication.PAGINATION_SIZE, viewModel.currentSort.value!!, (pageNum + 1).toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -111,13 +120,13 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                         info.page?.let { pageNumber -> pageNum = pageNumber.toInt() }
 
                         it.data?.alcoholList?.toMutableList()?.let { list ->
-                            loading=false
-                            if (list.isNotEmpty()){
+                            loading = false
+                            if (list.isNotEmpty()) {
 
-                                view.updateList(list.toMutableList())
-                            }
-                            else{
-                                Toast.makeText(context,"더 이상 주류가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+                                updateList(list.toMutableList())
+                            } else {
+                                Toast.makeText(activity, "더 이상 주류가 존재하지 않습니다.", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                     }
@@ -129,7 +138,6 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
     }
 
     override fun changeSort(sort: String) {
-        setSortValue(sort)
         executeProgressBar(true)
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
@@ -141,7 +149,7 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    view.changeSort(it.data?.alcoholList?.toMutableList()!!)
+                    changeSortedList(it.data?.alcoholList?.toMutableList()!!)
                     executeProgressBar(false)
                 }, { t ->
                     Log.e(ErrorManager.PAGINATION_CHANGE, t.message.toString())
@@ -150,15 +158,34 @@ class ListPresenter : Fg_AlcoholCategoryContact.BasePresenter {
         )
     }
 
-    override fun setSortValue(sort: String) {
-        this.sort = sort
+
+    override fun updateList(list: MutableList<AlcoholList>) {
+        listAdapter.updateList(list)
+    }
+
+    override fun changeSortedList(list: MutableList<AlcoholList>) {
+        listAdapter.changeSort(list)
+    }
+
+    override fun moveTopPosition() {
+        view.getbinding().listRecyclerView.smoothScrollToPosition(0)
+    }
+
+    override fun setAdapter(list: MutableList<AlcoholList>) {
+        listAdapter = ListAdapter(activity, list,executeProgressBar)
+        linearLayoutManager = LinearLayoutManager(activity)
+
+        view.getbinding().listRecyclerView.adapter=listAdapter
+        view.getbinding().listRecyclerView.setHasFixedSize(false)
+        view.getbinding().listRecyclerView.layoutManager=linearLayoutManager
+
     }
 
     val executeProgressBar: (Boolean) -> Unit = { execute ->
         if (execute)
-            binding.listProgressBar.root.visibility = View.VISIBLE
+            view.getbinding().listProgressBar.root.visibility = View.VISIBLE
         else
-            binding.listProgressBar.root.visibility = View.INVISIBLE
+            view.getbinding().listProgressBar.root.visibility = View.INVISIBLE
     }
 
 }

@@ -12,10 +12,10 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.activities.agreement.Agreement
 import com.application.GlobalApplication
 import com.base.BaseFragment
 import com.error.ErrorManager
-import com.activities.agreement.Agreement
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.viewmodel.SignUpViewModel

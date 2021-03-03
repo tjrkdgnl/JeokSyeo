@@ -12,8 +12,8 @@ import android.os.Bundle
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
-import com.application.GlobalApplication
 import com.activities.login.Login
+import com.application.GlobalApplication
 import com.vuforia.engine.wet.R
 
 

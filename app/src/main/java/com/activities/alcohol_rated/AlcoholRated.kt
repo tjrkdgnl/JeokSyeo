@@ -4,7 +4,6 @@ import android.os.Build
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.application.GlobalApplication

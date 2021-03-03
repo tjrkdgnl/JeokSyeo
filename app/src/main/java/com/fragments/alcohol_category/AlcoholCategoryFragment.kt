@@ -10,17 +10,16 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.activities.main.MainActivity
 import com.adapters.alcohol_category.GridViewPagerAdapter
 import com.adapters.alcohol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
 import com.base.BaseFragment
-import com.fragments.alcohol_category.viewpager_items.Fragment_Grid
-import com.fragments.alcohol_category.viewpager_items.Fragment_List
 import com.fragments.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
-import com.activities.main.MainActivity
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholCategoryBinding
@@ -29,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
-    AlcoholCategoryContact.BaseView,
+    AlcoholCategoryContact.AlcoholCategoryView,
     TabLayout.OnTabSelectedListener, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     override val layoutResID: Int = R.layout.alcohol_category
     private lateinit var categoryPresenter: Presenter
@@ -52,10 +51,37 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
         super.onViewCreated(view, savedInstanceState)
 
         categoryPresenter = Presenter().apply {
-            this.view = this@AlcoholCategoryFragment
-            this.context = requireContext()
+            viewObj = this@AlcoholCategoryFragment
+            activity = requireActivity()
+            this.viewmodel = this@AlcoholCategoryFragment.viewModel
         }
 
+        //리스너 셋팅 및 텍스트 크기 지정
+        init()
+
+        //주류 타입이 변경될 때마다 토탈개수를 실시간으로 표시
+        viewModel.changePosition.observe(requireActivity(), Observer {
+            binding.textViewTotalProduct.text =
+                "총  ${viewModel.totalCountList[binding.viewPager2Container.currentItem]}개의 주류가 있습니다."
+        })
+
+        //뷰페이저 초기화
+        categoryPresenter.inintTabLayout(this, currentItem)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        categoryPresenter.detach()
+    }
+
+    override fun getBindingObj(): AlcoholCategoryBinding {
+        return binding
+    }
+
+    override fun init() {
+
+        //프래그먼트는 xml에서 클릭리스너를 전달해주지 못하기 때문에 수동으로 셋팅해줘야 한다.
         binding.tabLayoutAlcoholList.addOnTabSelectedListener(this)
         binding.imageViewArrowToggle.setOnClickListener(this)
         binding.imageViewListToggle.setOnClickListener(this)
@@ -64,15 +90,21 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
         binding.sortingConstraintLayout.setOnClickListener(this)
         binding.windowHeader.windowHeaderLogo.setOnClickListener(this)
 
+        //토탈 개수 디바이스 사이즈로 핸들링
+        binding.textViewTotalProduct.setTextSize(
+            TypedValue.COMPLEX_UNIT_DIP,
+            GlobalApplication.instance.getCalculatorTextSize(11f)
+        )
 
         binding.viewPager2Container.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                currentItem = position
-                binding.viewPager2Container.currentItem = position
+
+                //실시간으로 변경되는 주류 타입의 개수를 표시하기위해서 포지션을 뷰모델에 저장
                 viewModel.changePosition.value = position
-                categoryPresenter.checkSort(position, viewModel.currentSort)
+
+                //선택된 탭의 텍스트 색 변경 -> 버전분기처리
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     (binding.tabLayoutAlcoholList.getTabAt(position)?.customView as TextView).setTextColor(
                         resources.getColor(R.color.orange, null)
@@ -84,37 +116,6 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
                 }
             }
         })
-
-        viewModel.changePosition.observe(requireActivity(), {
-            setTotalCount(viewModel.totalCountList[binding.viewPager2Container.currentItem])
-        })
-
-
-        //뷰페이저 초기화
-        categoryPresenter.inintTabLayout(this, currentItem, viewModel.lastToggle)
-
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        categoryPresenter.detach()
-    }
-
-
-    override fun getViewBinding(): AlcoholCategoryBinding {
-        return binding
-    }
-
-    //현재 보여지고 있는 fragment를 정한 sort방식으로 갱신
-    fun executeSorting(sort: String) {
-        val fragment = categoryPresenter.getFragement(binding.viewPager2Container.currentItem)
-        viewModel.currentSort = sort
-
-        if (fragment is Fragment_Grid)
-            fragment.changeSort(sort)
-        else if (fragment is Fragment_List)
-            fragment.changeSort(sort)
     }
 
     override fun changeToggle(toggle: Boolean) {
@@ -125,7 +126,6 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
 
             activity?.let {
                 binding.viewPager2Container.adapter = GridViewPagerAdapter(this)
-                viewModel.lastToggle = AlcoholCategoryViewModel.GRID_TOGGLE
             }
 
         } else {
@@ -134,20 +134,9 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
 
             activity?.let {
                 binding.viewPager2Container.adapter = ListViewPagerAdapter(this)
-                viewModel.lastToggle = AlcoholCategoryViewModel.LIST_TOGGLE
             }
         }
         binding.viewPager2Container.currentItem = offset
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    override fun setTotalCount(alcoholCount: Int) {
-        binding.textViewTotalProduct.setTextSize(
-            TypedValue.COMPLEX_UNIT_DIP,
-            GlobalApplication.instance.getCalculatorTextSize(11f)
-        )
-        binding.textViewTotalProduct.text = "총  ${alcoholCount}개의 주류가 있습니다."
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -175,7 +164,7 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
-                (activity as? MainActivity)?.replaceFragment(
+                (activity as? MainActivity)?.addToFragment(
                     SearchFragment.newInstance(),
                     "search"
                 )
@@ -209,19 +198,19 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.reviewOrder -> {
-                executeSorting("review")
+                categoryPresenter.executeSorting("review")
                 binding.textViewCurrentOrdering.text = "리뷰순"
             }
             R.id.likeOrder -> {
-                executeSorting("like")
+                categoryPresenter.executeSorting("like")
                 binding.textViewCurrentOrdering.text = "좋아요순"
             }
             R.id.degreeOrder_asc -> {
-                executeSorting("abv-asc")
+                categoryPresenter.executeSorting("abv-asc")
                 binding.textViewCurrentOrdering.text = "도수 낮은순"
             }
             R.id.degreeOrder_desc -> {
-                executeSorting("abv-desc")
+                categoryPresenter.executeSorting("abv-desc")
                 binding.textViewCurrentOrdering.text = "도수 높은순"
             }
         }

@@ -1,6 +1,5 @@
 package com.activities.setting
 
-import android.app.Activity
 import android.content.Context
 import com.base.BasePresenter
 import com.base.BaseView

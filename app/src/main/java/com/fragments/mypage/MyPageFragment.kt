@@ -3,10 +3,10 @@ package com.fragments.mypage
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.activities.editprofile.EditProfile
 import com.application.GlobalApplication
 import com.base.BaseFragment
 import com.custom.CustomDialog
-import com.activities.editprofile.EditProfile
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MypageBinding
 

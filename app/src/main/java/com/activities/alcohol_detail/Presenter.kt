@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.activities.comment.CommentActivity
 import com.adapters.alcoholdetail.AlcoholComponentAdapter
 import com.adapters.alcoholdetail.AlcoholReviewAdapter
 import com.application.GlobalApplication
@@ -28,7 +29,6 @@ import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
-import com.activities.comment.CommentActivity
 import com.model.alcohol_detail.Alcohol
 import com.model.alcohol_detail.AlcoholComponentData
 import com.model.alcohol_detail.Color
@@ -43,7 +43,10 @@ import com.vuforia.engine.wet.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
     //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정

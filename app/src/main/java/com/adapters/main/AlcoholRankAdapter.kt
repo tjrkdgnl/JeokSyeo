@@ -11,12 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.activities.alcohol_detail.AlcoholDetail
 import com.adapters.viewholder.AlcoholRankViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.custom.OneClickListener
 import com.error.ErrorManager
-import com.activities.alcohol_detail.AlcoholDetail
 import com.model.alcohol_ranking.AlcoholList
 import com.service.ApiGenerator
 import com.service.ApiService

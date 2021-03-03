@@ -9,13 +9,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.activities.alcohol_rated.AlcoholRated
+import com.activities.comment.CommentActivity
 import com.adapters.viewholder.AlcoholNoRatedViewHolder
 import com.adapters.viewholder.AlcoholRatedViewHolder
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.error.ErrorManager
-import com.activities.alcohol_rated.AlcoholRated
-import com.activities.comment.CommentActivity
 import com.model.rated.ReviewList
 import com.service.ApiGenerator
 import com.service.ApiService

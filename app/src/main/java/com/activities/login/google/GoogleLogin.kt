@@ -11,13 +11,13 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.activities.main.MainActivity
 import com.application.GlobalApplication
 import com.error.ErrorManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.activities.main.MainActivity
 import com.service.ApiGenerator
 import com.service.ApiService
 import com.vuforia.engine.wet.R

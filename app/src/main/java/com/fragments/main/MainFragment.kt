@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
+import com.activities.agreement.Agreement
+import com.activities.main.MainActivity
 import com.application.GlobalApplication
 import com.base.BaseFragment
 import com.fragments.alcohol_category.AlcoholCategoryFragment
 import com.fragments.search.SearchFragment
-import com.activities.agreement.Agreement
-import com.activities.main.MainActivity
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
@@ -24,7 +25,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.e("재실행","재실행")
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
         binding.activityMainWine.setOnClickListener(this)
@@ -72,7 +73,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.windowHeader_SearchButton -> {
-                (activity as? MainActivity)?.replaceFragment(
+                (activity as? MainActivity)?.addToFragment(
                     SearchFragment.newInstance(),
                     "search"
                 )
@@ -101,7 +102,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment, "category")
+                (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
 
             R.id.activityMain_beer -> {
@@ -109,7 +110,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment, "category")
+                (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
 
             R.id.activityMain_wine -> {
@@ -117,7 +118,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment, "category")
+                (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
 
             R.id.activityMain_whisky -> {
@@ -125,7 +126,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment, "category")
+                (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
 
             R.id.activityMain_sake -> {
@@ -133,7 +134,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
                 val fragment = AlcoholCategoryFragment()
                 fragment.arguments = postionBundle
 
-                (activity as? MainActivity)?.replaceFragment(fragment, "category")
+                (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
         }
     }

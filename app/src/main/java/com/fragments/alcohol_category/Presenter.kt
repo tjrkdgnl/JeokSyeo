@@ -1,10 +1,8 @@
 package com.fragments.alcohol_category
 
-import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Activity
 import android.graphics.Typeface
 import android.os.Build
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
@@ -13,43 +11,28 @@ import androidx.fragment.app.Fragment
 import com.adapters.alcohol_category.GridViewPagerAdapter
 import com.adapters.alcohol_category.ListViewPagerAdapter
 import com.application.GlobalApplication
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import com.fragments.alcohol_category.viewpager_items.Fragment_Grid
 import com.fragments.alcohol_category.viewpager_items.Fragment_List
 import com.google.android.material.tabs.TabLayoutMediator
-import com.service.JWTUtil
 import com.viewmodel.AlcoholCategoryViewModel
 import com.vuforia.engine.wet.R
-import kotlinx.android.synthetic.main.alcohol_category.view.*
-import kotlinx.android.synthetic.main.navigation_header.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class Presenter : AlcoholCategoryContact.BasePresenter {
-    override lateinit var view: AlcoholCategoryContact.BaseView
-    override lateinit var context: Context
+class Presenter : AlcoholCategoryContact.AlcoholCategoryPresenter {
+    override var viewObj: AlcoholCategoryContact.AlcoholCategoryView? =null
+    override val view: AlcoholCategoryContact.AlcoholCategoryView by lazy {
+        viewObj!!
+    }
+    override lateinit var activity: Activity
+    lateinit var viewmodel:AlcoholCategoryViewModel
 
-
-    override fun inintTabLayout(fragment: Fragment, currentItem: Int,toggle:String) {
-
-        if(toggle ==AlcoholCategoryViewModel.GRID_TOGGLE){
-            view.getViewBinding().viewPager2Container.adapter = GridViewPagerAdapter(fragment)
-
-        }
-        else{
-            view.getViewBinding().viewPager2Container.adapter = ListViewPagerAdapter(fragment)
-        }
+    override fun inintTabLayout(fragment: Fragment, currentItem: Int) {
+        view.getBindingObj().viewPager2Container.adapter = GridViewPagerAdapter(fragment)
 
         val lst = mutableListOf("전통주", "맥주", "와인", "양주", "사케")
         TabLayoutMediator(
-            view.getViewBinding().tabLayoutAlcoholList, view.getViewBinding().viewPager2Container
+            view.getBindingObj().tabLayoutAlcoholList, view.getBindingObj().viewPager2Container
         ) { tab, position ->
-            val textView = TextView(context)
+            val textView = TextView(activity)
             tab.customView = textView
             textView.text = lst[position]
 
@@ -61,9 +44,9 @@ class Presenter : AlcoholCategoryContact.BasePresenter {
 
             textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                textView.setTextColor(context.resources.getColor(R.color.tabColor, null))
+                textView.setTextColor(activity.resources.getColor(R.color.tabColor, null))
             } else {
-                textView.setTextColor(ContextCompat.getColor(context, R.color.tabColor))
+                textView.setTextColor(ContextCompat.getColor(activity, R.color.tabColor))
             }
             textView.gravity = Gravity.CENTER_HORIZONTAL
 
@@ -72,83 +55,46 @@ class Presenter : AlcoholCategoryContact.BasePresenter {
                 val fg = getFragement(currentItem)
 
                 if (fg is Fragment_Grid) {
-                    fg.moveTopPosition()
+                    fg.gridPresenter.moveTopPosition()
                 } else if (fg is Fragment_List) {
-                    fg.moveTopPosition()
+                    fg.listPresenter.moveTopPosition()
                 }
-
             }
         }.attach()
 
-        view.getViewBinding().viewPager2Container.offscreenPageLimit = 5
-        view.getViewBinding().viewPager2Container.post {
-            view.getViewBinding().viewPager2Container.setCurrentItem(currentItem, true)
+        view.getBindingObj().viewPager2Container.offscreenPageLimit = 5
+        view.getBindingObj().viewPager2Container.post {
+            view.getBindingObj().viewPager2Container.setCurrentItem(currentItem, true)
         }
 
-        view.getViewBinding().viewPager2Container.isSaveEnabled = false
+        //뷰의 상태값을 갖는지에 대한 여부는 기본적으로 true이다. 이 때문에 카테고리->검색화면->카테고리로
+        //프래그먼트 전환 시, 다시 카테고리 화면으로 돌아왔을 때, 정보 값을 잃어버리는데 뷰의 상태값을 찾으려고
+        //하므로 에러를 발생시킨다. 따라서 뷰의 상태값을 저장하지 않도록한다.
+//        view.getBindingObj().viewPager2Container.isSaveEnabled = false
     }
 
 
     override fun getFragement(position: Int): Fragment? {
         var fragment: Fragment? = null
-        if (view.getViewBinding().viewPager2Container.adapter is GridViewPagerAdapter) {
-            fragment = (view.getViewBinding().viewPager2Container.adapter as GridViewPagerAdapter)
-                .getFragment(view.getViewBinding().viewPager2Container.currentItem)
-        } else if (view.getViewBinding().viewPager2Container.adapter is ListViewPagerAdapter) {
-            fragment = (view.getViewBinding().viewPager2Container.adapter as ListViewPagerAdapter)
-                .getFragment(view.getViewBinding().viewPager2Container.currentItem)
+        if (view.getBindingObj().viewPager2Container.adapter is GridViewPagerAdapter) {
+            fragment = (view.getBindingObj().viewPager2Container.adapter as GridViewPagerAdapter)
+                .getFragment(view.getBindingObj().viewPager2Container.currentItem)
+        } else if (view.getBindingObj().viewPager2Container.adapter is ListViewPagerAdapter) {
+            fragment = (view.getBindingObj().viewPager2Container.adapter as ListViewPagerAdapter)
+                .getFragment(view.getBindingObj().viewPager2Container.currentItem)
         }
 
         return fragment
     }
 
-    override fun checkSort(position: Int, sort: String) {
-        getFragement(position)?.let { fragment ->
-            if (fragment is Fragment_Grid) {
-                if (fragment.getSort() != sort) {
-                    fragment.changeSort(sort)
-                }
-            } else if (fragment is Fragment_List) {
-                if (fragment.getSort() != sort) {
-                    fragment.changeSort(sort)
-                }
-            }
-        }
+    override fun executeSorting(sort: String) {
+        viewmodel.currentSort.value = sort
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun checkLogin(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            JWTUtil.checkAccessToken()
 
-            withContext(Dispatchers.Main) {
-                GlobalApplication.userInfo.getProvider()?.let {
-                    //유저 프로필 설정하는 화면 필요함
-                    view.getViewBinding().categoryDrawerLayout.category_navigation.navigation_header_Name.text =
-                        GlobalApplication.userInfo.nickName + "님,"
-                    view.getViewBinding().categoryDrawerLayout.category_navigation.navigation_header_hello.text =
-                        "안녕하세요"
-                }
-                GlobalApplication.userInfo.getProfile()?.let { lst ->
-                    Log.e("프로필 변경", "변경")
-                    if (lst.isNotEmpty()) {
-                        Glide.with(context)
-                            .load(lst[lst.size - 1].mediaResource?.small?.src.toString())
-                            .apply(
-                                RequestOptions()
-                                    .signature(ObjectKey(System.currentTimeMillis()))
-                                    .skipMemoryCache(true)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .circleCrop()
-                            )
-                            .into(view.getViewBinding().categoryNavigation.navigationHeader.navigationHeaderProfile)
-                    }
-                }
-            }
-        }
-    }
+
 
     override fun detach() {
-
+        viewObj=null
     }
 }

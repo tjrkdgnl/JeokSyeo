@@ -7,9 +7,9 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.activities.login.Login
 import com.application.GlobalApplication
 import com.base.BaseActivity
-import com.activities.login.Login
 import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.ActivitySignupBinding

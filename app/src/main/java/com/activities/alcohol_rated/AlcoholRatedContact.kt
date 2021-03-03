@@ -1,8 +1,6 @@
 package com.activities.alcohol_rated
 
 import android.content.Context
-import androidx.databinding.ViewDataBinding
-import com.activities.alcohol_detail.AlcoholDetailContract
 import com.base.BasePresenter
 import com.base.BaseView
 import com.vuforia.engine.wet.databinding.AlcoholRatedBinding

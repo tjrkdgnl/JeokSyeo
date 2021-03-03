@@ -17,7 +17,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         bindingObj!!
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +24,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     ): View? {
         bindingObj = DataBindingUtil.inflate(layoutInflater, layoutResID, container, false)
         binding.lifecycleOwner = this
+
 
         return binding.root
     }

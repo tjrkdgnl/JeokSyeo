@@ -1,8 +1,6 @@
 package com.activities.signup
 
-import android.app.Activity
 import android.widget.Button
-import androidx.fragment.app.FragmentActivity
 import com.base.BasePresenter
 import com.base.BaseView
 import com.vuforia.engine.wet.databinding.ActivitySignupBinding

@@ -1,10 +1,8 @@
 package com.activities.main
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.base.BasePresenter
 import com.base.BaseView
-import com.vuforia.engine.wet.databinding.MainBinding
 import com.vuforia.engine.wet.databinding.RealMainActivityBinding
 
 interface MainContract {
@@ -16,7 +14,7 @@ interface MainContract {
          * {@param name}을 통해서 프래그먼트가 생성될 때, name이란 백스택을 같이 생성한다.
          * 이를 통해 프래그먼트가 commit 될 시, 스택에 저장이 된다.
          */
-        fun replaceFragment(fragment: Fragment,name:String)
+        fun addToFragment(fragment: Fragment, name:String)
 
         /**
          * 'journey box' 탭에서 로그인 관련 공지 토스트가 애니메이션으로 작동한다.

@@ -1,7 +1,5 @@
 package com.activities.favorite
 
-import android.content.Context
-import com.activities.editprofile.EditProfileContract
 import com.base.BasePresenter
 import com.base.BaseView
 import com.vuforia.engine.wet.databinding.FavoriteActivityBinding

@@ -1,9 +1,7 @@
 package com.activities.comment
 
-import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
-import com.activities.alcohol_rated.AlcoholRatedContact
 import com.base.BasePresenter
 import com.base.BaseView
 import com.model.my_comment.Comment
