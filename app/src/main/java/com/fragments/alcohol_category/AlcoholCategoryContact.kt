@@ -38,11 +38,14 @@ interface AlcoholCategoryContact {
         fun inintTabLayout(fragment: Fragment,currentItem:Int)
 
         /**
-         * 뷰페이저에서 보여지고 있는 프래그먼트 호출메서드
+         * 뷰페이저에서 현재 보여지는 프래그먼트 호출하는 메서드
          */
         fun getFragement(position:Int): Fragment?
 
-
+        /**
+         * 뷰모델의 sort값을 {@param sort}를 통해 변경함으로써 observer를 실행시킨다.
+         * 이로인해 sort값으로 정렬된 리스트를 api 통신을 통해 받게 되며, 정렬된 리스트로 갱신한다.
+         */
         fun executeSorting(sort: String)
 
         /**

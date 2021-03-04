@@ -20,7 +20,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class ListPresenter : ViewPagerCategoryContact.BasePresenter<FragmentAlcholCategoryListBinding> {
-    override lateinit var view: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryListBinding>
+    override val view: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryListBinding> by lazy {
+        viewObj!!
+    }
+    override var viewObj: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryListBinding>? =null
 
     override lateinit var activity: Activity
 
@@ -156,6 +159,11 @@ class ListPresenter : ViewPagerCategoryContact.BasePresenter<FragmentAlcholCateg
                     executeProgressBar(false)
                 })
         )
+    }
+
+    override fun detach() {
+        viewObj =null
+        compositeDisposable.dispose()
     }
 
 

@@ -41,7 +41,7 @@ class Fragment_Grid: BaseFragment<FragmentAlcholCategoryGridBinding>()
         }
 
         gridPresenter = GridPresenter().apply {
-            this.view =this@Fragment_Grid
+            this.viewObj =this@Fragment_Grid
             typePosition =this@Fragment_Grid.typePosition
             viewModel = viewmodel
             activity = this@Fragment_Grid.requireActivity()
@@ -50,12 +50,12 @@ class Fragment_Grid: BaseFragment<FragmentAlcholCategoryGridBinding>()
         gridPresenter.initRecyclerView(requireActivity())
 
         viewmodel.currentSort.observe(viewLifecycleOwner, Observer {
-            changeSort(it)
+            gridPresenter.changeSort(it)
         })
     }
 
-    fun changeSort(sort:String){
-        gridPresenter.changeSort(sort)
+    override fun detachPresenter() {
+        gridPresenter.detach()
     }
 
     override fun getbinding(): FragmentAlcholCategoryGridBinding {

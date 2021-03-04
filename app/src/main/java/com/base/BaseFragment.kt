@@ -9,13 +9,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
-
     abstract val layoutResID: Int
-
     private  var bindingObj:T? = null
     protected val binding by lazy {
         bindingObj!!
     }
+
+    abstract fun detachPresenter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+        detachPresenter()
         bindingObj =null
     }
-
 }

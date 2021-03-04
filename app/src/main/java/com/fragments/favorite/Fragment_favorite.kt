@@ -9,7 +9,7 @@ import com.viewmodel.FavoriteViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentFavoriteBinding
 
-class Fragment_favorite : BaseFragment<FragmentFavoriteBinding>(), FavoriteContract.BaseView {
+class Fragment_favorite : BaseFragment<FragmentFavoriteBinding>(), FavoriteContract.FavoriteView {
     override val layoutResID: Int = R.layout.fragment_favorite
     private var position = 0
     private lateinit var presenter: Presenter
@@ -36,9 +36,9 @@ class Fragment_favorite : BaseFragment<FragmentFavoriteBinding>(), FavoriteContr
         super.onViewCreated(view, savedInstanceState)
 
         presenter = Presenter().apply {
-            this.view = this@Fragment_favorite
+            this.viewObj = this@Fragment_favorite
             viewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
-            context = requireContext()
+            activity = requireActivity()
             position = this@Fragment_favorite.position
         }
 
@@ -46,12 +46,11 @@ class Fragment_favorite : BaseFragment<FragmentFavoriteBinding>(), FavoriteContr
 
     }
 
-    override fun getBinding(): FragmentFavoriteBinding {
-        return binding
+    override fun detachPresenter() {
+        presenter.detach()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detach()
+    override fun getBindingObj(): FragmentFavoriteBinding {
+        return binding
     }
 }

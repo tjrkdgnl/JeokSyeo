@@ -38,7 +38,6 @@ class SearchFragment private constructor() : BaseFragment<SearchBinding>(), Sear
     override val layoutResID: Int =  R.layout.search
 
     private lateinit var searchPresenter: Presenter
-    private val compositeDisposable = CompositeDisposable()
     private var searchAdapter: SearchAdapter? = null
     private var resultAdapter: SearchResultAdapter? = null
     private lateinit var layoutManager: LinearLayoutManager
@@ -276,9 +275,7 @@ class SearchFragment private constructor() : BaseFragment<SearchBinding>(), Sear
         return false
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun detachPresenter() {
         searchPresenter.detach()
-        compositeDisposable.dispose()
     }
 }

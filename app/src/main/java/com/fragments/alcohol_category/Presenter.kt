@@ -91,9 +91,6 @@ class Presenter : AlcoholCategoryContact.AlcoholCategoryPresenter {
         viewmodel.currentSort.value = sort
     }
 
-
-
-
     override fun detach() {
         viewObj=null
     }

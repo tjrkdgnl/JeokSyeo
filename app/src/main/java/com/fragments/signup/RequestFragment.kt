@@ -29,4 +29,8 @@ class RequestFragment: BaseFragment<FragmentSignupRequestBinding>() {
         viewmodel.buttonState.value =true
         binding.basicHeader.signUpHeaderProgressbar.progress=0
     }
+
+    override fun detachPresenter() {
+
+    }
 }

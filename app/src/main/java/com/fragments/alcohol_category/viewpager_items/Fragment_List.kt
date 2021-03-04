@@ -41,7 +41,7 @@ class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>()
         }
 
         listPresenter = ListPresenter().apply {
-            this.view=this@Fragment_List
+            this.viewObj=this@Fragment_List
             typePosition =this@Fragment_List.typePosition
             viewModel = this@Fragment_List.viewmodel
             activity =this@Fragment_List.requireActivity()
@@ -52,6 +52,10 @@ class Fragment_List: BaseFragment<FragmentAlcholCategoryListBinding>()
         viewmodel.currentSort.observe(viewLifecycleOwner, Observer {
             changeSort(it)
         })
+    }
+
+    override fun detachPresenter() {
+        listPresenter.detach()
     }
 
     fun changeSort(sort:String){

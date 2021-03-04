@@ -70,8 +70,7 @@ class AlcoholCategoryFragment : BaseFragment<AlcoholCategoryBinding>(),
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun detachPresenter() {
         categoryPresenter.detach()
     }
 

@@ -125,6 +125,7 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
                 )
             }
 
+            //위치까지 모두 설정했으면 유저의 모든 정보를 api로 전송하여 회원가입 신청
             presenter.signUp()
         }
     }

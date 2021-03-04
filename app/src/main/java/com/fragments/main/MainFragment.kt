@@ -16,8 +16,7 @@ import com.fragments.search.SearchFragment
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.MainBinding
 
-class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.OnClickListener {
-
+class MainFragment : BaseFragment<MainBinding>(), MainContract.MainView, View.OnClickListener {
     override val layoutResID = R.layout.main
 
     lateinit var mainPresenter: MainPresenter
@@ -25,7 +24,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("재실행","재실행")
+
         binding.activityMainKoreanAlcohol.setOnClickListener(this)
         binding.activityMainBeer.setOnClickListener(this)
         binding.activityMainWine.setOnClickListener(this)
@@ -35,50 +34,47 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
         binding.businessInfo.activityMainTermsOfService.setOnClickListener(this)
         binding.businessInfo.activityMainPrivacyPolicyText.setOnClickListener(this)
 
-
         mainPresenter = MainPresenter().apply {
-            this.view = this@MainFragment
+            this.viewObj = this@MainFragment
             activity = requireActivity()
         }
 
-        mainPresenter.initBanner(view.context)
+        mainPresenter.initBanner()
         mainPresenter.autoSlide()
 
-        mainPresenter.initRecommendViewPager(view.context)
-        mainPresenter.initAlcoholRanking(view.context)
+        mainPresenter.initRecommendViewPager()
+        mainPresenter.initAlcoholRanking()
 
 
+        //배너 자동으로 넘겨지면 현재 쪽수 갱신
         binding.mainBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if(mainPresenter.bannerItem !=0){
-                    binding.bannerCount.text =
-                        "${position % mainPresenter.bannerItem + 1} / ${mainPresenter.bannerItem}"
-                }
+                mainPresenter.bannerNumber(position)
             }
         })
     }
 
-    override fun getViewBinding(): MainBinding {
+    override fun getBindingObj(): MainBinding {
         return binding
     }
 
-    fun initApi(context: Context) {
-        mainPresenter.initRecommendViewPager(context)
-        mainPresenter.initAlcoholRanking(context)
+    fun initApi() {
+        mainPresenter.initRecommendViewPager()
+        mainPresenter.initAlcoholRanking()
     }
-
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            //검색 버튼 이미지 클릭
             R.id.windowHeader_SearchButton -> {
                 (activity as? MainActivity)?.addToFragment(
                     SearchFragment.newInstance(),
                     "search"
                 )
             }
-
+            //이용약관 텍스트 클릭
             R.id.activityMain_termsOfService->{
                 val intent = Intent(v.context,Agreement::class.java)
                 val bundle = Bundle()
@@ -87,7 +83,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
                 startActivity(intent)
             }
-
+            //개인정보처리방침 텍스트 클릭
             R.id.activityMain_PrivacyPolicyText->{
                 val intent = Intent(v.context,Agreement::class.java)
                 val bundle = Bundle()
@@ -96,7 +92,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
                 startActivity(intent)
             }
-
+            //전통주 이미지 클릭
             R.id.activityMain_koreanAlcohol -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 0)
                 val fragment = AlcoholCategoryFragment()
@@ -104,7 +100,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
                 (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
-
+            //맥주 이미지 클릭
             R.id.activityMain_beer -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 1)
                 val fragment = AlcoholCategoryFragment()
@@ -112,7 +108,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
                 (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
-
+            //와인 이미지 클릭
             R.id.activityMain_wine -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 2)
                 val fragment = AlcoholCategoryFragment()
@@ -120,7 +116,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
                 (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
-
+            //위스키 이미지 클릭
             R.id.activityMain_whisky -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 3)
                 val fragment = AlcoholCategoryFragment()
@@ -128,7 +124,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
 
                 (activity as? MainActivity)?.addToFragment(fragment, "category")
             }
-
+            //사케 이미지 클릭
             R.id.activityMain_sake -> {
                 postionBundle.putInt(GlobalApplication.MOVE_TYPE, 4)
                 val fragment = AlcoholCategoryFragment()
@@ -139,8 +135,7 @@ class MainFragment : BaseFragment<MainBinding>(), MainContract.BaseView, View.On
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun detachPresenter() {
         mainPresenter.detachView()
     }
 }

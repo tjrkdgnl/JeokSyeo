@@ -19,7 +19,8 @@ interface ViewPagerCategoryContact {
 
     }
     interface BasePresenter<T:ViewDataBinding>{
-        var view:CategoryBaseView<T>
+        val view:CategoryBaseView<T>
+        var viewObj:CategoryBaseView<T>?
         var activity:Activity
 
         /**
@@ -62,6 +63,9 @@ interface ViewPagerCategoryContact {
          * 어댑터 초기화 메서드
          */
         fun setAdapter(list:MutableList<AlcoholList>)
+
+
+        fun detach()
 
     }
 }

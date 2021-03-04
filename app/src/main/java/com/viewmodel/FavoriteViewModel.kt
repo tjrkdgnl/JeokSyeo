@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 
 class FavoriteViewModel : ViewModel() {
 
-    var summaryCount = MutableLiveData<Int>(0)
-    var currentPosition = MutableLiveData<Int>(-1)
+    var summaryCount = MutableLiveData(0)
+    var currentPosition = MutableLiveData(-1)
 
     var viewPagerPosition = 0
 
@@ -16,5 +16,5 @@ class FavoriteViewModel : ViewModel() {
         }
     }
 
-    var alcoholTypeList = mutableListOf<Int>(0, 0, 0, 0, 0, 0)
+    var alcoholTypeList = mutableListOf(0, 0, 0, 0, 0, 0)
 }

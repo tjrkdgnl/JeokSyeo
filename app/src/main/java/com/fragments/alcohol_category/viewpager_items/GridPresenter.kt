@@ -22,7 +22,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class GridPresenter : ViewPagerCategoryContact.BasePresenter<FragmentAlcholCategoryGridBinding> {
-    override lateinit var view: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryGridBinding>
+    override val view: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryGridBinding> by lazy {
+        viewObj!!
+    }
+    override  var viewObj: ViewPagerCategoryContact.CategoryBaseView<FragmentAlcholCategoryGridBinding>? = null
+
     override lateinit var activity: Activity
     private lateinit var gridLayoutManager: GridLayoutManager
     lateinit var viewModel: AlcoholCategoryViewModel
@@ -169,7 +173,7 @@ class GridPresenter : ViewPagerCategoryContact.BasePresenter<FragmentAlcholCateg
     }
 
     override fun setAdapter(list: MutableList<AlcoholList>) {
-        gridAdapter = GridAdapter(activity, list.toMutableList(), executeProgressBar)
+        gridAdapter = GridAdapter(list.toMutableList(), executeProgressBar)
         gridLayoutManager = GridLayoutManager(activity, 2)
 
         view.getbinding().gridRecyclerView.adapter = gridAdapter
@@ -205,5 +209,10 @@ class GridPresenter : ViewPagerCategoryContact.BasePresenter<FragmentAlcholCateg
         } else {
             view.getbinding().gridProgressBar.root.visibility = View.INVISIBLE
         }
+    }
+
+    override fun detach() {
+        viewObj =null
+        compositeDisposable.dispose()
     }
 }

@@ -72,7 +72,7 @@ class MainActivity : BaseActivity<RealMainActivityBinding>(), MainContract.MainV
         //네트워크가 다시 연결 됐을 때,
         for (frag in this.supportFragmentManager.fragments) {
             if (frag is MainFragment) {
-                frag.initApi(this)
+                frag.initApi()
                 break
             }
         }

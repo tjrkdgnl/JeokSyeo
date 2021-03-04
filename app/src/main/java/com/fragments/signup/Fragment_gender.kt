@@ -11,7 +11,6 @@ import com.vuforia.engine.wet.databinding.FragmentSignupGenderBinding
 
 class Fragment_gender : BaseFragment<FragmentSignupGenderBinding>(),View.OnClickListener{
     override val layoutResID: Int =  R.layout.fragment_signup_gender
-
     private lateinit var viewmodel: SignUpViewModel
     private var maleCheck = false
     private var femaleCheck = false
@@ -32,6 +31,10 @@ class Fragment_gender : BaseFragment<FragmentSignupGenderBinding>(),View.OnClick
         binding.femaleLinearLayout.setOnClickListener(this)
     }
 
+    override fun detachPresenter() {
+
+    }
+
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.male_LinearLayout ->{checkMale()}
@@ -42,6 +45,7 @@ class Fragment_gender : BaseFragment<FragmentSignupGenderBinding>(),View.OnClick
         }
     }
 
+    //남성을 선택한 경우 여성 셋팅 해제
     private fun checkMale(){
         if(!maleCheck){
             binding.maleCheckbox.setImageResource(R.mipmap.gender_checkbox_full)
@@ -53,9 +57,11 @@ class Fragment_gender : BaseFragment<FragmentSignupGenderBinding>(),View.OnClick
             GlobalApplication.userBuilder.setGender("M")
         }
 
+        //ok버튼 활성화
         viewmodel.buttonState.value=true
     }
 
+    //여성을 선택한 경우 남성 셋팅 해제
     private fun checkFemale(){
         if(!femaleCheck){
             binding.femaleCheckbox.setImageResource(R.mipmap.gender_checkbox_full)
@@ -66,8 +72,7 @@ class Fragment_gender : BaseFragment<FragmentSignupGenderBinding>(),View.OnClick
 
             GlobalApplication.userBuilder.setGender("F")
         }
-
+        //ok버튼 활성화
         viewmodel.buttonState.value=true
     }
-
 }

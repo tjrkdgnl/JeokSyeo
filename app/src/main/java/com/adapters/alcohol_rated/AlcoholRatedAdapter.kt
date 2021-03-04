@@ -160,7 +160,7 @@ class AlcoholRatedAdapter(private val activity: Activity,
 
         val currentPosition = lst.size
         lst.addAll(list)
-        notifyItemChanged(currentPosition-1,list.size)
+        notifyItemChanged(currentPosition,list.size)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

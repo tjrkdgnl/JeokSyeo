@@ -9,17 +9,20 @@ import com.viewmodel.RatedViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.FragmentAlcholRatedBinding
 
-class Fragment_alcoholRated: BaseFragment<FragmentAlcholRatedBinding>(), FragmentRated_Contract.BaseView {
+class Fragment_alcoholRated: BaseFragment<FragmentAlcholRatedBinding>(), FragmentRated_Contract.FragmentRatedView {
     override val layoutResID: Int = R.layout.fragment_alchol_rated
-    private var position =0
+    private var typePosition =0
     private lateinit var presenter:Presenter
 
-
+    /**
+     * 팩토리 메서드를 통해서 fragment가 파라미터를 입력받아 생성되도록 작성
+     * 해당 메서드를 통해서 viewPagerAdapter는 각 타입의 포지션을 넘겨준다.
+     */
     companion object{
-        fun newInstance(posittion:Int):Fragment{
+        fun newInstance(typePosition:Int):Fragment{
             val fragment = Fragment_alcoholRated()
             val bundle = Bundle()
-            bundle.putInt("position",posittion)
+            bundle.putInt("position",typePosition)
             fragment.arguments = bundle
             return fragment
         }
@@ -29,7 +32,7 @@ class Fragment_alcoholRated: BaseFragment<FragmentAlcholRatedBinding>(), Fragmen
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-           position= it.getInt("position")
+           typePosition= it.getInt("position")
         }
     }
 
@@ -37,10 +40,9 @@ class Fragment_alcoholRated: BaseFragment<FragmentAlcholRatedBinding>(), Fragmen
         super.onViewCreated(view, savedInstanceState)
 
         presenter = Presenter().apply {
-            this.view =this@Fragment_alcoholRated
+            this.viewObj =this@Fragment_alcoholRated
             activity = requireActivity()
-            position =this@Fragment_alcoholRated.position
-//            smoothScrollListener = this@Fragment_alcoholRated.smoothScrollListener
+            typePosition =this@Fragment_alcoholRated.typePosition
             viewmodel = ViewModelProvider(requireActivity()).get(RatedViewModel::class.java)
         }
 
@@ -48,8 +50,11 @@ class Fragment_alcoholRated: BaseFragment<FragmentAlcholRatedBinding>(), Fragmen
 
     }
 
-    override fun getBinding(): FragmentAlcholRatedBinding {
-        return binding
+    override fun detachPresenter() {
+        presenter.detach()
     }
 
+    override fun getBindingObj(): FragmentAlcholRatedBinding {
+        return binding
+    }
 }
