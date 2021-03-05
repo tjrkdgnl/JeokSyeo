@@ -70,10 +70,7 @@ class SignUpPresenter : SignUpContract.SignUpPresenter {
             if (!task.isSuccessful) {
                 Log.e("디바이스 토큰 에러", task.exception?.message.toString())
             } else {
-                //회원정보객체 셋팅
-                GlobalApplication.userInfo = GlobalApplication.userBuilder.build()
-
-                val userMap = GlobalApplication.userInfo.getMap()
+                val userMap = GlobalApplication.userBuilder.getMap()
 
                 //추후에 푸시알람을 위해 유저의 디바이스 정보를 같이 전송
                 userMap["device_platform"] = "AOS"

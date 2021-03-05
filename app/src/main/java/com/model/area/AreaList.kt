@@ -12,4 +12,8 @@ class AreaList {
     @SerializedName("name")
     @Expose
     var name: String? = null
+
+    override fun toString(): String {
+        return "$code || $name"
+    }
 }

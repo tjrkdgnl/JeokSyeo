@@ -72,7 +72,7 @@
                     app:scale_base_height="32.5">
 
                     <TextView
-                        android:id="@+id/state_Text"
+                        android:id="@+id/cityText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/apple_sd_gothic_neo_sb"
@@ -113,7 +113,7 @@
                     app:scale_base_width="150"
                     app:scale_base_height="32.5">
                     <TextView
-                        android:id="@+id/country_text"
+                        android:id="@+id/townText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"

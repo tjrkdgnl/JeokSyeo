@@ -148,7 +148,13 @@ object JWTUtil {
         var check = false
 
         GlobalApplication.userDataBase.getAccessToken()?.let {
-            check = checkExpireOfAccessToken( GlobalApplication.userDataBase.getAccessTokenExpire())
+            try {
+                check = checkExpireOfAccessToken( GlobalApplication.userDataBase.getAccessTokenExpire())
+
+            }
+            catch (e:Exception){
+                Log.e("tokenError",e.message.toString())
+            }
         }
         return check
     }

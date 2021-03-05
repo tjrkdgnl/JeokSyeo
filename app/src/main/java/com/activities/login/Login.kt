@@ -239,7 +239,7 @@ class Login : BaseActivity<LoginBinding>(), View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     fun handlingActivity() {
-        val map = HashMap<String, Any>()
+        val map = HashMap<String, String?>()
         GlobalApplication.userBuilder.getProvider()?.let { map.put("oauth_provider", it) }
         GlobalApplication.userBuilder.getOAuthToken()?.let { map.put("oauth_token", it) }
 

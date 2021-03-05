@@ -29,7 +29,7 @@ interface ApiService {
 
     //요청
     @POST("v1/auth/token")
-    fun signUp(@Header("X-Request-ID") UUID :String ,@Body map :HashMap<String,Any> ) : Single<GetUserData>
+    fun signUp(@Header("X-Request-ID") UUID :String ,@Body map :HashMap<String,String?> ) : Single<GetUserData>
 
     @POST("v1/auth/token/refresh")
     fun refreshToken(@Header("X-Request-ID") UUID: String, @Body map :HashMap<String,Any>) :Single<GetUserData>

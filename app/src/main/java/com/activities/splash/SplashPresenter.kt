@@ -60,7 +60,7 @@ class SplashPresenter : SplashContract.SplashPresenter {
                         setBirthDay(user.data?.userInfo?.birth ?: "1970-01-01")
                         setProfile(user.data?.userInfo?.profile)
                         setGender(user.data?.userInfo?.gender ?: "M")
-                        setAddress("") //추후에 셋팅하기
+                        setAddress("")
                         setLevel(user.data?.userInfo?.level ?: 0)
                         setAccessToken("Bearer " + GlobalApplication.userDataBase.getAccessToken())
                         coroutineResult.resume(true)        //suspend 끝내고 다음 로직 실행

@@ -14,7 +14,8 @@ import com.viewmodel.SignUpViewModel
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.ActivitySignupBinding
 
-class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, SignUpContract.SignUpView {
+class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener,
+    SignUpContract.SignUpView {
     private var idx = 0
     private lateinit var viewModel: SignUpViewModel
     private lateinit var presenter: SignUpPresenter
@@ -64,8 +65,8 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
         //status bar 배경변경
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.statusBarColor = resources.getColor(R.color.white,null)
-            }else{
+                window.statusBarColor = resources.getColor(R.color.white, null)
+            } else {
                 window.statusBarColor = ContextCompat.getColor(this, R.color.white)
             }
         }
@@ -73,9 +74,10 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
         //status bar의 icon 색상 변경
         val decor = window.decorView
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
-        }else{
-            decor.systemUiVisibility =0
+            decor.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or decor.systemUiVisibility
+        } else {
+            decor.systemUiVisibility = 0
         }
     }
 
@@ -91,44 +93,44 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener, Sign
         //키패드 숨기기
         presenter.hideKeypad(binding.infoConfirmButton)
 
-        if (viewModel.checkRequest) { //에러가 발생하면 핸들링하는 화면
-            startActivity(Intent(this, Login::class.java))
-            finish()
-        } else if (viewModel.nickname != null) {
+        if (viewModel.nickname != null) {
             viewModel.nickname?.let { nic ->
                 GlobalApplication.userBuilder.setNickName(nic)
                 viewModel.nickname = null       //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
             }
-        }
-        else if (viewModel.birthDay !=null){
-            viewModel.birthDay?.let { birth->
+            return
+        } else if (viewModel.birthDay != null) {
+            viewModel.birthDay?.let { birth ->
                 GlobalApplication.userBuilder.setBirthDay(birth)
-                viewModel.birthDay =null         //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
+                viewModel.birthDay = null         //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
             }
-        }
-        else if (viewModel.gender !=null){
+            return
+        } else if (viewModel.gender != null) {
             viewModel.gender?.let { gen ->
                 GlobalApplication.userBuilder.setGender(gen)
-                viewModel.gender =null           //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
+                viewModel.gender = null           //해당 부분을 반드시 null처리해야 유저 정보가 제대로 기입된다.
             }
+            return
         }
-        else if (viewModel.OkButtonEnabled) { //지역선택
-            //첫번째 depth는 가장 큰 범주인 지역이다. 해당 지역의 코드가 저장이 되며, 이 코드를 통해서
-            //두번째 depth에서는 해당 지역의 작은 범주의 지역들이 나타난다.
-            if (viewModel.depth == 1) {
-                GlobalApplication.userBuilder.setAddress(
-                    viewModel.countryArea.value?.code ?: ""
-                )
-            } else if (viewModel.depth == 2) {
-                GlobalApplication.userBuilder.setAddress(
-                    viewModel.townArea.value?.code ?: ""
-                )
-            }
 
-            //위치까지 모두 설정했으면 유저의 모든 정보를 api로 전송하여 회원가입 신청
-            presenter.signUp()
+        //지역선택
+        if (viewModel.locationMap["smallTown"] != null) {
+            GlobalApplication.userBuilder.setAddress(
+                viewModel.locationMap["city"]?.code +
+                        viewModel.locationMap["middleTown"]?.code +
+                        viewModel.locationMap["smallTown"]?.code
+            )
+        } else if (viewModel.locationMap["middleTown"] != null) {
+            GlobalApplication.userBuilder.setAddress(
+            viewModel.locationMap["city"]?.code +
+                    viewModel.locationMap["middleTown"]?.code)
         }
+
+        //위치까지 모두 설정했으면 유저의 모든 정보를 api로 전송하여 회원가입 신청
+        presenter.signUp()
+
     }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

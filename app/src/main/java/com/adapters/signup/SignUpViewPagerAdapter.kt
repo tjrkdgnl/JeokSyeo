@@ -7,36 +7,33 @@ import com.application.GlobalApplication
 import com.fragments.signup.Fragment_birthDay
 import com.fragments.signup.Fragment_gender
 import com.fragments.signup.Fragment_nickName
-import com.fragments.signup.RequestFragment
 import com.fragments.signup.location.Fragment_location
+import java.lang.Exception
 
 class SignUpViewPagerAdapter(
-    val fragmentActivity: FragmentActivity,
+    fragmentActivity: FragmentActivity,
     val fgList: MutableList<String>
 ) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = fgList.size
 
     override fun createFragment(position: Int): Fragment {
-        when (fgList.get(position)) {
+        return when (fgList.get(position)) {
             GlobalApplication.NICKNAME -> {
-                return Fragment_nickName.newInstance()
+                Fragment_nickName.newInstance()
             }
             GlobalApplication.BIRTHDAY -> {
-                return Fragment_birthDay.newInstance()
+                Fragment_birthDay.newInstance()
             }
             GlobalApplication.GENDER -> {
-                return Fragment_gender.newInstance()
+                Fragment_gender.newInstance()
             }
             GlobalApplication.LOCATION -> {
-                return Fragment_location.newInstance()
+                Fragment_location.newInstance()
             }
             else -> {
-                return RequestFragment.newInstance()
+                throw Exception("회원가입 뷰페이저 에러 ")
             }
         }
     }
-
-    fun getFragment(position: Int) =
-        fragmentActivity.supportFragmentManager.findFragmentByTag("f$position")
 }

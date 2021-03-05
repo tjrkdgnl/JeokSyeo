@@ -13,7 +13,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.activities.agreement.Agreement
-import com.activities.signup.SignUp
 import com.application.GlobalApplication
 import com.base.BaseFragment
 import com.error.ErrorManager
@@ -25,7 +24,6 @@ import com.vuforia.engine.wet.databinding.FragmentSignupNicknameBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.ref.WeakReference
 import java.util.regex.Pattern
 
 @SuppressLint("UseCompatLoadingForDrawables")
@@ -298,5 +296,4 @@ class Fragment_nickName : BaseFragment<FragmentSignupNicknameBinding>(), TextWat
             }
         }
     }
-
 }
