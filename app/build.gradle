@@ -37,7 +37,7 @@ android {
     //릴리즈버전으로 빌드하기
     signingConfigs{
         release {
-            storeFile file('/Users/seoganghwi/jeoksyeo.jks')
+            storeFile file('jeoksyeo.jks')
             storePassword "ㅅㅓㄱㅏㅇㅎㅜㅣ@818"
             keyAlias "jeoksyeo"
             keyPassword "Clzls!@xbsk151."

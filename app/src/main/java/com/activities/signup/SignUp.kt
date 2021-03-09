@@ -120,17 +120,18 @@ class SignUp : BaseActivity<ActivitySignupBinding>(), View.OnClickListener,
                         viewModel.locationMap["middleTown"]?.code +
                         viewModel.locationMap["smallTown"]?.code
             )
+
+            //위치까지 모두 설정했으면 유저의 모든 정보를 api로 전송하여 회원가입 신청
+            presenter.signUp()
         } else if (viewModel.locationMap["middleTown"] != null) {
             GlobalApplication.userBuilder.setAddress(
             viewModel.locationMap["city"]?.code +
                     viewModel.locationMap["middleTown"]?.code)
+
+            //위치까지 모두 설정했으면 유저의 모든 정보를 api로 전송하여 회원가입 신청
+            presenter.signUp()
         }
-
-        //위치까지 모두 설정했으면 유저의 모든 정보를 api로 전송하여 회원가입 신청
-        presenter.signUp()
-
     }
-
 
     override fun onBackPressed() {
         super.onBackPressed()
