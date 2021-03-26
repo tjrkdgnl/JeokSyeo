@@ -35,6 +35,8 @@ class SearchResultAdapter(private val context: Context,
         holder.bind(lst[position])
         holder.getViewBinding().ratingBarListRatingbar.rating = lst[position].review?.score!!
 
+
+        //키워드로 검색된 아이템 클릭 시, 해당 주류상세페이지로 이동
         holder.getViewBinding().listItemParentLayout.setOnSingleClickListener{
             executeProgressBar(true)
             lst[position].alcoholId?.let {alcholId->
@@ -72,6 +74,7 @@ class SearchResultAdapter(private val context: Context,
         return lst.size
     }
 
+    //페이징 처리로 인해서 데이터 추가 시, 중복 여부 확인 후 아이템 추가
     fun updateList(list:MutableList<AlcoholList>){
         var duplicate =false
         val newlist = mutableListOf<AlcoholList>()
@@ -92,19 +95,6 @@ class SearchResultAdapter(private val context: Context,
         }
         lst.addAll(newlist)
         notifyItemChanged(currentSize,newlist.size)
-    }
-
-    fun changeSort(list:MutableList<AlcoholList>){
-        lst.clear()
-        lst.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    fun getLastAlcoholId():String?{
-        if(lst.size>1)
-            return lst.get(lst.size-1).alcoholId
-        else
-            return null
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

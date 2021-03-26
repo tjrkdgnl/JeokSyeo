@@ -20,6 +20,8 @@ class BannerAdapter(
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
         holder.bind(itemList[position])
         this.position = position
+
+        //배너 클릭 시, 연결된 url로 이동
         holder.getViewBinding().bannerParentLayout.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(itemList[position].url))
             context.startActivity(intent)
@@ -29,7 +31,4 @@ class BannerAdapter(
     override fun getItemCount(): Int {
         return itemList.size
     }
-
-    fun currentPosition() = position
-
 }

@@ -57,6 +57,7 @@ class FavoriteAdapter(
         if (holder is FavoriteViewHolder) {
             holder.bind(lst[position])
 
+            //내가 찜한 주류 이미지 클릭 시, 해당 주류상세 페이지로 이동
             holder.getViewBinding().imageViewFavoriteImg.setOnClickListener {
                 setProgressBar(true)
                 lst[position].alcoholId?.let { alcoholId ->
@@ -91,7 +92,7 @@ class FavoriteAdapter(
                 }
             }
 
-
+            //하트 클릭 시, 찜한 주류 해제
             holder.getViewBinding().imageViewFavoriteHeart.setOnClickListener {
                 if (likeCheckList[position]) {
                     likeCheckList[position] = false
@@ -115,7 +116,7 @@ class FavoriteAdapter(
                                 Log.e(ErrorManager.ALCHOL_LIKE, t.message.toString())
                             })
                     )
-                } else {
+                } else { //내가 찜한 주류로 다시 추가
                     holder.getViewBinding().imageViewFavoriteHeart.isEnabled = false
                     compositeDisposable.add(
                         ApiGenerator.retrofit.create(ApiService::class.java)

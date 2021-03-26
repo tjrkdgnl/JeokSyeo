@@ -65,6 +65,7 @@ class RecommendAlcoholAdapter(
         if (holder is RecommendAlcoholViewHolder) {
             holder.bind(lst.get(position))
 
+            //추천 주류 클릭 시, 해당 주류상세페이지로 이동
             holder.getViewBinding().activityMainRecommendImg.setOnSingleClickListener {
 
                 CoroutineScope(Dispatchers.IO).launch {
@@ -77,6 +78,7 @@ class RecommendAlcoholAdapter(
                 }
             }
 
+            //주류 찜하기 버튼 클릭
             holder.getViewBinding().activtyMainLikeImg.setOnSingleClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     val check = JWTUtil.checkAccessToken()
@@ -99,6 +101,7 @@ class RecommendAlcoholAdapter(
         }
     }
 
+    //해당 주류 아이템 클릭시, 주류 상세 페이지로 이동
     private fun moveActivity(holder:RecommendAlcoholViewHolder,position: Int){
         lst[position].alcoholId?.let { alcoholId ->
             compositDisposable.add(
@@ -125,6 +128,7 @@ class RecommendAlcoholAdapter(
                                 val pair = androidx.core.util.Pair.create(
                                     holder.getViewBinding().activityMainRecommendImg as View, holder.getViewBinding().activityMainRecommendImg.transitionName)
 
+                                //화면 전환 시 , transition 애니메이션 적용
                                 val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                     (context as Activity), pair)
 
@@ -151,6 +155,7 @@ class RecommendAlcoholAdapter(
         }
     }
 
+    //추천 주류 찜버튼 클릭
     private fun recommendAlcoholLike(holder: RecommendAlcoholViewHolder, position: Int) {
         lst[position].alcoholId.let { alcoholId ->
             compositDisposable.add(
@@ -183,6 +188,7 @@ class RecommendAlcoholAdapter(
         }
     }
 
+    //찜 버튼 클릭 취소
     fun recommendAlcoholCancelLike(holder: RecommendAlcoholViewHolder, position: Int) {
         lst[position].alcoholId?.let { alcoholId ->
             compositDisposable.add(

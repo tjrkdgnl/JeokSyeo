@@ -53,9 +53,13 @@ class AlcoholReviewViewHolder(
          data.level?.let {
              binding.textViewCommentUserRank.text = "Lv." + it.toString() +" "+ GlobalApplication.instance.getLevelName(it-1)
          }
+
+        //유저들이 평가한 점수들 셋팅
         data.score?.let {
             binding.ratingBarReviewRatingbar.rating = it.toFloat()
         }
+
+        //유저들의 프로필 사진 셋팅
         if(data.profile?.size !=0){
             data.profile?.get(0)?.mediaResource?.small?.let {
                 Glide.with(parent.context)
@@ -69,7 +73,7 @@ class AlcoholReviewViewHolder(
             }
         }
 
-        // "더 보기" 유무 판단
+        //유저들의 평가한 글 "더보기" 버튼 show / hide 셋팅
         getLineCount()
         binding.reviewItemToggleButton.setOnClickListener{
             if(binding.expandableTextViewReviewcomment.isExpanded){
@@ -91,12 +95,14 @@ class AlcoholReviewViewHolder(
             }
         }
     }
+
     private fun settingEnabledButton(view: View,setting:Boolean){
         view.isEnabled =setting
     }
 
-    fun setLike(review:ReviewList,position:Int){
 
+    //평가한 리뷰 좋아요 클릭 메서드
+    fun setLike(review:ReviewList,position:Int){
         CoroutineScope(Dispatchers.IO).launch {
             val check = JWTUtil.checkAccessToken()
 
@@ -110,14 +116,17 @@ class AlcoholReviewViewHolder(
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
+                            //현재 뷰모델(리뷰)을 좋아요했는지에 대한 여부 체크
                             likeList[position] =true
                             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                             binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_full)
                             binding.imaveViewRecommendDownButton.setImageResource(R.mipmap.dislike_empty)
 
+                            //현재 카운트 +1
                             binding.textViewRecommendUpCount.text =
                                 GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),1)
 
+                            //해당 리뷰에 "싫어요"가 클릭되어져 있는데 "좋아요" 클릭 할 경우
                             if(disLikeList[position]){
                                 disLikeList[position] =false
                                 binding.textViewRecommendDownCount.text =
@@ -137,7 +146,7 @@ class AlcoholReviewViewHolder(
         }
     }
 
-
+    //유저가 좋아요를 취소했을 경우
     fun setUnlike(review:ReviewList,position: Int){
         CoroutineScope(Dispatchers.IO).launch {
             val check = JWTUtil.checkAccessToken()
@@ -151,6 +160,7 @@ class AlcoholReviewViewHolder(
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
+
                             likeList[position] =false
                             settingEnabledButton(getViewBinding().imageViewRecommendUpButton,true)
                             binding.imageViewRecommendUpButton.setImageResource(R.mipmap.like_empty)
@@ -170,8 +180,8 @@ class AlcoholReviewViewHolder(
         }
     }
 
+    //유저가 싫어요를 클릭했을 경우
     fun setDislike(review:ReviewList,position: Int){
-
         CoroutineScope(Dispatchers.IO).launch {
             val check = JWTUtil.checkAccessToken()
 
@@ -192,6 +202,7 @@ class AlcoholReviewViewHolder(
 
                             binding.textViewRecommendDownCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendDownCount.text.toString().toInt(),1)
 
+                            //"좋아요"가 클릭되어져 있는 경우에, "싫어요"를 클릭 했을 때
                             if(likeList[position]){
                                 likeList[position]=false
                                 binding.textViewRecommendUpCount.text = GlobalApplication.instance.checkCount(binding.textViewRecommendUpCount.text.toString().toInt(),-1)
@@ -209,6 +220,7 @@ class AlcoholReviewViewHolder(
         }
     }
 
+    //싫어요를 취소한 경우
     fun setUnDislike(review:ReviewList,position: Int){
         CoroutineScope(Dispatchers.IO).launch {
             val check = JWTUtil.checkAccessToken()

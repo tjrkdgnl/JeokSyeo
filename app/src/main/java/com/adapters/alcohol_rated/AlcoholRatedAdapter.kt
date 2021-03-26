@@ -94,7 +94,7 @@ class AlcoholRatedAdapter(private val activity: Activity,
                             dialog.dismiss()
                             lst.removeAt(position)
 
-                            viewModel.reviewCount.value?.minus(1)
+                           viewModel.reviewCount.value = viewModel.reviewCount.value!! -1
 
                             //리뷰를 모두 지웠을 때 default 화면 띄우기
                             if(lst.size ==0){
@@ -154,7 +154,10 @@ class AlcoholRatedAdapter(private val activity: Activity,
     }
 
     fun updateItem(list:MutableList<ReviewList>){
-        for(i in 0 until list.size){ //페이징이 되면 체크 리스트 또한 증가해야 한다.
+        //페이징이 되면 체크 리스트 또한 증가해야 한다.
+        //페이징이 되기 전까지 총 리스트의 개수를 알 수 없기 때문에 페이징이 업데이트 될 때마다
+        //체크리스트도 늘어나도록한다.
+        for(i in 0 until list.size){
             checkList[i] = false
         }
 

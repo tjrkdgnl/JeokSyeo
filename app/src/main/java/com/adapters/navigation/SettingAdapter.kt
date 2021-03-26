@@ -22,6 +22,7 @@ class SettingAdapter(
     private val lst: MutableList<SettingItem>,
     private val provider:String?) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
       return when(viewType){
           0 ->{

@@ -18,15 +18,15 @@ import kotlin.coroutines.suspendCoroutine
 object JWTUtil {
     private const val ACCESS_TOKEN = "accessToken"
     private const val REFRESH_TOKEN = "refreshToken"
-    private var compositeDisposable =CompositeDisposable()
+    private var compositeDisposable = CompositeDisposable()
     private val retrofit = ApiGenerator.retrofit.create(ApiService::class.java)
+
     //엑세스토큰 JWT decode
     fun decodeAccessToken(
-        accessToken: String?
+        accessTokenJWT: String?
     ) {
         try {
-            val split = accessToken?.split(".")
-//            Log.e("Decode accessToken", getJson(split?.get(1)))
+            val split = accessTokenJWT?.split(".")
             jsonParsing(getJson(split?.get(1)), ACCESS_TOKEN)
         } catch (e: Exception) {
             e.stackTrace
@@ -56,18 +56,22 @@ object JWTUtil {
     //json parsing
     private fun jsonParsing(
         json: String,
-        token: String
+        jwt: String
     ) {
         val jsonObject = JSONObject(json)
 
-        if (token == ACCESS_TOKEN) { //엑세스 토큰 안에 존재하는 만료시간을 내장 디비에 저장
-            GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp")  * 1000L)
+        if (jwt == ACCESS_TOKEN) { //엑세스 토큰 안에 존재하는 만료시간을 내장 디비에 저장
+            GlobalApplication.userDataBase.setAccessTokenExpire(jsonObject.getLong("exp") * 1000L)
 
         } else {
             GlobalApplication.userDataBase.setRefreshTokenExpire(jsonObject.getLong("exp") * 1000L)
         }
     }
 
+    /**
+     * 엑세스토큰의 만료는 현재 시간과 엑세스토큰 만료시간의 차이로 계산되기 때문에
+     * 현재 utc를 얻오는 메서드
+     */
     private fun getCurrentUTC(): Long {
         val currentUTC = Calendar.getInstance().time
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd HH:mm:ss", Locale.getDefault())
@@ -85,7 +89,7 @@ object JWTUtil {
             val currentUTC = getCurrentUTC()
 
             //엑세스 토큰이 만료되었거나, 만료되기 1시간 전이라면 리프레쉬 토큰을 통해 갱신
-            if(accessTokenExpire <= currentUTC || accessTokenExpire <= currentUTC+3600000L){
+            if (accessTokenExpire <= currentUTC || accessTokenExpire <= currentUTC + 3600000L) {
                 Log.e("엑세스토큰", "만료")
 
                 //엑세스토큰이 만료되었음으로 리프레쉬토큰 유효성검사 실시
@@ -102,28 +106,32 @@ object JWTUtil {
                                 compositeDisposable.add(retrofit
                                     .refreshToken(GlobalApplication.userBuilder.createUUID, map)
                                     .subscribeOn(Schedulers.io())
-                                    .subscribe ( { userData ->
+                                    .subscribe({ userData ->
                                         userData?.data?.token?.accessToken?.let { accessToken ->
-                                                //새로운 토큰으로 갱신
-                                                GlobalApplication.userDataBase.setAccessToken(accessToken)
+                                            //새로운 토큰으로 갱신
+                                            GlobalApplication.userDataBase.setAccessToken(
+                                                accessToken
+                                            )
 
-                                                //새로운 토큰의 만료시간 갱신
-                                                decodeAccessToken(accessToken)
-                                                Log.e("토큰 셋팅 완료", "토큰 재 셋팅")
-                                                coroutineResult.resume(true)
+                                            //새로운 토큰의 만료시간 갱신
+                                            decodeAccessToken(accessToken)
+                                            Log.e("토큰 셋팅 완료", "토큰 재 셋팅")
+                                            coroutineResult.resume(true)
 
                                         }
-                                    },{e ->
-                                        Log.e(ErrorManager.TOKEN_REFRESH,e.message.toString())
+                                    }, { e ->
+                                        Log.e(ErrorManager.TOKEN_REFRESH, e.message.toString())
                                         coroutineResult.resume(false)
 
-                                    }))
+                                    })
+                                )
                             }
                         } catch (e: Exception) {
-                            Log.e(ErrorManager.TOKEN_REFRESH +"catch",e.message.toString())
+                            Log.e(ErrorManager.TOKEN_REFRESH + "catch", e.message.toString())
                             coroutineResult.resume(false)
                         }
                     } else {
+                        //리프레쉬 토큰까지 만료되었다면, 재로그인을 해서 다시 토큰 셋팅이 되어야한다.
                         Log.e("리프레쉬 토큰 만료 체크", "만료됨")
                         GlobalApplication.userDataBase.setAccessToken(null)
                         GlobalApplication.userDataBase.setRefreshToken(null)
@@ -134,8 +142,7 @@ object JWTUtil {
                     }
                 }
 
-            }
-            else if (accessTokenExpire > currentUTC) {
+            } else if (accessTokenExpire > currentUTC) {
                 Log.e("엑세스토큰", "유효함")
                 coroutineResult.resume(true)
             }
@@ -149,11 +156,11 @@ object JWTUtil {
 
         GlobalApplication.userDataBase.getAccessToken()?.let {
             try {
-                check = checkExpireOfAccessToken( GlobalApplication.userDataBase.getAccessTokenExpire())
+                check =
+                    checkExpireOfAccessToken(GlobalApplication.userDataBase.getAccessTokenExpire())
 
-            }
-            catch (e:Exception){
-                Log.e("tokenError",e.message.toString())
+            } catch (e: Exception) {
+                Log.e("tokenError", e.message.toString())
             }
         }
         return check

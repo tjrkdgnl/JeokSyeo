@@ -38,8 +38,11 @@ class GridAdapter(
 
     override fun onBindViewHolder(holder: AlcoholCategoryGridViewHolder, position: Int) {
         holder.bind(lst[position])
+
+        //아이템의 rating 점수 셋팅
         holder.getViewBinding().ratingBarGridRatingbar.rating = lst[position].review?.score!!
 
+        //아이템 클릭 리스너 셋팅
         holder.setClickListener(lst[position].alcoholId)
 
     }

@@ -3,6 +3,9 @@ package com.service
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * 서버 측에서 ios와 android를 구분하기 위해서 user-agent 값을 붙여서 전송하도록한다.
+ */
 class UserAgentInterceptor(val userAgent:String) : Interceptor {
 
 

@@ -18,5 +18,4 @@ class GridViewPagerAdapter(val fragment: Fragment):FragmentStateAdapter(fragment
     fun getFragment(position:Int):Fragment? {
         return fragment.childFragmentManager.findFragmentByTag("f$position")
     }
-
 }

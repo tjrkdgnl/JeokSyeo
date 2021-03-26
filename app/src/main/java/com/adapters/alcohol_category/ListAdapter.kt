@@ -39,6 +39,7 @@ class ListAdapter(private val context: Context,
         holder.bind(lst[position])
         holder.getViewBinding().ratingBarListRatingbar.rating = lst[position].review?.score!!
 
+        //아이템을 클릭할 경우 해당 주류 상세 페이지로 이동
         holder.getViewBinding().listItemParentLayout.setOnSingleClickListener{
             executeProgressBar(true)
             lst[position].alcoholId?.let {alcholId->
@@ -51,6 +52,8 @@ class ListAdapter(private val context: Context,
                         val bundle = Bundle()
                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL,it.data?.alcohol)
 
+
+                        //화면 전환에 필요한 trasition 애니메이션 적용
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             val intent = Intent(context,AlcoholDetail::class.java)
                             intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
@@ -78,6 +81,7 @@ class ListAdapter(private val context: Context,
             }
         }
 
+        //해당 주류를 찜한 적이 있다면 표시
         lst[position].isLiked?.let {
             if(it ){
                 holder.getViewBinding().imageViewListHeart.setImageResource(R.mipmap.list_heart_full)
@@ -93,6 +97,7 @@ class ListAdapter(private val context: Context,
         return lst.size
     }
 
+    //페이징 처리로 인해 데이터를 업데이트 할 시, 추가될 페이지의 데이터가 중복되는지 확인 후 업데이트
     fun updateList(list:MutableList<AlcoholList>){
         var duplicate =false
         val newlist = mutableListOf<AlcoholList>()
@@ -116,19 +121,14 @@ class ListAdapter(private val context: Context,
         notifyItemChanged(currentSize,newlist.size)
     }
 
+    //정렬 기준 변경
     fun changeSort(list:MutableList<AlcoholList>){
         lst.clear()
         lst.addAll(list)
         notifyDataSetChanged()
     }
 
-    fun getLastAlcoholId():String?{
-        if(lst.size>1)
-            return lst.get(lst.size-1).alcoholId
-        else
-            return null
-    }
-
+    //api 호출에 사용된 객체들 메모리 할당해제
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         disposable?.dispose()

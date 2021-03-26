@@ -12,7 +12,11 @@ import com.model.alcohol_detail.Srm
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.AlcoholComponentItemSrmBinding
 
-class Alcohol_Component_SRM(val parent: ViewGroup) :
+/**
+ * 주류 별로 표시되어야할 SRM 컴포넌트의 배경색과 글씨 색을 변경
+ *
+ */
+class AlcoholComponentSRM(val parent: ViewGroup) :
     BaseViewHolder<AlcoholComponentData, AlcoholComponentItemSrmBinding>(
         R.layout.alcohol_component_item_srm,
         parent

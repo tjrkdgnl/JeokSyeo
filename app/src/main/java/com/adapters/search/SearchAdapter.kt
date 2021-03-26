@@ -16,20 +16,24 @@ class SearchAdapter(
     var keywordLst: MutableList<String>,
     private val searchInterface: SearchContract.BaseVIew
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val NO_SEARCH = -1
-    private val MY_SEARCH = 1
-    private val NO_RELATIVE=2
+
+    companion object {
+        const val NO_SEARCH = -1
+        const val MY_SEARCH = 1
+        const val NO_RELATIVE = 2
+    }
+
     private var searchImg: Int = R.mipmap.resent_timer //이미지에 따라서 delete 레이아웃 visible 여부 결정
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            NO_SEARCH -> {
-                NoResentViewholder(parent,searchInterface)
+            NO_SEARCH -> { //최근 검색어가 존재하지 않는 경우
+                NoResentViewholder(parent)
             }
-            MY_SEARCH -> {
+            MY_SEARCH -> { //검색어가 존재하지 않는 경우
                 SearchViewHolder(parent, searchInterface)
             }
-            NO_RELATIVE -> {
+            NO_RELATIVE -> { // 연관 검색어가 존재하지 않는 경우
                 NoRelativeSearchViewHolder(parent)
             }
             else -> {
@@ -50,23 +54,20 @@ class SearchAdapter(
             //최근 검색어 삭제
             holder.getViewBinding().deleteMySearch.setOnClickListener {
                 //내장 디비에 저장된 최근 검색어 리스트를 기준으로 최신화
-                Log.e("포지션 value",keywordLst[position])
                 val check = GlobalApplication.userDataBase.deleteKeyword(keywordLst[position])
 
                 if (check) {
                     keywordLst.removeAt(position)
-                    Log.e("키워드리스트 사이즈",keywordLst.size.toString())
 
                     if (keywordLst.size == 0) { //최근 검색어 없음 표시하기 위해서
                         keywordLst.add("-1")
                         notifyDataSetChanged()
                     } else {
-                      notifyDataSetChanged()
+                        notifyDataSetChanged()
                     }
                 }
             }
-        }
-        else if (holder is NoResentViewholder){
+        } else if (holder is NoResentViewholder) {
             holder.bind(keywordLst[position])
         }
     }
@@ -78,12 +79,14 @@ class SearchAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (keywordLst[position] == "-1") {
-            NO_SEARCH
-        } else if(keywordLst[position] =="2"){
-            NO_RELATIVE
+        return when {
+            keywordLst[position] == "-1" -> {
+                NO_SEARCH
+            }
+            keywordLst[position] == "2" -> {
+                NO_RELATIVE
+            }
+            else -> MY_SEARCH
         }
-        else
-            MY_SEARCH
     }
 }

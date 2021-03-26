@@ -26,6 +26,7 @@ class LocationAdapter(
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
         holder.bind(lst[position])
 
+        //위치 클릭 시, 더 자세한 위치 정보 를 얻어옴 ex) 서울시 -> 구로구
         holder.getViewBinding().locationName.setOnClickListener {
             compositeDisposable.add(ApiGenerator.retrofit.create(ApiService::class.java)
                 .getArea(
@@ -48,6 +49,7 @@ class LocationAdapter(
 
     override fun getItemCount(): Int = lst.size
 
+    //유저가 선택한 위치를 회원가입 시, 서버로 전송하기 위해서 별도로 저장
     private fun setLocation(areaList: AreaList) {
         when {
             view.getViewModel().locationMap[SignUpViewModel.CITY] == null -> {

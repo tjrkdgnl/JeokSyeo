@@ -7,6 +7,9 @@ import com.model.recommend_alcohol.AlcoholList
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.RecommendAlcoholItemBinding
 
+/**
+ * 네트워크 통신이 되지 않을 때, 기본적으로 추천주류에 표시되는 default 아이템 뷰홀더
+ */
 class RecommendEmptyAlcoholViewHolder(parent:ViewGroup)
     : BaseViewHolder<AlcoholList,RecommendAlcoholItemBinding>(R.layout.recommend_alcohol_empty_item,parent) {
 
@@ -14,18 +17,5 @@ class RecommendEmptyAlcoholViewHolder(parent:ViewGroup)
         binding.recommendItem = data
         binding.executePendingBindings()
 
-        data.isLiked?.let {
-            if(it){
-                binding.activtyMainLikeImg.setImageResource(R.mipmap.detail_full_heart)
-            }
-        }
-
-        data.review?.score?.let {
-            binding.activityMainRecommendRatingBar.rating =it
-        }
-
-        data.alcoholLikeCount?.let {
-            binding.activityMainLikeCount.text = GlobalApplication.instance.checkCount(it)
-        }
     }
 }

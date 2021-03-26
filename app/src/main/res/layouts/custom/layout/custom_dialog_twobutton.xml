@@ -22,7 +22,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:lineSpacingExtra="10sp"
-        android:text="로그인 한 후 적셔를 이용해주세요!"
+        android:text="재 로그인 한 후 적셔를 이용해주세요!"
         android:textColor="@color/black"
         android:textSize="16sp" />
 

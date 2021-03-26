@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.activities.comment.CommentActivity
 import com.adapters.alcoholdetail.AlcoholComponentAdapter
 import com.adapters.alcoholdetail.AlcoholReviewAdapter
+import com.adapters.alcoholdetail.NoAlcoholReviewAdapter
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.custom.GridSpacingItemDecoration
@@ -52,8 +53,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
     //5f로 설정하면 web line이 겉에 하나 더 생기게 되어 6줄이 되므로, 4.9f로 설정하여 최대 5개의 웹라인을 지정
     private val WEB_LINE_MAX = 4.9f
 
-    override var viewObj: AlcoholDetailContract.AlcoholDetailView? =null
-    override  val view: AlcoholDetailContract.AlcoholDetailView by lazy {
+    override var viewObj: AlcoholDetailContract.AlcoholDetailView? = null
+    override val view: AlcoholDetailContract.AlcoholDetailView by lazy {
         viewObj!!
     }
 
@@ -111,7 +112,7 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
             }
 
             alcholData.abv?.let {
-                view.getBindingObj().detailAlcoholinfo.textViewDosu.text ="${it}%"
+                view.getBindingObj().detailAlcoholinfo.textViewDosu.text = "${it}%"
             }
 
             alcholData.viewCount?.let {  //조회수 체크
@@ -121,11 +122,16 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
             }
 
             //seekbar를 손으로 조절하지 못하게 막아야함.
-            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.isEnabled = false
-            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.isEnabled = false
-            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.isEnabled = false
-            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.isEnabled = false
-            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.isEnabled = false
+            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.isEnabled =
+                false
+            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.isEnabled =
+                false
+            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.isEnabled =
+                false
+            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.isEnabled =
+                false
+            view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.isEnabled =
+                false
         }
     }
 
@@ -134,7 +140,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
             //첫 번째 리뷰가 보이도록 스크롤을 이동시키기 위해서 부모의 height와 리뷰 리싸이클러뷰의 height을 계산하여 스크롤의 위치를 정합니다.
             val recyclerviewHeight =
                 view.getBindingObj().detailReview.recyclerViewReviewList.layoutManager?.height!!
-            val nestedScrollViewHeight = view.getBindingObj().detailNestedScrollView.getChildAt(0).height
+            val nestedScrollViewHeight =
+                view.getBindingObj().detailNestedScrollView.getChildAt(0).height
 
             view.getBindingObj().detailNestedScrollView.smoothScrollTo(
                 0,
@@ -147,7 +154,6 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
     }
 
     override fun CheckLike() {
-
         CoroutineScope(Dispatchers.IO).launch {
             //모든 api 통신은 엑세스토큰이 유효한지 검사 후 진행
             val check = JWTUtil.checkAccessToken()
@@ -174,11 +180,6 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                                 Log.e(ErrorManager.ALCHOL_DETAIL, t.message.toString())
                             })
                     )
-                } else { //엑세스 토큰 만료 시, 다이얼로그를 띄워 재 로그인을 시도하게 해야한다.
-                    CustomDialog.loginDialog(
-                        activity,
-                        GlobalApplication.ACTIVITY_HANDLING_DETAIL, true
-                    )
                 }
             }
         }
@@ -186,7 +187,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
 
     override fun checkScriptLine() {
         view.getBindingObj().detailDescription.textViewAlcoholDescription.post {
-            val lineCount = view.getBindingObj().detailDescription.textViewAlcoholDescription.lineCount
+            val lineCount =
+                view.getBindingObj().detailDescription.textViewAlcoholDescription.lineCount
 
             if (lineCount <= 5) {
                 view.settingExpandableText(false)
@@ -231,7 +233,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                                     .cancelAlcoholLike(
                                         GlobalApplication.userBuilder.createUUID,
                                         GlobalApplication.userInfo.getAccessToken(),
-                                        alcohol.alcoholId)
+                                        alcohol.alcoholId
+                                    )
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
@@ -252,7 +255,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                     } else {
                         CustomDialog.loginDialog(
                             activity,
-                            GlobalApplication.ACTIVITY_HANDLING_DETAIL, true)
+                            GlobalApplication.ACTIVITY_HANDLING_DETAIL, false
+                        )
                     }
                 }
             }
@@ -301,7 +305,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
 
         //리싸이클러뷰를 접고 펼칠 수 있기 때문에 고정 사이즈 사용하지않음.
         view.getBindingObj().detailComponent.alcoholComponentRecyclerView.setHasFixedSize(false)
-        view.getBindingObj().detailComponent.alcoholComponentRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        view.getBindingObj().detailComponent.alcoholComponentRecyclerView.layoutManager =
+            GridLayoutManager(context, 2)
         view.getBindingObj().detailComponent.alcoholComponentRecyclerView
             .addItemDecoration(GridSpacingItemDecoration(2, 4, true, 0))
 
@@ -591,43 +596,30 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
 
     @SuppressLint("SetTextI18n")
     override fun initReview(context: Context) {
+        compositeDisposable.add(
+            ApiGenerator.retrofit.create(ApiService::class.java)
+                .getAlcoholReivew(
+                    GlobalApplication.userBuilder.createUUID,
+                    GlobalApplication.userInfo.getAccessToken(),
+                    alcohol.alcoholId, 1
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result ->
+                    //차트 확인
+                    confirmChart(result)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val check = JWTUtil.checkAccessToken()
+                    //리뷰 레이팅바 확인
+                    confirmReviewRatingBar(result)
 
-            withContext(Dispatchers.Main) {
-                if (check) {
-                    compositeDisposable.add(
-                        ApiGenerator.retrofit.create(ApiService::class.java)
-                            .getAlcoholReivew(
-                                GlobalApplication.userBuilder.createUUID,
-                                GlobalApplication.userInfo.getAccessToken(),
-                                alcohol.alcoholId, 1)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ result ->
-                                //차트 확인
-                                confirmChart(result)
-
-                                //리뷰 레이팅바 확인
-                                confirmReviewRatingBar(result)
-
-                            }, { t ->
-                                CustomDialog.networkErrorDialog(context)
-                                Log.e(ErrorManager.REVIEW, t.message.toString())
-                            })
-                    )
-                } else {
-                    CustomDialog.loginDialog(
-                        context,
-                        GlobalApplication.ACTIVITY_HANDLING_DETAIL, true
-                    )
-                }
-            }
-        }
+                }, { t ->
+                    CustomDialog.networkErrorDialog(context)
+                    Log.e(ErrorManager.REVIEW, t.message.toString())
+                })
+        )
     }
 
-    private fun confirmChart(result:GetReviewData){
+    private fun confirmChart(result: GetReviewData) {
         result.data?.reviewList?.let { lst ->
             //데이터가 없을 때,
             if (lst.isEmpty()) {
@@ -637,15 +629,16 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                 //리뷰가 없다는 화면을 출력하기 위해서 'DETAIL_NO_REVIEW' 체크값을 어댑터에 전달
                 lst.toMutableList().let { muLst ->
                     muLst.add(ReviewList().apply {
-                        checkMore = GlobalApplication.DETAIL_NO_REVIEW })
+                        checkMore = GlobalApplication.DETAIL_NO_REVIEW
+                    })
 
                     view.getBindingObj().detailReview.recyclerViewReviewList.adapter =
-                        AlcoholReviewAdapter(activity, alcohol.alcoholId, muLst)
+                        NoAlcoholReviewAdapter(muLst)
                     view.getBindingObj().detailReview.recyclerViewReviewList.setHasFixedSize(false)
-                    view.getBindingObj().detailReview.recyclerViewReviewList.layoutManager = LinearLayoutManager(activity)
+                    view.getBindingObj().detailReview.recyclerViewReviewList.layoutManager =
+                        LinearLayoutManager(activity)
                 }
-            }
-            else {
+            } else {
                 //차트 여부 표시
                 result.data?.userAssessment?.let {
                     initRadarChart(it)
@@ -659,58 +652,80 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                     result.data?.pageInfo?.next?.let { next ->
                         if (next) { //표시되어야하는 리뷰가 더 있는 경우에만 버튼 추가
                             muLst.add(ReviewList().apply {
-                                checkMore = GlobalApplication.DETAIL_MORE_REVIEW })
+                                checkMore = GlobalApplication.DETAIL_MORE_REVIEW
+                            })
                         }
                     }
-                    view.getBindingObj().detailReview.recyclerViewReviewList.adapter = AlcoholReviewAdapter(activity, alcohol.alcoholId, muLst)
+                    view.getBindingObj().detailReview.recyclerViewReviewList.adapter =
+                        AlcoholReviewAdapter(activity, alcohol.alcoholId, muLst)
                     view.getBindingObj().detailReview.recyclerViewReviewList.setHasFixedSize(false)
-                    view.getBindingObj().detailReview.recyclerViewReviewList.layoutManager = LinearLayoutManager(activity)
+                    view.getBindingObj().detailReview.recyclerViewReviewList.layoutManager =
+                        LinearLayoutManager(activity)
                 }
             }
         }
     }
 
-    private fun confirmReviewRatingBar(result: GetReviewData){
+    private fun confirmReviewRatingBar(result: GetReviewData) {
         result.data?.reviewInfo?.let {
             //점수 분포 및 seekbar
-            view.getBindingObj().detailReview.alcoholDetailReviewRatingbar.rating = it.scoreAvg!!.toFloat()
+            view.getBindingObj().detailReview.alcoholDetailReviewRatingbar.rating =
+                it.scoreAvg!!.toFloat()
 
             it.reviewTotalCount?.let { total ->
                 //리뷰개수
-                view.getBindingObj().detailAlcoholinfo.detailReviewCountTop.text = GlobalApplication.instance.checkCount(total)
+                view.getBindingObj().detailAlcoholinfo.detailReviewCountTop.text =
+                    GlobalApplication.instance.checkCount(total)
 
                 //점수 상태 바 셋팅
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.max = total
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.max = total
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.max = total
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.max = total
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.max = total
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.max =
+                    total
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.max =
+                    total
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.max =
+                    total
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.max =
+                    total
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.max =
+                    total
             }
             //레이팅 프로그래스 및 점수 셋
             it.score1Count?.let { score1 ->
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.progress = score1
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1.text = score1.toString()
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1Seekbar.progress =
+                    score1
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score1.text =
+                    score1.toString()
             }
             it.score2Count?.let { score2 ->
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.progress = score2
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2.text = score2.toString()
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2Seekbar.progress =
+                    score2
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score2.text =
+                    score2.toString()
             }
             it.score3Count?.let { score3 ->
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.progress = score3
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3.text = score3.toString()
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3Seekbar.progress =
+                    score3
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score3.text =
+                    score3.toString()
             }
             it.score4Count?.let { score4 ->
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.progress = score4
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4.text = score4.toString()
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4Seekbar.progress =
+                    score4
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score4.text =
+                    score4.toString()
             }
             it.score5Count?.let { score5 ->
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.progress = score5
-                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5.text = score5.toString()
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5Seekbar.progress =
+                    score5
+                view.getBindingObj().detailReview.alcoholDetailScoreSeekbar.score5.text =
+                    score5.toString()
             }
 
             //rating 점수
-            view.getBindingObj().detailReview.alcoholDetailReviewTotalscore.text = it.scoreAvg.toString()
-            view.getBindingObj().detailAlcoholinfo.detailIcRatringScore.text = it.scoreAvg.toString()
+            view.getBindingObj().detailReview.alcoholDetailReviewTotalscore.text =
+                it.scoreAvg.toString()
+            view.getBindingObj().detailAlcoholinfo.detailIcRatringScore.text =
+                it.scoreAvg.toString()
         }
     }
 
@@ -727,7 +742,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                             .checkReviewDuplicate(
                                 GlobalApplication.userBuilder.createUUID,
                                 GlobalApplication.userInfo.getAccessToken(),
-                                alcohol.alcoholId)
+                                alcohol.alcoholId
+                            )
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ result ->
@@ -747,7 +763,8 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                                         bundle.putParcelable(GlobalApplication.MOVE_ALCHOL, alcohol)
 
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                            val intent = Intent(context, CommentActivity::class.java)
+                                            val intent =
+                                                Intent(context, CommentActivity::class.java)
                                             intent.putExtra(GlobalApplication.ALCHOL_BUNDLE, bundle)
                                             val pair = Pair.create(
                                                 view.getBindingObj().detailMainImg as View,
@@ -774,9 +791,12 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
                                 Log.e(ErrorManager.REVIEW_DUPLICATE, t.message.toString())
                             })
                     )
-                }
-                else {
-                    CustomDialog.loginDialog(context, GlobalApplication.ACTIVITY_HANDLING_DETAIL,true)
+                } else {
+                    CustomDialog.loginDialog(
+                        context,
+                        GlobalApplication.ACTIVITY_HANDLING_DETAIL,
+                        false
+                    )
                 }
             }
         }
@@ -931,6 +951,6 @@ class Presenter : AlcoholDetailContract.AlcoholDetailPresenter {
     override fun detach() {
         //subscribe가 끝난 객체들을 메모리에서 할당해제
         compositeDisposable.dispose()
-        viewObj =null
+        viewObj = null
     }
 }

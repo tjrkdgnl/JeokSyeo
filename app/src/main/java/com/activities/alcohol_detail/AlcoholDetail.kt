@@ -40,9 +40,6 @@ class AlcoholDetail :BaseActivity<AlcoholDetailBinding>(), AlcoholDetailContract
             binding.detailDescription.alcohol =alcohol //주류 설명
         }
 
-        //알콜 도수 셋팅
-
-
         presenter = Presenter().apply {
             viewObj = this@AlcoholDetail
             activity=this@AlcoholDetail

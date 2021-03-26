@@ -2,9 +2,9 @@ package com.adapters.alcoholdetail
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.adapters.viewholder.Alcohol_Component_Default
-import com.adapters.viewholder.Alcohol_Component_RecyclerView
-import com.adapters.viewholder.Alcohol_Component_SRM
+import com.adapters.viewholder.AlcoholComponentDefault
+import com.adapters.viewholder.AlcoholComponentRecyclerView
+import com.adapters.viewholder.AlcoholComponentSRM
 import com.application.GlobalApplication
 import com.model.alcohol_detail.AlcoholComponentData
 
@@ -13,20 +13,20 @@ class AlcoholComponentAdapter(val lst:MutableList<AlcoholComponentData>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
-            GlobalApplication.COMPONENT_DEFAULT->{Alcohol_Component_Default(parent)}
-            GlobalApplication.COMPONENT_RECYCLERVIEW->{Alcohol_Component_RecyclerView(parent)}
-            GlobalApplication.COMPONENT_SRM->{Alcohol_Component_SRM(parent)}
+            GlobalApplication.COMPONENT_DEFAULT->{AlcoholComponentDefault(parent)}
+            GlobalApplication.COMPONENT_RECYCLERVIEW->{AlcoholComponentRecyclerView(parent)}
+            GlobalApplication.COMPONENT_SRM->{AlcoholComponentSRM(parent)}
             else->{throw RuntimeException("알 수 없는 뷰타입 에러")}
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is Alcohol_Component_Default -> {
+            is AlcoholComponentDefault -> {
                 holder.bind(lst[position]) }
-            is Alcohol_Component_RecyclerView -> {
+            is AlcoholComponentRecyclerView -> {
                 holder.bind(lst[position]) }
-            is Alcohol_Component_SRM -> {
+            is AlcoholComponentSRM -> {
                 holder.bind(lst[position]) }
         }
     }

@@ -54,8 +54,6 @@ class NetworkUtil(val context: Context ) : ConnectivityManager.NetworkCallback()
             }
 
             networkCheck = false
-            mainViewModel?.networkCheck?.value = networkCheck
-
 
             GlobalApplication.instance.getCurrentActivity()?.let { activity ->
                 val intent = Intent(context, activity::class.java)
@@ -71,7 +69,6 @@ class NetworkUtil(val context: Context ) : ConnectivityManager.NetworkCallback()
 
         if(!networkCheck){
             networkCheck = true
-            mainViewModel?.networkCheck?.value = networkCheck
             if(GlobalApplication.instance.getActivityBackground()){
                 GlobalApplication.instance.getToastView()?.let {
                     val toast = Toast(GlobalApplication.instance)

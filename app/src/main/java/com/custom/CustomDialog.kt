@@ -40,11 +40,6 @@ object CustomDialog {
 
         val okButton = dialog.findViewById<Button>(R.id.dialog_okButton)
         val cancelButton = dialog.findViewById<Button>(R.id.dialog_cancelButton)
-        val contents = dialog.findViewById<TextView>(R.id.dialog_contents)
-
-        if (sessionCheck) {
-            contents.text = "세션이 만료되었습니다.\n재로그인 해주세요"
-        }
 
         okButton.setOnClickListener {
             dialog.dismiss()

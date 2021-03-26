@@ -16,10 +16,12 @@ class AlcoholRatedViewHolder(val parent:ViewGroup):BaseViewHolder<ReviewList,Alc
 
         getLineCount()
 
+        //평가한 주류 별점 표시
         data.score?.let {
             getViewBinding().ratedItemRatingbar.rating = it.toFloat()
         }
 
+        //리뷰를 평가한 날짜 셋팅
         data.updatedAt?.let {updateUtc->
             if(updateUtc !=0){
                 getViewBinding().reviewDate.text = GlobalApplication.instance.getDate(updateUtc*1000L)
@@ -32,16 +34,15 @@ class AlcoholRatedViewHolder(val parent:ViewGroup):BaseViewHolder<ReviewList,Alc
         }
     }
 
-
+    //3줄 이상으로 넘어갈 시, 텍스트뷰 확장 버튼 hide / show 설정
     private fun getLineCount(){
-        binding.ratedItemComment.post(Runnable {
+        binding.ratedItemComment.post {
             val lineCount = binding.ratedItemComment.lineCount
 
             if(lineCount <=2){
                 binding.ratedItemExpandableButton.visibility = View.INVISIBLE
-            }
-            else
+            } else
                 binding.ratedItemExpandableButton.visibility = View.VISIBLE
-        })
+        }
     }
 }

@@ -8,6 +8,9 @@ import com.model.review.ReviewList
 import com.vuforia.engine.wet.R
 import com.vuforia.engine.wet.databinding.NoReviewItemBinding
 
+/**
+ * 주류에 대한 리뷰가 없을 때 표시되는 기본 어댑터
+ */
 class NoAlcoholReviewAdapter(private val lst:MutableList<ReviewList>):RecyclerView.Adapter<NoAlcoholReviewAdapter.MyViewHolder>() {
     private lateinit var binding:NoReviewItemBinding
 

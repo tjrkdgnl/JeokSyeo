@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.adapters.search.SearchAdapter
 import com.application.GlobalApplication
 import com.custom.CustomDialog
 import com.error.ErrorManager
@@ -37,8 +38,9 @@ class Presenter : SearchContract.BasePresenter {
 
     @SuppressLint("SetTextI18n")
     override fun setSearchResult(keyword: String?) {
-        pageNum = 1 //항상 페이지 초기화
+        pageNum = 1 //항상 첫 페이지의 값부터 검색결과를 가져오기 위해서 초기화를 진행한다.
         exeuteProgressBar(true)
+
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .searchAlcohol(
@@ -54,37 +56,40 @@ class Presenter : SearchContract.BasePresenter {
                 .subscribe({
                     exeuteProgressBar(false)
 
-
+                    //다음 페이지를 얻기 위해서 페이지 정보를 저장.
                     it.data?.pagingInfo?.let { info ->
                         info.page?.let { page ->
                             pageNum = page.toInt() + 1
                         }
                         info.alcoholTotalCount?.let { total ->
-                            checkKeywordText(true,keyword!!,total)
+                            view.checkKeywordListCount(true,keyword!!,total)
 
                         }
                     }
                     it.data?.alcoholList?.let { lst ->
                         if (lst.isNotEmpty()) {
+                            //검색창에 키워드 값을 셋팅함으로써 textWatcher리스너를 호출하기 위함
                             view.getViewBinding().editTextSearch.setText(keyword)
-                            view.noSearchItem(false,keyword)
+
+                            view.checkSearchItem(false,keyword)
 
                             view.setSearchList(lst.toMutableList())
                             setListener(keyword)
                         } else {
-                            view.noSearchItem(true,keyword)
+                            view.checkSearchItem(true,keyword)
                         }
                     }
                 },
                     { t ->
                         CustomDialog.networkErrorDialog(activity)
-                        view.noSearchItem(true,keyword)
+                        view.checkSearchItem(true,keyword)
                         exeuteProgressBar(false)
                         Log.e(ErrorManager.SEARCH, t.message.toString())
                     })
         )
     }
 
+    //페이징을 위해서 리싸이클러뷰에 스크롤리스너 셋팅
     private fun setListener(keyword: String?) {
         view.getViewBinding().recyclerViewSearchlist.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
@@ -119,6 +124,7 @@ class Presenter : SearchContract.BasePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    //다음 번 페이지를 얻어오기 위해서 페이지 넘버 셋팅
                     it.data?.pagingInfo?.page?.let { page ->
                         pageNum = page.toInt() + 1
                     }
@@ -135,61 +141,48 @@ class Presenter : SearchContract.BasePresenter {
         )
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun checkKeywordText(show:Boolean, keyword:String ="", total:Int =0){
-        if(show){
-            view.getViewBinding().searchKeyword.text ="\"$keyword"
-            view.getViewBinding().keywordCount.text ="\"관련해서 총 ${total}개의 상품을 찾았습니다."
-            view.getViewBinding().keywordResult.visibility =View.VISIBLE
-            view.getViewBinding().textViewRecentSearch.visibility =View.INVISIBLE
 
-        }
-        else{
-            view.getViewBinding().textViewRecentSearch.text = keyword
-            view.getViewBinding().keywordResult.visibility =View.INVISIBLE
-            view.getViewBinding().textViewRecentSearch.visibility =View.VISIBLE
-        }
-    }
 
     override fun setRelativeSearch(keyword: String) {
-        var alcholKeyword = if (keyword.isEmpty()) "-1" else keyword
+        var alcholKeyword = if (keyword.isEmpty()) "${SearchAdapter.NO_SEARCH}" else keyword
 
         compositeDisposable.add(
             ApiGenerator.retrofit.create(ApiService::class.java)
                 .getRelativeKeyword(
                     GlobalApplication.userBuilder.createUUID,
-                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword
-                )
+                    GlobalApplication.userInfo.getAccessToken(), alcholKeyword)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     it.data?.alcoholList?.let { lst ->
-                        if (lst.isNotEmpty()) { //사용자가 검색한 주류를 업데이트
-                            checkKeywordText(false,"연관 검색어")
-                            view.updateRelativeList(
-                                lst.toMutableList(),
-                                R.mipmap.relative_search_btn
-                            )
-                        } else if (alcholKeyword == "-1") {//검색어가 없을 때
-                            Log.e("alcochol keyword", alcholKeyword)
-                            checkKeywordText(false,"최근 검색어")
+                        when {
+                            lst.isNotEmpty() -> { //사용자가 검색한 주류를 업데이트
+                                //검색 목록의 주제 설정
+                                view.checkKeywordListCount(false,"연관 검색어")
+                                view.updateRelativeList(
+                                    lst.toMutableList(),
+                                    R.mipmap.relative_search_btn)
 
-                            GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
-                                if (lst.size != 0) {
-                                    view.updateRelativeList(lst)
-                                }
-                            } ?: view.updateRelativeList(mutableListOf<String>().apply {
-                                this.add("-1")
+                            }
+                            alcholKeyword == SearchAdapter.NO_SEARCH.toString() -> { //검색어가 없을 때
+                                //검색 목록의 주제 설정
+                                view.checkKeywordListCount(false,"최근 검색어")
 
-
-
-                            })
-                        } else { //연관 검색어가 없을 때
-                            checkKeywordText(false,"연관 검색어")
-                            view.updateRelativeList(
-                                mutableListOf<String>("2"),
-                                R.mipmap.relative_search_btn
-                            )
+                                //검색어 리스트 유무에 따라서 화면 설정
+                                GlobalApplication.userDataBase.getKeywordList()?.let { lst ->
+                                    if (lst.size != 0) {
+                                        view.updateRelativeList(lst)
+                                    }
+                                } ?: view.updateRelativeList(mutableListOf<String>().apply {
+                                    this.add("${SearchAdapter.NO_SEARCH}")
+                                })
+                            }
+                            else -> { //연관된 검색어가 없을 때
+                                view.checkKeywordListCount(false,"연관 검색어")
+                                view.updateRelativeList(
+                                    mutableListOf("${SearchAdapter.NO_RELATIVE}"),
+                                    R.mipmap.relative_search_btn)
+                            }
                         }
                     }
                 }, { t ->

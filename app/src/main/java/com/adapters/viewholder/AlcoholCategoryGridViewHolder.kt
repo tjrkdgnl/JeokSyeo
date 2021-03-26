@@ -23,6 +23,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * 주류 카테고리 화면에서 grid로 보여질 경우, 각 아이템 뷰홀더
+ */
 class AlcoholCategoryGridViewHolder(
     val parent: ViewGroup,
     private val executeProgressBar: (Boolean) -> Unit
@@ -33,23 +36,28 @@ class AlcoholCategoryGridViewHolder(
         binding.alcohol = data
         binding.executePendingBindings()
 
+        //각 아이템 마다 좋아요한 개수 셋팅
         data.likeCount?.let {
             binding.textViewGridHeartCount.text = GlobalApplication.instance.checkCount(it)
         }
 
+        //각 아이템 마다 리뷰 개수 셋팅
         data.review?.reviewCount?.let {
             binding.textViewGridCommentCount.text = GlobalApplication.instance.checkCount(it)
         }
 
+        //각 아이템 마다 조회수 개수 셋팅
         data.viewCount?.let {
             binding.categoryGridEyeCount.text = GlobalApplication.instance.checkCount(it)
         }
     }
 
+    //유저가 아이템을 클릭할 경우 해당아이템의 주류상세 화면으로 이동
     fun setClickListener(alcoholId: String?) {
         binding.gridItemParentLayout.setOnSingleClickListener {
             executeProgressBar(true)
 
+            //유저가 선택한 주류에 대한 정보를 서버로부터 받아옴
             disposable = ApiGenerator.retrofit.create(ApiService::class.java)
                 .getAlcoholDetail(
                     GlobalApplication.userBuilder.createUUID,
@@ -64,6 +72,7 @@ class AlcoholCategoryGridViewHolder(
                         val intent = Intent(parent.context, AlcoholDetail::class.java)
                         intent.putExtra(GlobalApplication.ALCHOL_BUNDLE, bundle)
 
+                        //화면 전환을 위한 transition 애니메이션 적용
                         val pair = Pair.create(
                             binding.gridMainImg as View,
                             binding.gridMainImg.transitionName

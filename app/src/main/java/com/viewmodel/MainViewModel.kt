@@ -5,10 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel :ViewModel() {
 
-
-    var networkCheck = MutableLiveData<Boolean>(false)
-
-    var bottomNavigationViewVisiblity = MutableLiveData<Int>(-1)
-
+    //메인액티비티에서 보여지는 바텀네비게이션의 show / hide 여부 결정하기 위해서 선언
+    var bottomNavigationViewVisiblity = MutableLiveData(-1)
 
 }

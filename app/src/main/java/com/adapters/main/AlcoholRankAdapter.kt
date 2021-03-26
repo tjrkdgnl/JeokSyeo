@@ -50,6 +50,7 @@ class AlcoholRankAdapter(
             holder.getViewBinding().monthlyBoundary.visibility = View.INVISIBLE
         }
 
+        //이번달 주류 아이템 클릭 시, 해당 주류상세정보로 이동
         holder.getViewBinding().alcoholRankParentLayout.setOnSingleClickListener{
             CoroutineScope(Dispatchers.IO).launch {
                 JWTUtil.checkAccessToken()
@@ -71,6 +72,9 @@ class AlcoholRankAdapter(
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     val intent = Intent(context, AlcoholDetail::class.java)
                                     intent.putExtra(GlobalApplication.ALCHOL_BUNDLE,bundle)
+
+
+                                    //주류 이동 시 transition 애니메이션 적용
                                     val pair = androidx.core.util.Pair.create(
                                         holder.getViewBinding().rankMainImage as View, holder.getViewBinding().rankMainImage.transitionName)
 

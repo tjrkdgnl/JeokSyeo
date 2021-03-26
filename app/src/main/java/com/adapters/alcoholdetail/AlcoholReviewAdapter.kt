@@ -106,7 +106,6 @@ class AlcoholReviewAdapter(private val context: Context,
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
 
-
                         result.data?.pageInfo?.page?.let {
                             pageNum = it.toInt() + 1
                         }
@@ -137,7 +136,8 @@ class AlcoholReviewAdapter(private val context: Context,
 
     //리뷰 더 보기 눌렀을 때, 리스트에 리뷰 추가
     private fun updateList(list:MutableList<ReviewList>,total:Int){
-        lst.removeAt(lst.size-1) // 더보기 칸 지우기
+        // 더 이상 표시 될 리스트가 없다면 리뷰 더보기 창을 지운다.
+        lst.removeAt(lst.size-1)
         var duplicateCheck =false
         val size = lst.size
 
@@ -151,19 +151,20 @@ class AlcoholReviewAdapter(private val context: Context,
             //중복되지 않은 리뷰라면
             if(!duplicateCheck){
                 //새롭게 추가된 리뷰 중, 유저가 좋아요 or 싫어요 누른 리뷰 체크
+                when {
+                    newData.has_like!! -> {
+                        likeList.add(true)
+                        disLikeList.add(false)
 
-                if(newData.has_like!!){
-                    likeList.add(true)
-                    disLikeList.add(false)
-
-                }
-                else if(newData.has_dislike!!){
-                    likeList.add(false)
-                    disLikeList.add(true)
-                }
-                else{
-                    likeList.add(false)
-                    disLikeList.add(false)
+                    }
+                    newData.has_dislike!! -> {
+                        likeList.add(false)
+                        disLikeList.add(true)
+                    }
+                    else -> {
+                        likeList.add(false)
+                        disLikeList.add(false)
+                    }
                 }
 
                 lst.add(newData)

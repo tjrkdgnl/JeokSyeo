@@ -5,7 +5,7 @@ import android.app.Activity
 import android.os.Build
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.adapters.navigation.NavigationAdpater
+import com.adapters.navigation.MyPageAdapter
 import com.application.GlobalApplication
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -26,7 +26,7 @@ class MyPagePresenter:MypageContract.MypagePresenter {
     override var viewObj: MypageContract.MypageView?? =null
 
     override lateinit var activity: Activity
-    private lateinit var adapter: NavigationAdpater
+    private lateinit var adapter: MyPageAdapter
 
     override fun initTextSize() {
         view.getBindingObj().helpEmail.setTextSize(TypedValue.COMPLEX_UNIT_DIP,GlobalApplication.instance.getCalculatorTextSize(12f))
@@ -55,7 +55,7 @@ class MyPagePresenter:MypageContract.MypagePresenter {
         lst.add(NavigationItem(-1,"",false))
         lst.add(NavigationItem(1,"Contact Us",true))
 
-        adapter = NavigationAdpater(activity,lst)
+        adapter = MyPageAdapter(activity,lst)
 
         view.getBindingObj().myPageRecyclerView.adapter = adapter
         view.getBindingObj().myPageRecyclerView.setHasFixedSize(true)

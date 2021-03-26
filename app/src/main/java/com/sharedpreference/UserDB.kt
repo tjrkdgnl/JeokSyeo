@@ -53,19 +53,25 @@ class UserDB(private val context: Context) {
 
     fun setRefreshTokenExpire(expire: Long?) {
         expire?.let {
-
             getSharedPreference().edit().putLong(EXPIRE_REFRESH_TOKEN, it).apply()
         }
     }
 
     fun getRefreshTokenExpire(): Long = getSharedPreference().getLong(EXPIRE_REFRESH_TOKEN, 0)
 
+
+    /**
+     * 유저가 검색한 키워드의 리스트를 불러온다. 불러오는 리스트는 json으로 저장되었기 때문에
+     * parsing이 필요하다.
+     */
     fun getKeywordList(): MutableList<String>? {
         val keywordJson = getSharedPreference().getString(MY_SEARCH, null)
 
         return keywordJson?.let {
             val jsonArray = JSONArray(keywordJson)
             val keywordList = mutableListOf<String>()
+
+            //역순으로 불러옴으로써 최신 검색어가 상단에 오도록한다.
             for (i in jsonArray.length() - 1 downTo 0) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 keywordList.add(jsonObject[KEYWORD] as String)
@@ -74,6 +80,9 @@ class UserDB(private val context: Context) {
         }
     }
 
+    /**
+     * 유저가 연관검색어를 클릭했을 시, 클릭한 주류 이름을 내장 db에 저장한다.
+     */
     fun setKeyword(alcholKeyword: String) {
         val keywordString = getSharedPreference().getString(MY_SEARCH, null)
 
@@ -116,9 +125,10 @@ class UserDB(private val context: Context) {
                 }
                 getSharedPreference().edit().putString(MY_SEARCH, jsonArray.toString()).apply()
             }
-        } ?: createKeywordList(alcholKeyword) //저장된 내장디비가 없으면 새롭게 생성해서 저
+        } ?: createKeywordList(alcholKeyword) //저장된 내장디비가 없으면 새롭게 생성해서 저장
     }
 
+    //검색리스트를 저장하기 위해서 json array 생성 및 키워드 할당
     private fun createKeywordList(keyword: String) {
         val jsonArray = JSONArray()
 
@@ -130,6 +140,7 @@ class UserDB(private val context: Context) {
         getSharedPreference().edit().putString(MY_SEARCH, jsonArray.toString()).apply()
     }
 
+    //유저가 최근 검색어를 삭제할 시, 디비에 저장된 최근 검색어를 호출하여 이를 삭제 후, 다시 저장한다.
     fun deleteKeyword(keyword: String):Boolean {
         val keywordString = getSharedPreference().getString(MY_SEARCH, null)
         var confirmDeleteCheck = false
