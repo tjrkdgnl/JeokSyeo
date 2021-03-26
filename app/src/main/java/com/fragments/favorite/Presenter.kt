@@ -71,8 +71,8 @@ class Presenter : FavoriteContract.FavoritePresenter {
 
                 //뷰모델에 해당 타입의 총 찜한 주류 개수를 저장한다.
                 it.data?.pagingInfo?.alcoholTotalCount?.let { total ->
-                    viewModel.setPosition(position)
                     viewModel.alcoholTypeList[position] = total
+                    viewModel.setPosition(position)
                 }
 
                 //모든 타입별로 찜한 개수 저장

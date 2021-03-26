@@ -87,8 +87,10 @@ class FavoriteActivity : BaseActivity<FavoriteActivityBinding>(), FavoriteContra
         })
 
         //모든 타입에서 몇개의 주류를 찜했는지 표시
-        binding.profileHeader.ratedCountText.text =
-            "총 ${viewmodel.summaryCount.value}개의 주류를 찜하셨습니다."
+        viewmodel.summaryCount.observe(this, Observer {
+            binding.profileHeader.ratedCountText.text =
+                "총 ${viewmodel.summaryCount.value}개의 주류를 찜하셨습니다."
+        })
     }
 
     override fun destroyPresenter() {

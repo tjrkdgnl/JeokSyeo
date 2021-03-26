@@ -12,8 +12,8 @@ android {
         applicationId "com.vuforia.engine.wet"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 8
-        versionName "2.0.2"
+        versionCode 9
+        versionName "2.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled =true
     }
