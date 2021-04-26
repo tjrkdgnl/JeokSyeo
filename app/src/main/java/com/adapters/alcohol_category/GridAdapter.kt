@@ -33,6 +33,7 @@ class GridAdapter(
         parent: ViewGroup,
         viewType: Int
     ): AlcoholCategoryGridViewHolder {
+
         return AlcoholCategoryGridViewHolder(parent,executeProgressBar)
     }
 

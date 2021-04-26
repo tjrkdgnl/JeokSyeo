@@ -29,9 +29,11 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         return binding.root
     }
 
-    override fun onDetach() {
-        super.onDetach()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         detachPresenter()
         bindingObj =null
     }
+
 }
