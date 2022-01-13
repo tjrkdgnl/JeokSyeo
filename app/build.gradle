@@ -35,16 +35,6 @@ android {
         }
     }
 
-    //릴리즈버전으로 빌드하기
-    signingConfigs{
-        release {
-            storeFile file('jeoksyeo.jks')
-            storePassword "ㅅㅓㄱㅏㅇㅎㅜㅣ@818"
-            keyAlias "jeoksyeo"
-            keyPassword "Clzls!@xbsk151."
-        }
-    }
-
     buildTypes {
         debug {
             minifyEnabled false
@@ -85,7 +75,6 @@ android {
             //릴리즈버전으로 빌드
             signingConfig signingConfigs.release
             debuggable = false //true로 하면 앱 올릴때 문제가 생김
-
         }
     }
 
